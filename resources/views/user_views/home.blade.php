@@ -70,7 +70,7 @@
                                     <a class="section-link" href="#shop"><span>Shop</span></a>
                                     <ul class="submenu">
                                         <li><a href="shop.html"><span>Products</span></a></li>
-                                        <li><a href="shop-single.html"><span>Single Product</span></a></li>
+                                        <li><a href="{{route("singleProduct")}}"><span>Single Product</span></a></li>
                                         <li><a href="cart.html"><span>Cart</span></a></li>
                                         <li><a href="checkout.html"><span>Checkout</span></a></li>
                                     </ul>
@@ -269,7 +269,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="hero__product text-md-end">
-                            <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="assets/img/shop/hero_product.png" alt="">
+                            <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src={{asset("assets/img/shop/hero_product.png")}} alt="">
                         </div>
                     </div>
                 </div>

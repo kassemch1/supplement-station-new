@@ -9,6 +9,7 @@ use App\Http\Controllers\user_controllers\HomeController;
 use App\Http\Controllers\user_controllers\SingleProductController;
 use App\Http\Controllers\user_controllers\CartController;
 use App\Http\Controllers\user_controllers\CheckoutController;
+use App\Http\Controllers\admin_controllers\BannerController;
 
 Route::get('/',[HomeController::class,'index'])->name('home');
 Route::get('/singleProduct',[SingleProductController::class,'singleProduct'])->name('singleProduct');
@@ -50,3 +51,16 @@ Route::get('/manageProducts/{id}/edit',[ProductController::class,'edit'])->name(
 Route::put('/manageProducts/update',[ProductController::class,'update'])->name('manageProducts.update');
 //delete a product
 Route::delete('/manageProducts/destroy',[ProductController::class,'destroy'])->name('manageProducts.destroy');
+
+
+Route::get('manageBanner',[BannerController::class,'index'])->name('manageBanner.index');
+//display form to add a new banner
+Route::get('/manageBanner/create',[BannerController::class,'create'])->name('manageBanner.create');
+//store a new banner
+Route::post('/manageBanner/store',[BannerController::class,'store'])->name('manageBanner.store');
+//display form to edit a banner
+//Route::get('/manageBanner/{id}/edit',[BannerController::class,'edit'])->name('manageBanner.edit');
+//update a banner
+//Route::put('/manageBanner/update',[BannerController::class,'update'])->name('manageBanner.update');
+//delete a banner
+//Route::delete('/manageBanner/destroy',[BannerController::class,'destroy'])->name('manageBanner.destroy');
