@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('price');
             $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->boolean('stock')->default(true);
+            $table->decimal('discount');
             $table->timestamps();
         });
     }
