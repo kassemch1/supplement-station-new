@@ -69,60 +69,28 @@
         <div class="add-edit-product-wrap col-12">
 
             <div class="add-edit-product-form">
-                <form id="companyInfoForm" method="post" action="">
+                <form id="categoryForm" method="post" action="{{route('manageCategories.store')}}">
                     @csrf
-                    @method('put')
-                    <h4 class="title">Add Product</h4>
-
+                    <h4 class="title">Add Category</h4>
                     <div class="row">
                         <div class="col-lg-6 col-12 mb-30">
                             <label for="">Name</label>
-                            <input name="name" class="form-control" type="text"  placeholder="Product Name" value="">
+                            <input name="name" class="form-control" type="text"  placeholder="Category Name" value="">
                         </div>
-                        <div class="col-lg-6 col-12 mb-30">
-                            <label for="">Price</label>
-                            <input name="price" class="form-control" type="text"  placeholder="Product Price" value="">
-                        </div>
-                        <div class="col-lg-6 col-12 mb-30">
-                            <label for="">Category</label>
-                            <select class="form-control select2">
-                                <option value="status">Status</option>
-                                <option value="publish">Publish</option>
-                                <option value="draft">Draft</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-6 col-12 mb-30">
-                            <label for="">Discount</label>
-                            <input name="price" class="form-control" type="text"  placeholder="Product Discount" value="">
-                        </div>
-
-                        <div class="col-12 mb-30">
-                            <label for="">Description</label>
-                            <textarea name="description" class="form-control"></textarea>
-                        </div>
-                        <div class="col-lg-6 col-12 mb-30">
-                            <label>Stock</label>
-                            <div class="adomx-checkbox-radio-group">
-                                <label class="adomx-radio"><input type="radio" name="stock"> <i class="icon"></i> In Stock</label>
-                                <label class="adomx-radio"><input type="radio" name="stock"> <i class="icon"></i> Out of Stock</label>
-                            </div>
-                        </div>
-
-
                     </div>
                     <!-- Success Alert -->
                     <div id="successAlert" class="alert alert-success mt-3" style="display: none;">
-                        <strong>Success!</strong> Company information updated successfully.
+                        <strong>Success!</strong> Category added successfully.
                     </div>
                     <!-- Error Alert -->
                     <div id="errorAlert" class="alert alert-danger mt-3" style="display: none;">
-                        <strong>Error!</strong> Failed to update company information. Please try again.
+                        <strong>Error!</strong> Failed to add Category. Please try again.
                     </div>
                     <!-- Button Group Start -->
                     <div class="row">
                         <div class="d-flex flex-wrap justify-content-end col mbn-10">
                             <button class="button button-outline button-primary mb-10 ml-10 mr-0" type="submit" id="submitBtn">Save & Publish</button>
-                    </div><!-- Button Group End -->
+                        </div><!-- Button Group End -->
                     </div>
                 </form>
             </div>
@@ -168,7 +136,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#companyInfoForm').submit(function(e) {
+        $('#categoryForm').submit(function(e) {
             e.preventDefault(); // Prevent default form submission
 
             // Serialize form data
@@ -179,7 +147,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                type: 'PUT',
+                type: 'POST',
                 url: $(this).attr('action'), // Use form's action attribute as URL
                 data: formData,
                 success: function(response) {

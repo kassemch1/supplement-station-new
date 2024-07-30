@@ -69,42 +69,43 @@
         <div class="add-edit-product-wrap col-12">
 
             <div class="add-edit-product-form">
-                <form id="companyInfoForm" method="post" action="">
+                <form id="productForm" method="post" action="{{route('manageProducts.update')}}">
                     @csrf
-                    @method('put')
+                    @method('PUT')
+                    <input type="hidden" name="product_id" value="{{$product->id}}">
                     <h4 class="title">Add Product</h4>
 
                     <div class="row">
                         <div class="col-lg-6 col-12 mb-30">
                             <label for="">Name</label>
-                            <input name="name" class="form-control" type="text"  placeholder="Product Name" value="">
+                            <input name="name" class="form-control" type="text"  placeholder="Product Name" value="{{$product->name}}">
                         </div>
                         <div class="col-lg-6 col-12 mb-30">
                             <label for="">Price</label>
-                            <input name="price" class="form-control" type="text"  placeholder="Product Price" value="">
+                            <input name="price" class="form-control" type="text"  placeholder="Product Price" value="{{$product->price}}">
                         </div>
                         <div class="col-lg-6 col-12 mb-30">
                             <label for="">Category</label>
-                            <select class="form-control select2">
-                                <option value="status">Status</option>
-                                <option value="publish">Publish</option>
-                                <option value="draft">Draft</option>
+                            <select name="category_id" class="form-control select2">
+                                @foreach($categories as $category)
+                                    <option value="{{$category->id}}" {{ $category->id == $product->category_id ? 'selected' : '' }}>{{$category->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-lg-6 col-12 mb-30">
                             <label for="">Discount</label>
-                            <input name="price" class="form-control" type="text"  placeholder="Product Discount" value="">
+                            <input name="discount" class="form-control" type="text"  placeholder="Product Discount" value="{{$product->discount}}">
                         </div>
 
                         <div class="col-12 mb-30">
                             <label for="">Description</label>
-                            <textarea name="description" class="form-control"></textarea>
+                            <textarea name="description" class="form-control">{{$product->description}}</textarea>
                         </div>
                         <div class="col-lg-6 col-12 mb-30">
                             <label>Stock</label>
                             <div class="adomx-checkbox-radio-group">
-                                <label class="adomx-radio"><input type="radio" name="stock"> <i class="icon"></i> In Stock</label>
-                                <label class="adomx-radio"><input type="radio" name="stock"> <i class="icon"></i> Out of Stock</label>
+                                <label class="adomx-radio"><input type="radio" name="stock" value="in-stock" {{ $product->stock ? 'checked' : '' }}> <i class="icon"></i> In Stock</label>
+                                <label class="adomx-radio"><input type="radio" name="stock" value="out-of-stock" {{ !$product->stock ? 'checked' : '' }}> <i class="icon"></i> Out of Stock</label>
                             </div>
                         </div>
 
@@ -112,17 +113,17 @@
                     </div>
                     <!-- Success Alert -->
                     <div id="successAlert" class="alert alert-success mt-3" style="display: none;">
-                        <strong>Success!</strong> Company information updated successfully.
+                        <strong>Success!</strong> Product added successfully.
                     </div>
                     <!-- Error Alert -->
                     <div id="errorAlert" class="alert alert-danger mt-3" style="display: none;">
-                        <strong>Error!</strong> Failed to update company information. Please try again.
+                        <strong>Error!</strong> Failed to add product. Please try again.
                     </div>
                     <!-- Button Group Start -->
                     <div class="row">
                         <div class="d-flex flex-wrap justify-content-end col mbn-10">
                             <button class="button button-outline button-primary mb-10 ml-10 mr-0" type="submit" id="submitBtn">Save & Publish</button>
-                    </div><!-- Button Group End -->
+                        </div><!-- Button Group End -->
                     </div>
                 </form>
             </div>
@@ -168,7 +169,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#companyInfoForm').submit(function(e) {
+        $('#productForm').submit(function(e) {
             e.preventDefault(); // Prevent default form submission
 
             // Serialize form data

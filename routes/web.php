@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\admin_controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\user_controllers\HomeController;
 use App\Http\Controllers\user_controllers\SingleProductController;
@@ -23,3 +25,28 @@ Route::post('/auth',[AdminController::class,'authenticate'])->name('auth');
 
 //admin dashboard
 Route::get('/admin',[AdminController::class,'admin_dashboard'])->name('admin');
+//display all categories in a table
+Route::get('manageCategories',[CategoryController::class,'index'])->name('manageCategories.index');
+//display form to add a new category
+Route::get('/manageCategories/create',[CategoryController::class,'create'])->name('manageCategories.create');
+//store a new category
+Route::post('/manageCategories/store',[CategoryController::class,'store'])->name('manageCategories.store');
+//display form to edit a category
+Route::get('/manageCategories/{id}/edit',[CategoryController::class,'edit'])->name('manageCategories.edit');
+//update a category
+Route::put('/manageCategories/update',[CategoryController::class,'update'])->name('manageCategories.update');
+//delete a category
+Route::delete('/manageCategories/destroy',[CategoryController::class,'destroy'])->name('manageCategories.destroy');
+
+
+Route::get('manageProducts',[ProductController::class,'index'])->name('manageProducts.index');
+//display form to add a new product
+Route::get('/manageProducts/create',[ProductController::class,'create'])->name('manageProducts.create');
+//store a new product
+Route::post('/manageProducts/store',[ProductController::class,'store'])->name('manageProducts.store');
+//display form to edit a product
+Route::get('/manageProducts/{id}/edit',[ProductController::class,'edit'])->name('manageProducts.edit');
+//update a product
+Route::put('/manageProducts/update',[ProductController::class,'update'])->name('manageProducts.update');
+//delete a product
+Route::delete('/manageProducts/destroy',[ProductController::class,'destroy'])->name('manageProducts.destroy');
