@@ -268,7 +268,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="hero__product text-md-end">
-                            <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="assets/img/shop/hero_product.png" alt="">
+                            <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src={{asset("assets/img/shop/hero_product.png")}} alt="">
                         </div>
                     </div>
                 </div>

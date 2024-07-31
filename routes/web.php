@@ -9,12 +9,14 @@ use App\Http\Controllers\user_controllers\HomeController;
 use App\Http\Controllers\user_controllers\SingleProductController;
 use App\Http\Controllers\user_controllers\CartController;
 use App\Http\Controllers\user_controllers\CheckoutController;
+use App\Http\Controllers\admin_controllers\BannerController;
+use App\Http\Controllers\user_controllers\ShopController;
 
 Route::get('/',[HomeController::class,'index'])->name('home');
 Route::get('/singleProduct',[SingleProductController::class,'singleProduct'])->name('singleProduct');
 Route::get('/Cart',[CartController::class,'Cart'])->name('cart');
 Route::get('/Checkout',[CheckoutController::class,'Checkout'])->name('checkout');
-
+Route::get('/Shop',[ShopController::class,'Shop'])->name('shop');
 //admin login page
 Route::get('/login',[AdminController::class,'loginView'])->name('login');
 //logout
@@ -54,3 +56,15 @@ Route::delete('/manageProducts/destroy',[ProductController::class,'destroy'])->n
 Route::get('products/{id}', [ProductController::class, 'show'])->name('products.show');
 
 Route::get('/', [ProductController::class, 'getall'])->name('products.getall');
+
+Route::get('manageBanner',[BannerController::class,'index'])->name('manageBanner.index');
+//display form to add a new banner
+Route::get('/manageBanner/create',[BannerController::class,'create'])->name('manageBanner.create');
+//store a new banner
+Route::post('/manageBanner/store',[BannerController::class,'store'])->name('manageBanner.store');
+//display form to edit a banner
+//Route::get('/manageBanner/{id}/edit',[BannerController::class,'edit'])->name('manageBanner.edit');
+//update a banner
+//Route::put('/manageBanner/update',[BannerController::class,'update'])->name('manageBanner.update');
+//delete a banner
+//Route::delete('/manageBanner/destroy',[BannerController::class,'destroy'])->name('manageBanner.destroy');
