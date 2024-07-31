@@ -7,6 +7,7 @@ require __DIR__.'/categories.php';
 require __DIR__.'/admin.php';
 require __DIR__.'/cart.php';
 require __DIR__.'/banner.php';
+require __DIR__.'/products_images_admin.php';
 
 use App\Http\Controllers\user_controllers\HomeController;
 use App\Http\Controllers\user_controllers\UserProductController;
