@@ -23,6 +23,86 @@
     <link rel="stylesheet" href={{asset("assets/css/jquery-ui.min.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/magnific-popup.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/main.css")}}>
+
+    <style>
+        .quantity {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity button {
+            background-color: transparent; /* Light grey background */
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #333;
+            cursor: pointer;
+            font-size: 16px;
+            height: 40px;
+            line-height: 1;
+            padding: 10px;
+            width: 40px;
+            text-align: center;
+            transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
+        }
+
+        .quantity input {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            height: 40px;
+            text-align: center;
+            width: 60px;
+        }
+
+        .quantity button:focus,
+        .quantity input:focus {
+            outline: none;
+        }
+
+        .quantity button.quantity-minus {
+            border-radius: 4px 0 0 4px;
+        }
+
+        .quantity button.quantity-plus {
+            border-radius: 0 4px 4px 0;
+        }
+
+        .quantity input,
+        .quantity button {
+            flex: 1;
+        }
+
+        .quantity input {
+            border-left: 0;
+            border-right: 0;
+        }
+
+        /* Hover effect */
+        .quantity button:hover {
+            background-color:#FF4D24;
+            border-color: orange;
+            color: white; /* Optional: change text color to white for better contrast */
+        }
+
+        #message-container {
+            display: none; /* Initially hidden */
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            color: #fff; /* White text color */
+            font-size: 16px;
+        }
+
+        #message-container.success {
+            background-color: #4caf50; /* Green background */
+            border: 1px solid #388e3c; /* Darker green border */
+        }
+
+        #message-container.error {
+            background-color: #f44336; /* Red background */
+            border: 1px solid #c62828; /* Darker red border */
+        }
+    </style>
 </head>
 
 <body>
@@ -264,6 +344,7 @@
         <!-- start cart-section -->
         <section class="cart-section woocommerce-cart pt-115 pb-385">
             <div class="container">
+                <div id="message-container" style="display: none;"></div>
                 <div class="row">
                     <div class="col col-xs-12">
                         <div class="woocommerce">
@@ -280,18 +361,18 @@
                                     </tr>
                                     </thead>
                                     <tbody id="cart-items">
-                                    
-                                        
+
+
                                     </tbody>
-                                    <tr>
-                                        <td colspan="6" class="actions">
+{{--                                    <tr>--}}
+{{--                                        <td colspan="6" class="actions">--}}
 
-                                            <button class="xb-btn" type="submit">Update Cart
-                                            </button>
+{{--                                            <button class="xb-btn" type="button">Update Cart--}}
+{{--                                            </button>--}}
 
-                                           
-                                        </td>
-                                    </tr>
+
+{{--                                        </td>--}}
+{{--                                    </tr>--}}
                                 </table>
                             </form>
 
@@ -301,9 +382,10 @@
                                     <table class="shop_table shop_table_responsive">
                                         <tr class="cart-subtotal">
                                             <th>Subtotal</th>
-                                            <td data-title="Subtotal"><span class="woocommerce-Price-amount amount">
+                                            <td data-title="Subtotal">$
+                                                <span class="woocommerce-Price-amount amount" id="cart-subtotal">
                                                     <span
-                                                        class="woocommerce-Price-currencySymbol">$</span>430.00</span>
+                                                        class="woocommerce-Price-currencySymbol"></span>0</span>
                                             </td>
                                         </tr>
                                         <tr class="shipping">
@@ -755,7 +837,27 @@
 <script src={{asset("assets/js/main.js")}}></script>
 
 <script>
+
     $(document).ready(function() {
+
+        function calculateSubtotal() {
+            let subtotal = 0;
+            $('.cart_single').each(function() {
+                const quantity = parseInt($(this).find('.product-count').val());
+                const price = parseFloat($(this).find('.product-price .woocommerce-Price-amount').text().replace(/[^0-9.-]+/g,""));
+                subtotal += quantity * price;
+            });
+            return subtotal;
+        }
+
+        function displayMessage(message, type = 'success') {
+            const messageContainer = $('#message-container');
+            messageContainer.text(message).removeClass('success error').addClass(type).show();
+            setTimeout(() => {
+                messageContainer.fadeOut();
+            }, 3000); // Hide after 3 seconds
+        }
+
         // Function to fetch cart items
         function fetchCart() {
             $.ajax({
@@ -793,10 +895,12 @@
                                     </td>
                                     <td class="product-quantity" data-title="Quantity">
                                         <div class="quantity">
-                                            <input type="number" step="1" min="0" max="10" value="${item.quantity}"
-                                             title="Qty"  
-                                             class="product-count input-text qty text product-count form-control" 
+<button type="button" class="quantity-minus" data-product_id="${item.product.id}">-</button>
+                                            <input type="number" step="1" min="1" max="9999" value="${item.quantity}"
+                                             title="Qty"
+                                             class="product-count input-text qty text product-count form-control"
                                              data-product_id="${item.product.id}" />
+<button type="button" class="quantity-plus" data-product_id="${item.product.id}">+</button>
                                         </div>
                                     </td>
                                     <td class="product-subtotal" data-title="Total">
@@ -804,7 +908,7 @@
                                             <span class="woocommerce-Price-currencySymbol">$</span>${itemTotal.toFixed(2)}
                                         </span>
                                     </td>
-                                    
+
                                 </tr>
                             `);
                             total += itemTotal;
@@ -836,13 +940,34 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    alert(response.message);
+                    displayMessage(response.message);
                     fetchCart();
                 },
                 error: function(xhr, status, error) {
-                    alert('Failed to update cart.');
+                    displayMessage('Failed to update cart.', 'error');
                 }
             });
+        });
+
+// Handle plus and minus buttons
+        $(document).on('click', '.quantity-plus', function() {
+            const input = $(this).siblings('.product-count');
+            const currentValue = parseInt(input.val());
+            const maxValue = parseInt(input.attr('max'));
+
+            if (currentValue < maxValue) {
+                input.val(currentValue + 1).trigger('change');
+            }
+        });
+
+        $(document).on('click', '.quantity-minus', function() {
+            const input = $(this).siblings('.product-count');
+            const currentValue = parseInt(input.val());
+            const minValue = parseInt(input.attr('min'));
+
+            if (currentValue > minValue) {
+                input.val(currentValue - 1).trigger('change');
+            }
         });
 
         // Remove item from cart
@@ -857,11 +982,11 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    alert(response.message);
+                    displayMessage(response.message);
                     fetchCart();
                 },
                 error: function(xhr, status, error) {
-                    alert('Failed to remove item from cart.');
+                    displayMessage('Failed to update cart.', 'error');
                 }
             });
         });

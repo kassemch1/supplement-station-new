@@ -265,7 +265,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-5">
                         <div class="hero__product text-md-end">
                             <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("$banner->image")}}" alt="" height="500" width="500">
                         </div>

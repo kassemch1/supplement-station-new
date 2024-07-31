@@ -317,8 +317,8 @@
                             </div>
                         </div>
                     </div>
-                
-                    
+
+
 
 
 
@@ -376,12 +376,12 @@
 
 
                 </div>
-                
+
 
                 <div class="row">
                     <div class="col col-xs-12">
                         <div class="single-product-info">
-                            
+
                             <div class="tablist">
                                 <ul class="nav nav-tabs" id="pills-tab" role="tablist">
                                     <li><button  class="active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#tb-01">Product Details</button></li>
@@ -390,7 +390,7 @@
                                 </ul>
                             </div>
 
-                           
+
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="tb-01">
                                     <p>Travelling salesman and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer</p>
@@ -486,7 +486,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> 
+                                        </div>
 
                                         <div class="col-lg-6 col-sm-12 col-xs-12 review-form-wrapper">
                                             <div class="review-form">
@@ -536,7 +536,7 @@
                         </div>
                     </div>
                 </div> <!-- end row -->
-            
+
                 <div class="row">
                     <div class="col col-xs-12">
                         <div class="realted-porduct">
