@@ -6,6 +6,7 @@ namespace App\Http\Controllers\admin_controllers;
 use App\Http\Controllers\user_controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -33,7 +34,8 @@ class ProductController extends Controller
             'category_id' => 'required|integer', // Assumes category_id should be an integer
             'discount' => 'required|numeric|between:0,100', // Ensures discount is between 0 and 100
             'description' => 'required|string',
-            'stock' => 'required' // Assumes stock should be an integer
+            'stock' => 'required', // Assumes stock should be an integer
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
 
@@ -46,6 +48,19 @@ class ProductController extends Controller
         $product->description = $validatedData['description'];
         $product->stock = $validatedData['stock'] === 'in-stock';
         $product->save();
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('public/products_images');
+                $imagePath = str_replace('public/', 'storage/', $imagePath);
+
+                // Save the image path to the database (assumes you have a ProductImage model and images table)
+                $productImage = new ProductImage();
+                $productImage->product_id = $product->id;
+                $productImage->url = $imagePath;
+                $productImage->save();
+            }
+        }
     }
     public function edit($id)
     {
@@ -65,7 +80,8 @@ class ProductController extends Controller
             'category_id' => 'required|integer', // Assumes category_id should be an integer
             'discount' => 'required|numeric|between:0,100', // Ensures discount is between 0 and 100
             'description' => 'required|string',
-            'stock' => 'required' // Assumes stock should be an integer
+            'stock' => 'required', // Assumes stock should be an integer
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
         $product =Product::findOrFail($request->input('product_id'));
@@ -77,6 +93,19 @@ class ProductController extends Controller
         $product->description = $validatedData['description'];
         $product->stock = $validatedData['stock'] === 'in-stock';
         $product->save();
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('public/products_images');
+                $imagePath = str_replace('public/', 'storage/', $imagePath);
+
+                // Save the image path to the database (assumes you have a ProductImage model and images table)
+                $productImage = new ProductImage();
+                $productImage->product_id = $product->id;
+                $productImage->url = $imagePath;
+                $productImage->save();
+            }
+        }
         return response()->json(['success' => 'Product updated successfully']);
     }
     public function destroy(Request $request)
