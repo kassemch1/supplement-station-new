@@ -866,9 +866,82 @@
 <script src={{asset("assets/js/scrollspy.js")}}></script>
 <script src={{asset("assets/js/main.js")}}></script>
 
-
+{{-- <script>
+    $(document).ready(function() {
+      // Function to fetch cart items
+      function fetchCart() {
+          $.ajax({
+              url: '{{ route('api.cart.get') }}',
+              method: 'GET',
+              success: function(response) {
+                  console.log('API response:', response); // Add this line
+                  $('#cart-items').empty(); // Clear previous items
+                  let total = 0;
+  
+                  if (response.items.length === 0) {
+                      $('#cart-items').append('<tr><td colspan="6">Your cart is empty.</td></tr>');
+                  } else {
+                      response.items.forEach(item => {
+                          const itemTotal = item.product.price * item.quantity;
+                          $('#cart-items').append(`
+                              <tr class="cart_single">
+                                  <td class="product-remove">
+                                      <a href="#!" class="remove" title="Remove this item"
+                                         data-product_id="${item.product.id}">&times;</a>
+                                  </td>
+                                  <td class="product-thumbnail">
+                                            <a href="#!">
+                                                <img width="57" height="70" src="assets/img/shop/prd_01.jpg"
+                                                     class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
+                                                     alt="#!" />
+                                            </a>
+                                        </td>
+                                  <td class="product-name" data-title="Product">
+                                      <a href="#!">${item.product.name}</a>
+                                  </td>
+                                  <td class="product-price" data-title="Price">
+                                      <span class="woocommerce-Price-amount amount">
+                                          <span class="woocommerce-Price-currencySymbol">$</span>${item.product.price}
+                                      </span>
+                                  </td>
+                                  <td class="product-quantity" data-title="Quantity">
+                                      <div class="quantity">
+                                          <input type="number" step="1" min="0" max="10" value="${item.quantity}"
+                                           title="Qty"  
+                                           class="product-count input-text qty text product-count form-control" />
+                                      </div>
+                                  </td>
+                                  <td class="product-subtotal" data-title="Total">
+                                      <span class="woocommerce-Price-amount amount">
+                                          <span class="woocommerce-Price-currencySymbol">$</span>${itemTotal.toFixed(2)}
+                                      </span>
+                                  </td>
+                              </tr>
+                          `);
+                          total += itemTotal;
+                      });
+  
+                      $('#cart-subtotal').text(total.toFixed(2));
+                      $('#cart-total').text(total.toFixed(2));
+                  }
+              },
+              error: function(xhr, status, error) {
+                  console.error('AJAX error:', error); // Add this line
+              }
+          });
+      }
+  
+      fetchCart();
+  });
+  
+  </script> --}}
 </body>
 
 
 <!-- Mirrored from html.xpressbuddy.com/purefit/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:27 GMT -->
 </html>
+
+
+
+
+

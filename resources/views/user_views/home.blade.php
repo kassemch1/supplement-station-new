@@ -168,7 +168,7 @@
                                         <span class="woocommerce-Price-amount">$149</span>
                                     </p>
                                     <p class="checkout-link">
-                                        <a href="shop-details.html" class="button wc-forward">View cart</a>
+                                        <a href="{{ route('cart') }}" class="button wc-forward">View cart</a>
                                         <a href="shop-details.html" class="button checkout wc-forward">Checkout</a>
                                     </p>
                                 </div>
