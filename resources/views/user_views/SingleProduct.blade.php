@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zxx">
 
-
+shop details
 <!-- Mirrored from html.xpressbuddy.com/purefit/shop-single.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:25 GMT -->
 <head>
 
@@ -318,63 +318,64 @@
                         </div>
                     </div>
                 
-                    
-
-
-
-
-<div class="col-md-6 product-details-col">
-    <div class="product-details mb-30">
-        <h2>{{ $product->name ?? 'Product Name' }}</h2>
-        <div class="rating">
-            @for ($i = 0; $i < 5; $i++)
-                <i class="fas fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
-            @endfor
-            <span>({{ $product->reviews_count ?? '87' }} Customer review{{ $product->reviews_count > 1 ? 's' : '' }})</span>
-        </div>
-        <div class="price">
-            <span class="current">${{ $product->price ?? '0.00' }}</span>
-            @if($product->old_price)
-                <span class="old">{{ $product->old_price }}</span>
-            @endif
-        </div>
-        <p>{{ $product->description ?? 'Product description' }}</p>
-        <div class="product-option">
-            <form class="form" id="add-to-cart-form">
-                <div class="product-row">
-                    <div>
-                        <input class="product-count" type="number" value="1" name="product-count" min="1" id="quantity-{{ $product->id }}">
-                    </div>
-                    <div class="add-to-cart-btn">
-                        <button type="button" class="xb-btn add-to-cart" data-product-id="{{ $product->id }}">
-                            <i class="far fa-shopping-bag"></i> Add to cart
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <div class="thb-product-meta-after mt-20">
-            <div class="product_meta">
-<span class="posted_in">Categories:
-@if($product->category_id)
-    <span>{{ $category->name }}</span>
-@else
-    <span>No categories</span>
-@endif
-</span>
-                <span class="product-share-wrap ul_li">Share:
-<a href="#"><i class="fab fa-facebook-f"></i></a>
-<a href="#"><i class="fab fa-instagram"></i></a>
-<a href="#"><i class="fab fa-twitter"></i></a>
-<a href="#"><i class="fab fa-linkedin"></i></a>
-</span>
-            </div>
-        </div>
-    </div>
-</div> <!-- end col -->
-
-
+                    <div class="col-md-6 product-details-col">
+                        <div class="product-details mb-30">
+                            <h2>{{ $product->name ?? 'Product Name' }}</h2>
+                            <div class="rating">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <i class="fas fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
+                                @endfor
+                                <span>({{ $product->reviews_count ?? '87' }} Customer review{{ $product->reviews_count > 1 ? 's' : '' }})</span>
+                            </div>
+                            <div class="price">
+                                <span class="current">${{ $product->price ?? '0.00' }}</span>
+                                @if($product->old_price)
+                                    <span class="old">{{ $product->old_price }}</span>
+                                @endif
+                            </div>
+                            <p>{{ $product->description ?? 'Product description' }}</p>
+                            <div class="product-option">
+                                <form class="form">
+                                    <div class="product-row">
+                                        <div>
+                                            <input class="product-count" type="text" value="1" name="product-count">
+                                        </div>
+                                        <div class="add-to-cart-btn">
+                                            <button class="xb-btn"><i class="far fa-shopping-bag"></i> Add to cart</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                
+                            <div class="thb-product-meta-after mt-20">
+                                <div class="product_meta">
+                                    <span class="posted_in">Categories: 
+                                        @if($product->category_id)
+                                            <span>{{$category->name}}</span>
+                                        @else
+                                            <span>No categories</span>
+                                        @endif
+                                    </span>
+                                  <!--  <span class="tagged_as">Tags: 
+                                        @if($product->tags)
+                                            @foreach($product->tags as $tag)
+                                                <a href="#">{{ $tag->name }}</a>{{ !$loop->last ? ',' : '' }}
+                                            @endforeach
+                                        @else
+                                            <span>No tags</span>
+                                        @endif
+                                    </span>-->
+                
+                                    <span class="product-share-wrap ul_li">Share:
+                                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                        <a href="#"><i class="fab fa-instagram"></i></a>
+                                        <a href="#"><i class="fab fa-twitter"></i></a>
+                                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end col -->
                 </div>
                 
 
@@ -785,55 +786,9 @@
 {{--<script src="assets/js/jquery.easing.js"></script>--}}
 {{--<script src="assets/js/scrollspy.js"></script>--}}
 {{--<script src="assets/js/main.js"></script>--}}
-<script>
-    $(document).ready(function() {
-        $('.add-to-cart').on('click', function() {
-            const productId = $(this).data('product-id');
-            const quantity = $('#quantity-' + productId).val();
-
-            $.ajax({
-                url: '{{ route('cart.add') }}',
-                method: 'POST',
-                data: {
-                    product_id: productId,
-                    quantity: quantity,
-                    _token: '{{ csrf_token() }}' // Include CSRF token for security
-                },
-                success: function(response) {
-                    alert(response.message); // Show success message
-                },
-                error: function(xhr) {
-                    alert('Failed to add product to cart.'); // Show error message
-                }
-            });
-        });
-    });
-</script>
 
 </body>
 
 
 <!-- Mirrored from html.xpressbuddy.com/purefit/shop-single.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:26 GMT -->
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
