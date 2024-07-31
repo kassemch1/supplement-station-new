@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\user_controllers;
 
-use App\Http\Controllers\user_controllers\Controller;
+use App\Http\Controllers\user_controllers;
 use App\Models\Category;
 use App\Models\Product;
 
