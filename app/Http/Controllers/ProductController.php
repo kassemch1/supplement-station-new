@@ -96,10 +96,5 @@ class ProductController extends Controller
 }
 
 
-    public function getall()
-    {
-        $product=Product::all();
-       
-        return view('user_views/home', compact('product'));
-    }
+   
 }

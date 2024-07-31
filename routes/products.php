@@ -11,3 +11,7 @@ Route::prefix('manageProducts')->group(function () {
     Route::put('/update', [ProductController::class, 'update'])->name('manageProducts.update');
     Route::delete('/destroy', [ProductController::class, 'destroy'])->name('manageProducts.destroy');
 });
+
+
+Route::get('products/{id}', [ProductController::class, 'show'])->name('products.show');
+

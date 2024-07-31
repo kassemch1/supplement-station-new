@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 require __DIR__.'/products.php';
 require __DIR__.'/categories.php';
 require __DIR__.'/admin.php';
+require __DIR__.'/banner.php';
 
 use App\Http\Controllers\user_controllers\HomeController;
 use App\Http\Controllers\user_controllers\SingleProductController;
