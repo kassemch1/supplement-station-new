@@ -50,3 +50,7 @@ Route::get('/manageProducts/{id}/edit',[ProductController::class,'edit'])->name(
 Route::put('/manageProducts/update',[ProductController::class,'update'])->name('manageProducts.update');
 //delete a product
 Route::delete('/manageProducts/destroy',[ProductController::class,'destroy'])->name('manageProducts.destroy');
+
+Route::get('products/{id}', [ProductController::class, 'show'])->name('products.show');
+
+Route::get('/', [ProductController::class, 'getall'])->name('products.getall');

@@ -61,7 +61,7 @@
                         <nav class="main-menu collapse navbar-collapse">
                             <ul>
                                 <li class="menu-item-has-children">
-                                    <a href="index.html#home"><span>Home</span></a>
+                                    <a href="/"><span>Home</span></a>
                                     <ul class="submenu">
                                         <li><a href="index.html"><span>Home Style 01</span></a></li>
                                         <li><a href="home-2.html"><span>Home Style 02</span></a></li>
@@ -248,7 +248,7 @@
     <!-- main area start  -->
     <main>
         <!-- breadcrumb start -->
-        <section class="breadcrumb position-bottom bg_img" data-background="assets/img/bg/page_title.png">
+       <!-- <section class="breadcrumb position-bottom bg_img" data-background="assets/img/bg/page_title.png">
             <div class="container">
                 <div class="breadcrumb__content text-center">
                     <h2 class="breadcrumb__title">Shop Details</h2>
@@ -258,7 +258,7 @@
                     </ul>
                 </div>
             </div>
-        </section>
+        </section>-->
         <!-- breadcrumb end -->
 
         <!-- shop single start -->
@@ -267,26 +267,26 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="product-single-wrap mb-30">
-                            <div class="product_details_img ">
+                            <div class="product_details_img">
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane show active" id="home2" role="tabpanel" aria-labelledby="home-tab">
                                         <div class="pl_thumb">
-                                            <img src="assets/img/shop/product-single1.jpg" alt="">
+                                            <img src="https://www.gymsupplements.co.uk/cdn/shop/files/Dymatize-Iso100-protein-powder-2.2kg-Gourmet-Chocolate_large.png?v=1713353129" alt="">
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                         <div class="pl_thumb">
-                                            <img src="assets/img/shop/product-single2.jpg" alt="">
+                                            <img src="" alt="">
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                                         <div class="pl_thumb">
-                                            <img src="assets/img/shop/product-single3.jpg" alt="">
+                                            <img src="" alt="">
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="profile2" role="tabpanel" aria-labelledby="profile-tab3">
                                         <div class="pl_thumb">
-                                            <img src="assets/img/shop/product-single4.jpg" alt="">
+                                            <img src="" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -294,38 +294,46 @@
                             <div class="shop_thumb_tab">
                                 <ul class="nav" id="myTab2" role="tablist">
                                     <li class="nav-item">
-                                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home2" type="button" role="tab" aria-controls="home2" aria-selected="true"><img src="assets/img/shop/product-single1.jpg" alt=""> </button>
+                                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home2" type="button" role="tab" aria-controls="home2" aria-selected="true">
+                                            <img src="" alt="">
+                                        </button>
                                     </li>
                                     <li class="nav-item">
-                                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"><img src="assets/img/shop/product-single2.jpg" alt=""></button>
+                                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                            <img src="" alt="">
+                                        </button>
                                     </li>
                                     <li class="nav-item">
-                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"><img src="assets/img/shop/product-single3.jpg" alt=""></button>
+                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                            <img src="" alt="">
+                                        </button>
                                     </li>
                                     <li class="nav-item">
-                                        <button class="nav-link" id="profile-tab3" data-bs-toggle="tab" data-bs-target="#profile2" type="button" role="tab" aria-controls="profile2" aria-selected="false"><img src="assets/img/shop/product-single4.jpg" alt=""></button>
+                                        <button class="nav-link" id="profile-tab3" data-bs-toggle="tab" data-bs-target="#profile2" type="button" role="tab" aria-controls="profile2" aria-selected="false">
+                                            <img src="" alt="">
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-
+                
                     <div class="col-md-6 product-details-col">
                         <div class="product-details mb-30">
-                            <h2>iso whey powder</h2>
+                            <h2>{{ $product->name ?? 'Product Name' }}</h2>
                             <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <span>(2 Customer review)</span>
+                                @for ($i = 0; $i < 5; $i++)
+                                    <i class="fas fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
+                                @endfor
+                                <span>({{ $product->reviews_count ?? '87' }} Customer review{{ $product->reviews_count > 1 ? 's' : '' }})</span>
                             </div>
                             <div class="price">
-                                <span class="current">$45.00</span>
-                                <span class="old">$55.00</span>
+                                <span class="current">${{ $product->price ?? '0.00' }}</span>
+                                @if($product->old_price)
+                                    <span class="old">{{ $product->old_price }}</span>
+                                @endif
                             </div>
-                            <p>Discover the pinnacle of protein supplementation with ISO Whey <br> Powder. This premium blend is meticulously crafted to provide a pure <br> and fast-absorbing source of whey protein isolate,</p>
+                            <p>{{ $product->description ?? 'Product description' }}</p>
                             <div class="product-option">
                                 <form class="form">
                                     <div class="product-row">
@@ -333,35 +341,48 @@
                                             <input class="product-count" type="text" value="1" name="product-count">
                                         </div>
                                         <div class="add-to-cart-btn">
-                                            <button class="xb-btn"><i class="far fa-shopping-bag"></i>Add to cart</button>
+                                            <button class="xb-btn"><i class="far fa-shopping-bag"></i> Add to cart</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-
+                
                             <div class="thb-product-meta-after mt-20">
                                 <div class="product_meta">
-                                    <span class="posted_in">Categories: <a href="#!">Samsung</a>, <a href="#!">Apple</a>, <a href="#!">Huawei</a></span>
-                                    <span class="tagged_as">Tags: <a href="#!">Button</a>, <a href="#!">Red</a>, <a href="#!">Tshirt</a></span>
-
+                                    <span class="posted_in">Categories: 
+                                        @if($product->category_id)
+                                            <span>{{$category->name}}</span>
+                                        @else
+                                            <span>No categories</span>
+                                        @endif
+                                    </span>
+                                  <!--  <span class="tagged_as">Tags: 
+                                        @if($product->tags)
+                                            @foreach($product->tags as $tag)
+                                                <a href="#">{{ $tag->name }}</a>{{ !$loop->last ? ',' : '' }}
+                                            @endforeach
+                                        @else
+                                            <span>No tags</span>
+                                        @endif
+                                    </span>-->
+                
                                     <span class="product-share-wrap ul_li">Share:
-                                        <a href="#!"><i class="fab fa-facebook-f"></i></a>
-                                        <a href="#!"><i class="fab fa-instagram"></i></a>
-                                        <a href="#!"><i class="fab fa-twitter"></i></a>
-                                        <a href="#!"><i class="fab fa-linkedin "></i></a>
+                                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                        <a href="#"><i class="fab fa-instagram"></i></a>
+                                        <a href="#"><i class="fab fa-twitter"></i></a>
+                                        <a href="#"><i class="fab fa-linkedin"></i></a>
                                     </span>
                                 </div>
                             </div>
-
-
                         </div>
                     </div> <!-- end col -->
-                </div> <!-- end row -->
-
+                </div>
+                
+<!--
                 <div class="row">
                     <div class="col col-xs-12">
                         <div class="single-product-info">
-                            <!-- Nav tabs -->
+                            
                             <div class="tablist">
                                 <ul class="nav nav-tabs" id="pills-tab" role="tablist">
                                     <li><button  class="active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#tb-01">Product Details</button></li>
@@ -370,7 +391,7 @@
                                 </ul>
                             </div>
 
-                            <!-- Tab panes -->
+                           
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="tb-01">
                                     <p>Travelling salesman and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer</p>
@@ -466,7 +487,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> <!-- end col -->
+                                        </div> 
 
                                         <div class="col-lg-6 col-sm-12 col-xs-12 review-form-wrapper">
                                             <div class="review-form">
@@ -516,7 +537,7 @@
                         </div>
                     </div>
                 </div> <!-- end row -->
-
+            
                 <div class="row">
                     <div class="col col-xs-12">
                         <div class="realted-porduct">

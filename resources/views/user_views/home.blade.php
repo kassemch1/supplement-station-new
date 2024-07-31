@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="zxx">
 
-
 <!-- Mirrored from html.xpressbuddy.com/purefit/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:33:38 GMT -->
 <head>
 
@@ -69,8 +68,8 @@
                                 <li class="menu-item-has-children">
                                     <a class="section-link" href="#shop"><span>Shop</span></a>
                                     <ul class="submenu">
-                                        <li><a href="shop.html"><span>Products</span></a></li>
-                                        <li><a href="shop-single.html"><span>Single Product</span></a></li>
+                                        <li><a href="cart.html"><span>Products</span></a></li>
+                                     <!--<li><a href="{{route("singleProduct")}}"><span>Single Product</span></a></li>-->   
                                         <li><a href="cart.html"><span>Cart</span></a></li>
                                         <li><a href="checkout.html"><span>Checkout</span></a></li>
                                     </ul>
@@ -492,130 +491,50 @@
         </section>
         <!-- feature end -->
 
-        <!-- product start -->
-        <section id="shop" class="product bg_img pt-120 pb-130" data-background="assets/img/bg/shop_bg.jpg">
-            <div class="container">
-                <div class="sec-title text-center mb-55">
-                    <span class="sub-title">products</span>
-                    <h2 class="title">best selling products</h2>
-                </div>
-                <div class="product-slider swiper-container">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide product-item text-center">
-                            <div class="xb-item--img">
-                                <a href="shop-single.html"><img src="assets/img/shop/product_05.png" alt=""></a>
-                            </div>
-                            <div class="xb-item--holder">
-                                <h3 class="xb-item--title"><a href="shop-single.html">iso whey powder</a></h3>
-                                <div class="xb-item--rating-inner ul_li_center">
-                                    <ul class="xb-item--rating ul_li">
+  <!-- product start -->
+<section id="shop" class="product bg_img pt-120 pb-130" data-background="assets/img/bg/shop_bg.jpg">
+    <div class="container">
+        <div class="sec-title text-center mb-55">
+            <span class="sub-title">products</span>
+            <h2 class="title">best selling products</h2>
+        </div>
+        <div class="product-slider swiper-container">
+            <div class="swiper-wrapper">
+                @forelse ($product as $product) <!-- Use $products here -->
+                    <div class="swiper-slide product-item text-center">
+                        <div class="xb-item--img">
+                            <a href="{{ route('products.show', $product->id) }}">
+                           <!--add image here -->     <img src="https://images.squarespace-cdn.com/content/v1/5afce90c697a9872b1f05673/1597164341913-HOJF1K1RLOLSYVLFJK1K/Iso-Tone1.png?format=1000w" alt="">
+                            </a>
+                        </div>
+                        <div class="xb-item--holder">
+                            <h3 class="xb-item--title">
+                                <a href="{{ route('singleProduct', $product->id) }}">{{ $product->name }}</a>
+                            </h3>
+                            <div class="xb-item--rating-inner ul_li_center">
+                                <ul class="xb-item--rating ul_li">
+                                    @for ($i = 0; $i < 5; $i++)
                                         <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                    </ul>
-                                    <span>(36)</span>
-                                </div>
-                            </div>
-                            <div class="xb-item--action ul_li mt-20">
-                                <span class="xb-item--price">$115.00</span>
-                                <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
+                                    @endfor
+                                </ul>
                             </div>
                         </div>
-                        <div class="swiper-slide product-item text-center">
-                            <div class="xb-item--img">
-                                <a href="shop-single.html"><img src="assets/img/shop/product_10.png" alt=""></a>
-                            </div>
-                            <div class="xb-item--holder">
-                                <h3 class="xb-item--title"><a href="shop-single.html">juice guard</a></h3>
-                                <div class="xb-item--rating-inner ul_li_center">
-                                    <ul class="xb-item--rating ul_li">
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                    </ul>
-                                    <span>(36)</span>
-                                </div>
-                            </div>
-                            <div class="xb-item--action ul_li mt-20">
-                                <span class="xb-item--price">$88.00</span>
-                                <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide product-item text-center">
-                            <div class="xb-item--img">
-                                <a href="shop-single.html"><img src="assets/img/shop/product_11.png" alt=""></a>
-                            </div>
-                            <div class="xb-item--holder">
-                                <h3 class="xb-item--title"><a href="shop-single.html">real whey</a></h3>
-                                <div class="xb-item--rating-inner ul_li_center">
-                                    <ul class="xb-item--rating ul_li">
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                    </ul>
-                                    <span>(36)</span>
-                                </div>
-                                <span class="xb-item--badge">sale!</span>
-                            </div>
-                            <div class="xb-item--action ul_li mt-20">
-                                <span class="xb-item--price">$120.00</span>
-                                <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide product-item text-center">
-                            <div class="xb-item--img">
-                                <a href="shop-single.html"><img src="assets/img/shop/product_12.png" alt=""></a>
-                            </div>
-                            <div class="xb-item--holder">
-                                <h3 class="xb-item--title"><a href="shop-single.html">creatine powder</a></h3>
-                                <div class="xb-item--rating-inner ul_li_center">
-                                    <ul class="xb-item--rating ul_li">
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                    </ul>
-                                    <span>(36)</span>
-                                </div>
-                            </div>
-                            <div class="xb-item--action ul_li mt-20">
-                                <span class="xb-item--price">$110.00</span>
-                                <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide product-item text-center">
-                            <div class="xb-item--img">
-                                <a href="shop-single.html"><img src="assets/img/shop/product_13.png" alt=""></a>
-                            </div>
-                            <div class="xb-item--holder">
-                                <h3 class="xb-item--title"><a href="shop-single.html">beta alnine</a></h3>
-                                <div class="xb-item--rating-inner ul_li_center">
-                                    <ul class="xb-item--rating ul_li">
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                    </ul>
-                                    <span>(36)</span>
-                                </div>
-                            </div>
-                            <div class="xb-item--action ul_li mt-20">
-                                <span class="xb-item--price">$115.00</span>
-                                <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                            </div>
+                        <div class="xb-item--action ul_li mt-20">
+                            <span class="xb-item--price">${{ number_format($product->price, 2) }}</span>
+                            <a href="{{ route('products.show', $product->id) }}">
+                                <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
+                                <span class="xb-item--cart">add to cart</span>
+                            </a>
                         </div>
                     </div>
-                </div>
+                @empty
+                    <p>No products available.</p>
+                @endforelse
             </div>
-        </section>
+        </div>
+    </div>
+</section>
+
         <!-- product end -->
 
         <!-- testimonial start -->

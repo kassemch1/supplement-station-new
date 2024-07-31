@@ -83,4 +83,23 @@ class ProductController extends Controller
         $product->delete();
         return response()->json(['success' => 'product deleted successfully']);
     }
+
+    public function show($id)
+{
+    $product = Product::findOrFail($id);
+    $category = Category::find($product->category_id); 
+
+    return view('user_views/SingleProduct', [
+        'product' => $product,
+        'category' => $category,
+    ]);
+}
+
+
+    public function getall()
+    {
+        $product=Product::all();
+       
+        return view('user_views/home', compact('product'));
+    }
 }
