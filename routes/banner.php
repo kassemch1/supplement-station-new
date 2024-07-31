@@ -1,8 +1,8 @@
 <?php
 
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin_controllers\BannerController;
+use Illuminate\Support\Facades\Route;
 
 
 

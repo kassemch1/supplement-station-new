@@ -1,8 +1,10 @@
 <?php
 
-namespace app\Http\Controllers\user_controllers;
+namespace App\Http\Controllers\user_controllers;
 
-use App\Http\Controllers\Controller;
+
+
+use App\Http\Controllers\user_controllers\Controller;
 
 class CheckoutController extends Controller
 {

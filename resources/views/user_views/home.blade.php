@@ -69,7 +69,6 @@
                                     <a class="section-link" href="#shop"><span>Shop</span></a>
                                     <ul class="submenu">
                                         <li><a href="cart.html"><span>Products</span></a></li>
-                                     <!--<li><a href="{{route("singleProduct")}}"><span>Single Product</span></a></li>-->   
                                         <li><a href="cart.html"><span>Cart</span></a></li>
                                         <li><a href="checkout.html"><span>Checkout</span></a></li>
                                     </ul>
@@ -253,7 +252,7 @@
                             <span class="sub-title wow fadeInUp" data-wow-duration=".6s">100% PREMIUM QUALITY</span>
                             <h1 class="title mb-25 wow fadeInUp" data-wow-delay="150ms" data-wow-duration=".6s">Today Elevate Your Energy Levels purefit</h1>
                             <div class="hero__action ul_li wow fadeInUp" data-wow-delay="300ms" data-wow-duration=".6s">
-                                <a class="thm-btn mr-45 mt-30" href="shop-single.html">BUY NOW</a>
+                                <a class="thm-btn mr-45 mt-30" href="{{ route('products.show', ['id'=>$banner->product_id]) }}">BUY NOW</a>
                                 <div class="hero__cta ul_li mt-30">
                                     <span class="icon">
                                         <img src="assets/img/icon/call.svg" alt="">
@@ -268,9 +267,10 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="hero__product text-md-end">
-                            <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="assets/img/shop/hero_product.png" alt="">
+                            <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("$banner->image")}}" alt="" height="500" width="500">
                         </div>
                     </div>
+
                 </div>
             </div>
             <div class="hero-shape">
@@ -509,7 +509,7 @@
                         </div>
                         <div class="xb-item--holder">
                             <h3 class="xb-item--title">
-                                <a href="{{ route('singleProduct', $product->id) }}">{{ $product->name }}</a>
+                                <a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a>
                             </h3>
                             <div class="xb-item--rating-inner ul_li_center">
                                 <ul class="xb-item--rating ul_li">
@@ -999,6 +999,7 @@
                     <ul class="footer-links ul_li mt-30">
                         <li><a href="#!">terms of conditions</a></li>
                         <li><a href="#!">privacy pllicy</a></li>
+
                     </ul>
                 </div>
             </div>

@@ -1,16 +1,21 @@
 <?php
 
-namespace app\Http\Controllers\user_controllers;
+namespace App\Http\Controllers\user_controllers;
+
+use App\Http\Controllers\user_controllers\Controller;
+use App\Models\Banner;
 use App\Models\Product;
-use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
     public function index()
     {
         $product=Product::all();
-       
-        return view('user_views/home', ['product'=>$product]);
+        $banner = Banner::first();
+        return view('user_views/home', [
+            'product'=>$product,
+            'banner'=>$banner,
+        ]);
     }
 
 }

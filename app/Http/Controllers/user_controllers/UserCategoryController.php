@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\user_controllers;
 
-
-
 use App\Http\Controllers\user_controllers\Controller;
+use App\Models\Testimonial;
 
-class SingleProductController extends Controller
+class UserCategoryController extends Controller
 {
 
 }

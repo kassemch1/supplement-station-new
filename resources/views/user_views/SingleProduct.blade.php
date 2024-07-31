@@ -16,13 +16,13 @@
     <link rel="shortcut icon" href="assets/img/favicon.png" type="images/x-icon"/>
 
     <!-- css include -->
-    <link rel="stylesheet" href={{asset("assets/css/bootstrap.min.css")}}>
-    <link rel="stylesheet" href={{asset("assets/css/fontawesome.css")}}>
-    <link rel="stylesheet" href={{asset("assets/css/animate.css")}}>
-    <link rel="stylesheet" href={{asset("assets/css/swiper.min.css")}}>
-    <link rel="stylesheet" href={{asset("assets/css/jquery-ui.min.css")}}>
-    <link rel="stylesheet" href={{asset("assets/css/magnific-popup.css")}}>
-    <link rel="stylesheet" href={{asset("assets/css/main.css")}}>
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/fontawesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/swiper.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
 </head>
 
 <body>
@@ -55,7 +55,7 @@
             <div class="container">
                 <div class="header__wrap ul_li_between">
                     <div class="header-logo">
-                        <a href="index.html"><img src="assets/img/logo/logo.svg" alt=""></a>
+                        <a href="index.html"><img src="{{ asset('assets/img/logo/logo.svg')}}" alt=""></a>
                     </div>
                     <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
                         <nav class="main-menu collapse navbar-collapse">
@@ -137,13 +137,13 @@
                     <div class="header__right d-none d-lg-block">
                         <div class="ul_li">
                             <div class="header-shop-cart">
-                                <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">2</span></a>
+                                <a href="javascript:void(0);"><img src="{{ asset('assets/img/icon/bag.svg')}}" alt=""><span class="mini-cart-count">2</span></a>
                                 <div class="header-mini-cart">
                                     <ul class="woocommerce-mini-cart cart_list product_list_widget list-wrap">
                                         <li class="woocommerce-mini-cart-item d-flex align-items-center">
                                             <a href="#" class="remove remove_from_cart_button">×</a>
                                             <div class="mini-cart-img">
-                                                <img src="assets/img/shop/product_02.png" alt="Product">
+                                                <img src="{{ asset('assets/img/shop/product_02.png')}}" alt="Product">
                                             </div>
                                             <div class="mini-cart-content">
                                                 <h4 class="product-title"><a href="shop-details.html">
@@ -221,9 +221,9 @@
         <div class="sidebar-contact-info mb-65">
             <h4 class="sidebar-heading">Contact Information</h4>
             <ul class="sidebar-info-list list-unstyled">
-                <li><span><img src="assets/img/icon/i_star.svg" alt=""></span>Wasington SY, UK, NY 12099</li>
-                <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>+81 800 123 06 78</a></li>
-                <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>contact@purefit.com</a></li>
+                <li><span><img src="{{ asset('assets/img/icon/i_star.svg')}}" alt=""></span>Wasington SY, UK, NY 12099</li>
+                <li><a href="#!"><span><img src="{{ asset('assets/img/icon/i_star.svg')}}" alt=""></span>+81 800 123 06 78</a></li>
+                <li><a href="#!"><span><img src="{{ asset('assets/img/icon/i_star.svg')}}" alt=""></span>contact@purefit.com</a></li>
             </ul>
         </div>
         <div class="xb-content-wrap d-flex">
@@ -248,7 +248,7 @@
     <!-- main area start  -->
     <main>
         <!-- breadcrumb start -->
-       <!-- <section class="breadcrumb position-bottom bg_img" data-background="assets/img/bg/page_title.png">
+        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/page_title.png')}}">
             <div class="container">
                 <div class="breadcrumb__content text-center">
                     <h2 class="breadcrumb__title">Shop Details</h2>
@@ -258,7 +258,7 @@
                     </ul>
                 </div>
             </div>
-        </section>-->
+        </section>
         <!-- breadcrumb end -->
 
         <!-- shop single start -->
@@ -271,7 +271,7 @@
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane show active" id="home2" role="tabpanel" aria-labelledby="home-tab">
                                         <div class="pl_thumb">
-                                            <img src="https://www.gymsupplements.co.uk/cdn/shop/files/Dymatize-Iso100-protein-powder-2.2kg-Gourmet-Chocolate_large.png?v=1713353129" alt="">
+                                            <img src="{{ asset('https://www.gymsupplements.co.uk/cdn/shop/files/Dymatize-Iso100-protein-powder-2.2kg-Gourmet-Chocolate_large.png?v=1713353129')}}" alt="">
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -318,67 +318,66 @@
                         </div>
                     </div>
                 
-                    <div class="col-md-6 product-details-col">
-                        <div class="product-details mb-30">
-                            <h2>{{ $product->name ?? 'Product Name' }}</h2>
-                            <div class="rating">
-                                @for ($i = 0; $i < 5; $i++)
-                                    <i class="fas fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
-                                @endfor
-                                <span>({{ $product->reviews_count ?? '87' }} Customer review{{ $product->reviews_count > 1 ? 's' : '' }})</span>
-                            </div>
-                            <div class="price">
-                                <span class="current">${{ $product->price ?? '0.00' }}</span>
-                                @if($product->old_price)
-                                    <span class="old">{{ $product->old_price }}</span>
-                                @endif
-                            </div>
-                            <p>{{ $product->description ?? 'Product description' }}</p>
-                            <div class="product-option">
-                                <form class="form">
-                                    <div class="product-row">
-                                        <div>
-                                            <input class="product-count" type="text" value="1" name="product-count">
-                                        </div>
-                                        <div class="add-to-cart-btn">
-                                            <button class="xb-btn"><i class="far fa-shopping-bag"></i> Add to cart</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                
-                            <div class="thb-product-meta-after mt-20">
-                                <div class="product_meta">
-                                    <span class="posted_in">Categories: 
-                                        @if($product->category_id)
-                                            <span>{{$category->name}}</span>
-                                        @else
-                                            <span>No categories</span>
-                                        @endif
-                                    </span>
-                                  <!--  <span class="tagged_as">Tags: 
-                                        @if($product->tags)
-                                            @foreach($product->tags as $tag)
-                                                <a href="#">{{ $tag->name }}</a>{{ !$loop->last ? ',' : '' }}
-                                            @endforeach
-                                        @else
-                                            <span>No tags</span>
-                                        @endif
-                                    </span>-->
-                
-                                    <span class="product-share-wrap ul_li">Share:
-                                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                        <a href="#"><i class="fab fa-instagram"></i></a>
-                                        <a href="#"><i class="fab fa-twitter"></i></a>
-                                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- end col -->
+                    
+
+
+
+
+<div class="col-md-6 product-details-col">
+    <div class="product-details mb-30">
+        <h2>{{ $product->name ?? 'Product Name' }}</h2>
+        <div class="rating">
+            @for ($i = 0; $i < 5; $i++)
+                <i class="fas fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
+            @endfor
+            <span>({{ $product->reviews_count ?? '87' }} Customer review{{ $product->reviews_count > 1 ? 's' : '' }})</span>
+        </div>
+        <div class="price">
+            <span class="current">${{ $product->price ?? '0.00' }}</span>
+            @if($product->old_price)
+                <span class="old">{{ $product->old_price }}</span>
+            @endif
+        </div>
+        <p>{{ $product->description ?? 'Product description' }}</p>
+        <div class="product-option">
+            <form class="form" id="add-to-cart-form">
+                <div class="product-row">
+                    <div>
+                        <input class="product-count" type="number" value="1" name="product-count" min="1" id="quantity-{{ $product->id }}">
+                    </div>
+                    <div class="add-to-cart-btn">
+                        <button type="button" class="xb-btn add-to-cart" data-product-id="{{ $product->id }}">
+                            <i class="far fa-shopping-bag"></i> Add to cart
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="thb-product-meta-after mt-20">
+            <div class="product_meta">
+<span class="posted_in">Categories:
+@if($product->category_id)
+    <span>{{ $category->name }}</span>
+@else
+    <span>No categories</span>
+@endif
+</span>
+                <span class="product-share-wrap ul_li">Share:
+<a href="#"><i class="fab fa-facebook-f"></i></a>
+<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="#"><i class="fab fa-twitter"></i></a>
+<a href="#"><i class="fab fa-linkedin"></i></a>
+</span>
+            </div>
+        </div>
+    </div>
+</div> <!-- end col -->
+
+
                 </div>
                 
-<!--
+
                 <div class="row">
                     <div class="col col-xs-12">
                         <div class="single-product-info">
@@ -406,7 +405,7 @@
                                         <div class="col-lg-6 col-sm-12 col-xs-12">
                                             <div class="client-rv">
                                                 <div class="client-pic">
-                                                    <img src="assets/img/avatar/shop_avatar1.jpg" alt>
+                                                    <img src="{{ asset('assets/img/avatar/shop_avatar1.jpg')}}" alt>
                                                 </div>
                                                 <div class="details">
                                                     <div class="name-rating-time">
@@ -434,7 +433,7 @@
 
                                             <div class="client-rv">
                                                 <div class="client-pic">
-                                                    <img src="assets/img/avatar/shop_avatar2.jpg" alt>
+                                                    <img src="{{ asset('assets/img/avatar/shop_avatar2.jpg')}}" alt>
                                                 </div>
                                                 <div class="details">
                                                     <div class="name-rating-time">
@@ -462,7 +461,7 @@
 
                                             <div class="client-rv">
                                                 <div class="client-pic">
-                                                    <img src="assets/img/avatar/shop_avatar3.jpg" alt>
+                                                    <img src="{{ asset('assets/img/avatar/shop_avatar3.jpg')}}" alt>
                                                 </div>
                                                 <div class="details">
                                                     <div class="name-rating-time">
@@ -548,7 +547,7 @@
                                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                             <div class="product product-item text-center">
                                                 <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_05.png" alt=""></a>
+                                                    <a href="shop-single.html"><img src="{{ asset('assets/img/shop/product_05.png')}}" alt=""></a>
                                                 </div>
                                                 <div class="xb-item--holder">
                                                     <h3 class="xb-item--title"><a href="shop-single.html">iso whey powder</a></h3>
@@ -572,7 +571,7 @@
                                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                             <div class="product product-item text-center">
                                                 <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_11.png" alt=""></a>
+                                                    <a href="shop-single.html"><img src="{{ asset('assets/img/shop/product_11.png')}}" alt=""></a>
                                                 </div>
                                                 <div class="xb-item--holder">
                                                     <h3 class="xb-item--title"><a href="shop-single.html">xplode powder</a></h3>
@@ -596,7 +595,7 @@
                                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                             <div class="product product-item text-center">
                                                 <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_06.png" alt=""></a>
+                                                    <a href="shop-single.html"><img src="{{ asset('assets/img/shop/product_06.png')}}" alt=""></a>
                                                 </div>
                                                 <div class="xb-item--holder">
                                                     <h3 class="xb-item--title"><a href="shop-single.html">nutraone protine</a></h3>
@@ -620,7 +619,7 @@
                                         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                             <div class="product product-item text-center">
                                                 <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_07.png" alt=""></a>
+                                                    <a href="shop-single.html"><img src="{{ asset('assets/img/shop/product_07.png')}}" alt=""></a>
                                                 </div>
                                                 <div class="xb-item--holder">
                                                     <h3 class="xb-item--title"><a href="shop-single.html">clear whey protein</a></h3>
@@ -637,7 +636,7 @@
                                                 </div>
                                                 <div class="xb-item--action ul_li mt-20">
                                                     <span class="xb-item--price">$115.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
+                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg')}}" alt=""></span><span class="xb-item--cart">add to cart</span></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -656,7 +655,7 @@
     <!-- main area end  -->
 
     <!-- footer strt -->
-    <footer class="position-top bg_img pb-70" data-background="assets/img/bg/footer_bg.png">
+    <footer class="position-top bg_img pb-70" data-background="{{ asset('assets/img/bg/footer_bg.png')}}">
         <div class="container">
             <div class="contact pb-100">
                 <div class="row">
@@ -688,7 +687,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_message.svg" alt=""></span>
+                                            <span><img src="{{ asset('assets/img/icon/c_message.svg')}}" alt=""></span>
                                             <textarea name="message" id="message" cols="30" rows="10"
                                                       placeholder="Write Your Message..."></textarea>
                                         </div>
@@ -728,7 +727,7 @@
             </div>
             <div class="footer-inner">
                 <div class="footer-logo mb-25 text-center">
-                    <img src="assets/img/logo/f_logo.png" alt="">
+                    <img src="{{ asset('assets/img/logo/f_logo.png')}}" alt="">
                 </div>
                 <div class="sec-title sec-title--white text-center mb-50">
                     <h2 class="title">in a healthy body, healthy mind</h2>
@@ -786,9 +785,55 @@
 {{--<script src="assets/js/jquery.easing.js"></script>--}}
 {{--<script src="assets/js/scrollspy.js"></script>--}}
 {{--<script src="assets/js/main.js"></script>--}}
+<script>
+    $(document).ready(function() {
+        $('.add-to-cart').on('click', function() {
+            const productId = $(this).data('product-id');
+            const quantity = $('#quantity-' + productId).val();
+
+            $.ajax({
+                url: '{{ route('cart.add') }}',
+                method: 'POST',
+                data: {
+                    product_id: productId,
+                    quantity: quantity,
+                    _token: '{{ csrf_token() }}' // Include CSRF token for security
+                },
+                success: function(response) {
+                    alert(response.message); // Show success message
+                },
+                error: function(xhr) {
+                    alert('Failed to add product to cart.'); // Show error message
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 
 
 <!-- Mirrored from html.xpressbuddy.com/purefit/shop-single.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:26 GMT -->
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

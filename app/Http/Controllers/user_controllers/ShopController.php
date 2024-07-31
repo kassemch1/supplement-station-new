@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\user_controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\user_controllers\Controller;
 
 class ShopController extends Controller
 {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\admin_controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\admin_controllers\Controller;
 use App\Models\Banner;
 use App\Models\Product;
 use Illuminate\Http\Request;

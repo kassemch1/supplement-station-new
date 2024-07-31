@@ -267,7 +267,7 @@
                 <div class="row">
                     <div class="col col-xs-12">
                         <div class="woocommerce">
-                            <form action="https://html.xpressbuddy.com/" method="post">
+                            <form method="post">
                                 <table class="shop_table shop_table_responsive cart">
                                     <thead>
                                     <tr>
@@ -279,130 +279,19 @@
                                         <th class="product-subtotal">Total</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    <tr class="cart_single">
-                                        <td class="product-remove">
-                                            <a href="#!" class="remove" title="Remove this item"
-                                               data-product_id="8" data-product_sku="my name is">&times;</a>
-                                        </td>
-                                        <td class="product-thumbnail">
-                                            <a href="#!">
-                                                <img width="57" height="70" src="assets/img/shop/prd_01.jpg"
-                                                     class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
-                                                     alt="#!" />
-                                            </a>
-                                        </td>
-                                        <td class="product-name" data-title="Product">
-                                            <a href="#!">iso whey powder</a>
-                                        </td>
-
-                                        <td class="product-price" data-title="Price">
-                                                <span class="woocommerce-Price-amount amount"><span
-                                                        class="woocommerce-Price-currencySymbol">$</span>165.00</span>
-                                        </td>
-                                        <td class="product-quantity" data-title="Quantity">
-                                            <div class="quantity">
-                                                <input type="number" step="1" min="0"
-                                                       name="cart[c9f0f895fb98ab9159f51fd0297e236d][qty]" value="2"
-                                                       title="Qty"
-                                                       class="product-count input-text qty text product-count form-control" />
-                                            </div>
-                                        </td>
-                                        <td class="product-subtotal" data-title="Total">
-                                                <span class="woocommerce-Price-amount amount"><span
-                                                        class="woocommerce-Price-currencySymbol">$</span>330.00</span>
-                                        </td>
-                                    </tr>
-                                    <tr class="cart_single">
-                                        <td class="product-remove">
-                                            <a href="#!" class="remove" title="Remove this item"
-                                               data-product_id="21" data-product_sku="">&times;</a>
-                                        </td>
-
-                                        <td class="product-thumbnail">
-                                            <a href="#">
-                                                <img width="57" height="70" src="assets/img/shop/prd_02.jpg"
-                                                     class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
-                                                     alt="#!" />
-                                            </a>
-                                        </td>
-
-                                        <td class="product-name" data-title="Product">
-                                            <a href="#!">juice guard</a>
-                                        </td>
-
-                                        <td class="product-price" data-title="Price">
-                                                <span class="woocommerce-Price-amount amount"><span
-                                                        class="woocommerce-Price-currencySymbol">$</span>100.00</span>
-                                        </td>
-
-                                        <td class="product-quantity" data-title="Quantity">
-                                            <div class="quantity">
-                                                <input type="number" step="1" min="0"
-                                                       name="cart[1FjMjtzom8sQqT4RxQCTwt8xSZ8N4UKdE5][qty]"
-                                                       value="1" title="Qty"
-                                                       class="product-count input-text qty text" />
-                                            </div>
-                                        </td>
-
-                                        <td class="product-subtotal" data-title="Total">
-                                                <span class="woocommerce-Price-amount amount"><span
-                                                        class="woocommerce-Price-currencySymbol">$</span>100.00</span>
-                                        </td>
-                                    </tr>
-                                    <tr class="cart_single">
-                                        <td class="product-remove">
-                                            <a href="#!" class="remove" title="Remove this item"
-                                               data-product_id="8" data-product_sku="my name is">&times;</a>
-                                        </td>
-                                        <td class="product-thumbnail">
-                                            <a href="#!">
-                                                <img width="57" height="70" src="assets/img/shop/prd_03.jpg"
-                                                     class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
-                                                     alt="#!" />
-                                            </a>
-                                        </td>
-                                        <td class="product-name" data-title="Product">
-                                            <a href="#!">real whey</a>
-                                        </td>
-
-                                        <td class="product-price" data-title="Price">
-                                                <span class="woocommerce-Price-amount amount"><span
-                                                        class="woocommerce-Price-currencySymbol">$</span>165.00</span>
-                                        </td>
-                                        <td class="product-quantity" data-title="Quantity">
-                                            <div class="quantity">
-                                                <input type="number" step="1" min="0"
-                                                       name="cart[c9f0f895fb98ab9159f51fd0297e236d][qty]" value="2"
-                                                       title="Qty"
-                                                       class="product-count input-text qty text product-count form-control" />
-                                            </div>
-                                        </td>
-                                        <td class="product-subtotal" data-title="Total">
-                                                <span class="woocommerce-Price-amount amount"><span
-                                                        class="woocommerce-Price-currencySymbol">$</span>330.00</span>
-                                        </td>
-                                    </tr>
+                                    <tbody id="cart-items">
+                                    
+                                        
+                                    </tbody>
                                     <tr>
                                         <td colspan="6" class="actions">
-                                            <div class="coupon">
-                                                <label for="coupon_code">Coupon:</label>
-                                                <input type="text" name="coupon_code" class="input-text"
-                                                       id="coupon_code" value="" placeholder="Coupon code" />
-                                                <button class="xb-btn" type="submit">apply coupon
-                                                </button>
-                                            </div>
 
                                             <button class="xb-btn" type="submit">Update Cart
                                             </button>
 
-                                            <input type="hidden" id="_wpnonce" name="_wpnonce"
-                                                   value="918724a9c2" />
-                                            <input type="hidden" name="_wp_http_referer"
-                                                   value="/wp/?page_id=5" />
+                                           
                                         </td>
                                     </tr>
-                                    </tbody>
                                 </table>
                             </form>
 
@@ -548,7 +437,6 @@
                                                                 <option value="IR">Iran</option>
                                                                 <option value="IQ">Iraq</option>
                                                                 <option value="IM">Isle of Man</option>
-                                                                <option value="IL">Israel</option>
                                                                 <option value="IT">Italy</option>
                                                                 <option value="CI">Ivory Coast</option>
                                                                 <option value="JM">Jamaica</option>
@@ -866,75 +754,121 @@
 <script src={{asset("assets/js/scrollspy.js")}}></script>
 <script src={{asset("assets/js/main.js")}}></script>
 
-{{-- <script>
+<script>
     $(document).ready(function() {
-      // Function to fetch cart items
-      function fetchCart() {
-          $.ajax({
-              url: '{{ route('api.cart.get') }}',
-              method: 'GET',
-              success: function(response) {
-                  console.log('API response:', response); // Add this line
-                  $('#cart-items').empty(); // Clear previous items
-                  let total = 0;
-  
-                  if (response.items.length === 0) {
-                      $('#cart-items').append('<tr><td colspan="6">Your cart is empty.</td></tr>');
-                  } else {
-                      response.items.forEach(item => {
-                          const itemTotal = item.product.price * item.quantity;
-                          $('#cart-items').append(`
-                              <tr class="cart_single">
-                                  <td class="product-remove">
-                                      <a href="#!" class="remove" title="Remove this item"
-                                         data-product_id="${item.product.id}">&times;</a>
-                                  </td>
-                                  <td class="product-thumbnail">
-                                            <a href="#!">
-                                                <img width="57" height="70" src="assets/img/shop/prd_01.jpg"
-                                                     class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
-                                                     alt="#!" />
-                                            </a>
-                                        </td>
-                                  <td class="product-name" data-title="Product">
-                                      <a href="#!">${item.product.name}</a>
-                                  </td>
-                                  <td class="product-price" data-title="Price">
-                                      <span class="woocommerce-Price-amount amount">
-                                          <span class="woocommerce-Price-currencySymbol">$</span>${item.product.price}
-                                      </span>
-                                  </td>
-                                  <td class="product-quantity" data-title="Quantity">
-                                      <div class="quantity">
-                                          <input type="number" step="1" min="0" max="10" value="${item.quantity}"
-                                           title="Qty"  
-                                           class="product-count input-text qty text product-count form-control" />
-                                      </div>
-                                  </td>
-                                  <td class="product-subtotal" data-title="Total">
-                                      <span class="woocommerce-Price-amount amount">
-                                          <span class="woocommerce-Price-currencySymbol">$</span>${itemTotal.toFixed(2)}
-                                      </span>
-                                  </td>
-                              </tr>
-                          `);
-                          total += itemTotal;
-                      });
-  
-                      $('#cart-subtotal').text(total.toFixed(2));
-                      $('#cart-total').text(total.toFixed(2));
-                  }
-              },
-              error: function(xhr, status, error) {
-                  console.error('AJAX error:', error); // Add this line
-              }
-          });
-      }
-  
-      fetchCart();
-  });
-  
-  </script> --}}
+        // Function to fetch cart items
+        function fetchCart() {
+            $.ajax({
+                url: '{{ route('api.cart.get') }}',
+                method: 'GET',
+                success: function(response) {
+                    $('#cart-items').empty(); // Clear previous items
+                    let total = 0;
+
+                    if (response.items.length === 0) {
+                        $('#cart-items').append('<tr><td colspan="6">Your cart is empty.</td></tr>');
+                    } else {
+                        response.items.forEach(item => {
+                            const itemTotal = item.product.price * item.quantity;
+                            $('#cart-items').append(`
+                                <tr class="cart_single">
+                                    <td class="product-remove">
+                                        <a href="#!" class="remove" title="Remove this item"
+                                           data-product_id="${item.product.id}">&times;</a>
+                                    </td>
+                                    <td class="product-thumbnail">
+                                        <a href="#!">
+                                            <img width="57" height="70" src="assets/img/shop/prd_01.jpg"
+                                                 class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
+                                                 alt="#!" />
+                                        </a>
+                                    </td>
+                                    <td class="product-name" data-title="Product">
+                                        <a href="#!">${item.product.name}</a>
+                                    </td>
+                                    <td class="product-price" data-title="Price">
+                                        <span class="woocommerce-Price-amount amount">
+                                            <span class="woocommerce-Price-currencySymbol">$</span>${item.product.price}
+                                        </span>
+                                    </td>
+                                    <td class="product-quantity" data-title="Quantity">
+                                        <div class="quantity">
+                                            <input type="number" step="1" min="0" max="10" value="${item.quantity}"
+                                             title="Qty"  
+                                             class="product-count input-text qty text product-count form-control" 
+                                             data-product_id="${item.product.id}" />
+                                        </div>
+                                    </td>
+                                    <td class="product-subtotal" data-title="Total">
+                                        <span class="woocommerce-Price-amount amount">
+                                            <span class="woocommerce-Price-currencySymbol">$</span>${itemTotal.toFixed(2)}
+                                        </span>
+                                    </td>
+                                    
+                                </tr>
+                            `);
+                            total += itemTotal;
+                        });
+
+                        $('#cart-subtotal').text(total.toFixed(2));
+                        $('#cart-total').text(total.toFixed(2));
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error:', error);
+                }
+            });
+        }
+
+        fetchCart();
+
+        // Update cart item quantity
+        $(document).on('change', '.product-count', function() {
+            const productId = $(this).data('product_id');
+            const quantity = $(this).val();
+
+            $.ajax({
+                url: '{{ route('cart.update') }}',
+                method: 'POST',
+                data: {
+                    product_id: productId,
+                    quantity: quantity,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    alert(response.message);
+                    fetchCart();
+                },
+                error: function(xhr, status, error) {
+                    alert('Failed to update cart.');
+                }
+            });
+        });
+
+        // Remove item from cart
+        $(document).on('click', '.remove', function() {
+            const productId = $(this).data('product_id');
+
+            $.ajax({
+                url: '{{ route('cart.remove') }}',
+                method: 'POST',
+                data: {
+                    product_id: productId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    alert(response.message);
+                    fetchCart();
+                },
+                error: function(xhr, status, error) {
+                    alert('Failed to remove item from cart.');
+                }
+            });
+        });
+    });
+</script>
+
+
 </body>
 
 
