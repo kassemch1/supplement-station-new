@@ -10,12 +10,13 @@ use App\Http\Controllers\user_controllers\SingleProductController;
 use App\Http\Controllers\user_controllers\CartController;
 use App\Http\Controllers\user_controllers\CheckoutController;
 use App\Http\Controllers\admin_controllers\BannerController;
+use App\Http\Controllers\user_controllers\ShopController;
 
 Route::get('/',[HomeController::class,'index'])->name('home');
 Route::get('/singleProduct',[SingleProductController::class,'singleProduct'])->name('singleProduct');
 Route::get('/Cart',[CartController::class,'Cart'])->name('cart');
 Route::get('/Checkout',[CheckoutController::class,'Checkout'])->name('checkout');
-
+Route::get('/Shop',[ShopController::class,'Shop'])->name('shop');
 //admin login page
 Route::get('/login',[AdminController::class,'loginView'])->name('login');
 //logout
