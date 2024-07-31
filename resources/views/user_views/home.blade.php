@@ -133,7 +133,7 @@
                     <div class="header__right d-none d-lg-block">
                         <div class="ul_li">
                             <div class="header-shop-cart">
-                                <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">2</span></a>
+                                <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">3</span></a>
                                 <div class="header-mini-cart">
                                     <ul class="woocommerce-mini-cart cart_list product_list_widget list-wrap">
                                         <li class="woocommerce-mini-cart-item d-flex align-items-center">
