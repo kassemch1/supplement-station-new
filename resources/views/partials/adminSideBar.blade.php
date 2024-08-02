@@ -23,6 +23,12 @@
                         <li><a href="{{route('manageBanner.index')}}"><span>Edit Banner Image</span></a></li>
                     </ul>
                 </li>
+                <li class="has-sub-menu"><a href="#"><i class="fa fa-commenting"></i> <span>Manage FAQs</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="{{route("manageFaq.create")}}"><span>Add FAQ</span></a></li>
+                        <li><a href="{{route("manageFaq.index")}}"><span>Edit FAQ</span></a></li>
+                    </ul>
+                </li>
 
 {{--                <li class="has-sub-menu"><a href="#"><i class="fa fa-commenting"></i> <span>Manage FAQs</span></a>--}}
 {{--                    <ul class="side-header-sub-menu">--}}
