@@ -75,6 +75,7 @@
                     <table class="table table-bordered">
                         <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Name</th>
                             <th>Price</th>
                             <th>Description</th>
@@ -87,6 +88,14 @@
                         <tbody>
                         @foreach($products as $product)
                             <tr>
+                                <td>
+                                    @if($product->getImages->isNotEmpty())
+                                        <img src="{{asset($product->getImages->first()->url)}}" alt="img">
+
+                                    @else
+                                        No image available
+                                    @endif
+                                </td>
                                 <td>{{$product->name}}</td>
                                 <td>{{$product->price}} $</td>
                                 <td style="max-width: 250px" class="text-truncate">{{$product->description}}</td>
@@ -108,6 +117,8 @@
                                 </td>
                             </tr>
                         @endforeach
+
+
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -137,6 +148,10 @@
                         </div>
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center">
+                        {!! $products->links() !!}
+                    </div>
+
                 </div>
             </div>
         </div>
