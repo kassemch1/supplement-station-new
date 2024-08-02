@@ -5,36 +5,38 @@ namespace App\Http\Controllers\user_controllers;
 use App\Http\Controllers\user_controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
+
 class ShopController extends Controller
-{
-    public function Shop($categoryName = null)
+{public function Shop($categoryName = null)
     {
         $categories = Category::all();
         $search = request()->query('search');
         $orderBy = request()->query('orderby');
-        $page = request()->query('page', 1);
+        $categoryName = request()->query('category');
+        $page = request()->query('page', 1); // Default to page 1
     
-        $query = Product::query();
+        $productQuery = Product::query();
     
         if ($categoryName) {
             $category = Category::where('name', $categoryName)->first();
             if (!$category) {
                 return response()->json(['error' => 'Category not found.'], 404);
             }
-            $query->where('category_id', $category->id);
+            $productQuery->where('category_id', $category->id);
         }
     
         if ($search) {
-            $query->where('name', 'like', '%' . $search . '%');
+            $productQuery->where('name', 'like', '%' . $search . '%');
         }
     
         if ($orderBy === 'price') {
-            $query->orderBy('price', 'asc');
+            $productQuery->orderBy('price', 'asc');
         } elseif ($orderBy === 'price-desc') {
-            $query->orderBy('price', 'desc');
+            $productQuery->orderBy('price', 'desc');
         }
     
-        $products = $query->paginate(12, ['*'], 'page', $page);
+        // Apply pagination
+        $products = $productQuery->paginate(6, ['*'], 'page', $page);
     
         if (request()->ajax()) {
             return response()->json([
@@ -42,18 +44,15 @@ class ShopController extends Controller
                 'pagination' => [
                     'current_page' => $products->currentPage(),
                     'last_page' => $products->lastPage(),
-                    'total' => $products->total(),
-                ]
+                ],
             ]);
         }
     
         return view('user_views/Shop', [
-            'product' => $products->items(),
+            'product' => $products,
             'categories' => $categories,
             'selectedCategory' => $categoryName,
-            'pagination' => $products->links()->toHtml()
         ]);
     }
-    
     
 }

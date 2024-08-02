@@ -320,15 +320,22 @@
                                 </div>
                                 
                                 <div class="pagination_wrap pt-25">
-                                    <ul id="pagination">
-                                        <li><a href="#" data-page="1"><i class="fal fa-angle-double-left"></i></a></li>
-                                        <li><a href="#" data-page="1" class="current_page">01</a></li>
-                                        <li><a href="#" data-page="2">02</a></li>
-                                        <li><a href="#" data-page="3"><i class="fal fa-ellipsis-h"></i></a></li>
-                                        <li><a href="#" data-page="8">08</a></li>
-                                        <li><a href="#" data-page="8"><i class="fal fa-angle-double-right"></i></a></li>
+                                    <ul>
+                                        @if ($product->currentPage() > 1)
+                                            <li><a href="#" data-page="{{ $product->currentPage() - 1 }}"><i class="fal fa-angle-double-left"></i></a></li>
+                                        @endif
+                                
+                                        @for ($i = 1; $i <= $product->lastPage(); $i++)
+                                            <li><a href="#" class="{{ $product->currentPage() == $i ? 'current_page' : '' }}" data-page="{{ $i }}">{{ $i }}</a></li>
+                                        @endfor
+                                
+                                        @if ($product->currentPage() < $product->lastPage())
+                                            <li><a href="#" data-page="{{ $product->currentPage() + 1 }}"><i class="fal fa-angle-double-right"></i></a></li>
+                                        @endif
                                     </ul>
                                 </div>
+                                
+                                
                                 
                             </div>
                         </div>
@@ -600,141 +607,26 @@
 <!-- Mirrored from html.xpressbuddy.com/purefit/shop.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:25 GMT -->
 </html>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var products = @json($product);
-
-    // Handle search form submission with AJAX
-    document.getElementById('search-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const searchQuery = document.getElementById('search-input').value.trim();
-        const url = `/shop?search=${encodeURIComponent(searchQuery)}`;
-
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            const productList = document.getElementById('product-list');
-            let productHtml = '';
-
-            if (data.product.length > 0) {
-                data.product.forEach(function(product) {
-                    productHtml += `
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                            <div class="product product-item text-center">
-                                <div class="xb-item--img">
-                                    <a href="shop-single.html">
-                                        <img src="https://www.pngitem.com/pimgs/m/400-4009272_whey-protein-sascha-fitness-caramel-hd-png-download.png" alt="${product.name}">
-                                    </a>
-                                </div>
-                                <div class="xb-item--holder">
-                                    <h3 class="xb-item--title">
-                                        <a href="shop-single.html">${product.name}</a>
-                                    </h3>
-                                    <div class="xb-item--rating-inner ul_li_center">
-                                        <ul class="xb-item--rating ul_li">
-                                            <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                            <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                            <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                            <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                            <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                        </ul>
-                                        <span>(36)</span>
-                                    </div>
-                                </div>
-                                <div class="xb-item--action ul_li mt-20">
-                                    <span class="xb-item--price">$${product.price}</span>
-                                    <a href="shop-single.html">
-                                        <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt="Cart"></span>
-                                        <span class="xb-item--cart">add to cart</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-            } else {
-                productHtml = '<p>No products found for this search.</p>';
-            }
-
-            productList.innerHTML = `<div class="row">${productHtml}</div>`;
-        })
-        .catch(error => console.error('Error fetching products:', error));
-    });
-
-    // Handle category clicks (similar to previous)
-    document.querySelectorAll('.widget__category a').forEach(function(categoryLink) {
-        categoryLink.addEventListener('click', function(event) {
+    document.addEventListener('DOMContentLoaded', function() {
+        var products = @json($product);
+    
+        document.querySelectorAll('.pagination_wrap a[data-page]').forEach(function(pageLink) {
+        pageLink.addEventListener('click', function(event) {
             event.preventDefault();
 
-            const selectedCategory = this.getAttribute('data-category').trim();
-            const url = `/shop/${encodeURIComponent(selectedCategory)}`;
+            const page = this.getAttribute('data-page');
+            const searchQuery = document.getElementById('search-input') ? document.getElementById('search-input').value.trim() : '';
+            const sortOrder = document.getElementById('sort-by-price') ? document.getElementById('sort-by-price').value : '';
+            const category = document.querySelector('.widget__category a.active') ? document.querySelector('.widget__category a.active').getAttribute('data-category') : '';
 
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                const productList = document.getElementById('product-list');
-                let productHtml = '';
+            const url = `/shop?page=${page}&search=${encodeURIComponent(searchQuery)}&orderby=${encodeURIComponent(sortOrder)}&category=${encodeURIComponent(category)}`;
 
-                if (data.product.length > 0) {
-                    data.product.forEach(function(product) {
-                        productHtml += `
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                <div class="product product-item text-center">
-                                    <div class="xb-item--img">
-                                        <a href="shop-single.html">
-                                            <img src="https://www.pngitem.com/pimgs/m/400-4009272_whey-protein-sascha-fitness-caramel-hd-png-download.png" alt="${product.name}">
-                                        </a>
-                                    </div>
-                                    <div class="xb-item--holder">
-                                        <h3 class="xb-item--title">
-                                            <a href="shop-single.html">${product.name}</a>
-                                        </h3>
-                                        <div class="xb-item--rating-inner ul_li_center">
-                                            <ul class="xb-item--rating ul_li">
-                                                <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                                <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                                <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                                <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                                <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                            </ul>
-                                            <span>(36)</span>
-                                        </div>
-                                    </div>
-                                    <div class="xb-item--action ul_li mt-20">
-                                        <span class="xb-item--price">$${product.price}</span>
-                                        <a href="shop-single.html">
-                                            <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt="Cart"></span>
-                                            <span class="xb-item--cart">add to cart</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                } else {
-                    productHtml = '<p>No products found for this category.</p>';
-                }
-
-                productList.innerHTML = `<div class="row">${productHtml}</div>`;
-            })
-            .catch(error => console.error('Error fetching products:', error));
+            fetchProducts(url, page); // Pass the current page
         });
     });
-    document.getElementById('sort-by-price').addEventListener('change', function(event) {
-        const sortOrder = this.value;
-        const searchQuery = document.getElementById('search-input') ? document.getElementById('search-input').value.trim() : '';
-        const url = `/shop?orderby=${encodeURIComponent(sortOrder)}&search=${encodeURIComponent(searchQuery)}`;
 
+    // Function to fetch products
+    function fetchProducts(url, currentPage) {
         fetch(url, {
             method: 'GET',
             headers: {
@@ -783,78 +675,61 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                 });
             } else {
-                productHtml = '<p>No products found for this selection.</p>';
+                productHtml = '<p>No products found.</p>';
             }
 
             productList.innerHTML = `<div class="row">${productHtml}</div>`;
+
+            // Update pagination links
+            updatePaginationLinks(currentPage);
         })
         .catch(error => console.error('Error fetching products:', error));
-    });
-    document.getElementById('pagination').addEventListener('click', function(event) {
-        event.preventDefault();
-        if (event.target.tagName === 'A') {
-            const page = event.target.getAttribute('data-page');
+    }
+    
+    function updatePaginationLinks(currentPage) {
+        document.querySelectorAll('.pagination_wrap a[data-page]').forEach(function(pageLink) {
+            if (pageLink.getAttribute('data-page') == currentPage) {
+                pageLink.classList.add('current_page');
+            } else {
+                pageLink.classList.remove('current_page');
+            }
+        });
+    }
+    
+      
+    
+        // Handle search form submission with AJAX
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const searchQuery = document.getElementById('search-input').value.trim();
+            const url = `/shop?search=${encodeURIComponent(searchQuery)}`;
+    
+            fetchProducts(url);
+        });
+    
+        // Handle category clicks
+        document.querySelectorAll('.widget__category a').forEach(function(categoryLink) {
+            categoryLink.addEventListener('click', function(event) {
+                event.preventDefault();
+    
+                document.querySelectorAll('.widget__category a').forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+    
+                const selectedCategory = this.getAttribute('data-category').trim();
+                const url = `/shop?category=${encodeURIComponent(selectedCategory)}`;
+    
+                fetchProducts(url);
+            });
+        });
+    
+        // Handle sorting
+        document.getElementById('sort-by-price').addEventListener('change', function(event) {
+            const sortOrder = this.value;
             const searchQuery = document.getElementById('search-input') ? document.getElementById('search-input').value.trim() : '';
-            const sortOrder = document.getElementById('sort-by-price') ? document.getElementById('sort-by-price').value : '';
-            const url = `/shop?page=${encodeURIComponent(page)}&orderby=${encodeURIComponent(sortOrder)}&search=${encodeURIComponent(searchQuery)}`;
-
-            fetch(url, {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                const productList = document.getElementById('product-list');
-                let productHtml = '';
-
-                if (data.product.length > 0) {
-                    data.product.forEach(function(product) {
-                        productHtml += `
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                <div class="product product-item text-center">
-                                    <div class="xb-item--img">
-                                        <a href="shop-single.html">
-                                            <img src="https://www.pngitem.com/pimgs/m/400-4009272_whey-protein-sascha-fitness-caramel-hd-png-download.png" alt="${product.name}">
-                                        </a>
-                                    </div>
-                                    <div class="xb-item--holder">
-                                        <h3 class="xb-item--title">
-                                            <a href="shop-single.html">${product.name}</a>
-                                        </h3>
-                                        <div class="xb-item--rating-inner ul_li_center">
-                                            <ul class="xb-item--rating ul_li">
-                                                <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                                <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                                <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                                <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                                <li><img src="assets/img/icon/star.png" alt="Star"></li>
-                                            </ul>
-                                            <span>(36)</span>
-                                        </div>
-                                    </div>
-                                    <div class="xb-item--action ul_li mt-20">
-                                        <span class="xb-item--price">$${product.price.toFixed(2)}</span>
-                                        <a href="shop-single.html">
-                                            <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt="Cart"></span>
-                                            <span class="xb-item--cart">add to cart</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                } else {
-                    productHtml = '<p>No products found.</p>';
-                }
-
-                productList.innerHTML = `<div class="row">${productHtml}</div>`;
-            })
-            .catch(error => console.error('Error fetching products:', error));
-        }
+            const url = `/shop?orderby=${encodeURIComponent(sortOrder)}&search=${encodeURIComponent(searchQuery)}`;
+    
+            fetchProducts(url);
+        });
     });
-});
-
-
-</script>
+    </script>
+    
