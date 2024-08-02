@@ -6157,6 +6157,9 @@ abbr[title] {
     top: 33%; }
 
 .xb-pricing {
+    position: relative; /* Ensure the containing div is positioned */
+    min-height: 600px;
+    max-height: 600px;
   border: 1px solid rgba(6, 6, 6, 0.1); }
   .xb-pricing .xb-item--head {
     background-color: #000;
@@ -6200,6 +6203,18 @@ abbr[title] {
       padding-left: 10px; }
   .xb-pricing .xb-item--price-sub {
     color: var(--color-white); }
+.xb-pricing .xb-item--btn {
+    position: absolute;
+    margin-bottom: 30px;
+    bottom: 0; /* Position the button at the bottom of the container */
+    /*top: 50px; !* Positioning from the top of the container *!*/
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%; /* Optional: To make the button take the full width */
+    /*width: auto; !* Button width can be auto or set as needed *!*/
+    text-align: center; /* Center align the button text */
+    /* other existing styles */
+}
   .xb-pricing .xb-item--btn .thm-btn {
     justify-content: center;
     color: #060606;

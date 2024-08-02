@@ -8,6 +8,7 @@ require __DIR__.'/admin.php';
 require __DIR__.'/cart.php';
 require __DIR__.'/banner.php';
 require __DIR__.'/products_images_admin.php';
+require __DIR__.'/plane.php';
 require __DIR__. '/faq.php';
 
 use App\Http\Controllers\user_controllers\HomeController;

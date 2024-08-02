@@ -594,49 +594,85 @@
 
         <!-- pricing start -->
         <section id="pricing" class="pricing pt-120 pb-130" data-bg-color="#fff">
+
             <div class="container">
                 <div class="sec-title text-center mb-55">
-                    <span class="sub-title">pricing</span>
-                    <h2 class="title">flexible pricing</h2>
+                    <span class="sub-title">plans</span>
+                    <h2 class="title">flexible plans</h2>
                 </div>
+{{--                <div class="swiper-wrapper">--}}
                 <div class="row justify-content-center mt-none-30">
+
+                        @foreach($planes as $plane)
+                        @if($plane->id%2==1)
                     <div class="col-lg-4 col-md-6 mt-30">
+
+
                         <div class="xb-pricing">
                             <div class="xb-item--head pos-rel">
-                                <h4 class="xb-item--title">basic</h4>
-                                <h2 class="xb-item--price">$70<span>Per Bottle</span></h2>
-                                <h3 class="xb-item--price-sub">($70.00 total)</h3>
+                                <h4 class="xb-item--title">{{$plane->type}}</h4>
+                                <h2 class="xb-item--price">${{$plane->price}}</h2>
+                                <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
                                 <div class="xb-item--img" data-background="assets/img/pricing/img_01.png"></div>
                                 <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape.png"></div>
                             </div>
                             <div class="xb-item--body">
                                 <ul class="xb-item--list list-unstyled">
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">1 Person User purefit</li>
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">1 x 250 veggie caps bottle</li>
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">1 x 50 Capsules Per Bottle</li>
-                                    <li class="deactive"><img src="assets/img/icon/p_check_x.svg" alt="">Free Shipping</li>
+                                    @if($plane->point1)
+                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point1}}</li>
+                                    @endif
+
+                                    @if($plane->point2)
+                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point2}}</li>
+                                        @endif
+                                        @if($plane->point3)
+                                            <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point3}}</li>
+                                        @endif
+                                        @if($plane->point4)
+                                            <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point4}}</li>
+                                        @endif
+                                        @if($plane->point5)
+                                            <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point5}}</li>
+                                        @endif
                                 </ul>
                                 <div class="xb-item--btn">
                                     <a class="thm-btn w-100 text-center mt-45" href="#!"><img src="assets/img/icon/bag.svg" alt="">BUY NOW</a>
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
+                        @elseif($plane->id%2==0)
+
+
+
                     <div class="col-lg-4 col-md-6 mt-30">
                         <div class="xb-pricing active">
                             <div class="xb-item--head pos-rel">
-                                <h4 class="xb-item--title">Family</h4>
-                                <h2 class="xb-item--price">$64<span>Per Bottle</span></h2>
-                                <h3 class="xb-item--price-sub">($192.00 total)</h3>
+                                <h4 class="xb-item--title">{{$plane->type}}</h4>
+                                <h2 class="xb-item--price">${{$plane->price}}</h2>
+                                <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
                                 <div class="xb-item--img" data-background="assets/img/pricing/img_02.png"></div>
                                 <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape2.png"></div>
                             </div>
                             <div class="xb-item--body">
                                 <ul class="xb-item--list list-unstyled">
-                                    <li><img src="assets/img/icon/check_h.svg" alt="">3 Person User purefit</li>
-                                    <li><img src="assets/img/icon/check_h.svg" alt="">3 x 250 veggie caps bottle</li>
-                                    <li><img src="assets/img/icon/check_h.svg" alt="">3 x 50 Capsules Per Bottle</li>
-                                    <li><img src="assets/img/icon/check_h.svg" alt="">Free Shipping</li>
+                                    @if($plane->point1)
+                                        <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point1}}</li>
+                                    @endif
+                                    @if($plane->point2)
+                                        <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point2}}</li>
+                                    @endif
+                                    @if($plane->point3)
+                                        <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point3}}</li>
+                                    @endif
+                                    @if($plane->point4)
+                                        <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point4}}</li>
+                                    @endif
+                                    @if($plane->point5)
+                                        <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point5}}</li>
+                                    @endif
                                 </ul>
                                 <div class="xb-item--btn">
                                     <a class="thm-btn w-100 text-center mt-45" href="#!"><img src="assets/img/icon/bag.svg" alt="">BUY NOW</a>
@@ -644,30 +680,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-8 mt-30">
-                        <div class="xb-pricing">
-                            <div class="xb-item--head pos-rel">
-                                <h4 class="xb-item--title">professional</h4>
-                                <h2 class="xb-item--price">$52<span>Per Bottle</span></h2>
-                                <h3 class="xb-item--price-sub">($312.00 total)</h3>
-                                <div class="xb-item--img" data-background="assets/img/pricing/img_03.png"></div>
-                                <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape.png"></div>
-                            </div>
-                            <div class="xb-item--body">
-                                <ul class="xb-item--list list-unstyled">
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">6 Person User purefit</li>
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">6 x 250 veggie caps bottle</li>
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">6 x 50 Capsules Per Bottle</li>
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">Free Shipping</li>
-                                </ul>
-                                <div class="xb-item--btn">
-                                    <a class="thm-btn w-100 text-center mt-45" href="#!"><img src="assets/img/icon/bag.svg" alt="">BUY NOW</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        @endif
+                            @endforeach
                 </div>
+{{--                </div>--}}
             </div>
+
         </section>
         <!-- pricing end -->
 
