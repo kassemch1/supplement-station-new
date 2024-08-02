@@ -138,11 +138,11 @@
                                     <span class="mini-cart-count">2</span>
                                 </a>
                                 <div class="header-mini-cart" id="mini-cart">
-                                    
+
                                 </div>
-                                
+
                             </div>
-                            
+
                             <a class="header__bar offcanvas-sidebar-btn" href="javascript:void(0);">
                                 <div class="header__bar-icon">
                                     <span></span>
@@ -1034,7 +1034,7 @@ function fetchCart() {
                 <a href="shop-details.html" style="text-decoration: none; color: #000;">${item.product.name}</a>
             </h4>
             <div class="mini-cart-price" style="margin-top: 5px;">
-                ${item.quantity} × 
+                ${item.quantity} ×
                 <span class="woocommerce-Price-amount amount" style="color: red;">$${parseFloat(item.product.price).toFixed(2)}</span>
             </div>
         </div>
