@@ -18,4 +18,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class,'product_id','id');
     }
+    // Method to get the first image
+    public function getFirstImage()
+    {
+        return $this->getImages()->first();
+    }
 }

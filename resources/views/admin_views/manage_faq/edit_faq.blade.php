@@ -59,7 +59,7 @@
             <!-- Page Heading Start -->
             <div class="col-12 col-lg-auto mb-20">
                 <div class="page-heading">
-                    <h3>Manage Products</h3>
+                    <h3>Manage FAQs</h3>
                 </div>
             </div><!-- Page Heading End -->
 
@@ -69,56 +69,31 @@
         <div class="col-lg-6 col-12 mb-30">
             <div class="box">
                 <div class="box-head">
-                    <h4 class="title">Products</h4>
+                    <h4 class="title">FAQs</h4>
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered">
                         <thead>
                         <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Description</th>
-                            <th>Category</th>
-                            <th>Stock</th>
-                            <th>Discount</th>
+                            <th>Question</th>
+                            <th>Answer</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($products as $product)
+                        @foreach($faqs as $faq)
                             <tr>
-                                <td>
-                                    @if($product->getImages->isNotEmpty())
-                                        <img src="{{asset($product->getImages->first()->url)}}" alt="img">
-
-                                    @else
-                                        No image available
-                                    @endif
-                                </td>
-                                <td>{{$product->name}}</td>
-                                <td>{{$product->price}} $</td>
-                                <td style="max-width: 250px" class="text-truncate">{{$product->description}}</td>
-                                <td>{{$product->getCategory->name}}</td>
-                                @if($product->stock === 1)
-                                    <td>In Stock</td>
-                                @else
-                                    <td>Out of Stock</td>
-                                @endif
-                                <td>{{$product->discount}} %</td>
-
-
+                                <td>{{$faq->question}}</td>
+                                <td style="max-width: 250px" class="text-truncate">{{$faq->answer}}</td>
                                 <td>
                                     <a class="button button-info"
-                                       href="{{route("manageProducts.edit",['id'=>$product->id])}}"><span>Edit</span></a>
+                                       href="{{route("manageFaq.edit",['id'=>$faq->id])}}"><span>Edit</span></a>
                                     <button id="deleteTestimonial" class="button button-danger" data-toggle="modal"
-                                            data-target="#exampleModalCenter" data-id="{{$product->id}}" onclick="getProductId('{{$product->id}}')"><span>Delete</span>
+                                            data-target="#exampleModalCenter" data-id="{{$faq->id}}" onclick="getFaqId('{{$faq->id}}')"><span>Delete</span>
                                     </button>
                                 </td>
                             </tr>
                         @endforeach
-
-
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -136,8 +111,8 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
                                         </button>
-                                        <form id="deleteProductForm"
-                                              action="{{route('manageProducts.destroy')}}" method="post">
+                                        <form id="deleteFaqForm"
+                                              action="{{route('manageFaq.destroy')}}" method="post">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" class="btn btn-danger">Yes</button>
@@ -148,10 +123,6 @@
                         </div>
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-center">
-                        {!! $products->links() !!}
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -194,16 +165,16 @@
 <script src="{{asset("admin_assets/js/plugins/dropify/dropify.active.js")}}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    var product_id = 0;
-    function getProductId(id)
+    var faq_id = 0;
+    function getFaqId(id)
     {
-        product_id = id;
+        faq_id = id;
     }
 
     $(document).ready(function () {
 
         // Handle form submission for deletion
-        $('#deleteProductForm').submit(function (e) {
+        $('#deleteFaqForm').submit(function (e) {
             e.preventDefault(); // Prevent default form submission
             var formData = $(this).serialize(); // Serialize form data
             var url = $(this).attr('action'); // Get form action URL
@@ -214,16 +185,16 @@
                 },
                 type: 'DELETE',
                 url: url,
-                data: { id: product_id },
+                data: { id: faq_id },
                 // url: url,
                 success: function (response) {
-                    console.log('Product deleted successfully.');
+                    console.log('Faq deleted successfully.');
                     // $('#exampleModalCenter').modal('hide');
                     location.reload();
                 },
                 error: function (xhr, status, error) {
                     alert(JSON.stringify(error));
-                    console.error('Error deleting Product:', error);
+                    console.error('Error deleting faq:', error);
                     // Handle errors or display error message
                 }
             });
