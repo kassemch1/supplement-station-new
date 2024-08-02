@@ -709,102 +709,100 @@
                         <h2 class="title">product information</h2>
                     </div>
                     <ul class="xb-accordion accordion_box clearfix">
-                        <li class="accordion block">
-                            <div class="acc-btn">
-                                Why should I take dietary supplements?
-                                <span class="arrow"></span>
-                            </div>
-                            <div class="acc_body">
-                                <div class="content">
-                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>
-                                    <ul>
-                                        <li>Vegan-Friendly Ingredients</li>
-                                        <li>No Animal-Derived Ingredients</li>
-                                        <li>Alternative Capsules</li>
-                                    </ul>
+                        @foreach($faqs as $faq)
+                            <li class="accordion block">
+                                <div class="acc-btn">
+                                    {{$faq->question}}
+                                    <span class="arrow"></span>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="accordion block active-block">
-                            <div class="acc-btn">
-                                Are your supplements suitable for vegans or vegetarians?
-                                <span class="arrow"></span>
-                            </div>
-                            <div class="acc_body current">
-                                <div class="content">
-                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>
-                                    <ul>
-                                        <li>Vegan-Friendly Ingredients</li>
-                                        <li>No Animal-Derived Ingredients</li>
-                                        <li>Alternative Capsules</li>
-                                    </ul>
+                                <div class="acc_body">
+                                    <div class="content">
+                                        <p>{{$faq->answer}}</p>
+
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="accordion block">
-                            <div class="acc-btn">
-                                Can I take multiple supplements together?
-                                <span class="arrow"></span>
-                            </div>
-                            <div class="acc_body">
-                                <div class="content">
-                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>
-                                    <ul>
-                                        <li>Vegan-Friendly Ingredients</li>
-                                        <li>No Animal-Derived Ingredients</li>
-                                        <li>Alternative Capsules</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="accordion block">
-                            <div class="acc-btn">
-                                Can I take supplements with medications or other dietary products?
-                                <span class="arrow"></span>
-                            </div>
-                            <div class="acc_body">
-                                <div class="content">
-                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>
-                                    <ul>
-                                        <li>Vegan-Friendly Ingredients</li>
-                                        <li>No Animal-Derived Ingredients</li>
-                                        <li>Alternative Capsules</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="accordion block">
-                            <div class="acc-btn">
-                                What is the recommended daily dosage for your supplements?
-                                <span class="arrow"></span>
-                            </div>
-                            <div class="acc_body">
-                                <div class="content">
-                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>
-                                    <ul>
-                                        <li>Vegan-Friendly Ingredients</li>
-                                        <li>No Animal-Derived Ingredients</li>
-                                        <li>Alternative Capsules</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="accordion block">
-                            <div class="acc-btn">
-                                Are your supplements tested for quality and purity?
-                                <span class="arrow"></span>
-                            </div>
-                            <div class="acc_body">
-                                <div class="content">
-                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>
-                                    <ul>
-                                        <li>Vegan-Friendly Ingredients</li>
-                                        <li>No Animal-Derived Ingredients</li>
-                                        <li>Alternative Capsules</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
+                            </li>
+                        @endforeach
+{{--                        <li class="accordion block active-block">--}}
+{{--                            <div class="acc-btn">--}}
+{{--                                Are your supplements suitable for vegans or vegetarians?--}}
+{{--                                <span class="arrow"></span>--}}
+{{--                            </div>--}}
+{{--                            <div class="acc_body current">--}}
+{{--                                <div class="content">--}}
+{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
+{{--                                    <ul>--}}
+{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
+{{--                                        <li>No Animal-Derived Ingredients</li>--}}
+{{--                                        <li>Alternative Capsules</li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
+{{--                        <li class="accordion block">--}}
+{{--                            <div class="acc-btn">--}}
+{{--                                Can I take multiple supplements together?--}}
+{{--                                <span class="arrow"></span>--}}
+{{--                            </div>--}}
+{{--                            <div class="acc_body">--}}
+{{--                                <div class="content">--}}
+{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
+{{--                                    <ul>--}}
+{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
+{{--                                        <li>No Animal-Derived Ingredients</li>--}}
+{{--                                        <li>Alternative Capsules</li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
+{{--                        <li class="accordion block">--}}
+{{--                            <div class="acc-btn">--}}
+{{--                                Can I take supplements with medications or other dietary products?--}}
+{{--                                <span class="arrow"></span>--}}
+{{--                            </div>--}}
+{{--                            <div class="acc_body">--}}
+{{--                                <div class="content">--}}
+{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
+{{--                                    <ul>--}}
+{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
+{{--                                        <li>No Animal-Derived Ingredients</li>--}}
+{{--                                        <li>Alternative Capsules</li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
+{{--                        <li class="accordion block">--}}
+{{--                            <div class="acc-btn">--}}
+{{--                                What is the recommended daily dosage for your supplements?--}}
+{{--                                <span class="arrow"></span>--}}
+{{--                            </div>--}}
+{{--                            <div class="acc_body">--}}
+{{--                                <div class="content">--}}
+{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
+{{--                                    <ul>--}}
+{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
+{{--                                        <li>No Animal-Derived Ingredients</li>--}}
+{{--                                        <li>Alternative Capsules</li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
+{{--                        <li class="accordion block">--}}
+{{--                            <div class="acc-btn">--}}
+{{--                                Are your supplements tested for quality and purity?--}}
+{{--                                <span class="arrow"></span>--}}
+{{--                            </div>--}}
+{{--                            <div class="acc_body">--}}
+{{--                                <div class="content">--}}
+{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
+{{--                                    <ul>--}}
+{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
+{{--                                        <li>No Animal-Derived Ingredients</li>--}}
+{{--                                        <li>Alternative Capsules</li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
                     </ul>
                 </div>
             </div>
