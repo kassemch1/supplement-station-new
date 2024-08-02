@@ -265,54 +265,83 @@
         <section class="shop-single-section pt-115 pb-385">
             <div class="container">
                 <div class="row">
+{{--                    <div class="col-md-6">--}}
+{{--                        <div class="product-single-wrap mb-30">--}}
+{{--                            <div class="product_details_img">--}}
+{{--                                <div class="tab-content" id="myTabContent">--}}
+{{--                                    <div class="tab-pane show active" id="home2" role="tabpanel" aria-labelledby="home-tab">--}}
+{{--                                        <div class="pl_thumb">--}}
+{{--                                            <img src="{{asset($productImage->url)}}"  alt="">--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">--}}
+{{--                                        <div class="pl_thumb">--}}
+{{--                                            <img src="{{asset($productImage->url)}}" alt="">--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="tab-pane" id="contact" role="tabpanel" aria-labelledby="contact-tab">--}}
+{{--                                        <div class="pl_thumb">--}}
+{{--                                            <img src="{{asset($productImage->url)}}"  alt="">--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="tab-pane" id="profile2" role="tabpanel" aria-labelledby="profile-tab3">--}}
+{{--                                        <div class="pl_thumb">--}}
+{{--                                            <img src="{{asset($productImage->url)}}"  alt="">--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="shop_thumb_tab">--}}
+{{--                                <ul class="nav" id="myTab2" role="tablist">--}}
+{{--                                    <li class="nav-item">--}}
+{{--                                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home2" type="button" role="tab" aria-controls="home2" aria-selected="true">--}}
+{{--                                            <img  src="{{asset($productImage->url)}}" alt="">--}}
+{{--                                        </button>--}}
+{{--                                    </li>--}}
+{{--                                    <li class="nav-item">--}}
+{{--                                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">--}}
+{{--                                            <img  src="{{asset($productImage->url)}}" alt="">--}}
+{{--                                        </button>--}}
+{{--                                    </li>--}}
+{{--                                    <li class="nav-item">--}}
+{{--                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">--}}
+{{--                                            <img  src="{{asset($productImage->url)}}" alt="">--}}
+{{--                                        </button>--}}
+{{--                                    </li>--}}
+{{--                                    <li class="nav-item">--}}
+{{--                                        <button class="nav-link" id="profile-tab3" data-bs-toggle="tab" data-bs-target="#profile2" type="button" role="tab" aria-controls="profile2" aria-selected="false">--}}
+{{--                                            <img  src="{{asset($productImage->url)}}" alt="">--}}
+{{--                                        </button>--}}
+{{--                                    </li>--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+
+
+
                     <div class="col-md-6">
                         <div class="product-single-wrap mb-30">
                             <div class="product_details_img">
                                 <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane show active" id="home2" role="tabpanel" aria-labelledby="home-tab">
-                                        <div class="pl_thumb">
-                                            <img src="{{ asset('https://www.gymsupplements.co.uk/cdn/shop/files/Dymatize-Iso100-protein-powder-2.2kg-Gourmet-Chocolate_large.png?v=1713353129')}}" alt="">
+                                    @foreach($products->images as $index => $image)
+                                        <div class="tab-pane {{ $index == 0 ? 'show active' : '' }}" id="tab-{{ $index }}" role="tabpanel">
+                                            <div class="pl_thumb">
+                                                <img src="{{ asset($image->url) }}" alt="{{ $products->name }} image {{ $index + 1 }}"  style="height: 550px; width: 600px;">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                        <div class="pl_thumb">
-                                            <img src="" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                        <div class="pl_thumb">
-                                            <img src="" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="profile2" role="tabpanel" aria-labelledby="profile-tab3">
-                                        <div class="pl_thumb">
-                                            <img src="" alt="">
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="shop_thumb_tab">
                                 <ul class="nav" id="myTab2" role="tablist">
-                                    <li class="nav-item">
-                                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home2" type="button" role="tab" aria-controls="home2" aria-selected="true">
-                                            <img src="" alt="">
-                                        </button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
-                                            <img src="" alt="">
-                                        </button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
-                                            <img src="" alt="">
-                                        </button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="nav-link" id="profile-tab3" data-bs-toggle="tab" data-bs-target="#profile2" type="button" role="tab" aria-controls="profile2" aria-selected="false">
-                                            <img src="" alt="">
-                                        </button>
-                                    </li>
+                                    @foreach($products->images as $index => $image)
+                                        <li class="nav-item">
+                                            <button class="nav-link {{ $index == 0 ? 'active' : '' }}" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab-{{ $index }}" type="button" role="tab" aria-controls="tab-{{ $index }}" aria-selected="{{ $index == 0 ? 'true' : 'false' }}" >
+                                                <img src="{{ asset($image->url) }}" alt="{{ $products->name }} thumbnail {{ $index + 1 }}" height="100" width="100">
+                                            </button>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -320,59 +349,56 @@
 
 
 
-
-
-
-<div class="col-md-6 product-details-col">
-    <div class="product-details mb-30">
-        <h2>{{ $product->name ?? 'Product Name' }}</h2>
-        <div class="rating">
-            @for ($i = 0; $i < 5; $i++)
-                <i class="fas fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
-            @endfor
-            <span>({{ $product->reviews_count ?? '87' }} Customer review{{ $product->reviews_count > 1 ? 's' : '' }})</span>
-        </div>
-        <div class="price">
-            <span class="current">${{ $product->price ?? '0.00' }}</span>
-            @if($product->old_price)
-                <span class="old">{{ $product->old_price }}</span>
-            @endif
-        </div>
-        <p>{{ $product->description ?? 'Product description' }}</p>
-        <div class="product-option">
-            <form class="form" id="add-to-cart-form">
-                <div class="product-row">
-                    <div>
-                        <input class="product-count" type="number" value="1" name="product-count" min="1" id="quantity-{{ $product->id }}">
+            <div class="col-md-6 product-details-col">
+                <div class="product-details mb-20">
+                    <h2>{{ $product->name ?? 'Product Name' }}</h2>
+                    <div class="rating">
+                        @for ($i = 0; $i < 5; $i++)
+                            <i class="fas fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
+                        @endfor
+                        <span>({{ $product->reviews_count ?? '87' }} Customer review{{ $product->reviews_count > 1 ? 's' : '' }})</span>
                     </div>
-                    <div class="add-to-cart-btn">
-                        <button type="button" class="xb-btn add-to-cart" data-product-id="{{ $product->id }}">
-                            <i class="far fa-shopping-bag"></i> Add to cart
-                        </button>
+                    <div class="price">
+                        <span class="current">${{ $product->price ?? '0.00' }}</span>
+                        @if($product->old_price)
+                            <span class="old">{{ $product->old_price }}</span>
+                        @endif
+                    </div>
+                    <p>{{ $product->description ?? 'Product description' }}</p>
+                    <div class="product-option">
+                        <form class="form" id="add-to-cart-form">
+                            <div class="product-row">
+                                <div>
+                                    <input class="product-count" type="number" value="1" name="product-count" min="1" id="quantity-{{ $product->id }}">
+                                </div>
+                                <div class="add-to-cart-btn">
+                                    <button type="button" class="xb-btn add-to-cart" data-product-id="{{ $product->id }}">
+                                        <i class="far fa-shopping-bag"></i> Add to cart
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="thb-product-meta-after mt-20">
+                        <div class="product_meta">
+            <span class="posted_in">Categories:
+            @if($product->category_id)
+                <span>{{ $category->name }}</span>
+            @else
+                <span>No categories</span>
+            @endif
+            </span>
+                            <span class="product-share-wrap ul_li">Share:
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            </span>
+                        </div>
                     </div>
                 </div>
-            </form>
-        </div>
-
-        <div class="thb-product-meta-after mt-20">
-            <div class="product_meta">
-<span class="posted_in">Categories:
-@if($product->category_id)
-    <span>{{ $category->name }}</span>
-@else
-    <span>No categories</span>
-@endif
-</span>
-                <span class="product-share-wrap ul_li">Share:
-<a href="#"><i class="fab fa-facebook-f"></i></a>
-<a href="#"><i class="fab fa-instagram"></i></a>
-<a href="#"><i class="fab fa-twitter"></i></a>
-<a href="#"><i class="fab fa-linkedin"></i></a>
-</span>
-            </div>
-        </div>
-    </div>
-</div> <!-- end col -->
+            </div> <!-- end col -->
 
 
                 </div>
@@ -564,7 +590,7 @@
                                                 </div>
                                                 <div class="xb-item--action ul_li mt-20">
                                                     <span class="xb-item--price">$115.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
+                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="{{asset("assets/img/icon/bag.svg")}}" alt=""></span><span class="xb-item--cart">add to cart</span></a>
                                                 </div>
                                             </div>
                                         </div>
