@@ -16,6 +16,7 @@ use App\Http\Controllers\user_controllers\CartController;
 use App\Http\Controllers\user_controllers\CheckoutController;
 use App\Http\Controllers\user_controllers\ShopController;
 use App\Http\Middleware\GuestSession;
+use App\Http\Controllers\user_controllers\UserCategoryController;
 
 Route::middleware([GuestSession::class])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -23,7 +24,9 @@ Route::middleware([GuestSession::class])->group(function () {
     Route::get('/Checkout', [CheckoutController::class, 'Checkout'])->name('checkout');
     Route::get('/Shop',[ShopController::class,'Shop'])->name('shop');
     Route::get('/products/{id}', [UserProductController::class, 'show'])->name('products.show');
+    Route::get('/shop/{categoryName?}', [ShopController::class, 'Shop'])->name('shop.category');
 
+    
 });
 
 

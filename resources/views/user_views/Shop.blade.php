@@ -1,8 +1,5 @@
 <!doctype html>
 <html lang="zxx">
-
-
-<!-- Mirrored from html.xpressbuddy.com/purefit/shop.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:23 GMT -->
 <head>
 
     <!--========= Required meta tags =========-->
@@ -13,16 +10,18 @@
 
     <title>Purefit - Health Supplement Landing Page</title>
 
-    <link rel="shortcut icon" href="assets/img/favicon.png" type="images/x-icon"/>
+    <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="images/x-icon"/>
 
     <!-- css include -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/fontawesome.css">
-    <link rel="stylesheet" href="assets/css/animate.css">
-    <link rel="stylesheet" href="assets/css/swiper.min.css">
-    <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
-    <link rel="stylesheet" href="assets/css/magnific-popup.css">
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/fontawesome.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/swiper.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+
+
 </head>
 
 <body>
@@ -39,7 +38,7 @@
 <div id="xb-loadding" class="xb-loadding-container">
     <div class="xb-loader">
         <div class="xb-loadding-inner">
-            <img src="assets/img/logo/preloader.png" alt="">
+            <img src="{{ asset('assets/img/logo/preloader.png')}}" alt="">
         </div>
     </div>
 </div>
@@ -55,7 +54,7 @@
             <div class="container">
                 <div class="header__wrap ul_li_between">
                     <div class="header-logo">
-                        <a href="index.html"><img src="assets/img/logo/logo.svg" alt=""></a>
+                        <a href="index.html"><img src="{{ asset('assets/img/logo/logo.svg')}}" alt=""></a>
                     </div>
                     <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
                         <nav class="main-menu collapse navbar-collapse">
@@ -137,13 +136,13 @@
                     <div class="header__right d-none d-lg-block">
                         <div class="ul_li">
                             <div class="header-shop-cart">
-                                <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">2</span></a>
+                                <a href="javascript:void(0);"><img src="{{ asset('assets/img/icon/bag.svg')}}" alt=""><span class="mini-cart-count">2</span></a>
                                 <div class="header-mini-cart">
                                     <ul class="woocommerce-mini-cart cart_list product_list_widget list-wrap">
                                         <li class="woocommerce-mini-cart-item d-flex align-items-center">
                                             <a href="#" class="remove remove_from_cart_button">×</a>
                                             <div class="mini-cart-img">
-                                                <img src="assets/img/shop/product_02.png" alt="Product">
+                                                <img src="{{ asset('assets/img/shop/product_02.png')}}" alt="Product">
                                             </div>
                                             <div class="mini-cart-content">
                                                 <h4 class="product-title"><a href="shop-details.html">
@@ -156,7 +155,7 @@
                                         <li class="woocommerce-mini-cart-item d-flex align-items-center">
                                             <a href="#" class="remove remove_from_cart_button">×</a>
                                             <div class="mini-cart-img">
-                                                <img src="assets/img/shop/product_03.png" alt="Product">
+                                                <img src="{{ asset('assets/img/shop/product_03.png')}}" alt="Product">
                                             </div>
                                             <div class="mini-cart-content">
                                                 <h4 class="product-title"><a href="shop-details.html">creatine powder</a></h4>
@@ -210,7 +209,7 @@
         <div class="sidebar-top mb-65">
             <div class="sidebar-logo mb-40">
                 <a href="index.html">
-                    <img src="assets/img/logo/logo_black.svg" alt="logo">
+                    <img src="{{ asset('assets/img/logo/logo_black.svg')}}" alt="logo">
                 </a>
             </div>
             <div class="sidebar-content">
@@ -221,9 +220,9 @@
         <div class="sidebar-contact-info mb-65">
             <h4 class="sidebar-heading">Contact Information</h4>
             <ul class="sidebar-info-list list-unstyled">
-                <li><span><img src="assets/img/icon/i_star.svg" alt=""></span>Wasington SY, UK, NY 12099</li>
-                <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>+81 800 123 06 78</a></li>
-                <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>contact@purefit.com</a></li>
+                <li><span><img src="{{ asset('assets/img/icon/i_star.svg')}}" alt=""></span>Wasington SY, UK, NY 12099</li>
+                <li><a href="#!"><span><img src="{{ asset('assets/img/icon/i_star.svg')}}" alt=""></span>+81 800 123 06 78</a></li>
+                <li><a href="#!"><span><img src="{{ asset('assets/img/icon/i_star.svg')}}" alt=""></span>contact@purefit.com</a></li>
             </ul>
         </div>
         <div class="xb-content-wrap d-flex">
@@ -248,7 +247,7 @@
     <!-- main area start  -->
     <main>
         <!-- breadcrumb start -->
-        <section class="breadcrumb position-bottom bg_img" data-background="assets/img/bg/page_title.png">
+        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/page_title.png')}}">
             <div class="container">
                 <div class="breadcrumb__content text-center">
                     <h2 class="breadcrumb__title">Shop</h2>
@@ -271,321 +270,73 @@
                                 <p class="woocommerce-result-count">Showing 1–12 of 70 results</p>
                                 <div class="woocommerce-toolbar-top-right ul_li">
                                     <form class="woocommerce-ordering" method="get">
-                                        <select name="orderby" class="orderby">
+                                        <select name="orderby" class="orderby" id="sort-by-price">
                                             <option value="menu_order" selected="selected">Default sorting</option>
-                                            <option value="popularity">Sort by popularity</option>
-                                            <option value="rating">Sort by average rating</option>
-                                            <option value="date">Sort by newness</option>
                                             <option value="price">Sort by price: low to high</option>
                                             <option value="price-desc">Sort by price: high to low</option>
                                         </select>
+                                        
                                         <input type="hidden" name="post_type" value="product">
                                     </form>
                                 </div>
                             </div>
                             <div class="woocommerce-content-inner">
-                                <div class="products">
+                                <div class="products" id="product-list">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_05.png" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">iso whey powder</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
+                                        @foreach($product as $item)
+                                            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                <div class="product product-item text-center">
+                                                    <div class="xb-item--img">
+                                                        <a href="shop-single.html">
+                                                            <img src="{{ asset('https://www.pngitem.com/pimgs/m/400-4009272_whey-protein-sascha-fitness-caramel-hd-png-download.png')}}" alt="{{ $item->name }}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="xb-item--holder">
+                                                        <h3 class="xb-item--title">
+                                                            <a href="shop-single.html">{{ $item->name }}</a>
+                                                        </h3>
+                                                        <div class="xb-item--rating-inner ul_li_center">
+                                                            <ul class="xb-item--rating ul_li">
+                                                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
+                                                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
+                                                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
+                                                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
+                                                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
+                                                            </ul>
+                                                            <span>(36)</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="xb-item--action ul_li mt-20">
+                                                        <span class="xb-item--price">${{ number_format($item->price, 2) }}</span>
+                                                        <a href="shop-single.html">
+                                                            <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg')}}" alt="Cart"></span>
+                                                            <span class="xb-item--cart">add to cart</span>
+                                                        </a>
                                                     </div>
                                                 </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$115.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_11.png" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">xplode powder</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$125.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_06.png" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">nutraone protine</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$235.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_07.png" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">clear whey protein</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$167.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_08.png" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">strawberry protine</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$135.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_12.png" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">creatine powder</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$115.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_09.png" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">candy bits protine</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$119.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_10.png" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">juice guard</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$112.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_13.png" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">beta alnine</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$133.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_14.png" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">juice guard</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$115.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_15.png" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">real whey</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$118.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="assets/img/shop/product_16.png" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">creatine powder</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$128.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
+                                
                                 <div class="pagination_wrap pt-25">
                                     <ul>
-                                        <li><a href="#"><i class="fal fa-angle-double-left"></i></a></li>
-                                        <li><a href="#" class="current_page">01</a></li>
-                                        <li><a href="#">02</a></li>
-                                        <li><a href="#"><i class="fal fa-ellipsis-h"></i></a></li>
-                                        <li><a href="#">08</a></li>
-                                        <li><a href="#"><i class="fal fa-angle-double-right"></i></a></li>
+                                        @if ($product->currentPage() > 1)
+                                            <li><a href="#" data-page="{{ $product->currentPage() - 1 }}"><i class="fal fa-angle-double-left"></i></a></li>
+                                        @endif
+                                
+                                        @for ($i = 1; $i <= $product->lastPage(); $i++)
+                                            <li><a href="#" class="{{ $product->currentPage() == $i ? 'current_page' : '' }}" data-page="{{ $i }}">{{ $i }}</a></li>
+                                        @endfor
+                                
+                                        @if ($product->currentPage() < $product->lastPage())
+                                            <li><a href="#" data-page="{{ $product->currentPage() + 1 }}"><i class="fal fa-angle-double-right"></i></a></li>
+                                        @endif
                                     </ul>
                                 </div>
+                                
+                                
+                                
                             </div>
                         </div>
                     </div>
@@ -594,34 +345,41 @@
                             <div class="widget mt-40">
                                 <h2 class="widget__title">Search</h2>
                                 <div class="widget__inner">
-                                    <form class="widget__search" action="#">
-                                        <input type="text" placeholder="Search...">
-                                        <button><i class="far fa-search"></i></button>
+                                    <form id="search-form" class="widget__search" method="GET">
+                                        <input type="text" name="search" placeholder="Search..." id="search-input">
+                                        <button type="submit"><i class="far fa-search"></i></button>
                                     </form>
                                 </div>
                             </div>
-                            <div class="widget mt-40">
-                                <h2 class="widget__title">
-                                    <span>Product Categories</span>
-                                </h2>
-                                <div class="widget__inner">
-                                    <ul class="widget__category list-unstyled">
-                                        <li><a href="#!">Protein <span>(22)</span></a></li>
-                                        <li><a href="#!">Muscle Builders <span>(30)</span></a></li>
-                                        <li><a href="#!">Body & Fit <span>(24)</span></a></li>
-                                        <li><a href="#!">Nutrition <span>(15)</span></a></li>
-                                        <li><a href="#!">Recovery <span>(10)</span></a></li>
-                                        <li><a href="#!">Workout <span>(12)</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            
+
+<div class="widget mt-40">
+    <h2 class="widget__title">
+        <span>Product Categories</span>
+    </h2>
+    <div class="widget__inner">
+        <ul class="widget__category list-unstyled">
+            @foreach($categories as $category)
+            <li>
+                <!-- Use data-category instead of href -->
+                <a href="#" data-category="{{ $category->name }}">
+                    {{ $category->name }}
+                    <span></span>
+                </a>
+            </li>
+            @endforeach
+        </ul>
+    </div>
+</div>
+
+                            
                             <div class="widget mt-40">
                                 <h2 class="widget__title">Top Rated Products</h2>
                                 <div class="widget__inner">
                                     <ul class="widget-product">
                                         <li class="widget-product__item">
                                             <div class="thumb">
-                                                <a href="shop-single.html"><img src="assets/img/shop/prd_01.jpg" alt=""></a>
+                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_01.jpg')}}" alt=""></a>
                                             </div>
                                             <div class="content">
                                                 <h3><a href="shop-single.html">iso whey powder</a></h3>
@@ -637,7 +395,7 @@
                                         </li>
                                         <li class="widget-product__item">
                                             <div class="thumb">
-                                                <a href="shop-single.html"><img src="assets/img/shop/prd_02.jpg" alt=""></a>
+                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_02.jpg')}}" alt=""></a>
                                             </div>
                                             <div class="content">
                                                 <h3><a href="shop-single.html">xplode powder</a></h3>
@@ -653,7 +411,7 @@
                                         </li>
                                         <li class="widget-product__item">
                                             <div class="thumb">
-                                                <a href="shop-single.html"><img src="assets/img/shop/prd_03.jpg" alt=""></a>
+                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_03.jpg')}}" alt=""></a>
                                             </div>
                                             <div class="content">
                                                 <h3><a href="shop-single.html">strawberry protine</a></h3>
@@ -669,7 +427,7 @@
                                         </li>
                                         <li class="widget-product__item">
                                             <div class="thumb">
-                                                <a href="shop-single.html"><img src="assets/img/shop/prd_04.jpg" alt=""></a>
+                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_04.jpg')}}" alt=""></a>
                                             </div>
                                             <div class="content">
                                                 <h3><a href="shop-single.html">nutraone protine</a></h3>
@@ -733,7 +491,7 @@
                     <div class="col-lg-7">
                         <div class="xb-contact contact-mt--255">
                             <div class="contact-title mb-35">
-                                <span><img src="assets/img/icon/directbox-notif.svg" alt="">Contact Us</span>
+                                <span><img src="{{ asset('assets/img/icon/directbox-notif.svg')}}" alt="">Contact Us</span>
                                 <h3>Do you have questions or went more <br> information?</h3>
                             </div>
                             <form class="contact-from" action="#!">
@@ -774,7 +532,7 @@
                         <div class="contact-info contact-mt--255 mt-md-30">
                             <div class="xb-item--head">
                                 <div class="xb-item--address">
-                                    <h3><img src="assets/img/icon/location.svg" alt="">our address</h3>
+                                    <h3><img src="{{ asset('assets/img/icon/location.svg')}}" alt="">our address</h3>
                                     <p>100 Orchard st, New <br> York,NY 100025 USA</p>
                                 </div>
                                 <div class="xb-item--open">
@@ -788,7 +546,7 @@
                                     <li><a href="#!"><i class="fab fa-facebook-f"></i></a></li>
                                 </ul>
                             </div>
-                            <div class="xb-item--cta" data-background="assets/img/bg/cta_bg.jpg">
+                            <div class="xb-item--cta" data-background="{{ asset('assets/img/bg/cta_bg.jpg')}}">
                                 <p>Our help desk is a vailable for you <br> every day, 07:00AM - 10:00PM</p>
                                 <h3>+91 081 256 023</h3>
                             </div>
@@ -830,20 +588,148 @@
 </div>
 
 <!-- jquery include -->
-<script src="assets/js/jquery-3.7.1.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/swiper.min.js"></script>
-<script src="assets/js/wow.min.js"></script>
-<script src="assets/js/jquery.magnific-popup.min.js"></script>
-<script src="assets/js/touchspin.js"></script>
-<script src="assets/js/jquery-ui.min.js"></script>
-<script src="assets/js/jquery.inview.min.js"></script>
-<script src="assets/js/jquery.easing.js"></script>
-<script src="assets/js/scrollspy.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/js/swiper.min.js') }}"></script>
+<script src="{{ asset('assets/js/wow.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}"></script>
+<script src="{{ asset('assets/js/touchspin.js') }}"></script>
+<script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.inview.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.easing.js') }}"></script>
+<script src="{{ asset('assets/js/scrollspy.js') }}"></script>
+<script src="{{ asset('assets/js/main.js') }}"></script>
+
 
 </body>
 
 
 <!-- Mirrored from html.xpressbuddy.com/purefit/shop.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:25 GMT -->
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var products = @json($product);
+    
+        document.querySelectorAll('.pagination_wrap a[data-page]').forEach(function(pageLink) {
+        pageLink.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            const page = this.getAttribute('data-page');
+            const searchQuery = document.getElementById('search-input') ? document.getElementById('search-input').value.trim() : '';
+            const sortOrder = document.getElementById('sort-by-price') ? document.getElementById('sort-by-price').value : '';
+            const category = document.querySelector('.widget__category a.active') ? document.querySelector('.widget__category a.active').getAttribute('data-category') : '';
+
+            const url = `/shop?page=${page}&search=${encodeURIComponent(searchQuery)}&orderby=${encodeURIComponent(sortOrder)}&category=${encodeURIComponent(category)}`;
+
+            fetchProducts(url, page); // Pass the current page
+        });
+    });
+
+    // Function to fetch products
+    function fetchProducts(url, currentPage) {
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const productList = document.getElementById('product-list');
+            let productHtml = '';
+
+            if (data.product.length > 0) {
+                data.product.forEach(function(product) {
+                    productHtml += `
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                            <div class="product product-item text-center">
+                                <div class="xb-item--img">
+                                    <a href="shop-single.html">
+                                        <img src="https://www.pngitem.com/pimgs/m/400-4009272_whey-protein-sascha-fitness-caramel-hd-png-download.png" alt="${product.name}">
+                                    </a>
+                                </div>
+                                <div class="xb-item--holder">
+                                    <h3 class="xb-item--title">
+                                        <a href="shop-single.html">${product.name}</a>
+                                    </h3>
+                                    <div class="xb-item--rating-inner ul_li_center">
+                                        <ul class="xb-item--rating ul_li">
+                                            <li><img src="assets/img/icon/star.png" alt="Star"></li>
+                                            <li><img src="assets/img/icon/star.png" alt="Star"></li>
+                                            <li><img src="assets/img/icon/star.png" alt="Star"></li>
+                                            <li><img src="assets/img/icon/star.png" alt="Star"></li>
+                                            <li><img src="assets/img/icon/star.png" alt="Star"></li>
+                                        </ul>
+                                        <span>(36)</span>
+                                    </div>
+                                </div>
+                                <div class="xb-item--action ul_li mt-20">
+                                    <span class="xb-item--price">$${product.price}</span>
+                                    <a href="shop-single.html">
+                                        <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt="Cart"></span>
+                                        <span class="xb-item--cart">add to cart</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                productHtml = '<p>No products found.</p>';
+            }
+
+            productList.innerHTML = `<div class="row">${productHtml}</div>`;
+
+            // Update pagination links
+            updatePaginationLinks(currentPage);
+        })
+        .catch(error => console.error('Error fetching products:', error));
+    }
+    
+    function updatePaginationLinks(currentPage) {
+        document.querySelectorAll('.pagination_wrap a[data-page]').forEach(function(pageLink) {
+            if (pageLink.getAttribute('data-page') == currentPage) {
+                pageLink.classList.add('current_page');
+            } else {
+                pageLink.classList.remove('current_page');
+            }
+        });
+    }
+    
+      
+    
+        // Handle search form submission with AJAX
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const searchQuery = document.getElementById('search-input').value.trim();
+            const url = `/shop?search=${encodeURIComponent(searchQuery)}`;
+    
+            fetchProducts(url);
+        });
+    
+        // Handle category clicks
+        document.querySelectorAll('.widget__category a').forEach(function(categoryLink) {
+            categoryLink.addEventListener('click', function(event) {
+                event.preventDefault();
+    
+                document.querySelectorAll('.widget__category a').forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+    
+                const selectedCategory = this.getAttribute('data-category').trim();
+                const url = `/shop?category=${encodeURIComponent(selectedCategory)}`;
+    
+                fetchProducts(url);
+            });
+        });
+    
+        // Handle sorting
+        document.getElementById('sort-by-price').addEventListener('change', function(event) {
+            const sortOrder = this.value;
+            const searchQuery = document.getElementById('search-input') ? document.getElementById('search-input').value.trim() : '';
+            const url = `/shop?orderby=${encodeURIComponent(sortOrder)}&search=${encodeURIComponent(searchQuery)}`;
+    
+            fetchProducts(url);
+        });
+    });
+    </script>
+    
