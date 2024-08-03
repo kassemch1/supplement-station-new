@@ -89,7 +89,7 @@
                         @foreach($products as $product)
                             <tr>
                                 <td>
-                                    @if($product->getImages->isNotEmpty())
+                                    @if($product->images->isNotEmpty())
                                         <img src="{{asset($product->images->first()->url)}}" alt="img">
 
                                     @else
