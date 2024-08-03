@@ -17,6 +17,12 @@
                         <li><a href="{{route('manageCategories.index')}}"><span>Edit Category</span></a></li>
                     </ul>
                 </li>
+                <li class="has-sub-menu"><a href="#"><i class="fa fa-commenting"></i> <span>Manage Options</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="{{route('manageOptions.create')}}"><span>Add Option</span></a></li>
+                        <li><a href="{{route('manageOptions.index')}}"><span>Edit Option</span></a></li>
+                    </ul>
+                </li>
                 <li class="has-sub-menu"><a href="#"><i class="fa fa-commenting"></i> <span>Manage Banner</span></a>
                     <ul class="side-header-sub-menu">
                         <li><a href="{{route('manageBanner.create')}}"><span>Add Banner Image</span></a></li>

@@ -90,7 +90,7 @@
                             <tr>
                                 <td>
                                     @if($product->getImages->isNotEmpty())
-                                        <img src="{{asset($product->getImages->first()->url)}}" alt="img">
+                                        <img src="{{asset($product->images->first()->url)}}" alt="img">
 
                                     @else
                                         No image available
@@ -114,6 +114,9 @@
                                     <button id="deleteTestimonial" class="button button-danger" data-toggle="modal"
                                             data-target="#exampleModalCenter" data-id="{{$product->id}}" onclick="getProductId('{{$product->id}}')"><span>Delete</span>
                                     </button>
+                                    <br>
+                                    <a class="button button-info" href="{{ route('manageProductsOptions.create', ['product_id' => $product->id]) }}"><span>Add Option</span></a>
+                                    <a class="button button-info" href="{{ route('manageProductOptions.show', ['product_id' => $product->id]) }}"><span>Check Options</span></a>
                                 </td>
                             </tr>
                         @endforeach

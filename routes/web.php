@@ -10,6 +10,8 @@ require __DIR__.'/banner.php';
 require __DIR__.'/products_images_admin.php';
 require __DIR__.'/plane.php';
 require __DIR__. '/faq.php';
+require __DIR__. '/option_admin.php';
+require __DIR__. '/product_option_admin.php';
 
 use App\Http\Controllers\user_controllers\HomeController;
 use App\Http\Controllers\user_controllers\UserProductController;
@@ -17,7 +19,7 @@ use App\Http\Controllers\user_controllers\CartController;
 use App\Http\Controllers\user_controllers\CheckoutController;
 use App\Http\Controllers\user_controllers\ShopController;
 use App\Http\Middleware\GuestSession;
-use App\Http\Controllers\user_controllers\UserCategoryController;
+
 
 Route::middleware([GuestSession::class])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
