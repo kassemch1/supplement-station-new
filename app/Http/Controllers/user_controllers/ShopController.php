@@ -15,7 +15,7 @@ class ShopController extends Controller
         $categoryName = request()->query('category');
         $page = request()->query('page', 1); // Default to page 1
     
-        $productQuery = Product::query();
+        $productQuery = Product::query()->with('images');
     
         if ($categoryName) {
             $category = Category::where('name', $categoryName)->first();

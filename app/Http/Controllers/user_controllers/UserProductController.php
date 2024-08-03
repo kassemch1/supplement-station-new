@@ -18,11 +18,16 @@ class UserProductController extends Controller
     $product = Product::findOrFail($id);
     $category = Category::find($product->category_id);
 
+    $relatedProducts = Product::where('category_id', $product->category_id)
+                                  ->where('id', '!=', $id)
+                                  ->with('images')
+                                  ->get();
+
     return view('user_views/SingleProduct', [
         'product' => $product,
         'category' => $category,
-//        'productImage'=>$productImage,
         'products'=>$products,
+        'relatedProducts' => $relatedProducts,
     ]);
 }
 

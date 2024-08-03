@@ -570,102 +570,53 @@
                             <div class="shop-area">
                                 <div class="products">
                                     <div class="row mb-none-30">
-                                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="{{ asset('assets/img/shop/product_05.png')}}" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">iso whey powder</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
+                                        
+                                       
+                                        
+                                        <div class="row">
+                                            @foreach($relatedProducts as $item)
+                                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                                    <div class="product product-item text-center">
+                                                        <div class="xb-item--img">
+                                                            <a href="{{ route('products.show', $item->id) }}">
+                                                                @if($item->images->isNotEmpty())
+                                                                <img src="{{asset($item->images->first()->url)}}" alt="img">
+                        
+                                                            @else
+                                                                No image available
+                                                            @endif
+                                                            </a>
+                                                        </div>
+                                                        <div class="xb-item--holder">
+                                                            <h3 class="xb-item--title">
+                                                                <a href="">{{ $item->name }}</a>
+                                                            </h3>
+                                                            <div class="xb-item--rating-inner ul_li_center">
+                                                                <ul class="xb-item--rating ul_li">
+                                                                    <!-- You might want to dynamically generate star ratings if you have that data -->
+                                                                    <li><img src="{{ asset('assets/img/icon/star.png') }}" alt=""></li>
+                                                                    <li><img src="{{ asset('assets/img/icon/star.png') }}" alt=""></li>
+                                                                    <li><img src="{{ asset('assets/img/icon/star.png') }}" alt=""></li>
+                                                                    <li><img src="{{ asset('assets/img/icon/star.png') }}" alt=""></li>
+                                                                    <li><img src="{{ asset('assets/img/icon/star.png') }}" alt=""></li>
+                                                                </ul>
+                                                                <span>(36)</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="xb-item--action ul_li mt-20">
+                                                            <span class="xb-item--price">${{ number_format($item->price, 2) }}</span>
+                                                            <a href="">
+                                                                <span class="xb-item--cart-icon">
+                                                                    <img src="{{ asset('assets/img/icon/bag.svg') }}" alt="">
+                                                                </span>
+                                                                <span class="xb-item--cart">add to cart</span>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$115.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="{{asset("assets/img/icon/bag.svg")}}" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
+                                            @endforeach
                                         </div>
-                                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="{{ asset('assets/img/shop/product_11.png')}}" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">xplode powder</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$115.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="{{ asset('assets/img/shop/product_06.png')}}" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">nutraone protine</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$115.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                            <div class="product product-item text-center">
-                                                <div class="xb-item--img">
-                                                    <a href="shop-single.html"><img src="{{ asset('assets/img/shop/product_07.png')}}" alt=""></a>
-                                                </div>
-                                                <div class="xb-item--holder">
-                                                    <h3 class="xb-item--title"><a href="shop-single.html">clear whey protein</a></h3>
-                                                    <div class="xb-item--rating-inner ul_li_center">
-                                                        <ul class="xb-item--rating ul_li">
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                            <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                        </ul>
-                                                        <span>(36)</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xb-item--action ul_li mt-20">
-                                                    <span class="xb-item--price">$115.00</span>
-                                                    <a href="shop-single.html"><span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg')}}" alt=""></span><span class="xb-item--cart">add to cart</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>

@@ -89,8 +89,8 @@
                         @foreach($products as $product)
                             <tr>
                                 <td>
-                                    @if($product->getImages->isNotEmpty())
-                                        <img src="{{asset($product->getImages->first()->url)}}" alt="img">
+                                    @if($product->images->isNotEmpty())
+                                        <img src="{{asset($product->images->first()->url)}}" alt="img">
 
                                     @else
                                         No image available

@@ -38,46 +38,7 @@
 @include('partials/navBar')
     <!-- header end -->
 
-    <!-- sidebar-info start -->
-    <div class="offcanvas-sidebar">
-        <div class="sidebar-menu-close">
-            <a class="xb-close" href="javascript:void(0);"></a>
-        </div>
-        <div class="sidebar-top mb-65">
-            <div class="sidebar-logo mb-40">
-                <a href="index.html">
-                    <img src="assets/img/logo/logo_black.svg" alt="logo">
-                </a>
-            </div>
-            <div class="sidebar-content">
-                Achieving optimal nutrition is a complex endeavor without the inclusion of supplementary support
-            </div>
-        </div>
-
-        <div class="sidebar-contact-info mb-65">
-            <h4 class="sidebar-heading">Contact Information</h4>
-            <ul class="sidebar-info-list list-unstyled">
-                <li><span><img src="assets/img/icon/i_star.svg" alt=""></span>Wasington SY, UK, NY 12099</li>
-                <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>+81 800 123 06 78</a></li>
-                <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>contact@purefit.com</a></li>
-            </ul>
-        </div>
-        <div class="xb-content-wrap d-flex">
-            <div class="xb-title col-auto">Call us:</div>
-            <div class="xb-inf-content-wrap col">
-                <div class="xb-item-wrap row">
-                    <div class="xb-item col-auto ">
-                        <span class="item-content"><a href="tel:02456787535" class="tel">024 5678 7535</a></span>
-                    </div>
-                    <div class="xb-item col-auto "> <span class="item-content"><a href="mailto:support@gmail.com">contact@purefit.com</a></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="sidebar-socials-wrap mt-30"> <a class="social-item" href="https://facebook.com/" target="_blank">Facebook</a><a class="social-item" href="https://www.behance.net/" target="_blank">Behance</a><a class="social-item" href="#" target="_blank">Telegram</a><a class="social-item" href="https://dribbble.com/" target="_blank">Dribbble</a></div>
-
-    </div>
-    <!-- sidebar-info end -->
+    
 
     <div class="body-overlay"></div>
 
@@ -349,8 +310,8 @@
                         <div class="xb-item--img">
                             <a href="{{ route('products.show', $product->id) }}">
                            <!--add image here -->    <div class="xb-item--img">
-                            @if($product->getImages->isNotEmpty())
-                            <img src="{{asset($product->getImages->first()->url)}}" alt="img">
+                            @if($product->images->isNotEmpty())
+                            <img src="{{asset($product->images->first()->url)}}" alt="img">
 
                         @else
                             No image available
