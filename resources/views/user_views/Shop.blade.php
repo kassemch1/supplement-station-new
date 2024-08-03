@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="zxx">
 <head>
@@ -33,213 +34,9 @@
     </a>
 </div>
 <!-- backtotop - end -->
-
-<!-- preloader start -->
-<div id="xb-loadding" class="xb-loadding-container">
-    <div class="xb-loader">
-        <div class="xb-loadding-inner">
-            <img src="{{ asset('assets/img/logo/preloader.png')}}" alt="">
-        </div>
-    </div>
-</div>
-
-<!-- preloader end -->
-
-
-<div class="body_wrap">
-
-    <!-- header start -->
-    <header id="home" class="header-area header-default is-sticky">
-        <div class="xb-header stricky">
-            <div class="container">
-                <div class="header__wrap ul_li_between">
-                    <div class="header-logo">
-                        <a href="index.html"><img src="{{ asset('assets/img/logo/logo.svg')}}" alt=""></a>
-                    </div>
-                    <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
-                        <nav class="main-menu collapse navbar-collapse">
-                            <ul>
-                                <li class="menu-item-has-children">
-                                    <a href="index.html#home"><span>Home</span></a>
-                                    <ul class="submenu">
-                                        <li><a href="index.html"><span>Home Style 01</span></a></li>
-                                        <li><a href="home-2.html"><span>Home Style 02</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="index.html#features"><span>Features</span></a></li>
-                                <li class="menu-item-has-children active">
-                                    <a href="index.html#shop"><span>Shop</span></a>
-                                    <ul class="submenu">
-                                        <li class="active"><a href="shop.html"><span>Products</span></a></li>
-                                        <li><a href="shop-single.html"><span>Single Product</span></a></li>
-                                        <li><a href="cart.html"><span>Cart</span></a></li>
-                                        <li><a href="checkout.html"><span>Checkout</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="index.html#pricing"><span>Pricing</span></a></li>
-                                <li class="menu-item-has-children">
-                                    <a href="index.html#blog"><span>Blog</span></a>
-                                    <ul class="submenu">
-                                        <li><a href="blog.html"><span>Blog</span></a></li>
-                                        <li><a href="blog-single.html"><span>Blog Details</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="index.html#contact"><span>Contact</span></a></li>
-                            </ul>
-                        </nav>
-                        <div class="xb-header-wrap">
-                            <div class="xb-header-menu">
-                                <div class="xb-header-menu-scroll">
-                                    <div class="xb-menu-close xb-hide-xl xb-close"></div>
-                                    <div class="xb-logo-mobile xb-hide-xl">
-                                        <a href="index.html" rel="home"><img src="assets/img/logo/logo.svg" alt=""></a></div>
-                                    <div class="xb-header-mobile-search xb-hide-xl">
-                                        <form role="search" action="#">
-                                            <input type="text" placeholder="Search..." name="s" class="search-field">
-                                        </form>
-                                    </div>
-                                    <nav class="xb-header-nav">
-                                        <ul class="xb-menu-primary clearfix">
-                                            <li class="menu-item menu-item-has-children active">
-                                                <a href="index.html#home"><span>Home</span></a>
-                                                <ul class="sub-menu">
-                                                    <li class="active"><a href="index.html"><span>Home Style 01</span></a></li>
-                                                    <li><a href="home-2.html"><span>Home Style 02</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item"><a href="index.html#features"><span>Features</span></a></li>
-                                            <li class="menu-item menu-item-has-children">
-                                                <a href="index.html#shop"><span>Shop</span></a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="shop.html"><span>Products</span></a></li>
-                                                    <li><a href="shop-single.html"><span>Single Product</span></a></li>
-                                                    <li><a href="cart.html"><span>Cart</span></a></li>
-                                                    <li><a href="checkout.html"><span>Checkout</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item"><a href="index.html#pricing"><span>Pricing</span></a></li>
-                                            <li class="menu-item menu-item-has-children">
-                                                <a href="index.html#blog"><span>Blog</span></a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="blog.html"><span>Blog</span></a></li>
-                                                    <li><a href="blog-single.html"><span>Blog Details</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item"><a href="index.html#contact"><span>Contact</span></a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="xb-header-menu-backdrop"></div>
-                        </div>
-                    </div>
-                    <div class="header__right d-none d-lg-block">
-                        <div class="ul_li">
-                            <div class="header-shop-cart">
-                                <a href="javascript:void(0);"><img src="{{ asset('assets/img/icon/bag.svg')}}" alt=""><span class="mini-cart-count">2</span></a>
-                                <div class="header-mini-cart">
-                                    <ul class="woocommerce-mini-cart cart_list product_list_widget list-wrap">
-                                        <li class="woocommerce-mini-cart-item d-flex align-items-center">
-                                            <a href="#" class="remove remove_from_cart_button">×</a>
-                                            <div class="mini-cart-img">
-                                                <img src="{{ asset('assets/img/shop/product_02.png')}}" alt="Product">
-                                            </div>
-                                            <div class="mini-cart-content">
-                                                <h4 class="product-title"><a href="shop-details.html">
-                                                        xplode powder</a></h4>
-                                                <div class="mini-cart-price">1 ×
-                                                    <span class="woocommerce-Price-amount amount">$49</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="woocommerce-mini-cart-item d-flex align-items-center">
-                                            <a href="#" class="remove remove_from_cart_button">×</a>
-                                            <div class="mini-cart-img">
-                                                <img src="{{ asset('assets/img/shop/product_03.png')}}" alt="Product">
-                                            </div>
-                                            <div class="mini-cart-content">
-                                                <h4 class="product-title"><a href="shop-details.html">creatine powder</a></h4>
-                                                <div class="mini-cart-price">2 ×
-                                                    <span class="woocommerce-Price-amount amount">$69</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <p class="woocommerce-mini-cart__total">
-                                        <strong>Subtotal:</strong>
-                                        <span class="woocommerce-Price-amount">$149</span>
-                                    </p>
-                                    <p class="checkout-link">
-                                        <a href="shop-details.html" class="button wc-forward">View cart</a>
-                                        <a href="shop-details.html" class="button checkout wc-forward">Checkout</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <a class="header__bar offcanvas-sidebar-btn" href="javascript:void(0);">
-                                <div class="header__bar-icon">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="header-bar-mobile d-lg-none">
-                        <a class="header__bar xb-nav-mobile" href="javascript:void(0);">
-                            <div class="header__bar-icon">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+@include('partials/navBar')
     <!-- header end -->
 
-    <!-- sidebar-info start -->
-    <div class="offcanvas-sidebar">
-        <div class="sidebar-menu-close">
-            <a class="xb-close" href="javascript:void(0);"></a>
-        </div>
-        <div class="sidebar-top mb-65">
-            <div class="sidebar-logo mb-40">
-                <a href="index.html">
-                    <img src="{{ asset('assets/img/logo/logo_black.svg')}}" alt="logo">
-                </a>
-            </div>
-            <div class="sidebar-content">
-                Achieving optimal nutrition is a complex endeavor without the inclusion of supplementary support
-            </div>
-        </div>
-
-        <div class="sidebar-contact-info mb-65">
-            <h4 class="sidebar-heading">Contact Information</h4>
-            <ul class="sidebar-info-list list-unstyled">
-                <li><span><img src="{{ asset('assets/img/icon/i_star.svg')}}" alt=""></span>Wasington SY, UK, NY 12099</li>
-                <li><a href="#!"><span><img src="{{ asset('assets/img/icon/i_star.svg')}}" alt=""></span>+81 800 123 06 78</a></li>
-                <li><a href="#!"><span><img src="{{ asset('assets/img/icon/i_star.svg')}}" alt=""></span>contact@purefit.com</a></li>
-            </ul>
-        </div>
-        <div class="xb-content-wrap d-flex">
-            <div class="xb-title col-auto">Call us:</div>
-            <div class="xb-inf-content-wrap col">
-                <div class="xb-item-wrap row">
-                    <div class="xb-item col-auto ">
-                        <span class="item-content"><a href="tel:02456787535" class="tel">024 5678 7535</a></span>
-                    </div>
-                    <div class="xb-item col-auto "> <span class="item-content"><a href="mailto:support@gmail.com">contact@purefit.com</a></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="sidebar-socials-wrap mt-30"> <a class="social-item" href="https://facebook.com/" target="_blank">Facebook</a><a class="social-item" href="https://www.behance.net/" target="_blank">Behance</a><a class="social-item" href="#" target="_blank">Telegram</a><a class="social-item" href="https://dribbble.com/" target="_blank">Dribbble</a></div>
-
-    </div>
     <!-- sidebar-info end -->
 
     <div class="body-overlay"></div>
@@ -286,11 +83,16 @@
                                         @foreach($product as $item)
                                             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                                                 <div class="product product-item text-center">
+                                                    <a href="{{ route('products.show', $item->id) }}">
                                                     <div class="xb-item--img">
-                                                        <a href="shop-single.html">
-                                                            <img src="{{ asset('https://www.pngitem.com/pimgs/m/400-4009272_whey-protein-sascha-fitness-caramel-hd-png-download.png')}}" alt="{{ $item->name }}">
-                                                        </a>
+                                                        @if($item->images->isNotEmpty())
+                                                        <img src="{{asset($item->images->first()->url)}}" alt="img">
+                
+                                                    @else
+                                                        No image available
+                                                    @endif
                                                     </div>
+                                                    </a>
                                                     <div class="xb-item--holder">
                                                         <h3 class="xb-item--title">
                                                             <a href="shop-single.html">{{ $item->name }}</a>
@@ -640,12 +442,13 @@
 
             if (data.product.length > 0) {
                 data.product.forEach(function(product) {
+                    console.log(product.images)
                     productHtml += `
                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="product product-item text-center">
                                 <div class="xb-item--img">
                                     <a href="shop-single.html">
-                                        <img src="https://www.pngitem.com/pimgs/m/400-4009272_whey-protein-sascha-fitness-caramel-hd-png-download.png" alt="${product.name}">
+                                        <img src="${product.images[0].url}" alt="${product.name}">
                                     </a>
                                 </div>
                                 <div class="xb-item--holder">
@@ -733,3 +536,35 @@
     });
     </script>
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
