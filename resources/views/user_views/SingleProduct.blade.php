@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zxx">
-
+    Here you
 
 <!-- Mirrored from html.xpressbuddy.com/purefit/shop-single.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:25 GMT -->
 <head>
@@ -429,121 +429,55 @@
                                 <div class="tab-pane fade" id="tb-03">
                                     <div class="row">
                                         <div class="col-lg-6 col-sm-12 col-xs-12">
-                                            <div class="client-rv">
-                                                <div class="client-pic">
-                                                    <img src="{{ asset('assets/img/avatar/shop_avatar1.jpg')}}" alt>
-                                                </div>
-                                                <div class="details">
-                                                    <div class="name-rating-time">
-                                                        <div class="name-rating">
-                                                            <div>
-                                                                <h4>Mice</h4>
-                                                            </div>
-                                                            <div class="rating">
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="time">
-                                                            <span>1 day ago</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review-body">
-                                                        <p>Helplessly as he looked What's happened to me he thought. It wasn't a dreamtrated magazine and housed in a nice, gilded frame. It showed a lady fitted</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
 
-                                            <div class="client-rv">
-                                                <div class="client-pic">
-                                                    <img src="{{ asset('assets/img/avatar/shop_avatar2.jpg')}}" alt>
-                                                </div>
-                                                <div class="details">
-                                                    <div class="name-rating-time">
-                                                        <div class="name-rating">
-                                                            <div>
-                                                                <h4>Hone</h4>
-                                                            </div>
-                                                            <div class="rating">
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="time">
-                                                            <span>1 day ago</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review-body">
-                                                        <p>Helplessly as he looked What's happened to me he thought. It wasn't a dreamtrated magazine and housed in a nice, gilded frame. It showed a lady fitted</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
+                                            <h3 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Reviews</h3>
 
-                                            <div class="client-rv">
-                                                <div class="client-pic">
-                                                    <img src="{{ asset('assets/img/avatar/shop_avatar3.jpg')}}" alt>
-                                                </div>
-                                                <div class="details">
-                                                    <div class="name-rating-time">
-                                                        <div class="name-rating">
-                                                            <div>
-                                                                <h4>Piloa</h4>
+                                            <div class="reviews-section">
+                                                @foreach($reviews as $review)
+                                                <div class="client-rv" >
+                                                    <div class="client-pic">
+                                                        <img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-2048x2048-cqe5466q.png" alt="Client Avatar">
+                                                    </div>
+                                                    <div class="details">
+                                                        <div class="name-rating-time" style="display: flex; flex-direction: column;">
+                                                            <div class="name-rating" style="display: flex; align-items: center;">
+                                                                <h4 style="font-weight: bold; color: black; margin: 0;">{{ $review->name }}</h4>
                                                             </div>
-                                                            <div class="rating">
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
+                                                            <div class="review-body" style="margin-top: 5px;">
+                                                                <p>{{ $review->message }}</p>
                                                             </div>
                                                         </div>
-                                                        <div class="time">
-                                                            <span>2 days ago</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review-body">
-                                                        <p>Helplessly as he looked What's happened to me he thought. It wasn't a dreamtrated magazine and housed in a nice, gilded frame. It showed a lady fitted</p>
                                                     </div>
                                                 </div>
+                                                @endforeach
                                             </div>
+                                            
                                         </div>
 
                                         <div class="col-lg-6 col-sm-12 col-xs-12 review-form-wrapper">
                                             <div class="review-form">
                                                 <h4>Here you can review the item</h4>
-                                                <form>
+                                                <form id="reviewForm">
+                                                    @csrf <!-- CSRF token for security -->
                                                     <div>
-                                                        <input type="text" class="form-control" placeholder="Name *" required>
+                                                        <input type="text" class="form-control" name="name" placeholder="Name *" required>
                                                     </div>
                                                     <div>
-                                                        <input type="email" class="form-control" placeholder="Email *" required>
+                                                        <input type="text" class="form-control" name="phoneNumber" placeholder="Phone *" required>
                                                     </div>
                                                     <div>
-                                                        <textarea class="form-control" placeholder="Review *"></textarea>
+                                                        <textarea class="form-control" name="message" placeholder="Review *" required></textarea>
                                                     </div>
                                                     <div class="rating-wrapper">
-                                                        <div class="rating">
-                                                            <a href="#!" class="star-1" >
-                                                                <i class="fal fa-star"></i>
-                                                            </a>
-                                                            <a href="#!" class="star-1" >
-                                                                <i class="fal fa-star"></i>
-                                                            </a>
-                                                            <a href="#!" class="star-1" >
-                                                                <i class="fal fa-star"></i>
-                                                            </a>
-                                                            <a href="#!" class="star-1" >
-                                                                <i class="fal fa-star"></i>
-                                                            </a>
-                                                            <a href="#!" class="star-1" >
-                                                                <i class="fal fa-star"></i>
-                                                            </a>
+                                                        <div class="rating" style="display: flex; gap: 5px;">
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                <label style="cursor: pointer;">
+                                                                    <input type="radio" name="rating" value="{{ $i }}" style="display: none;">
+                                                                    <i class="fal fa-star star" onclick="gfg({{ $i }})" style="font-size: 24px; transition: color 0.3s ease-in-out;"></i>
+                                                                </label>
+                                                            @endfor
                                                         </div>
                                                         <div class="submit">
                                                             <button class="thm-btn thm-btn--black" type="submit">
@@ -554,8 +488,10 @@
                                                         </div>
                                                     </div>
                                                 </form>
+                                                <p id="output" style="margin-top: 10px;"></p>
                                             </div>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -785,6 +721,54 @@
             });
         });
     });
+
+
+
+
+    document.getElementById('reviewForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form from submitting normally
+
+    var formData = new FormData(this);
+
+    fetch('{{ route("product.createReview", $product->id) }}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('input[name=_token]').value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message); // Show success message as an alert
+            document.getElementById('reviewForm').reset(); // Optionally reset the form
+        } else {
+            alert('An error occurred. Please try again.'); // Show an error message if something went wrong
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+
+
+let stars = document.getElementsByClassName("star");
+    let output = document.getElementById("output");
+
+    // Function to update the rating
+    function gfg(n) {
+        remove(); // Reset previous styling
+        for (let i = 0; i < n; i++) {
+            stars[i].style.color = "red"; // Fill color red
+        }
+        output.innerText = "Rating is: " + n + "/5";
+    }
+
+    // Reset function
+    function remove() {
+        for (let i = 0; i < stars.length; i++) {
+            stars[i].style.color = "#ccc"; // Reset to default color
+        }
+    }
 </script>
 
 </body>
