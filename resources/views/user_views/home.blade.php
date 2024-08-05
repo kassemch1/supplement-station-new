@@ -305,18 +305,16 @@
         </div>
         <div class="product-slider swiper-container">
             <div class="swiper-wrapper">
-                @forelse ($product as $product) <!-- Use $products here -->
+                @forelse ($product as $product)
                     <div class="swiper-slide product-item text-center">
                         <div class="xb-item--img">
                             <a href="{{ route('products.show', $product->id) }}">
-                           <!--add image here -->    <div class="xb-item--img">
-                            @if($product->images->isNotEmpty())
-                            <img src="{{asset($product->images->first()->url)}}" alt="img">
-
-                        @else
-                            No image available
-                        @endif
-                        </div>
+                                <!-- Add image here -->
+                                @if($product->images->isNotEmpty())
+                                    <img src="{{ asset($product->images->first()->url) }}" alt="img">
+                                @else
+                                    No image available
+                                @endif
                             </a>
                         </div>
                         <div class="xb-item--holder">
@@ -346,8 +344,7 @@
         </div>
     </div>
 </section>
-
-        <!-- product end -->
+<!-- product end -->
 
         <!-- testimonial start -->
         <section class="testimonial bg_img pt-120 pb-115" data-background="assets/img/bg/tm_bg.jpg">
