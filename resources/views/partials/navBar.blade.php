@@ -22,12 +22,12 @@
                     <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
                         <nav class="main-menu collapse navbar-collapse">
                             <ul>
-                                <li class="menu-item-has-children active">
-                                    <a class="section-link" href="/"><span>Home</span></a>
-                                    <ul class="submenu">
-                                        <li class="active"><a href="index.html"><span>Home Style 01</span></a></li>
-                                        <li><a href="home-2.html"><span>Home Style 02</span></a></li>
-                                    </ul>
+                                <li class="menu-item active">
+                                    <a class="section-link" href="{{route('home')}}"><span>Home</span></a>
+{{--                                    <ul class="submenu">--}}
+{{--                                        <li class="active"><a href="index.html"><span>Home Style 01</span></a></li>--}}
+{{--                                        <li><a href="home-2.html"><span>Home Style 02</span></a></li>--}}
+{{--                                    </ul>--}}
                                 </li>
                                 <li><a class="section-link" href="#features"><span>Features</span></a></li>
                                 <li class="menu-item-has-children">
@@ -62,18 +62,18 @@
                                     </div>
                                     <nav class="xb-header-nav">
                                         <ul class="xb-menu-primary clearfix">
-                                            <li class="menu-item menu-item-has-children active">
-                                                <a class="section-link" href="#home"><span>Home</span></a>
-                                                <ul class="sub-menu">
-                                                    <li class="active"><a href="index.html"><span>Home Style 01</span></a></li>
-                                                    <li><a href="home-2.html"><span>Home Style 02</span></a></li>
-                                                </ul>
+                                            <li class="menu-item  active">
+                                                <a class="" href="{{route('home')}}"><span>Home</span></a>
+{{--                                                <ul class="sub-menu">--}}
+{{--                                                    <li class="active"><a href="index.html"><span>Home Style 01</span></a></li>--}}
+{{--                                                    <li><a href="home-2.html"><span>Home Style 02</span></a></li>--}}
+{{--                                                </ul>--}}
                                             </li>
                                             <li class="menu-item"><a class="section-link" href="#features"><span>Features</span></a></li>
                                             <li class="menu-item menu-item-has-children">
                                                 <a class="section-link" href="#shop"><span>Shop</span></a>
                                                 <ul class="sub-menu">
-                                                    <li><a href="shop.html"><span>Products</span></a></li>
+                                                    <li><a href="{{route('shop')}}"><span>Products</span></a></li>
                                                     <li><a href="shop-single.html"><span>Single Product</span></a></li>
                                                     <li><a href="cart.html"><span>Cart</span></a></li>
                                                     <li><a href="checkout.html"><span>Checkout</span></a></li>
@@ -170,18 +170,18 @@
         </div>
         <div class="sidebar-socials-wrap" style="margin-top: 0; text-align: center; display: flex; align-items: center; margin-left: auto;">
             <a class="social-item" href="https://www.instagram.com/supplement_station_lb/" target="_blank" style="display: flex; align-items: center;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png" 
-                     alt="Instagram" 
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png"
+                     alt="Instagram"
                      style="width: 24px; height: 24px; margin-right: 10px;">
                 Instagram
             </a>
         </div>
     </div>
-    
-    
-   
+
+
+
     <br/><br/>
-    
+
     <div class="xb-item col-auto">
         <span class="item-content">
             &copy; {{ date('Y') }} Supplement Station. All rights reserved. Powered by <a href="https://www.tawwer.tech/" target="_blank">Tawwer</a>.

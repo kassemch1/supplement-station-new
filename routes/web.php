@@ -13,6 +13,7 @@ require __DIR__. '/faq.php';
 require __DIR__. '/option_admin.php';
 require __DIR__. '/product_option_admin.php';
 require __DIR__. '/order_admin.php';
+require __DIR__. '/contact.php';
 
 
 use App\Http\Controllers\user_controllers\HomeController;
@@ -31,7 +32,7 @@ Route::middleware([GuestSession::class])->group(function () {
     Route::get('/products/{id}', [UserProductController::class, 'show'])->name('products.show');
     Route::get('/shop/{categoryName?}', [ShopController::class, 'Shop'])->name('shop.category');
 
-    
+
 });
 
 
