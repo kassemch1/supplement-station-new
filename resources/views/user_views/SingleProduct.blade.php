@@ -2,7 +2,6 @@
 <html lang="zxx">
     Here you
 
-<!-- Mirrored from html.xpressbuddy.com/purefit/shop-single.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:25 GMT -->
 <head>
 
     <!--========= Required meta tags =========-->
@@ -23,6 +22,12 @@
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    <style>
+        .selected {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
@@ -366,13 +371,27 @@
                     </div>
                     <p>{{ $product->description ?? 'Product description' }}</p>
                     <div class="product-option">
-                        <form class="form" id="add-to-cart-form">
+
+
+{{--                        <form action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form">--}}
+{{--                            @csrf--}}
+{{--                            <input type="hidden" name="product_id" value="{{ $product->id }}">--}}
+{{--                            <input type="hidden" name="selected_options" id="selected_options" value="">--}}
+
+{{--                            <button type="submit" class="btn btn-primary">Add to Cart</button>--}}
+{{--                        </form>--}}
+
+
+                        <form class="form" action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form" >
                             <div class="product-row">
                                 <div>
-                                    <input class="product-count" type="number" value="1" name="product-count" min="1" id="quantity-{{ $product->id }}">
+                                    <input class="product-count" type="number" value="1" name="quantity" min="1" id="quantity">
                                 </div>
                                 <div class="add-to-cart-btn">
-                                    <button type="button" class="xb-btn add-to-cart" data-product-id="{{ $product->id }}">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <input type="hidden" name="selected_options" id="selected_options" value="">
+                                    <button type="submit" class="xb-btn add-to-cart" data-product-id="{{ $product->id }}">
                                         <i class="far fa-shopping-bag"></i> Add to cart
                                     </button>
                                 </div>
@@ -389,12 +408,45 @@
                 <span>No categories</span>
             @endif
             </span>
-                            <span class="product-share-wrap ul_li">Share:
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
+{{--                            @if()--}}
+                            <span class="posted_in">
+                              <h2>Options</h2>
+                                @php
+                                    $groupedOptions = [];
+                                    foreach ($product->productOptions as $productOption) {
+                                        $groupedOptions[$productOption->option->option_name][] = $productOption;
+                                    }
+                                @endphp
+
+                                @foreach ($groupedOptions as $optionName => $productOptions)
+                                    <div>
+                <strong>{{ $optionName }}:</strong>
+                <ul>
+                    @foreach ($productOptions as $productOption)
+                        <li>
+                            <a href="#" class="option-value" data-option-name="{{ $optionName }}" data-option-value="{{ $productOption->option_value }}">
+                                {{ $productOption->option_value }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+                                @endforeach
+{{--                <form action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form">--}}
+{{--            @csrf--}}
+{{--            <input type="hidden" name="product_id" value="{{ $product->id }}">--}}
+{{--            <input type="hidden" name="selected_options" id="selected_options" value="">--}}
+
+{{--            <button type="submit" class="btn btn-primary">Add to Cart</button>--}}
+{{--        </form>--}}
+
             </span>
+{{--                            <span class="product-share-wrap ul_li">Share:--}}
+{{--            <a href="#"><i class="fab fa-facebook-f"></i></a>--}}
+{{--            <a href="#"><i class="fab fa-instagram"></i></a>--}}
+{{--            <a href="#"><i class="fab fa-twitter"></i></a>--}}
+{{--            <a href="#"><i class="fab fa-linkedin"></i></a>--}}
+{{--            </span>--}}
                         </div>
                     </div>
                 </div>
@@ -509,9 +561,9 @@
                             <div class="shop-area">
                                 <div class="products">
                                     <div class="row mb-none-30">
-                                        
-                                       
-                                        
+
+
+
                                         <div class="row">
                                             @foreach($relatedProducts as $item)
                                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
@@ -520,7 +572,7 @@
                                                             <a href="{{ route('products.show', $item->id) }}">
                                                                 @if($item->images->isNotEmpty())
                                                                 <img src="{{asset($item->images->first()->url)}}" alt="img">
-                        
+
                                                             @else
                                                                 No image available
                                                             @endif
@@ -555,7 +607,7 @@
                                                 </div>
                                             @endforeach
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -571,104 +623,7 @@
     <!-- main area end  -->
 
     <!-- footer strt -->
-    <footer class="position-top bg_img pb-70" data-background="{{ asset('assets/img/bg/footer_bg.png')}}">
-        <div class="container">
-            <div class="contact pb-100">
-                <div class="row">
-                    <div class="col-lg-7">
-                        <div class="xb-contact contact-mt--255">
-                            <div class="contact-title mb-35">
-                                <span><img src="assets/img/icon/directbox-notif.svg" alt="">Contact Us</span>
-                                <h3>Do you have questions or went more <br> information?</h3>
-                            </div>
-                            <form class="contact-from" action="#!">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_user.svg" alt=""></span>
-                                            <input type="text" placeholder="Steven Kevin">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_mail.svg" alt=""></span>
-                                            <input type="text" placeholder="purefit@gmail.com">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_call.svg" alt=""></span>
-                                            <input type="text" placeholder="+91 081 0256 023">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="xb-item--field">
-                                            <span><img src="{{ asset('assets/img/icon/c_message.svg')}}" alt=""></span>
-                                            <textarea name="message" id="message" cols="30" rows="10"
-                                                      placeholder="Write Your Message..."></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="thm-btn thm-btn--black" type="submit">Send Message</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="contact-info contact-mt--255 mt-md-30">
-                            <div class="xb-item--head">
-                                <div class="xb-item--address">
-                                    <h3><img src="assets/img/icon/location.svg" alt="">our address</h3>
-                                    <p>100 Orchard st, New <br> York,NY 100025 USA</p>
-                                </div>
-                                <div class="xb-item--open">
-                                    <p>Monday - Friday <br>
-                                        08:00AM - 05:00PM</p>
-                                    <a href="mailto:purefit@gmail.com"><img src="assets/img/icon/sms-tracking.svg" alt="">purefit@gmail.com</a>
-                                </div>
-                                <ul class="xb-item--social ul_li mt-30">
-                                    <li><a href="#!"><i class="fab fa-telegram-plane"></i></a></li>
-                                    <li><a href="#!"><i class="fab fa-whatsapp"></i></a></li>
-                                    <li><a href="#!"><i class="fab fa-facebook-f"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="xb-item--cta" data-background="assets/img/bg/cta_bg.jpg">
-                                <p>Our help desk is a vailable for you <br> every day, 07:00AM - 10:00PM</p>
-                                <h3>+91 081 256 023</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-inner">
-                <div class="footer-logo mb-25 text-center">
-                    <img src="{{ asset('assets/img/logo/f_logo.png')}}" alt="">
-                </div>
-                <div class="sec-title sec-title--white text-center mb-50">
-                    <h2 class="title">in a healthy body, healthy mind</h2>
-                </div>
-                <ul class="footer-nav ul_li_center">
-                    <li><a href="#!">all products</a></li>
-                    <li><a href="#!">track order</a></li>
-                    <li><a href="#!">my account</a></li>
-                    <li><a href="#!">gift cards</a></li>
-                    <li><a href="#!">our story</a></li>
-                    <li><a href="#!">careers</a></li>
-                    <li><a href="#!">contact</a></li>
-                </ul>
-                <div class="footer-bottom mt-50 ul_li_between">
-                    <div class="footer-copyright mt-30">
-                        Copyright © 2024 purefit All rights reserved.
-                    </div>
-                    <ul class="footer-links ul_li mt-30">
-                        <li><a href="#!">terms of conditions</a></li>
-                        <li><a href="#!">privacy pllicy</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+        @include('partials/footer')
     <!-- footer end -->
 
 
@@ -701,27 +656,145 @@
 {{--<script src="assets/js/jquery.easing.js"></script>--}}
 {{--<script src="assets/js/scrollspy.js"></script>--}}
 {{--<script src="assets/js/main.js"></script>--}}
-<script>
-    $(document).ready(function() {
-        $('.add-to-cart').on('click', function() {
-            const productId = $(this).data('product-id');
-            const quantity = $('#quantity-' + productId).val();
+{{--<script>--}}
+{{--    $(document).ready(function() {--}}
+{{--        $('.add-to-cart').on('click', function() {--}}
+{{--            const productId = $(this).data('product-id');--}}
+{{--            const quantity = $('#quantity-' + productId).val();--}}
 
-            $.ajax({
-                url: '{{ route('cart.add') }}',
-                method: 'POST',
-                data: {
-                    product_id: productId,
-                    quantity: quantity,
-                    _token: '{{ csrf_token() }}' // Include CSRF token for security
-                },
-                success: function(response) {
-                    alert(response.message); // Show success message
-                },
-                error: function(xhr) {
-                    alert('Failed to add product to cart.'); // Show error message
+{{--            $.ajax({--}}
+{{--                url: '{{ route('cart.add') }}',--}}
+{{--                method: 'POST',--}}
+{{--                data: {--}}
+{{--                    product_id: productId,--}}
+{{--                    quantity: quantity,--}}
+{{--                    _token: '{{ csrf_token() }}' // Include CSRF token for security--}}
+{{--                },--}}
+{{--                success: function(response) {--}}
+{{--                    alert(response.message); // Show success message--}}
+{{--                },--}}
+{{--                error: function(xhr) {--}}
+{{--                    alert('Failed to add product to cart.'); // Show error message--}}
+{{--                }--}}
+{{--            });--}}
+{{--        });--}}
+{{--    });--}}
+{{--</script>--}}
+//////////////////////////////////////////////////////////////////////////////////////
+{{--<script>--}}
+{{--    document.addEventListener('DOMContentLoaded', function() {--}}
+{{--        const optionLinks = document.querySelectorAll('.option-value');--}}
+{{--        const selectedOptionsInput = document.getElementById('selected_options');--}}
+{{--        const quantityInput = document.getElementById('quantity');--}}
+{{--        let selectedOptions = {};--}}
+
+{{--        optionLinks.forEach(link => {--}}
+{{--            link.addEventListener('click', function(event) {--}}
+{{--                event.preventDefault();--}}
+{{--                const optionName = this.dataset.optionName;--}}
+{{--                const optionValue = this.dataset.optionValue;--}}
+
+{{--                selectedOptions[optionName] = optionValue;--}}
+{{--                selectedOptionsInput.value = JSON.stringify(selectedOptions);--}}
+
+{{--                // Optionally, add some visual feedback to show selection--}}
+{{--                optionLinks.forEach(l => l.classList.remove('selected'));--}}
+{{--                this.classList.add('selected');--}}
+{{--            });--}}
+{{--        });--}}
+
+{{--        // Optional: Validate or update quantity based on specific rules--}}
+{{--        quantityInput.addEventListener('change', function() {--}}
+{{--            const quantity = parseInt(this.value, 10);--}}
+{{--            if (isNaN(quantity) || quantity < 1) {--}}
+{{--                this.value = 1; // Default to 1 if invalid--}}
+{{--            }--}}
+{{--        });--}}
+{{--    });--}}
+{{--</script>--}}
+///////////////////////////////////////////////////////////////////////////////////
+{{--<script>--}}
+{{--document.addEventListener('DOMContentLoaded', () => {--}}
+{{--const form = document.getElementById('add-to-cart-form');--}}
+{{--const selectedOptionsInput = document.getElementById('selected_options');--}}
+
+{{--// Initialize as an empty array--}}
+{{--let selectedOptions = [];--}}
+
+{{--// Add event listener for option selection--}}
+{{--document.querySelectorAll('.option-value').forEach(option => {--}}
+{{--option.addEventListener('click', function(e) {--}}
+{{--e.preventDefault();--}}
+
+{{--// Collect selected options--}}
+{{--const optionName = this.dataset.optionName;--}}
+{{--const optionValue = this.dataset.optionValue;--}}
+
+{{--// Add or update option in the array--}}
+{{--selectedOptions = selectedOptions.filter(opt => opt.name !== optionName);--}}
+{{--selectedOptions.push({ name: optionName, value: optionValue });--}}
+
+{{--// Update hidden input with JSON string--}}
+{{--selectedOptionsInput.value = JSON.stringify(selectedOptions);--}}
+{{--});--}}
+{{--});--}}
+
+{{--// Form submit handler--}}
+{{--form.addEventListener('submit', function() {--}}
+{{--// Validate and process options if necessary--}}
+{{--});--}}
+{{--});--}}
+{{--</script>--}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const optionLinks = document.querySelectorAll('.option-value');
+        const selectedOptionsInput = document.getElementById('selected_options');
+        const quantityInput = document.getElementById('quantity');
+        const addToCartButton = document.querySelector('.add-to-cart');
+        let selectedOptions = {};
+        let totalOptions = new Set(); // Use a Set to store unique option names
+
+        optionLinks.forEach(link => {
+            // Track unique option names
+            totalOptions.add(link.dataset.optionName);
+
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const optionName = this.dataset.optionName;
+                const optionValue = this.dataset.optionValue;
+
+                // Toggle selection
+                if (selectedOptions[optionName] === optionValue) {
+                    // Option is already selected, remove it
+                    delete selectedOptions[optionName];
+                    this.classList.remove('selected');
+                } else {
+                    // Option is not selected, add it
+                    selectedOptions[optionName] = optionValue;
+                    this.classList.add('selected');
+                }
+
+                // Update the hidden input value
+                selectedOptionsInput.value = JSON.stringify(selectedOptions);
+
+                // Enable the add to cart button only if all options are selected
+                if (Object.keys(selectedOptions).length === totalOptions.size) {
+                    addToCartButton.disabled = false;
+                } else {
+                    addToCartButton.disabled = true;
                 }
             });
+        });
+
+        // Disable the add to cart button initially
+        addToCartButton.disabled = true;
+
+        // Optional: Validate or update quantity based on specific rules
+        quantityInput.addEventListener('change', function() {
+            const quantity = parseInt(this.value, 10);
+            if (isNaN(quantity) || quantity < 1) {
+                this.value = 1; // Default to 1 if invalid
+            }
         });
     });
 
@@ -803,9 +876,8 @@ function remove() {
 }
 
 </script>
-
 </body>
 
 
-<!-- Mirrored from html.xpressbuddy.com/purefit/shop-single.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:26 GMT -->
+
 </html>

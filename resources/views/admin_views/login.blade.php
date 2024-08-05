@@ -2,7 +2,6 @@
 <html lang="en">
 
 
-<!-- Mirrored from www.ansonika.com/betler/login-10.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 26 May 2024 12:29:41 GMT -->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -117,5 +116,5 @@
 
 </body>
 
-<!-- Mirrored from www.ansonika.com/betler/login-10.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 26 May 2024 12:29:43 GMT -->
+
 </html>

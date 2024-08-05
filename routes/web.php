@@ -12,6 +12,9 @@ require __DIR__.'/plane.php';
 require __DIR__. '/faq.php';
 require __DIR__. '/option_admin.php';
 require __DIR__. '/product_option_admin.php';
+require __DIR__. '/order_admin.php';
+require __DIR__. '/contact.php';
+
 
 use App\Http\Controllers\user_controllers\HomeController;
 use App\Http\Controllers\user_controllers\UserProductController;
@@ -31,7 +34,7 @@ Route::middleware([GuestSession::class])->group(function () {
     Route::post('/product/{id}/review', [UserProductController::class, 'createReview'])->name('product.createReview');
     
 
-    
+
 });
 
 

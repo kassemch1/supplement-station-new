@@ -17,7 +17,12 @@ class UserProductController extends Controller
 //    $productImage=ProductImage::with('images')->find($id);
 
     $products = Product::with('images','reviews')->find($id);
-    $product = Product::findOrFail($id);
+//     $product = Product::findOrFail($id);
+
+    $product = Product::with('productOptions.option')->findOrFail($id);
+//     $products = Product::with('images')->find($id);
+      
+//    $product = Product::findOrFail($id);
     $category = Category::find($product->category_id);
 
     $relatedProducts = Product::where('category_id', $product->category_id)
@@ -33,6 +38,7 @@ class UserProductController extends Controller
         'products'=>$products,
         'relatedProducts' => $relatedProducts,
         'reviews' => $reviews,
+//        'productO'=>$productO,
     ]);
 }
 
