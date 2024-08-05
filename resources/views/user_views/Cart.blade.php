@@ -8,6 +8,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Purefit - Health Supplement Landing Page</title>
 
@@ -354,6 +355,7 @@
                                         <th class="product-thumbnail">&nbsp;</th>
                                         <th class="product-name">Product</th>
                                         <th class="product-price">Price</th>
+                                        <th class="product-options">Options</th>
                                         <th class="product-quantity">Quantity</th>
                                         <th class="product-subtotal">Total</th>
                                     </tr>
@@ -380,10 +382,10 @@
                                     <table class="shop_table shop_table_responsive">
                                         <tr class="cart-subtotal">
                                             <th>Subtotal</th>
-                                            <td data-title="Subtotal">$
+                                            <td data-title="Subtotal">$<strong>
                                                 <span class="woocommerce-Price-amount amount" id="cart-subtotal">
                                                     <span
-                                                        class="woocommerce-Price-currencySymbol"></span>0</span>
+                                                        class="woocommerce-Price-currencySymbol"></span>0</span></strong>
                                             </td>
                                         </tr>
                                         <tr class="shipping">
@@ -407,7 +409,7 @@
                                                                 <option value="">Select a country&hellip;</option>
                                                                 <option value="AX" selected='selected'>&#197;land
                                                                     Islands</option>
-                                                                
+
                                                             </select>
                                                         </p>
                                                         <p class="form-row form-row-wide"
@@ -435,11 +437,11 @@
                                             </td>
                                         </tr>
 
-                                        <tr class="order-total">
+                                        <tr class="cart-total">
                                             <th>Total</th>
-                                            <td data-title="Total"><strong><span
-                                                        class="woocommerce-Price-amount amount"><span
-                                                            class="woocommerce-Price-currencySymbol">$</span>430.00</span></strong>
+                                            <td data-title="Total">$<strong><span
+                                                        class="woocommerce-Price-amount amount" id="cart-total"><span
+                                                            class="woocommerce-Price-currencySymbol"></span>0</span></strong>
                                             </td>
                                         </tr>
                                     </table>
@@ -577,18 +579,33 @@
 <script src={{asset("assets/js/main.js")}}></script>
 
 <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
     $(document).ready(function() {
-
-        function calculateSubtotal() {
-            let subtotal = 0;
-            $('.cart_single').each(function() {
-                const quantity = parseInt($(this).find('.product-count').val());
-                const price = parseFloat($(this).find('.product-price .woocommerce-Price-amount').text().replace(/[^0-9.-]+/g,""));
-                subtotal += quantity * price;
-            });
-            return subtotal;
-        }
+        //
+        // function calculateSubtotal() {
+        //     let subtotal = 0;
+        //     $('.cart_single').each(function() {
+        //         const quantity = parseInt($(this).find('.product-count').val());
+        //         const price = parseFloat($(this).find('.product-price .woocommerce-Price-amount').text().replace(/[^0-9.-]+/g,""));
+        //         subtotal += quantity * price;
+        //     });
+        //     return subtotal;
+        // }
+        //
+        // function calculateTotal() {
+        //     let total = 0;
+        //     $('.cart_single').each(function() {
+        //         const quantity = parseInt($(this).find('.product-count').val());
+        //         const price = parseFloat($(this).find('.product-price .woocommerce-Price-amount').text().replace(/[^0-9.-]+/g,""));
+        //         total += quantity * price;
+        //     });
+        //     return total;
+        // }
 
         function displayMessage(message, type = 'success') {
             const messageContainer = $('#message-container');
@@ -632,7 +649,11 @@
                                         <span class="woocommerce-Price-amount amount">
                                             <span class="woocommerce-Price-currencySymbol">$</span>${item.product.price}
                                         </span>
+                                    <td class="product-options" data-title="Options">
+                                    <input type="hidden" class="selected-options" value='${item.selected_options}' />
+                                        <span>${item.formatted_options}</span>
                                     </td>
+
                                     <td class="product-quantity" data-title="Quantity">
                                         <div class="quantity">
 <button type="button" class="quantity-minus" data-product_id="${item.product.id}">-</button>
@@ -670,13 +691,18 @@
         $(document).on('change', '.product-count', function() {
             const productId = $(this).data('product_id');
             const quantity = $(this).val();
+            const optionsInput = $(this).closest('tr').find('.selected-options'); // Hidden input for options
+            const selectedOptions = optionsInput.val(); // Get selected options as JSON string
+
+            console.log(selectedOptions); // Check if selectedOptions are retrieved correctly
 
             $.ajax({
-                url: '{{ route('cart.update') }}',
+                url: '{{ route('cart.update') }}', // Ensure this matches your route name in web.php
                 method: 'POST',
                 data: {
                     product_id: productId,
                     quantity: quantity,
+                    selected_options: selectedOptions, // Include selected options
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
