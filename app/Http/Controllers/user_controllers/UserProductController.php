@@ -14,8 +14,9 @@ class UserProductController extends Controller
 {
 //    $productImage=ProductImage::with('images')->find($id);
 
+    $product = Product::with('productOptions.option')->findOrFail($id);
     $products = Product::with('images')->find($id);
-    $product = Product::findOrFail($id);
+//    $product = Product::findOrFail($id);
     $category = Category::find($product->category_id);
 
     return view('user_views/SingleProduct', [
@@ -23,6 +24,7 @@ class UserProductController extends Controller
         'category' => $category,
 //        'productImage'=>$productImage,
         'products'=>$products,
+//        'productO'=>$productO,
     ]);
 }
 
