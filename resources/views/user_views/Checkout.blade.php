@@ -2,7 +2,6 @@
 <html lang="zxx">
 
 
-<!-- Mirrored from html.xpressbuddy.com/purefit/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:27 GMT -->
 <head>
 
     <!--========= Required meta tags =========-->
@@ -491,60 +490,63 @@
 {{--<script src="assets/js/scrollspy.js"></script>--}}
 {{--<script src="assets/js/main.js"></script>--}}
 <script>
-    $(document).ready(function() {
-        function fetchCartForCheckout() {
-            $.ajax({
-                url: '{{ route('api.cart.get') }}', 
-                method: 'GET',
-                success: function(response) {
-                    $('#order_review tbody').empty(); 
-                    let subtotal = 0;
+  $(document).ready(function() {
+    function fetchCartForCheckout() {
+        $.ajax({
+            url: '{{ route('api.cart.get') }}', 
+            method: 'GET',
+            success: function(response) {
+                $('#order_review tbody').empty(); 
+                let subtotal = 0;
 
-                    if (response.items.length === 0) {
-                        $('#order_review tbody').append('<tr><td colspan="2">Your cart is empty.</td></tr>');
-                        $('#place_order_btn').prop('disabled', true); // Disable button if cart is empty
-                        $('#cart_empty_message').show(); // Show message if cart is empty
-                    } else {
-                        $('#place_order_btn').prop('disabled', false); // Enable button if cart has items
-                        $('#cart_empty_message').hide(); // Hide message if cart has items
-                        response.items.forEach(item => {
-                            const itemTotal = item.product.price * item.quantity;
-                            $('#order_review tbody').append(`
-                                <tr class="cart_single">
-                                    <td class="product-name">
-                                        ${item.product.name}&nbsp; <strong class="product-quantity">&times; ${item.quantity}</strong>
-                                    </td>
-                                    <td class="product-total">
-                                        <span class="woocommerce-Price-amount amount">
-                                            <span class="woocommerce-Price-currencySymbol">$</span>${itemTotal.toFixed(2)}
-                                        </span>
-                                    </td>
-                                </tr>
-                            `);
-                            subtotal += itemTotal;
-                        });
+                if (response.items.length === 0) {
+                    $('#order_review tbody').append('<tr><td colspan="2">Your cart is empty.</td></tr>');
+                    $('#place_order_btn').prop('disabled', true); // Disable button if cart is empty
+                    $('#cart_empty_message').show(); // Show message if cart is empty
+                } else {
+                    $('#place_order_btn').prop('disabled', false); // Enable button if cart has items
+                    $('#cart_empty_message').hide(); // Hide message if cart has items
+                    response.items.forEach(item => {
+                        const itemTotal = item.product.price * item.quantity;
+                        $('#order_review tbody').append(
+                            `<tr class="cart_single">
+                                <td class="product-name">
+                                    ${item.product.name} <br/>
+                                    <small>Options: ${item.formatted_options}</small>
+                                    <strong class="product-quantity">&times; ${item.quantity}</strong>
+                                </td>
+                                <td class="product-total">
+                                    <span class="woocommerce-Price-amount amount">
+                                        <span class="woocommerce-Price-currencySymbol">$</span>${itemTotal.toFixed(2)}
+                                    </span>
+                                </td>
+                            </tr>`
+                        );
+                        subtotal += itemTotal;
+                    });
 
-                        $('#order_review .cart-subtotal td').html(`
-                            <span class="woocommerce-Price-amount amount">
-                                <span class="woocommerce-Price-currencySymbol">$</span>${subtotal.toFixed(2)}
-                            </span>
-                        `);
+                    $('#order_review .cart-subtotal td').html(
+                        `<span class="woocommerce-Price-amount amount">
+                            <span class="woocommerce-Price-currencySymbol">$</span>${subtotal.toFixed(2)}
+                        </span>`
+                    );
 
-                        $('#order_review .order-total td strong').html(`
-                            <span class="woocommerce-Price-amount amount">
-                                <span class="woocommerce-Price-currencySymbol">$</span>${subtotal.toFixed(2)}
-                            </span>
-                        `);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX error:', error);
+                    $('#order_review .order-total td strong').html(
+                        `<span class="woocommerce-Price-amount amount">
+                            <span class="woocommerce-Price-currencySymbol">$</span>${subtotal.toFixed(2)}
+                        </span>`
+                    );
                 }
-            });
-        }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', error);
+            }
+        });
+    }
 
-        fetchCartForCheckout();
-    });
+    fetchCartForCheckout();
+});
+
 </script>
 
 
@@ -552,5 +554,4 @@
 </body>
 
 
-<!-- Mirrored from html.xpressbuddy.com/purefit/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:27 GMT -->
 </html>

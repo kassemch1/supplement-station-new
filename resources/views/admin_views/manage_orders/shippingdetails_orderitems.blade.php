@@ -2,6 +2,7 @@
 <html class="no-js" lang="en">
 
 
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -49,86 +50,67 @@
     @include('partials.adminSideBar')
     <!-- Side Header End -->
 
-    <!-- Content Body Start -->
-    <div class="content-body">
-
-        <!-- Page Headings Start -->
-        <div class="row justify-content-between align-items-center mb-10">
-
-            <!-- Page Heading Start -->
-            <div class="col-12 col-lg-auto mb-20">
-                <div class="page-heading">
-                    <h3>Manage Product Options</h3>
-                </div>
-            </div><!-- Page Heading End -->
-
-        </div><!-- Page Headings End -->
-
- <!-- admin_views/manage_product_option/index.blade.php -->
-
-<div class="col-lg-12 col-12 mb-30">
-    <div class="box">
-        <div class="box-head">
-            <h4 class="title">Product Options</h4>
-        </div>
-        <div class="box-body">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Option Name</th>
-                    <th>Option Value</th>
-                    <th>Stock</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($productOptions as $productOption)
-                    <tr>
-                        <td>{{ $productOption->option->option_name }}</td>
-                        <td>{{ $productOption->option_value }}</td>
-                        <td>{{ $productOption->stock ? 'In Stock' : 'Out of Stock' }}</td>
-                        <td>
-                            <a class="button button-info"
-                               href="{{ route('manageProductsOptions.edit', ['id' => $productOption->id]) }}"><span>Edit</span></a>
-                            <button class="button button-danger" data-toggle="modal"
-                                    data-target="#deleteModal" data-id="{{ $productOption->id }}"
-                                    onclick="getProductOptionId('{{ $productOption->id }}')"><span>Delete</span>
-                            </button>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-
-            <!-- Delete Modal -->
-            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
-                 aria-labelledby="deleteModalTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteModalLongTitle">Delete Confirmation</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Are you sure you want to delete this product option?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <form id="deleteProductOptionForm" method="post">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+    <!-- Order Details Content -->
+<div class="content-body">
+    <div class="row justify-content-between align-items-center mb-10">
+        <div class="col-12 col-lg-auto mb-20">
+            <div class="page-heading">
+                <h3>Order Details<h3>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <h4>Order ID: #{{ $order->id }}</h4>
+            <h5>Total Amount: ${{ $order->total_amount }}</h5>
+            <h5>Status: {{ $order->status }}</h5>
+            <h5>Date: {{ $order->created_at }}</h5>
+            <hr>
+            <h4>Order Items:</h4>
+            <table class="table table-vertical-middle">
+                <thead>
+                    <tr>
+                        <th>Product Image</th>
+                        <th>Product Name</th>
+                        <th>Product ID</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($orderItems as $item)
+                    <tr>
+                        <td>
+                            @if ($item->product->images->isNotEmpty())
+                            <img src="{{ asset($item->product->images->first()->url) }}" alt="Product Image" style="width: 50px; height: 50px;">
+                            @else
+                            <span>No Image</span>
+                            @endif
+                        </td>
+                        <td>{{ $item->product->name }}</td>
+                        <td>{{ $item->product_id }}</td>
+                        <td>{{ $item->quantity }}</td>
+                        <td>${{ $item->price }}</td>
+                        <td>
+                            @foreach (json_decode($item->selected_options, true) as $key => $value)
+                            <div>{{ ucfirst($key) }}: {{ ucfirst($value) }}</div>
+                            @endforeach
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <hr>
+            <h4>Shipping Details:</h4>
+            <p>Name: {{ $shippingDetail->name }}</p>
+            <p>Phone: {{ $shippingDetail->phone }}</p>
+            <p>Address: {{ $shippingDetail->address }}</p>
+            <p>City: {{ $shippingDetail->city }}</p>
+        </div>
+    </div>
 </div>
-    </div><!-- Content Body End -->
+
 
     <!-- Footer Section Start -->
     <div class="footer-section">
@@ -214,6 +196,7 @@
 </script>
 
 </body>
+
 
 
 </html>

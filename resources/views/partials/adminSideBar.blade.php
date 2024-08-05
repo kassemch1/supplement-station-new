@@ -41,6 +41,12 @@
                         <li><a href="{{route("manageFaq.index")}}"><span>Edit FAQ</span></a></li>
                     </ul>
                 </li>
+                <li class="has-sub-menu"><a href="#"><i class="fa fa-commenting"></i> <span>Manage Orders</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="{{route("admin.orders.pending")}}"><span>Pending Orders List</span></a></li>
+                        <li><a href="{{route("admin.orders.delivered")}}"><span>Deliverd Orders List</span></a></li>
+                    </ul>
+                </li>
 
 {{--                <li class="has-sub-menu"><a href="#"><i class="fa fa-commenting"></i> <span>Manage FAQs</span></a>--}}
 {{--                    <ul class="side-header-sub-menu">--}}

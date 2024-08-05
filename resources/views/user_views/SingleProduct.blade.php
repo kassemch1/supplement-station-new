@@ -2,7 +2,6 @@
 <html lang="zxx">
 
 
-<!-- Mirrored from html.xpressbuddy.com/purefit/shop-single.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:25 GMT -->
 <head>
 
     <!--========= Required meta tags =========-->
@@ -960,5 +959,5 @@
 </body>
 
 
-<!-- Mirrored from html.xpressbuddy.com/purefit/shop-single.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:26 GMT -->
+
 </html>

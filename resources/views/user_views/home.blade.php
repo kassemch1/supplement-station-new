@@ -2,7 +2,7 @@
 <!doctype html>
 <html lang="zxx">
 
-<!-- Mirrored from html.xpressbuddy.com/purefit/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:33:38 GMT -->
+
 <head>
 
     <!--========= Required meta tags =========-->
@@ -854,7 +854,7 @@
 </body>
 
 
-<!-- Mirrored from html.xpressbuddy.com/purefit/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:03 GMT -->
+
 </html>
 <script>
 function fetchCart() {
