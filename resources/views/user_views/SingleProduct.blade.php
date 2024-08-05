@@ -434,9 +434,9 @@
                                             
                                             <h3 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Reviews</h3>
 
-                                            <div class="reviews-section">
+                                            <div class="reviews-section" id="reviewsSection" style="max-height: 400px; overflow-y: auto;">
                                                 @foreach($reviews as $review)
-                                                <div class="client-rv" >
+                                                <div class="client-rv">
                                                     <div class="client-pic">
                                                         <img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-2048x2048-cqe5466q.png" alt="Client Avatar">
                                                     </div>
@@ -453,6 +453,7 @@
                                                 </div>
                                                 @endforeach
                                             </div>
+                                            
                                             
                                         </div>
 
@@ -473,10 +474,10 @@
                                                     <div class="rating-wrapper">
                                                         <div class="rating" style="display: flex; gap: 5px;">
                                                             @for ($i = 1; $i <= 5; $i++)
-                                                                <label style="cursor: pointer;">
-                                                                    <input type="radio" name="rating" value="{{ $i }}" style="display: none;">
-                                                                    <i class="fal fa-star star" onclick="gfg({{ $i }})" style="font-size: 24px; transition: color 0.3s ease-in-out;"></i>
-                                                                </label>
+                                                            <label style="cursor: pointer;">
+                                                                <input type="radio" name="rating" value="{{ $i }}" style="display: none;">
+                                                                <i class="fal fa-star star" onclick="gfg({{ $i }})" style="font-size: 24px; transition: color 0.3s ease-in-out;"></i>
+                                                            </label>
                                                             @endfor
                                                         </div>
                                                         <div class="submit">
@@ -488,9 +489,11 @@
                                                         </div>
                                                     </div>
                                                 </form>
-                                                <p id="output" style="margin-top: 10px;"></p>
+                                                <!-- Success message container -->
+                                                <div id="successMessage" style="color: green; margin-top: 10px; display: none;"></div>
                                             </div>
                                         </div>
+                                        
                                         
                                     </div>
                                 </div>
@@ -740,8 +743,13 @@
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            alert(data.message); // Show success message as an alert
+            var messageElement = document.getElementById('successMessage');
+            messageElement.textContent = data.message; // Update with the success message
+            messageElement.style.display = 'block'; // Make the message visible
             document.getElementById('reviewForm').reset(); // Optionally reset the form
+
+            // Add the new review to the reviews section without reloading the page
+            addNewReview(data.review);
         } else {
             alert('An error occurred. Please try again.'); // Show an error message if something went wrong
         }
@@ -749,26 +757,51 @@
     .catch(error => console.error('Error:', error));
 });
 
+function addNewReview(review) {
+    const reviewsSection = document.getElementById('reviewsSection');
 
+    // Create a new review element
+    const reviewElement = document.createElement('div');
+    reviewElement.className = 'client-rv';
+    reviewElement.innerHTML = `
+        <div class="client-pic">
+            <img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-2048x2048-cqe5466q.png" alt="Client Avatar">
+        </div>
+        <div class="details">
+            <div class="name-rating-time" style="display: flex; flex-direction: column;">
+                <div class="name-rating" style="display: flex; align-items: center;">
+                    <h4 style="font-weight: bold; color: black; margin: 0;">${review.name}</h4>
+                </div>
+                <div class="review-body" style="margin-top: 5px;">
+                    <p>${review.message}</p>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Append the new review to the reviews section
+    reviewsSection.prepend(reviewElement); // Add to the top of the reviews section
+}
 
 let stars = document.getElementsByClassName("star");
-    let output = document.getElementById("output");
+let output = document.getElementById("output");
 
-    // Function to update the rating
-    function gfg(n) {
-        remove(); // Reset previous styling
-        for (let i = 0; i < n; i++) {
-            stars[i].style.color = "red"; // Fill color red
-        }
-        output.innerText = "Rating is: " + n + "/5";
+// Function to update the rating
+function gfg(n) {
+    remove(); // Reset previous styling
+    for (let i = 0; i < n; i++) {
+        stars[i].style.color = "red"; // Fill color red
     }
+    output.innerText = "Rating is: " + n + "/5";
+}
 
-    // Reset function
-    function remove() {
-        for (let i = 0; i < stars.length; i++) {
-            stars[i].style.color = "#ccc"; // Reset to default color
-        }
+// Reset function
+function remove() {
+    for (let i = 0; i < stars.length; i++) {
+        stars[i].style.color = "#ccc"; // Reset to default color
     }
+}
+
 </script>
 
 </body>

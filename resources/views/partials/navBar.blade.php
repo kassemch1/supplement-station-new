@@ -1,12 +1,13 @@
 
 <!-- preloader start -->
-<div id="xb-loadding" class="xb-loadding-container">
-    <div class="xb-loader">
-        <div class="xb-loadding-inner">
-            <img src="assets/img/logo/preloader2.png" alt="" style="max-height: 150px;max-width: 150px">
+<div id="xb-loadding" class="xb-loadding-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9999; background-color: #fff;">
+    <div class="xb-loader" style="display: flex; align-items: center; justify-content: center;">
+        <div class="xb-loadding-inner" style="text-align: center;">
+            <img src="assets/img/logo/preloader2.png" alt="" style="max-height: 150px; max-width: 150px;">
         </div>
     </div>
 </div>
+
 <!-- preloader end -->
 
 <div class="body_wrap">

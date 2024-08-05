@@ -29,6 +29,7 @@ Route::middleware([GuestSession::class])->group(function () {
     Route::get('/products/{id}', [UserProductController::class, 'show'])->name('products.show');
     Route::get('/shop/{categoryName?}', [ShopController::class, 'Shop'])->name('shop.category');
     Route::post('/product/{id}/review', [UserProductController::class, 'createReview'])->name('product.createReview');
+    
 
     
 });

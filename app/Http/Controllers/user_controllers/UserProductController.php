@@ -39,26 +39,25 @@ class UserProductController extends Controller
 
 
 public function createReview(Request $request, $productId)
-    {
-     
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'phoneNumber' => 'required|string|max:15',
-            'message' => 'required|string',
-            'rating' => 'required|integer|between:1,5',
-        ]);
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'phoneNumber' => 'required|string|max:15',
+        'message' => 'required|string',
+        'rating' => 'required|integer|between:1,5',
+    ]);
 
-        // Create a new review
-        Review::create([
-            'product_id' => $productId,
-            'name' => $request->name,
-            'phoneNumber' => $request->phoneNumber,
-            'message' => $request->message,
-            'rating' => $request->rating,
-        ]);
+    // Create a new review
+    $review = Review::create([
+        'product_id' => $productId,
+        'name' => $request->name,
+        'phoneNumber' => $request->phoneNumber,
+        'message' => $request->message,
+        'rating' => $request->rating,
+    ]);
 
-       
-        return response()->json(['success' => true, 'message' => 'Thank you for your review!']);
-    }
+    return response()->json(['success' => true, 'message' => 'Thank you for your review!', 'review' => $review]);
+}
+
 
 }
