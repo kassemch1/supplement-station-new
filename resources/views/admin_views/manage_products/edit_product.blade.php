@@ -101,18 +101,18 @@
                                 <td style="max-width: 250px" class="text-truncate">{{$product->description}}</td>
                                 <td>{{$product->getCategory->name}}</td>
                                 @if($product->stock === 1)
-                                    <td>In Stock</td>
+                                    <td><span class="badge badge-success">In Stock</span></td>
                                 @else
-                                    <td>Out of Stock</td>
+                                    <td><span class="badge badge-danger">Out of Stock</span></td>
                                 @endif
                                 <td>{{$product->discount}} %</td>
 
 
                                 <td>
                                     <a class="button button-info"
-                                       href="{{route("manageProducts.edit",['id'=>$product->id])}}"><span>Edit</span></a>
+                                       href="{{route("manageProducts.edit",['id'=>$product->id])}}" ><i class="zmdi zmdi-edit"></i><span>Edit</span></a>
                                     <button id="deleteTestimonial" class="button button-danger" data-toggle="modal"
-                                            data-target="#exampleModalCenter" data-id="{{$product->id}}" onclick="getProductId('{{$product->id}}')"><span>Delete</span>
+                                            data-target="#exampleModalCenter" data-id="{{$product->id}}" onclick="getProductId('{{$product->id}}')"><i class="zmdi zmdi-delete"></i><span>Delete</span>
                                     </button>
                                     <br>
                                     <a class="button button-info" href="{{ route('manageProductsOptions.create', ['product_id' => $product->id]) }}"><span>Add Option</span></a>
