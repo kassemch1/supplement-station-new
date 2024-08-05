@@ -72,7 +72,7 @@
                                             <option value="price">Sort by price: low to high</option>
                                             <option value="price-desc">Sort by price: high to low</option>
                                         </select>
-                                        
+
                                         <input type="hidden" name="post_type" value="product">
                                     </form>
                                 </div>
@@ -87,7 +87,7 @@
                                                     <div class="xb-item--img">
                                                         @if($item->images->isNotEmpty())
                                                         <img src="{{asset($item->images->first()->url)}}" alt="img">
-                
+
                                                     @else
                                                         No image available
                                                     @endif
@@ -120,25 +120,25 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                
+
                                 <div class="pagination_wrap pt-25">
                                     <ul>
                                         @if ($product->currentPage() > 1)
                                             <li><a href="#" data-page="{{ $product->currentPage() - 1 }}"><i class="fal fa-angle-double-left"></i></a></li>
                                         @endif
-                                
+
                                         @for ($i = 1; $i <= $product->lastPage(); $i++)
                                             <li><a href="#" class="{{ $product->currentPage() == $i ? 'current_page' : '' }}" data-page="{{ $i }}">{{ $i }}</a></li>
                                         @endfor
-                                
+
                                         @if ($product->currentPage() < $product->lastPage())
                                             <li><a href="#" data-page="{{ $product->currentPage() + 1 }}"><i class="fal fa-angle-double-right"></i></a></li>
                                         @endif
                                     </ul>
                                 </div>
-                                
-                                
-                                
+
+
+
                             </div>
                         </div>
                     </div>
@@ -153,7 +153,7 @@
                                     </form>
                                 </div>
                             </div>
-                            
+
 
 <div class="widget mt-40">
     <h2 class="widget__title">
@@ -174,7 +174,7 @@
     </div>
 </div>
 
-                            
+
                             <div class="widget mt-40">
                                 <h2 class="widget__title">Top Rated Products</h2>
                                 <div class="widget__inner">
@@ -286,104 +286,7 @@
     <!-- main area end  -->
 
     <!-- footer strt -->
-    <footer class="position-top bg_img pb-70" data-background="assets/img/bg/footer_bg.png">
-        <div class="container">
-            <div class="contact pb-100">
-                <div class="row">
-                    <div class="col-lg-7">
-                        <div class="xb-contact contact-mt--255">
-                            <div class="contact-title mb-35">
-                                <span><img src="{{ asset('assets/img/icon/directbox-notif.svg')}}" alt="">Contact Us</span>
-                                <h3>Do you have questions or went more <br> information?</h3>
-                            </div>
-                            <form class="contact-from" action="#!">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_user.svg" alt=""></span>
-                                            <input type="text" placeholder="Steven Kevin">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_mail.svg" alt=""></span>
-                                            <input type="text" placeholder="purefit@gmail.com">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_call.svg" alt=""></span>
-                                            <input type="text" placeholder="+91 081 0256 023">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_message.svg" alt=""></span>
-                                            <textarea name="message" id="message" cols="30" rows="10"
-                                                      placeholder="Write Your Message..."></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="thm-btn thm-btn--black" type="submit">Send Message</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="contact-info contact-mt--255 mt-md-30">
-                            <div class="xb-item--head">
-                                <div class="xb-item--address">
-                                    <h3><img src="{{ asset('assets/img/icon/location.svg')}}" alt="">our address</h3>
-                                    <p>100 Orchard st, New <br> York,NY 100025 USA</p>
-                                </div>
-                                <div class="xb-item--open">
-                                    <p>Monday - Friday <br>
-                                        08:00AM - 05:00PM</p>
-                                    <a href="mailto:purefit@gmail.com"><img src="assets/img/icon/sms-tracking.svg" alt="">purefit@gmail.com</a>
-                                </div>
-                                <ul class="xb-item--social ul_li mt-30">
-                                    <li><a href="#!"><i class="fab fa-telegram-plane"></i></a></li>
-                                    <li><a href="#!"><i class="fab fa-whatsapp"></i></a></li>
-                                    <li><a href="#!"><i class="fab fa-facebook-f"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="xb-item--cta" data-background="{{ asset('assets/img/bg/cta_bg.jpg')}}">
-                                <p>Our help desk is a vailable for you <br> every day, 07:00AM - 10:00PM</p>
-                                <h3>+91 081 256 023</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-inner">
-                <div class="footer-logo mb-25 text-center">
-                    <img src="assets/img/logo/f_logo.png" alt="">
-                </div>
-                <div class="sec-title sec-title--white text-center mb-50">
-                    <h2 class="title">in a healthy body, healthy mind</h2>
-                </div>
-                <ul class="footer-nav ul_li_center">
-                    <li><a href="#!">all products</a></li>
-                    <li><a href="#!">track order</a></li>
-                    <li><a href="#!">my account</a></li>
-                    <li><a href="#!">gift cards</a></li>
-                    <li><a href="#!">our story</a></li>
-                    <li><a href="#!">careers</a></li>
-                    <li><a href="#!">contact</a></li>
-                </ul>
-                <div class="footer-bottom mt-50 ul_li_between">
-                    <div class="footer-copyright mt-30">
-                        Copyright © 2024 purefit All rights reserved.
-                    </div>
-                    <ul class="footer-links ul_li mt-30">
-                        <li><a href="#!">terms of conditions</a></li>
-                        <li><a href="#!">privacy pllicy</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+        @include('partials/footer')
     <!-- footer end -->
 
 
@@ -410,7 +313,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var products = @json($product);
-    
+
         document.querySelectorAll('.pagination_wrap a[data-page]').forEach(function(pageLink) {
         pageLink.addEventListener('click', function(event) {
             event.preventDefault();
@@ -487,7 +390,7 @@
         })
         .catch(error => console.error('Error fetching products:', error));
     }
-    
+
     function updatePaginationLinks(currentPage) {
         document.querySelectorAll('.pagination_wrap a[data-page]').forEach(function(pageLink) {
             if (pageLink.getAttribute('data-page') == currentPage) {
@@ -497,44 +400,44 @@
             }
         });
     }
-    
-      
-    
+
+
+
         // Handle search form submission with AJAX
         document.getElementById('search-form').addEventListener('submit', function(event) {
             event.preventDefault();
             const searchQuery = document.getElementById('search-input').value.trim();
             const url = `/shop?search=${encodeURIComponent(searchQuery)}`;
-    
+
             fetchProducts(url);
         });
-    
+
         // Handle category clicks
         document.querySelectorAll('.widget__category a').forEach(function(categoryLink) {
             categoryLink.addEventListener('click', function(event) {
                 event.preventDefault();
-    
+
                 document.querySelectorAll('.widget__category a').forEach(link => link.classList.remove('active'));
                 this.classList.add('active');
-    
+
                 const selectedCategory = this.getAttribute('data-category').trim();
                 const url = `/shop?category=${encodeURIComponent(selectedCategory)}`;
-    
+
                 fetchProducts(url);
             });
         });
-    
+
         // Handle sorting
         document.getElementById('sort-by-price').addEventListener('change', function(event) {
             const sortOrder = this.value;
             const searchQuery = document.getElementById('search-input') ? document.getElementById('search-input').value.trim() : '';
             const url = `/shop?orderby=${encodeURIComponent(sortOrder)}&search=${encodeURIComponent(searchQuery)}`;
-    
+
             fetchProducts(url);
         });
     });
     </script>
-    
+
 
 
 
