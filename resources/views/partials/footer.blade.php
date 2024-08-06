@@ -1,5 +1,5 @@
 <!-- footer strt -->
-<footer class="position-top bg_img pb-70" data-background="assets/img/bg/footer_bg.png">
+<footer class="position-top bg_img pb-70" data-background="{{ asset('assets/img/bg/footer_bg.png')}}">
     <div class="container">
         <div id="contact" class="contact pb-100">
             <div class="row">
