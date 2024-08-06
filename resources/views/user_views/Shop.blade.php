@@ -82,16 +82,41 @@
                                     <div class="row">
                                         @foreach($product as $item)
                                             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                                <div class="product product-item text-center">
-                                                    <a href="{{ route('products.show', $item->id) }}">
-                                                    <div class="xb-item--img">
-                                                        @if($item->images->isNotEmpty())
-                                                        <img src="{{asset($item->images->first()->url)}}" alt="img">
-
-                                                    @else
-                                                        No image available
+                                                <div class="product product-item text-center" style="position: relative; overflow: hidden;">
+                                                    @if($item->discount > 0)
+                                                        <div class="ribbon" style="
+                                                            width: 150px;
+                                                            height: 150px;
+                                                            overflow: hidden;
+                                                            position: absolute;
+                                                            top: -10px;
+                                                            right: -10px;
+                                                            z-index: 2;
+                                                        ">
+                                                            <span style="
+                                                                position: absolute;
+                                                                display: block;
+                                                                width: 225px;
+                                                                padding: 15px 0;
+                                                                background-color: red;
+                                                                color: white;
+                                                                text-transform: uppercase;
+                                                                font-weight: bold;
+                                                                text-align: center;
+                                                                transform: rotate(45deg);
+                                                                top: 30px;
+                                                                right: -65px;
+                                                            ">On Sale</span>
+                                                        </div>
                                                     @endif
-                                                    </div>
+                                                    <a href="{{ route('products.show', $item->id) }}">
+                                                        <div class="xb-item--img">
+                                                            @if($item->images->isNotEmpty())
+                                                                <img src="{{asset($item->images->first()->url)}}" alt="img">
+                                                            @else
+                                                                No image available
+                                                            @endif
+                                                        </div>
                                                     </a>
                                                     <div class="xb-item--holder">
                                                         <h3 class="xb-item--title">
@@ -109,9 +134,16 @@
                                                         </div>
                                                     </div>
                                                     <div class="xb-item--action ul_li mt-20">
-                                                        <span class="xb-item--price">${{ number_format($item->price, 2) }}</span>
+                                                        <span class="xb-item--price">
+                                                            @if($item->discount > 0)
+                                                                <span style="text-decoration: line-through; color: gray;">${{ number_format($item->price, 2) }}</span>
+                                                                <span style="color: red;">${{ number_format($item->price - ($item->price * $item->discount / 100), 2) }}</span>
+                                                            @else
+                                                                ${{ number_format($item->price, 2) }}
+                                                            @endif
+                                                        </span>
                                                         <a href="shop-single.html">
-                                                            <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg')}}" alt="Cart"></span>
+                                                            <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart"></span>
                                                             <span class="xb-item--cart">add to cart</span>
                                                         </a>
                                                     </div>
@@ -119,6 +151,9 @@
                                             </div>
                                         @endforeach
                                     </div>
+                                    
+                                      
+                                    
                                 </div>
 
                                 <div class="pagination_wrap pt-25">
@@ -438,7 +473,28 @@
     });
     </script>
 
+<style>
+/* Styling for the sale label */
+.sale-label {
+    background-color: red; /* Background color for the label */
+    color: white; /* Text color */
+    padding: 5px 10px; /* Padding around the text */
+    font-weight: bold; /* Bold text */
+    position: absolute; /* Absolute positioning */
+    top: 10px; /* Position it at the top */
+    left: 10px; /* Adjust as needed */
+    z-index: 10; /* Ensure it appears above the image */
+    border-radius: 3px; /* Rounded corners */
+    text-transform: uppercase; /* Uppercase text */
+    font-size: 14px; /* Font size */
+}
 
+.xb-item--img {
+    position: relative; /* Needed for absolute positioning of the label */
+    display: inline-block; /* Ensure the container fits around the image */
+}
+
+    </style>
 
 
 

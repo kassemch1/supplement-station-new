@@ -3,7 +3,7 @@
 <div id="xb-loadding" class="xb-loadding-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9999; background-color: #fff;">
     <div class="xb-loader" style="display: flex; align-items: center; justify-content: center;">
         <div class="xb-loadding-inner" style="text-align: center;">
-            <img src="assets/img/logo/preloader2.png" alt="" style="max-height: 150px; max-width: 150px;">
+            <img src="{{ asset('assets/img/logo/preloader2.png')}}" alt="" style="max-height: 150px; max-width: 150px;">
         </div>
     </div>
 </div>
@@ -18,7 +18,7 @@
             <div class="container">
                 <div class="header__wrap ul_li_between">
                     <div class="header-logo">
-                        <a href="index.html"><img src="assets/img/logo/logo.svg" alt=""></a>
+                        <a href="index.html"><img src="{{ asset('assets/img/logo/supLogo.png')}}" alt="" style="max-height: 120px; max-width: 120px;" class="logo"></a>
                     </div>
                     <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
                         <nav class="main-menu collapse navbar-collapse">
@@ -100,7 +100,7 @@
                         <div class="ul_li">
                             <div class="header-shop-cart">
                                 <a href="javascript:void(0);">
-                                    <img src="assets/img/icon/bag.svg" alt="">
+                                    <img src="{{ asset('assets/img/icon/bag.svg')}}" alt="">
                                     <span class="mini-cart-count">2</span>
                                 </a>
                                 <div class="header-mini-cart" id="mini-cart">
@@ -142,7 +142,7 @@
     <div class="sidebar-top mb-65">
         <div class="sidebar-logo mb-40">
             <a href="index.html">
-                <img src="assets/img/logo/preloader2.png" alt="logo" style="max-height: 150px;max-width: 150px">
+                <img src="{{ asset('assets/img/logo/preloader2.png')}}" alt="logo" style="max-height: 150px;max-width: 150px">
             </a>
         </div>
         <div class="sidebar-content">
