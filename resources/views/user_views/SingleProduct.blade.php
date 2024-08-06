@@ -9,6 +9,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Purefit - Health Supplement Landing Page</title>
 
@@ -25,7 +26,63 @@
     <style>
         .selected {
             font-weight: bold;
-            text-decoration: underline;
+            background-color: #FF4D24;
+            color: white;
+        }
+        .inner-shop-details-bottom {
+            margin-top: 23px;
+            padding-top: 23px;
+            border-top: 1px solid #ebebeb;
+            font-size: 16px;
+        }
+        .inner-shop-details-bottom > span {
+            display: block;
+            margin-bottom: 10px;
+            color: #000000;
+            font-weight: 500;
+            margin-right: 5px;
+        }
+        .inner-shop-details-bottom > span:last-child {
+            margin-bottom: 0;
+        }
+        .inner-shop-details-bottom > span > span {
+            font-weight: 500;
+            margin-left: 5px;
+        }
+        .inner-shop-details-bottom span a {
+            color: #777777;
+            margin-left: 5px;
+            border: 1px solid #ebebeb;
+            font-weight: 400;
+            padding: 3px 10px;
+            font-size: 14px;
+            margin-bottom: 8px;
+            margin-right: 3px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .inner-shop-details-bottom span a:hover {
+            color: #fff;
+            background: #FF4D24;
+            border-color: #FF4D24;
+        }
+
+        #successAlert {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: none; /* Hidden by default */
+        }
+
+        #errorAlert {
+            background-color: #F44336; /* Red */
+            color: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: none; /* Hidden by default */
         }
     </style>
 </head>
@@ -268,6 +325,15 @@
 
         <!-- shop single start -->
         <section class="shop-single-section pt-115 pb-385">
+{{--            <div id="message-container" style="display: none;"></div>--}}
+            <div id="successAlert" class="alert alert-success mt-3" style="display: none;">
+                <strong>Success!</strong> Image added successfully.
+            </div>
+            <!-- Error Alert -->
+            <div id="errorAlert" class="alert alert-danger mt-3" style="display: none;">
+                <strong>Error!</strong> Failed to add Image. Please try again.
+            </div>
+
             <div class="container">
                 <div class="row">
 {{--                    <div class="col-md-6">--}}
@@ -390,7 +456,7 @@
                                 <div class="add-to-cart-btn">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                    <input type="hidden" name="selected_options" id="selected_options" value="">
+                                    <input type="hidden" name="selected_options" id="selected_options" value="{}">
                                     <button type="submit" class="xb-btn add-to-cart" data-product-id="{{ $product->id }}">
                                         <i class="far fa-shopping-bag"></i> Add to cart
                                     </button>
@@ -409,8 +475,20 @@
             @endif
             </span>
 {{--                            @if()--}}
+
+{{--                            <div class="inner-shop-details-bottom">--}}
+{{--                                <span>--}}
+{{--                                        <span>Categories :--}}
+{{--                                        <a href="#">Vitamin</a>--}}
+{{--                                        <a href="#">Protein</a>--}}
+{{--                                        <a href="#">Capsule</a>--}}
+{{--                                        <a href="#">Powder</a></span>--}}
+{{--                                    </span>--}}
+{{--                            </div>--}}
+
+                            <div class="inner-shop-details-bottom">
                             <span class="posted_in">
-                              <h2>Options</h2>
+{{--                              <h2>Options</h2>--}}
                                 @php
                                     $groupedOptions = [];
                                     foreach ($product->productOptions as $productOption) {
@@ -420,18 +498,19 @@
 
                                 @foreach ($groupedOptions as $optionName => $productOptions)
                                     <div>
-                <strong>{{ $optionName }}:</strong>
-                <ul>
+                <span>{{ $optionName }}:</span>
                     @foreach ($productOptions as $productOption)
-                        <li>
+
                             <a href="#" class="option-value" data-option-name="{{ $optionName }}" data-option-value="{{ $productOption->option_value }}">
                                 {{ $productOption->option_value }}
                             </a>
-                        </li>
+
                     @endforeach
-                </ul>
+
             </div>
+
                                 @endforeach
+
 {{--                <form action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form">--}}
 {{--            @csrf--}}
 {{--            <input type="hidden" name="product_id" value="{{ $product->id }}">--}}
@@ -447,6 +526,7 @@
 {{--            <a href="#"><i class="fab fa-twitter"></i></a>--}}
 {{--            <a href="#"><i class="fab fa-linkedin"></i></a>--}}
 {{--            </span>--}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -745,17 +825,19 @@
 {{--});--}}
 {{--});--}}
 {{--</script>--}}
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const optionLinks = document.querySelectorAll('.option-value');
         const selectedOptionsInput = document.getElementById('selected_options');
         const quantityInput = document.getElementById('quantity');
-        const addToCartButton = document.querySelector('.add-to-cart');
+        const form = document.getElementById('add-to-cart-form');
+        const addToCartButton = form.querySelector('.add-to-cart');
         let selectedOptions = {};
-        let totalOptions = new Set(); // Use a Set to store unique option names
+        let totalOptions = new Set();
 
         optionLinks.forEach(link => {
-            // Track unique option names
             totalOptions.add(link.dataset.optionName);
 
             link.addEventListener('click', function(event) {
@@ -768,26 +850,73 @@
                     // Option is already selected, remove it
                     delete selectedOptions[optionName];
                     this.classList.remove('selected');
+                    this.style.color = ''; // Reset text color
                 } else {
-                    // Option is not selected, add it
+                    // Option is not selected, add it and remove any existing selection for the same option name
+                    optionLinks.forEach(otherLink => {
+                        if (otherLink.dataset.optionName === optionName) {
+                            otherLink.classList.remove('selected');
+                            otherLink.style.color = ''; // Reset text color
+                        }
+                    });
                     selectedOptions[optionName] = optionValue;
                     this.classList.add('selected');
+                    this.style.color = 'white'; // Change text color to white
                 }
 
                 // Update the hidden input value
                 selectedOptionsInput.value = JSON.stringify(selectedOptions);
 
-                // Enable the add to cart button only if all options are selected
-                if (Object.keys(selectedOptions).length === totalOptions.size) {
-                    addToCartButton.disabled = false;
-                } else {
-                    addToCartButton.disabled = true;
-                }
+                // Enable the add to cart button
+                addToCartButton.disabled = false;
             });
         });
 
-        // Disable the add to cart button initially
-        addToCartButton.disabled = true;
+        // Handle form submission with AJAX
+        $('#add-to-cart-form').submit(function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // Check if there are selected options
+            if (Object.keys(selectedOptions).length === 0) {
+                selectedOptionsInput.value = JSON.stringify({});
+            } else {
+                selectedOptionsInput.value = JSON.stringify(selectedOptions);
+            }
+
+            // Debugging logs
+            console.log('Selected Options:', selectedOptions);
+            console.log('Selected Options Input Value:', selectedOptionsInput.value);
+
+            // Serialize form data
+            var formData = new FormData(this);
+
+            // Send AJAX request
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: $(this).attr('action'), // Use form's action attribute as URL
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    // Show success alert
+                    $('#successAlert').text(response.message).fadeIn();
+                    setTimeout(function () {
+                        $('#successAlert').fadeOut();
+                    }, 3000);
+                },
+                error: function (xhr) {
+                    // Show error alert
+                    var errorMessage = xhr.responseJSON.message || 'There was an error adding the item to the cart.';
+                    $('#errorAlert').text(errorMessage).fadeIn();
+                    setTimeout(function () {
+                        $('#errorAlert').fadeOut();
+                    }, 3000);
+                }
+            });
+        });
 
         // Optional: Validate or update quantity based on specific rules
         quantityInput.addEventListener('change', function() {
@@ -801,7 +930,7 @@
 
 
 
-    document.getElementById('reviewForm').addEventListener('submit', function(event) {
+    /*document.getElementById('reviewForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent form from submitting normally
 
     var formData = new FormData(this);
@@ -873,7 +1002,7 @@ function remove() {
     for (let i = 0; i < stars.length; i++) {
         stars[i].style.color = "#ccc"; // Reset to default color
     }
-}
+}*/
 
 </script>
 </body>
