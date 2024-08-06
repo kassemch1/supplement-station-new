@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
 
 
-<!-- Mirrored from demo.hasthemes.com/adomx-preview/dark/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 26 May 2024 12:18:03 GMT -->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -69,7 +69,7 @@
         <div class="add-edit-product-wrap col-12">
 
             <div class="add-edit-product-form">
-                <form id="productForm" method="post" action="{{route('manageProducts.store')}}">
+                <form id="productForm" method="post" action="{{route('manageProducts.store')}}" enctype="multipart/form-data">
                     @csrf
                     <h4 class="title">Add Product</h4>
 
@@ -98,6 +98,11 @@
                         <div class="col-12 mb-30">
                             <label for="">Description</label>
                             <textarea name="description" class="form-control"></textarea>
+                        </div>
+
+                        <div class="col-12 mb-30">
+                            <label>Product Picture(s)</label>
+                            <input class="dropify" type="file" name="images[]" multiple>
                         </div>
                         <div class="col-lg-6 col-12 mb-30">
                             <label>Stock</label>
@@ -166,12 +171,12 @@
 <script src={{asset("admin_assets/js/plugins/filepond/filepond.active.js")}}></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('#productForm').submit(function(e) {
+    $(document).ready(function () {
+        $('#productForm').submit(function (e) {
             e.preventDefault(); // Prevent default form submission
 
             // Serialize form data
-            var formData = $(this).serialize();
+            var formData = new FormData(this);
 
             // Send AJAX request
             $.ajax({
@@ -181,15 +186,17 @@
                 type: 'POST',
                 url: $(this).attr('action'), // Use form's action attribute as URL
                 data: formData,
-                success: function(response) {
+                processData: false,
+                contentType: false,
+                success: function (response) {
                     $('#successAlert').fadeIn();
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $('#successAlert').fadeOut();
                     }, 3000);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     $('#errorAlert').fadeIn();
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $('#errorAlert').fadeOut();
                     }, 3000);
                 }
@@ -202,5 +209,4 @@
 </body>
 
 
-<!-- Mirrored from demo.hasthemes.com/adomx-preview/dark/edit-product.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 26 May 2024 12:19:55 GMT -->
 </html>

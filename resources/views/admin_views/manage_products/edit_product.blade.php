@@ -2,7 +2,6 @@
 <html class="no-js" lang="en">
 
 
-<!-- Mirrored from demo.hasthemes.com/adomx-preview/dark/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 26 May 2024 12:18:03 GMT -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -75,6 +74,7 @@
                     <table class="table table-bordered">
                         <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Name</th>
                             <th>Price</th>
                             <th>Description</th>
@@ -87,27 +87,40 @@
                         <tbody>
                         @foreach($products as $product)
                             <tr>
+                                <td>
+                                    @if($product->images->isNotEmpty())
+                                        <img src="{{asset($product->images->first()->url)}}" alt="img">
+
+                                    @else
+                                        No image available
+                                    @endif
+                                </td>
                                 <td>{{$product->name}}</td>
                                 <td>{{$product->price}} $</td>
                                 <td style="max-width: 250px" class="text-truncate">{{$product->description}}</td>
                                 <td>{{$product->getCategory->name}}</td>
                                 @if($product->stock === 1)
-                                    <td>In Stock</td>
+                                    <td><span class="badge badge-success">In Stock</span></td>
                                 @else
-                                    <td>Out of Stock</td>
+                                    <td><span class="badge badge-danger">Out of Stock</span></td>
                                 @endif
                                 <td>{{$product->discount}} %</td>
 
 
                                 <td>
                                     <a class="button button-info"
-                                       href="{{route("manageProducts.edit",['id'=>$product->id])}}"><span>Edit</span></a>
+                                       href="{{route("manageProducts.edit",['id'=>$product->id])}}" ><i class="zmdi zmdi-edit"></i><span>Edit</span></a>
                                     <button id="deleteTestimonial" class="button button-danger" data-toggle="modal"
-                                            data-target="#exampleModalCenter" data-id="{{$product->id}}" onclick="getProductId('{{$product->id}}')"><span>Delete</span>
+                                            data-target="#exampleModalCenter" data-id="{{$product->id}}" onclick="getProductId('{{$product->id}}')"><i class="zmdi zmdi-delete"></i><span>Delete</span>
                                     </button>
+                                    <br>
+                                    <a class="button button-info" href="{{ route('manageProductsOptions.create', ['product_id' => $product->id]) }}"><span>Add Option</span></a>
+                                    <a class="button button-info" href="{{ route('manageProductOptions.show', ['product_id' => $product->id]) }}"><span>Check Options</span></a>
                                 </td>
                             </tr>
                         @endforeach
+
+
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
                              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -137,6 +150,10 @@
                         </div>
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center">
+                        {!! $products->links() !!}
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -220,5 +237,4 @@
 </body>
 
 
-<!-- Mirrored from demo.hasthemes.com/adomx-preview/dark/edit-product.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 26 May 2024 12:19:55 GMT -->
 </html>
