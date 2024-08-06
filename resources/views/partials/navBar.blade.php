@@ -189,6 +189,7 @@
         </span>
     </div>
 </div>
+
 <!-- sidebar-info end -->
 
 

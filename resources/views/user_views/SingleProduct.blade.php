@@ -813,3 +813,111 @@ function remove() {
 
 
 </html>
+<script>
+    function fetchCart() {
+        $.ajax({
+            url: '{{ route('api.cart.get') }}',
+            method: 'GET',
+            success: function(response) {
+                console.log("response",response.items); // Check response structure
+    
+                if (!response.items || !Array.isArray(response.items)) {
+                    console.error("here");
+                    return;
+                }
+    
+                $('#mini-cart').empty(); // Clear previous items
+                let total = 0;
+    
+                if (response.items.length === 0) {
+                    $('#mini-cart').append('<p>Your cart is empty.</p>');
+                } else {
+                    response.items.forEach(item => {
+                        if (!item.product || !item.product.price || !item.product.name ) {
+                            console.error("here");
+                            return;
+                        }
+    
+                        console.log(item.product);
+                        const itemTotal = item.product.price * item.quantity;
+                        $('#mini-cart').append(`
+        <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
+            <div class="mini-cart-img" style="margin-right: 10px;">
+                <img src="https://atlas-content-cdn.pixelsquid.com/assets_v2/265/2653773395304388238/previews/G03-200x200.jpg" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
+            </div>
+            <div class="mini-cart-content" style="flex-grow: 1;">
+                <h4 class="product-title" style="margin: 0; font-size: 14px;">
+                    <a href="shop-details.html" style="text-decoration: none; color: #000;">${item.product.name}</a>
+                </h4>
+                <div class="mini-cart-price" style="margin-top: 5px;">
+                    ${item.quantity} ×
+                    <span class="woocommerce-Price-amount amount" style="color: red;">$${parseFloat(item.product.price).toFixed(2)}</span>
+                </div>
+            </div>
+            <div class="remove-button" style="margin-left: auto;">
+        <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
+    </div>
+    
+        </div>
+    `);
+    
+    
+                        console.log('Added item:', item.product.name); // Debugging line
+                        total += itemTotal;
+                    });
+    
+                    $('#mini-cart').append(`
+                        <p class="woocommerce-mini-cart__total">
+                            <strong>Subtotal:</strong>
+                            <span class="woocommerce-Price-amount">$${total.toFixed(2)}</span>
+                        </p>
+                        <p class="checkout-link">
+                            <a href="/Cart" class="button wc-forward">View cart</a>
+                            <a href="checkout.html" class="button checkout wc-forward">Checkout</a>
+                        </p>
+                    `);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', error);
+            }
+        });
+    }
+    
+    // Fetch cart items on page load
+    $(document).ready(function() {
+        fetchCart();
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // Remove item from cart
+    $(document).on('click', '.remove', function(event) {
+        event.preventDefault(); // Prevent the default link behavior
+    
+        const productId = $(this).data('product_id');
+    
+        $.ajax({
+            url: '{{ route('cart.remove') }}',
+            method: 'POST',
+            data: {
+                product_id: productId,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                alert(response.message);
+                fetchCart(); // Refresh the cart items
+            },
+            error: function(xhr, status, error) {
+                alert('Failed to remove item from cart.');
+            }
+        });
+    });
+    
+    </script>
