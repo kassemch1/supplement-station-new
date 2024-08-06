@@ -425,9 +425,9 @@
                     <h2>{{ $product->name ?? 'Product Name' }}</h2>
                     <div class="rating">
                         @for ($i = 0; $i < 5; $i++)
-                            <i class="fas fa-star{{ $i < $product->rating ? '' : '-o' }}"></i>
+                            <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
                         @endfor
-                        <span>({{ $product->reviews_count ?? '87' }} Customer review{{ $product->reviews_count > 1 ? 's' : '' }})</span>
+                        <span>({{ $ratingCount  }} Customer review{{ $ratingCount > 1 ? 's' : '' }})</span>
                     </div>
                     <div class="price">
                         <span class="current">${{ $product->price ?? '0.00' }}</span>
@@ -561,9 +561,9 @@
                                 <div class="tab-pane fade" id="tb-03">
                                     <div class="row">
                                         <div class="col-lg-6 col-sm-12 col-xs-12">
-                                            
 
-                                            
+
+
                                             <h3 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Reviews</h3>
 
                                             <div class="reviews-section" id="reviewsSection" style="max-height: 400px; overflow-y: auto;">
@@ -585,8 +585,8 @@
                                                 </div>
                                                 @endforeach
                                             </div>
-                                            
-                                            
+
+
                                         </div>
 
                                         <div class="col-lg-6 col-sm-12 col-xs-12 review-form-wrapper">
@@ -625,8 +625,8 @@
                                                 <div id="successMessage" style="color: green; margin-top: 10px; display: none;"></div>
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                     </div>
                                 </div>
                             </div>
@@ -930,7 +930,7 @@
 
 
 
-    /*document.getElementById('reviewForm').addEventListener('submit', function(event) {
+    document.getElementById('reviewForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent form from submitting normally
 
     var formData = new FormData(this);
@@ -1002,7 +1002,7 @@ function remove() {
     for (let i = 0; i < stars.length; i++) {
         stars[i].style.color = "#ccc"; // Reset to default color
     }
-}*/
+}
 
 </script>
 </body>
