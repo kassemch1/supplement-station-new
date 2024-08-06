@@ -31,5 +31,10 @@ class Product extends Model
     {
         return $this->getImages()->first();
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
     
 }

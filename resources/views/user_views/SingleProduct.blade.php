@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zxx">
-
+    Here you
 
 <head>
 
@@ -561,121 +561,56 @@
                                 <div class="tab-pane fade" id="tb-03">
                                     <div class="row">
                                         <div class="col-lg-6 col-sm-12 col-xs-12">
-                                            <div class="client-rv">
-                                                <div class="client-pic">
-                                                    <img src="{{ asset('assets/img/avatar/shop_avatar1.jpg')}}" alt>
-                                                </div>
-                                                <div class="details">
-                                                    <div class="name-rating-time">
-                                                        <div class="name-rating">
-                                                            <div>
-                                                                <h4>Mice</h4>
-                                                            </div>
-                                                            <div class="rating">
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="time">
-                                                            <span>1 day ago</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review-body">
-                                                        <p>Helplessly as he looked What's happened to me he thought. It wasn't a dreamtrated magazine and housed in a nice, gilded frame. It showed a lady fitted</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
 
-                                            <div class="client-rv">
-                                                <div class="client-pic">
-                                                    <img src="{{ asset('assets/img/avatar/shop_avatar2.jpg')}}" alt>
-                                                </div>
-                                                <div class="details">
-                                                    <div class="name-rating-time">
-                                                        <div class="name-rating">
-                                                            <div>
-                                                                <h4>Hone</h4>
-                                                            </div>
-                                                            <div class="rating">
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="time">
-                                                            <span>1 day ago</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review-body">
-                                                        <p>Helplessly as he looked What's happened to me he thought. It wasn't a dreamtrated magazine and housed in a nice, gilded frame. It showed a lady fitted</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
+                                            <h3 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Reviews</h3>
 
-                                            <div class="client-rv">
-                                                <div class="client-pic">
-                                                    <img src="{{ asset('assets/img/avatar/shop_avatar3.jpg')}}" alt>
-                                                </div>
-                                                <div class="details">
-                                                    <div class="name-rating-time">
-                                                        <div class="name-rating">
-                                                            <div>
-                                                                <h4>Piloa</h4>
+                                            <div class="reviews-section" id="reviewsSection" style="max-height: 400px; overflow-y: auto;">
+                                                @foreach($reviews as $review)
+                                                <div class="client-rv">
+                                                    <div class="client-pic">
+                                                        <img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-2048x2048-cqe5466q.png" alt="Client Avatar">
+                                                    </div>
+                                                    <div class="details">
+                                                        <div class="name-rating-time" style="display: flex; flex-direction: column;">
+                                                            <div class="name-rating" style="display: flex; align-items: center;">
+                                                                <h4 style="font-weight: bold; color: black; margin: 0;">{{ $review->name }}</h4>
                                                             </div>
-                                                            <div class="rating">
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
-                                                                <i class="fi flaticon-star"></i>
+                                                            <div class="review-body" style="margin-top: 5px;">
+                                                                <p>{{ $review->message }}</p>
                                                             </div>
                                                         </div>
-                                                        <div class="time">
-                                                            <span>2 days ago</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review-body">
-                                                        <p>Helplessly as he looked What's happened to me he thought. It wasn't a dreamtrated magazine and housed in a nice, gilded frame. It showed a lady fitted</p>
                                                     </div>
                                                 </div>
+                                                @endforeach
                                             </div>
+                                            
+                                            
                                         </div>
 
                                         <div class="col-lg-6 col-sm-12 col-xs-12 review-form-wrapper">
                                             <div class="review-form">
                                                 <h4>Here you can review the item</h4>
-                                                <form>
+                                                <form id="reviewForm">
+                                                    @csrf <!-- CSRF token for security -->
                                                     <div>
-                                                        <input type="text" class="form-control" placeholder="Name *" required>
+                                                        <input type="text" class="form-control" name="name" placeholder="Name *" required>
                                                     </div>
                                                     <div>
-                                                        <input type="email" class="form-control" placeholder="Email *" required>
+                                                        <input type="text" class="form-control" name="phoneNumber" placeholder="Phone *" required>
                                                     </div>
                                                     <div>
-                                                        <textarea class="form-control" placeholder="Review *"></textarea>
+                                                        <textarea class="form-control" name="message" placeholder="Review *" required></textarea>
                                                     </div>
                                                     <div class="rating-wrapper">
-                                                        <div class="rating">
-                                                            <a href="#!" class="star-1" >
-                                                                <i class="fal fa-star"></i>
-                                                            </a>
-                                                            <a href="#!" class="star-1" >
-                                                                <i class="fal fa-star"></i>
-                                                            </a>
-                                                            <a href="#!" class="star-1" >
-                                                                <i class="fal fa-star"></i>
-                                                            </a>
-                                                            <a href="#!" class="star-1" >
-                                                                <i class="fal fa-star"></i>
-                                                            </a>
-                                                            <a href="#!" class="star-1" >
-                                                                <i class="fal fa-star"></i>
-                                                            </a>
+                                                        <div class="rating" style="display: flex; gap: 5px;">
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                            <label style="cursor: pointer;">
+                                                                <input type="radio" name="rating" value="{{ $i }}" style="display: none;">
+                                                                <i class="fal fa-star star" onclick="gfg({{ $i }})" style="font-size: 24px; transition: color 0.3s ease-in-out;"></i>
+                                                            </label>
+                                                            @endfor
                                                         </div>
                                                         <div class="submit">
                                                             <button class="thm-btn thm-btn--black" type="submit">
@@ -686,8 +621,12 @@
                                                         </div>
                                                     </div>
                                                 </form>
+                                                <!-- Success message container -->
+                                                <div id="successMessage" style="color: green; margin-top: 10px; display: none;"></div>
                                             </div>
                                         </div>
+                                        
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -764,104 +703,7 @@
     <!-- main area end  -->
 
     <!-- footer strt -->
-    <footer class="position-top bg_img pb-70" data-background="{{ asset('assets/img/bg/footer_bg.png')}}">
-        <div class="container">
-            <div class="contact pb-100">
-                <div class="row">
-                    <div class="col-lg-7">
-                        <div class="xb-contact contact-mt--255">
-                            <div class="contact-title mb-35">
-                                <span><img src="assets/img/icon/directbox-notif.svg" alt="">Contact Us</span>
-                                <h3>Do you have questions or went more <br> information?</h3>
-                            </div>
-                            <form class="contact-from" action="#!">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_user.svg" alt=""></span>
-                                            <input type="text" placeholder="Steven Kevin">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_mail.svg" alt=""></span>
-                                            <input type="text" placeholder="purefit@gmail.com">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_call.svg" alt=""></span>
-                                            <input type="text" placeholder="+91 081 0256 023">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="xb-item--field">
-                                            <span><img src="{{ asset('assets/img/icon/c_message.svg')}}" alt=""></span>
-                                            <textarea name="message" id="message" cols="30" rows="10"
-                                                      placeholder="Write Your Message..."></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="thm-btn thm-btn--black" type="submit">Send Message</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="contact-info contact-mt--255 mt-md-30">
-                            <div class="xb-item--head">
-                                <div class="xb-item--address">
-                                    <h3><img src="assets/img/icon/location.svg" alt="">our address</h3>
-                                    <p>100 Orchard st, New <br> York,NY 100025 USA</p>
-                                </div>
-                                <div class="xb-item--open">
-                                    <p>Monday - Friday <br>
-                                        08:00AM - 05:00PM</p>
-                                    <a href="mailto:purefit@gmail.com"><img src="assets/img/icon/sms-tracking.svg" alt="">purefit@gmail.com</a>
-                                </div>
-                                <ul class="xb-item--social ul_li mt-30">
-                                    <li><a href="#!"><i class="fab fa-telegram-plane"></i></a></li>
-                                    <li><a href="#!"><i class="fab fa-whatsapp"></i></a></li>
-                                    <li><a href="#!"><i class="fab fa-facebook-f"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="xb-item--cta" data-background="assets/img/bg/cta_bg.jpg">
-                                <p>Our help desk is a vailable for you <br> every day, 07:00AM - 10:00PM</p>
-                                <h3>+91 081 256 023</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-inner">
-                <div class="footer-logo mb-25 text-center">
-                    <img src="{{ asset('assets/img/logo/f_logo.png')}}" alt="">
-                </div>
-                <div class="sec-title sec-title--white text-center mb-50">
-                    <h2 class="title">in a healthy body, healthy mind</h2>
-                </div>
-                <ul class="footer-nav ul_li_center">
-                    <li><a href="#!">all products</a></li>
-                    <li><a href="#!">track order</a></li>
-                    <li><a href="#!">my account</a></li>
-                    <li><a href="#!">gift cards</a></li>
-                    <li><a href="#!">our story</a></li>
-                    <li><a href="#!">careers</a></li>
-                    <li><a href="#!">contact</a></li>
-                </ul>
-                <div class="footer-bottom mt-50 ul_li_between">
-                    <div class="footer-copyright mt-30">
-                        Copyright © 2024 purefit All rights reserved.
-                    </div>
-                    <ul class="footer-links ul_li mt-30">
-                        <li><a href="#!">terms of conditions</a></li>
-                        <li><a href="#!">privacy pllicy</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+        @include('partials/footer')
     <!-- footer end -->
 
 
@@ -1087,6 +929,80 @@
 
 
 
+
+    /*document.getElementById('reviewForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form from submitting normally
+
+    var formData = new FormData(this);
+
+    fetch('{{ route("product.createReview", $product->id) }}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('input[name=_token]').value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            var messageElement = document.getElementById('successMessage');
+            messageElement.textContent = data.message; // Update with the success message
+            messageElement.style.display = 'block'; // Make the message visible
+            document.getElementById('reviewForm').reset(); // Optionally reset the form
+
+            // Add the new review to the reviews section without reloading the page
+            addNewReview(data.review);
+        } else {
+            alert('An error occurred. Please try again.'); // Show an error message if something went wrong
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+function addNewReview(review) {
+    const reviewsSection = document.getElementById('reviewsSection');
+
+    // Create a new review element
+    const reviewElement = document.createElement('div');
+    reviewElement.className = 'client-rv';
+    reviewElement.innerHTML = `
+        <div class="client-pic">
+            <img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-2048x2048-cqe5466q.png" alt="Client Avatar">
+        </div>
+        <div class="details">
+            <div class="name-rating-time" style="display: flex; flex-direction: column;">
+                <div class="name-rating" style="display: flex; align-items: center;">
+                    <h4 style="font-weight: bold; color: black; margin: 0;">${review.name}</h4>
+                </div>
+                <div class="review-body" style="margin-top: 5px;">
+                    <p>${review.message}</p>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Append the new review to the reviews section
+    reviewsSection.prepend(reviewElement); // Add to the top of the reviews section
+}
+
+let stars = document.getElementsByClassName("star");
+let output = document.getElementById("output");
+
+// Function to update the rating
+function gfg(n) {
+    remove(); // Reset previous styling
+    for (let i = 0; i < n; i++) {
+        stars[i].style.color = "red"; // Fill color red
+    }
+    output.innerText = "Rating is: " + n + "/5";
+}
+
+// Reset function
+function remove() {
+    for (let i = 0; i < stars.length; i++) {
+        stars[i].style.color = "#ccc"; // Reset to default color
+    }
+}*/
 
 </script>
 </body>
