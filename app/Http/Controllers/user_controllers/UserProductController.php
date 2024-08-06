@@ -21,7 +21,9 @@ class UserProductController extends Controller
 
     $product = Product::with('productOptions.option')->findOrFail($id);
 //     $products = Product::with('images')->find($id);
-      
+        $ratingCount = $product->reviews()->count();
+        $averageRating = $product->reviews()->avg('rating');
+
 //    $product = Product::findOrFail($id);
     $category = Category::find($product->category_id);
 
@@ -38,6 +40,8 @@ class UserProductController extends Controller
         'products'=>$products,
         'relatedProducts' => $relatedProducts,
         'reviews' => $reviews,
+        'ratingCount' => $ratingCount,
+        'averageRating' => $averageRating,
 //        'productO'=>$productO,
     ]);
 }
