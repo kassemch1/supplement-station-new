@@ -191,7 +191,7 @@
 {{--<script src="assets/js/scrollspy.js"></script>--}}
 {{--<script src="assets/js/main.js"></script>--}}
 <script>
-  $(document).ready(function() {
+$(document).ready(function() {
     function fetchCartForCheckout() {
         $.ajax({
             url: '{{ route('api.cart.get') }}',
@@ -208,7 +208,12 @@
                     $('#place_order_btn').prop('disabled', false); // Enable button if cart has items
                     $('#cart_empty_message').hide(); // Hide message if cart has items
                     response.items.forEach(item => {
-                        const itemTotal = item.product.price * item.quantity;
+                        
+                        const discount = item.product.discount;
+                        const price = item.product.price;
+                        const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount
+                        const itemTotal = discountedPrice * item.quantity; // Calculate total for this item
+                        
                         $('#order_review tbody').append(
                             `<tr class="cart_single">
                                 <td class="product-name">
@@ -223,7 +228,7 @@
                                 </td>
                             </tr>`
                         );
-                        subtotal += itemTotal;
+                        subtotal += itemTotal; // Update subtotal with item total
                     });
 
                     $('#order_review .cart-subtotal td').html(
@@ -247,9 +252,7 @@
 
     fetchCartForCheckout();
 });
-
 </script>
-
 
 
 </body>

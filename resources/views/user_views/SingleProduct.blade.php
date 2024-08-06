@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zxx">
-
+   
 
 <head>
 
@@ -95,216 +95,15 @@
         <i class="far fa-arrow-up"></i>
     </a>
 </div>
-<!-- backtotop - end -->
 
-<!-- preloader start -->
-<div id="xb-loadding" class="xb-loadding-container">
-    <div class="xb-loader">
-        <div class="xb-loadding-inner">
-            <img src="assets/img/logo/preloader.png" alt="">
-        </div>
-    </div>
-</div>
 
-<!-- preloader end -->
 
 
 <div class="body_wrap">
 
-    <!-- header start -->
-    <header id="home" class="header-area header-default is-sticky">
-        <div class="xb-header stricky">
-            <div class="container">
-                <div class="header__wrap ul_li_between">
-                    <div class="header-logo">
-                        <a href="index.html"><img src="{{ asset('assets/img/logo/logo.svg')}}" alt=""></a>
-                    </div>
-                    <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
-                        <nav class="main-menu collapse navbar-collapse">
-                            <ul>
-                                <li class="menu-item-has-children">
-                                    <a href="/"><span>Home</span></a>
-                                    <ul class="submenu">
-                                        <li><a href="index.html"><span>Home Style 01</span></a></li>
-                                        <li><a href="home-2.html"><span>Home Style 02</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="index.html#features"><span>Features</span></a></li>
-                                <li class="menu-item-has-children active">
-                                    <a href="index.html#shop"><span>Shop</span></a>
-                                    <ul class="submenu">
-                                        <li><a href="shop.html"><span>Products</span></a></li>
-                                        <li class="active"><a href="shop-single.html"><span>Single Product</span></a></li>
-                                        <li><a href="cart.html"><span>Cart</span></a></li>
-                                        <li><a href="checkout.html"><span>Checkout</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="index.html#pricing"><span>Pricing</span></a></li>
-                                <li class="menu-item-has-children">
-                                    <a href="index.html#blog"><span>Blog</span></a>
-                                    <ul class="submenu">
-                                        <li><a href="blog.html"><span>Blog</span></a></li>
-                                        <li><a href="blog-single.html"><span>Blog Details</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="index.html#contact"><span>Contact</span></a></li>
-                            </ul>
-                        </nav>
-                        <div class="xb-header-wrap">
-                            <div class="xb-header-menu">
-                                <div class="xb-header-menu-scroll">
-                                    <div class="xb-menu-close xb-hide-xl xb-close"></div>
-                                    <div class="xb-logo-mobile xb-hide-xl">
-                                        <a href="index.html" rel="home"><img src="assets/img/logo/logo.svg" alt=""></a></div>
-                                    <div class="xb-header-mobile-search xb-hide-xl">
-                                        <form role="search" action="#">
-                                            <input type="text" placeholder="Search..." name="s" class="search-field">
-                                        </form>
-                                    </div>
-                                    <nav class="xb-header-nav">
-                                        <ul class="xb-menu-primary clearfix">
-                                            <li class="menu-item menu-item-has-children active">
-                                                <a href="index.html#home"><span>Home</span></a>
-                                                <ul class="sub-menu">
-                                                    <li class="active"><a href="index.html"><span>Home Style 01</span></a></li>
-                                                    <li><a href="home-2.html"><span>Home Style 02</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item"><a href="index.html#features"><span>Features</span></a></li>
-                                            <li class="menu-item menu-item-has-children">
-                                                <a href="index.html#shop"><span>Shop</span></a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="shop.html"><span>Products</span></a></li>
-                                                    <li><a href="shop-single.html"><span>Single Product</span></a></li>
-                                                    <li><a href="cart.html"><span>Cart</span></a></li>
-                                                    <li><a href="checkout.html"><span>Checkout</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item"><a href="index.html#pricing"><span>Pricing</span></a></li>
-                                            <li class="menu-item menu-item-has-children">
-                                                <a href="index.html#blog"><span>Blog</span></a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="blog.html"><span>Blog</span></a></li>
-                                                    <li><a href="blog-single.html"><span>Blog Details</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item"><a href="index.html#contact"><span>Contact</span></a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="xb-header-menu-backdrop"></div>
-                        </div>
-                    </div>
-                    <div class="header__right d-none d-lg-block">
-                        <div class="ul_li">
-                            <div class="header-shop-cart">
-                                <a href="javascript:void(0);"><img src="{{ asset('assets/img/icon/bag.svg')}}" alt=""><span class="mini-cart-count">2</span></a>
-                                <div class="header-mini-cart">
-                                    <ul class="woocommerce-mini-cart cart_list product_list_widget list-wrap">
-                                        <li class="woocommerce-mini-cart-item d-flex align-items-center">
-                                            <a href="#" class="remove remove_from_cart_button">×</a>
-                                            <div class="mini-cart-img">
-                                                <img src="{{ asset('assets/img/shop/product_02.png')}}" alt="Product">
-                                            </div>
-                                            <div class="mini-cart-content">
-                                                <h4 class="product-title"><a href="shop-details.html">
-                                                        xplode powder</a></h4>
-                                                <div class="mini-cart-price">1 ×
-                                                    <span class="woocommerce-Price-amount amount">$49</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="woocommerce-mini-cart-item d-flex align-items-center">
-                                            <a href="#" class="remove remove_from_cart_button">×</a>
-                                            <div class="mini-cart-img">
-                                                <img src="assets/img/shop/product_03.png" alt="Product">
-                                            </div>
-                                            <div class="mini-cart-content">
-                                                <h4 class="product-title"><a href="shop-details.html">creatine powder</a></h4>
-                                                <div class="mini-cart-price">2 ×
-                                                    <span class="woocommerce-Price-amount amount">$69</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <p class="woocommerce-mini-cart__total">
-                                        <strong>Subtotal:</strong>
-                                        <span class="woocommerce-Price-amount">$149</span>
-                                    </p>
-                                    <p class="checkout-link">
-                                        <a href="shop-details.html" class="button wc-forward">View cart</a>
-                                        <a href="shop-details.html" class="button checkout wc-forward">Checkout</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <a class="header__bar offcanvas-sidebar-btn" href="javascript:void(0);">
-                                <div class="header__bar-icon">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="header-bar-mobile d-lg-none">
-                        <a class="header__bar xb-nav-mobile" href="javascript:void(0);">
-                            <div class="header__bar-icon">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- header end -->
+    @include('partials/navBar')
 
-    <!-- sidebar-info start -->
-    <div class="offcanvas-sidebar">
-        <div class="sidebar-menu-close">
-            <a class="xb-close" href="javascript:void(0);"></a>
-        </div>
-        <div class="sidebar-top mb-65">
-            <div class="sidebar-logo mb-40">
-                <a href="index.html">
-                    <img src="assets/img/logo/logo_black.svg" alt="logo">
-                </a>
-            </div>
-            <div class="sidebar-content">
-                Achieving optimal nutrition is a complex endeavor without the inclusion of supplementary support
-            </div>
-        </div>
-
-        <div class="sidebar-contact-info mb-65">
-            <h4 class="sidebar-heading">Contact Information</h4>
-            <ul class="sidebar-info-list list-unstyled">
-                <li><span><img src="{{ asset('assets/img/icon/i_star.svg')}}" alt=""></span>Wasington SY, UK, NY 12099</li>
-                <li><a href="#!"><span><img src="{{ asset('assets/img/icon/i_star.svg')}}" alt=""></span>+81 800 123 06 78</a></li>
-                <li><a href="#!"><span><img src="{{ asset('assets/img/icon/i_star.svg')}}" alt=""></span>contact@purefit.com</a></li>
-            </ul>
-        </div>
-        <div class="xb-content-wrap d-flex">
-            <div class="xb-title col-auto">Call us:</div>
-            <div class="xb-inf-content-wrap col">
-                <div class="xb-item-wrap row">
-                    <div class="xb-item col-auto ">
-                        <span class="item-content"><a href="tel:02456787535" class="tel">024 5678 7535</a></span>
-                    </div>
-                    <div class="xb-item col-auto "> <span class="item-content"><a href="mailto:support@gmail.com">contact@purefit.com</a></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="sidebar-socials-wrap mt-30"> <a class="social-item" href="https://facebook.com/" target="_blank">Facebook</a><a class="social-item" href="https://www.behance.net/" target="_blank">Behance</a><a class="social-item" href="#" target="_blank">Telegram</a><a class="social-item" href="https://dribbble.com/" target="_blank">Dribbble</a></div>
-
-    </div>
-    <!-- sidebar-info end -->
-
+    
     <div class="body-overlay"></div>
 
     <!-- main area start  -->
@@ -336,59 +135,6 @@
 
             <div class="container">
                 <div class="row">
-{{--                    <div class="col-md-6">--}}
-{{--                        <div class="product-single-wrap mb-30">--}}
-{{--                            <div class="product_details_img">--}}
-{{--                                <div class="tab-content" id="myTabContent">--}}
-{{--                                    <div class="tab-pane show active" id="home2" role="tabpanel" aria-labelledby="home-tab">--}}
-{{--                                        <div class="pl_thumb">--}}
-{{--                                            <img src="{{asset($productImage->url)}}"  alt="">--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">--}}
-{{--                                        <div class="pl_thumb">--}}
-{{--                                            <img src="{{asset($productImage->url)}}" alt="">--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="tab-pane" id="contact" role="tabpanel" aria-labelledby="contact-tab">--}}
-{{--                                        <div class="pl_thumb">--}}
-{{--                                            <img src="{{asset($productImage->url)}}"  alt="">--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="tab-pane" id="profile2" role="tabpanel" aria-labelledby="profile-tab3">--}}
-{{--                                        <div class="pl_thumb">--}}
-{{--                                            <img src="{{asset($productImage->url)}}"  alt="">--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="shop_thumb_tab">--}}
-{{--                                <ul class="nav" id="myTab2" role="tablist">--}}
-{{--                                    <li class="nav-item">--}}
-{{--                                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home2" type="button" role="tab" aria-controls="home2" aria-selected="true">--}}
-{{--                                            <img  src="{{asset($productImage->url)}}" alt="">--}}
-{{--                                        </button>--}}
-{{--                                    </li>--}}
-{{--                                    <li class="nav-item">--}}
-{{--                                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">--}}
-{{--                                            <img  src="{{asset($productImage->url)}}" alt="">--}}
-{{--                                        </button>--}}
-{{--                                    </li>--}}
-{{--                                    <li class="nav-item">--}}
-{{--                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">--}}
-{{--                                            <img  src="{{asset($productImage->url)}}" alt="">--}}
-{{--                                        </button>--}}
-{{--                                    </li>--}}
-{{--                                    <li class="nav-item">--}}
-{{--                                        <button class="nav-link" id="profile-tab3" data-bs-toggle="tab" data-bs-target="#profile2" type="button" role="tab" aria-controls="profile2" aria-selected="false">--}}
-{{--                                            <img  src="{{asset($productImage->url)}}" alt="">--}}
-{{--                                        </button>--}}
-{{--                                    </li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-
 
 
                     <div class="col-md-6">
@@ -429,23 +175,21 @@
                         @endfor
                         <span>({{ $ratingCount  }} Customer review{{ $ratingCount > 1 ? 's' : '' }})</span>
                     </div>
+                   
                     <div class="price">
-                        <span class="current">${{ $product->price ?? '0.00' }}</span>
-                        @if($product->old_price)
-                            <span class="old">{{ $product->old_price }}</span>
-                        @endif
+                        <span class="xb-item--price">
+                            @if($product->discount > 0)
+                                <span style="text-decoration: line-through; color: gray;">${{ number_format($product->price, 2) }}</span>
+                                <span style="color: red;">${{ number_format($product->price - ($product->price * $product->discount / 100), 2) }}</span>
+                            @else
+                                ${{ number_format($product->price, 2) }}
+                            @endif
+                        </span>
                     </div>
                     <p>{{ $product->description ?? 'Product description' }}</p>
                     <div class="product-option">
 
 
-{{--                        <form action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form">--}}
-{{--                            @csrf--}}
-{{--                            <input type="hidden" name="product_id" value="{{ $product->id }}">--}}
-{{--                            <input type="hidden" name="selected_options" id="selected_options" value="">--}}
-
-{{--                            <button type="submit" class="btn btn-primary">Add to Cart</button>--}}
-{{--                        </form>--}}
 
 
                         <form class="form" action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form" >
@@ -474,21 +218,10 @@
                 <span>No categories</span>
             @endif
             </span>
-{{--                            @if()--}}
-
-{{--                            <div class="inner-shop-details-bottom">--}}
-{{--                                <span>--}}
-{{--                                        <span>Categories :--}}
-{{--                                        <a href="#">Vitamin</a>--}}
-{{--                                        <a href="#">Protein</a>--}}
-{{--                                        <a href="#">Capsule</a>--}}
-{{--                                        <a href="#">Powder</a></span>--}}
-{{--                                    </span>--}}
-{{--                            </div>--}}
 
                             <div class="inner-shop-details-bottom">
                             <span class="posted_in">
-{{--                              <h2>Options</h2>--}}
+
                                 @php
                                     $groupedOptions = [];
                                     foreach ($product->productOptions as $productOption) {
@@ -561,9 +294,9 @@
                                 <div class="tab-pane fade" id="tb-03">
                                     <div class="row">
                                         <div class="col-lg-6 col-sm-12 col-xs-12">
+                                            
 
-
-
+                                            
                                             <h3 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Reviews</h3>
 
                                             <div class="reviews-section" id="reviewsSection" style="max-height: 400px; overflow-y: auto;">
@@ -585,8 +318,8 @@
                                                 </div>
                                                 @endforeach
                                             </div>
-
-
+                                            
+                                            
                                         </div>
 
                                         <div class="col-lg-6 col-sm-12 col-xs-12 review-form-wrapper">
@@ -625,8 +358,8 @@
                                                 <div id="successMessage" style="color: green; margin-top: 10px; display: none;"></div>
                                             </div>
                                         </div>
-
-
+                                        
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -760,7 +493,7 @@
 {{--        });--}}
 {{--    });--}}
 {{--</script>--}}
-
+//////////////////////////////////////////////////////////////////////////////////////
 {{--<script>--}}
 {{--    document.addEventListener('DOMContentLoaded', function() {--}}
 {{--        const optionLinks = document.querySelectorAll('.option-value');--}}
@@ -792,7 +525,7 @@
 {{--        });--}}
 {{--    });--}}
 {{--</script>--}}
-
+///////////////////////////////////////////////////////////////////////////////////
 {{--<script>--}}
 {{--document.addEventListener('DOMContentLoaded', () => {--}}
 {{--const form = document.getElementById('add-to-cart-form');--}}
@@ -1010,3 +743,112 @@ function remove() {
 
 
 </html>
+<script>
+    function fetchCart() {
+        $.ajax({
+            url: '{{ route('api.cart.get') }}',
+            method: 'GET',
+            success: function(response) {
+                console.log("response",response.items); // Check response structure
+    
+                if (!response.items || !Array.isArray(response.items)) {
+                    console.error("here");
+                    return;
+                }
+    
+                $('#mini-cart').empty(); // Clear previous items
+                let total = 0;
+    
+                if (response.items.length === 0) {
+                    $('#mini-cart').append('<p>Your cart is empty.</p>');
+                } else {
+                    response.items.forEach(item => {
+                        if (!item.product || !item.product.price || !item.product.name ) {
+                            console.error("here");
+                            return;
+                        }
+    
+                        console.log(item.product);
+                        const itemTotal = item.product.price * item.quantity;
+                        $('#mini-cart').append(`
+        <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
+            <div class="mini-cart-img" style="margin-right: 10px;">
+                <img src="https://atlas-content-cdn.pixelsquid.com/assets_v2/265/2653773395304388238/previews/G03-200x200.jpg" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
+            </div>
+            <div class="mini-cart-content" style="flex-grow: 1;">
+                <h4 class="product-title" style="margin: 0; font-size: 14px;">
+                    <a href="shop-details.html" style="text-decoration: none; color: #000;">${item.product.name}</a>
+                </h4>
+                <div class="mini-cart-price" style="margin-top: 5px;">
+                    ${item.quantity} ×
+                    <span class="woocommerce-Price-amount amount" style="color: red;">$${parseFloat(item.product.price).toFixed(2)}</span>
+                </div>
+            </div>
+            <div class="remove-button" style="margin-left: auto;">
+        <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
+    </div>
+    
+        </div>
+    `);
+    
+    
+                        console.log('Added item:', item.product.name); // Debugging line
+                        total += itemTotal;
+                    });
+    
+                    $('#mini-cart').append(`
+                        <p class="woocommerce-mini-cart__total">
+                            <strong>Subtotal:</strong>
+                            <span class="woocommerce-Price-amount">$${total.toFixed(2)}</span>
+                        </p>
+                        <p class="checkout-link">
+                            <a href="/Cart" class="button wc-forward">View cart</a>
+                            <a href="checkout.html" class="button checkout wc-forward">Checkout</a>
+                        </p>
+                    `);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', error);
+            }
+        });
+    }
+    
+    // Fetch cart items on page load
+    $(document).ready(function() {
+        fetchCart();
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // Remove item from cart
+    $(document).on('click', '.remove', function(event) {
+        event.preventDefault(); // Prevent the default link behavior
+    
+        const productId = $(this).data('product_id');
+    
+        $.ajax({
+            url: '{{ route('cart.remove') }}',
+            method: 'POST',
+            data: {
+                product_id: productId,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                alert(response.message);
+                fetchCart(); // Refresh the cart items
+            },
+            error: function(xhr, status, error) {
+                alert('Failed to remove item from cart.');
+            }
+        });
+    });
+    
+    </script>
+                    
