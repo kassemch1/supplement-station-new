@@ -135,59 +135,6 @@
 
             <div class="container">
                 <div class="row">
-{{--                    <div class="col-md-6">--}}
-{{--                        <div class="product-single-wrap mb-30">--}}
-{{--                            <div class="product_details_img">--}}
-{{--                                <div class="tab-content" id="myTabContent">--}}
-{{--                                    <div class="tab-pane show active" id="home2" role="tabpanel" aria-labelledby="home-tab">--}}
-{{--                                        <div class="pl_thumb">--}}
-{{--                                            <img src="{{asset($productImage->url)}}"  alt="">--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">--}}
-{{--                                        <div class="pl_thumb">--}}
-{{--                                            <img src="{{asset($productImage->url)}}" alt="">--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="tab-pane" id="contact" role="tabpanel" aria-labelledby="contact-tab">--}}
-{{--                                        <div class="pl_thumb">--}}
-{{--                                            <img src="{{asset($productImage->url)}}"  alt="">--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="tab-pane" id="profile2" role="tabpanel" aria-labelledby="profile-tab3">--}}
-{{--                                        <div class="pl_thumb">--}}
-{{--                                            <img src="{{asset($productImage->url)}}"  alt="">--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="shop_thumb_tab">--}}
-{{--                                <ul class="nav" id="myTab2" role="tablist">--}}
-{{--                                    <li class="nav-item">--}}
-{{--                                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home2" type="button" role="tab" aria-controls="home2" aria-selected="true">--}}
-{{--                                            <img  src="{{asset($productImage->url)}}" alt="">--}}
-{{--                                        </button>--}}
-{{--                                    </li>--}}
-{{--                                    <li class="nav-item">--}}
-{{--                                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">--}}
-{{--                                            <img  src="{{asset($productImage->url)}}" alt="">--}}
-{{--                                        </button>--}}
-{{--                                    </li>--}}
-{{--                                    <li class="nav-item">--}}
-{{--                                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">--}}
-{{--                                            <img  src="{{asset($productImage->url)}}" alt="">--}}
-{{--                                        </button>--}}
-{{--                                    </li>--}}
-{{--                                    <li class="nav-item">--}}
-{{--                                        <button class="nav-link" id="profile-tab3" data-bs-toggle="tab" data-bs-target="#profile2" type="button" role="tab" aria-controls="profile2" aria-selected="false">--}}
-{{--                                            <img  src="{{asset($productImage->url)}}" alt="">--}}
-{{--                                        </button>--}}
-{{--                                    </li>--}}
-{{--                                </ul>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-
 
 
                     <div class="col-md-6">
@@ -228,6 +175,7 @@
                         @endfor
                         <span>({{ $ratingCount  }} Customer review{{ $ratingCount > 1 ? 's' : '' }})</span>
                     </div>
+                   
                     <div class="price">
                         <span class="xb-item--price">
                             @if($product->discount > 0)
@@ -242,13 +190,6 @@
                     <div class="product-option">
 
 
-{{--                        <form action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form">--}}
-{{--                            @csrf--}}
-{{--                            <input type="hidden" name="product_id" value="{{ $product->id }}">--}}
-{{--                            <input type="hidden" name="selected_options" id="selected_options" value="">--}}
-
-{{--                            <button type="submit" class="btn btn-primary">Add to Cart</button>--}}
-{{--                        </form>--}}
 
 
                         <form class="form" action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form" >
@@ -277,21 +218,10 @@
                 <span>No categories</span>
             @endif
             </span>
-{{--                            @if()--}}
-
-{{--                            <div class="inner-shop-details-bottom">--}}
-{{--                                <span>--}}
-{{--                                        <span>Categories :--}}
-{{--                                        <a href="#">Vitamin</a>--}}
-{{--                                        <a href="#">Protein</a>--}}
-{{--                                        <a href="#">Capsule</a>--}}
-{{--                                        <a href="#">Powder</a></span>--}}
-{{--                                    </span>--}}
-{{--                            </div>--}}
 
                             <div class="inner-shop-details-bottom">
                             <span class="posted_in">
-{{--                              <h2>Options</h2>--}}
+
                                 @php
                                     $groupedOptions = [];
                                     foreach ($product->productOptions as $productOption) {
@@ -364,9 +294,9 @@
                                 <div class="tab-pane fade" id="tb-03">
                                     <div class="row">
                                         <div class="col-lg-6 col-sm-12 col-xs-12">
+                                            
 
-
-
+                                            
                                             <h3 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Reviews</h3>
 
                                             <div class="reviews-section" id="reviewsSection" style="max-height: 400px; overflow-y: auto;">
@@ -388,8 +318,8 @@
                                                 </div>
                                                 @endforeach
                                             </div>
-
-
+                                            
+                                            
                                         </div>
 
                                         <div class="col-lg-6 col-sm-12 col-xs-12 review-form-wrapper">
@@ -428,8 +358,8 @@
                                                 <div id="successMessage" style="color: green; margin-top: 10px; display: none;"></div>
                                             </div>
                                         </div>
-
-
+                                        
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -563,7 +493,7 @@
 {{--        });--}}
 {{--    });--}}
 {{--</script>--}}
-
+//////////////////////////////////////////////////////////////////////////////////////
 {{--<script>--}}
 {{--    document.addEventListener('DOMContentLoaded', function() {--}}
 {{--        const optionLinks = document.querySelectorAll('.option-value');--}}
@@ -595,7 +525,7 @@
 {{--        });--}}
 {{--    });--}}
 {{--</script>--}}
-
+///////////////////////////////////////////////////////////////////////////////////
 {{--<script>--}}
 {{--document.addEventListener('DOMContentLoaded', () => {--}}
 {{--const form = document.getElementById('add-to-cart-form');--}}
@@ -921,3 +851,4 @@ function remove() {
     });
     
     </script>
+                    

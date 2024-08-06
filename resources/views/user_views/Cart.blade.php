@@ -489,26 +489,6 @@
     });
 
     $(document).ready(function() {
-        //
-        // function calculateSubtotal() {
-        //     let subtotal = 0;
-        //     $('.cart_single').each(function() {
-        //         const quantity = parseInt($(this).find('.product-count').val());
-        //         const price = parseFloat($(this).find('.product-price .woocommerce-Price-amount').text().replace(/[^0-9.-]+/g,""));
-        //         subtotal += quantity * price;
-        //     });
-        //     return subtotal;
-        // }
-        //
-        // function calculateTotal() {
-        //     let total = 0;
-        //     $('.cart_single').each(function() {
-        //         const quantity = parseInt($(this).find('.product-count').val());
-        //         const price = parseFloat($(this).find('.product-price .woocommerce-Price-amount').text().replace(/[^0-9.-]+/g,""));
-        //         total += quantity * price;
-        //     });
-        //     return total;
-        // }
 
         function displayMessage(message, type = 'success') {
             const messageContainer = $('#message-container');
@@ -524,63 +504,63 @@
             url: '{{ route('api.cart.get') }}',
             method: 'GET',
             success: function(response) {
-                $('#cart-items').empty(); // Clear previous items
-                let total = 0;
+    $('#cart-items').empty(); // Clear previous items
+    let total = 0;
 
-                if (response.items.length === 0) {
-                    $('#cart-items').append('<tr><td colspan="6">Your cart is empty.</td></tr>');
-                } else {
-                    response.items.forEach(item => {
-                        const itemTotal = item.product.price * item.quantity;
-                        $('#cart-items').append(`
-                            <tr class="cart_single">
-                                <td class="product-remove">
-                                    <a href="#!" class="remove" title="Remove this item"
-                                       data-product_id="${item.product.id}">&times;</a>
-                                </td>
-                                <td class="product-thumbnail">
-                                    <a href="#!">
-                                        <img width="57" height="70" src="${item.product_image}"
-                                             class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
-                                             alt="${item.product.name}" />
-                                    </a>
-                                </td>
-                                <td class="product-name" data-title="Product">
-                                    <a href="#!">${item.product.name}</a>
-                                </td>
-                                <td class="product-price" data-title="Price">
-                                    <span class="woocommerce-Price-amount amount">
-                                        <span class="woocommerce-Price-currencySymbol">$</span>${item.product.price}
-                                    </span>
-                                <td class="product-options" data-title="Options">
-                                <input type="hidden" class="selected-options" value='${item.selected_options}' />
-                                    <span>${item.formatted_options}</span>
-                                </td>
+    if (response.items.length === 0) {
+        $('#cart-items').append('<tr><td colspan="6">Your cart is empty.</td></tr>');
+    } else {
+        response.items.forEach(item => {
+            const itemTotal = item.subtotal; // Use subtotal with discount
+            $('#cart-items').append(`
+                <tr class="cart_single">
+                    <td class="product-remove">
+                        <a href="#!" class="remove" title="Remove this item"
+                           data-product_id="${item.product.id}">&times;</a>
+                    </td>
+                    <td class="product-thumbnail">
+                        <a href="#!">
+                            <img width="57" height="70" src="${item.product_image}"
+                                 class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
+                                 alt="${item.product.name}" />
+                        </a>
+                    </td>
+                    <td class="product-name" data-title="Product">
+                        <a href="#!">${item.product.name}</a>
+                    </td>
+                    <td class="product-price" data-title="Price">
+                        <span class="woocommerce-Price-amount amount">
+                            <span class="woocommerce-Price-currencySymbol">$</span>${item.discounted_price.toFixed(2)} <!-- Display discounted price -->
+                        </span>
+                    </td>
+                    <td class="product-options" data-title="Options">
+                        <input type="hidden" class="selected-options" value='${item.selected_options}' />
+                        <span>${item.formatted_options}</span>
+                    </td>
+                    <td class="product-quantity" data-title="Quantity">
+                        <div class="quantity">
+                            <button type="button" class="quantity-minus" data-product_id="${item.product.id}">-</button>
+                            <input type="number" step="1" min="1" max="9999" value="${item.quantity}"
+                             title="Qty"
+                             class="product-count input-text qty text product-count form-control"
+                             data-product_id="${item.product.id}" />
+                            <button type="button" class="quantity-plus" data-product_id="${item.product.id}">+</button>
+                        </div>
+                    </td>
+                    <td class="product-subtotal" data-title="Total">
+                        <span class="woocommerce-Price-amount amount">
+                            <span class="woocommerce-Price-currencySymbol">$</span>${itemTotal.toFixed(2)} <!-- Display subtotal with discount -->
+                        </span>
+                    </td>
+                </tr>
+            `);
+            total += itemTotal; // Accumulate total for cart
+        });
 
-                                <td class="product-quantity" data-title="Quantity">
-                                    <div class="quantity">
-                                        <button type="button" class="quantity-minus" data-product_id="${item.product.id}">-</button>
-                                        <input type="number" step="1" min="1" max="9999" value="${item.quantity}"
-                                         title="Qty"
-                                         class="product-count input-text qty text product-count form-control"
-                                         data-product_id="${item.product.id}" />
-                                        <button type="button" class="quantity-plus" data-product_id="${item.product.id}">+</button>
-                                    </div>
-                                </td>
-                                <td class="product-subtotal" data-title="Total">
-                                    <span class="woocommerce-Price-amount amount">
-                                        <span class="woocommerce-Price-currencySymbol">$</span>${itemTotal.toFixed(2)}
-                                    </span>
-                                </td>
-                            </tr>
-                        `);
-                        total += itemTotal;
-                    });
-
-                    $('#cart-subtotal').text(total.toFixed(2));
-                    $('#cart-total').text(total.toFixed(2));
-                }
-            },
+        $('#cart-subtotal').text(total.toFixed(2));
+        $('#cart-total').text(total.toFixed(2));
+    }
+},
             error: function(xhr, status, error) {
                 console.error('AJAX error:', error);
             }
