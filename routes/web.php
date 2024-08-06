@@ -26,13 +26,13 @@ use App\Http\Middleware\GuestSession;
 
 Route::middleware([GuestSession::class])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('/Cart', [CartController::class, 'Cart'])->name('cart');
+    Route::get('/viewCart', [CartController::class, 'Cart'])->name('cart');
     Route::get('/Checkout', [CheckoutController::class, 'Checkout'])->name('checkout');
     Route::get('/Shop',[ShopController::class,'Shop'])->name('shop');
     Route::get('/products/{id}', [UserProductController::class, 'show'])->name('products.show');
     Route::get('/shop/{categoryName?}', [ShopController::class, 'Shop'])->name('shop.category');
     Route::post('/product/{id}/review', [UserProductController::class, 'createReview'])->name('product.createReview');
-    
+
 
 
 });

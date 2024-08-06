@@ -79,6 +79,11 @@
                                             </p>
 
                                             <p class="form-row">
+                                                <label for="billing_email">Email <abbr class="required" title="required">*</abbr></label>
+                                                <input type="email" name="billing_email" id="billing_email" placeholder="Email" required style="border: 1px solid #ccc; padding: 0.5rem; width: 100%; border-radius: 4px;" />
+                                            </p>
+
+                                            <p class="form-row">
                                                 <label for="billing_address_1">Address <abbr class="required" title="required">*</abbr></label>
                                                 <input type="text" name="billing_address_1" id="billing_address_1" placeholder="Street address" required style="border: 1px solid #ccc; padding: 0.5rem; width: 100%; border-radius: 4px;" />
                                             </p>
