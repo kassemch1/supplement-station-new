@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\user_controllers;
 
 use App\Http\Controllers\user_controllers\Controller;
+use App\Mail\CheckoutMail;
+use App\Mail\ContactMail;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\CartItemOption;
@@ -14,6 +16,7 @@ use App\Models\ShippingDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 
@@ -27,21 +30,21 @@ class CartController extends Controller
     public function getCart() {
         $sessionId = Session::get('session_id');
         $cart = Cart::where('session_id', $sessionId)->first();
-    
+
         if (!$cart) {
             return response()->json(['items' => []]);
         }
-    
+
         $items = $cart->items()->with('product.images')->get();
-    
+
         foreach ($items as $item) {
             $selectedOptions = json_decode($item->selected_options, true);
             $formattedOptions = [];
-    
+
             foreach ($selectedOptions as $optionName => $optionValue) {
                 $formattedOptions[] = ucfirst($optionName) . ': ' . ucfirst($optionValue);
             }
-    
+
             $item->formatted_options = implode(', ', $formattedOptions);
             $item->product_image = $item->product->images->first()->url ?? null; // Assuming you want the first image
             
@@ -51,11 +54,9 @@ class CartController extends Controller
             $item->discounted_price = $discount ? $price * (1 - ($discount / 100)) : $price; // Apply discount
             $item->subtotal = $item->discounted_price * $item->quantity; // Calculate subtotal with discount
         }
-    
+
         return response()->json(['items' => $items]);
     }
-    
-    
 
 
     public function addToCart(Request $request)
@@ -236,10 +237,13 @@ class CartController extends Controller
             'billing_phone' => 'required|numeric',
             'billing_address_1' => 'required|string',
             'billing_city' => 'required|string',
+            'billing_email' => 'required|email',
         ]);
     
         $sessionId = Session::get('session_id');
         $cart = Cart::where('session_id', $sessionId)->first();
+        $client_data = $request->only('billing_first_name', 'billing_phone', 'billing_address_1', 'billing_city','billing_email');
+
     
         if (!$cart || $cart->items->isEmpty()) {
             return redirect()->back()->with('error', 'Your cart is empty. Please add items to your cart before placing an order.');
@@ -265,6 +269,7 @@ class CartController extends Controller
                 'order_id' => $order->id,
                 'name' => $request->billing_first_name,
                 'phone' => $request->billing_phone,
+                'email'=>$request->billing_email,
                 'address' => $request->billing_address_1,
                 'city' => $request->billing_city,
             ]);
@@ -281,11 +286,14 @@ class CartController extends Controller
                     'price' => $discountedPrice, 
                     'selected_options' => $cartItem->selected_options, 
                 ]);
+
             }
     
             $cart->items()->delete(); 
     
             DB::commit();
+
+            Mail::to($request->billing_email)->send(new CheckoutMail($client_data,$cart->items,$order));
     
             return redirect()->route('checkout')->with('success', 'Order placed successfully!');
         } catch (\Illuminate\Database\QueryException $e) {

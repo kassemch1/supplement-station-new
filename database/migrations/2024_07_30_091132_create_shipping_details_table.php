@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->string('name');
             $table->integer('phone');
+            $table->text('email');
             $table->text('address');
             $table->string('city');
             $table->timestamps();

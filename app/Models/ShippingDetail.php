@@ -13,6 +13,7 @@ class ShippingDetail extends Model
         'order_id',
         'name',
         'phone',
+        'email',
         'address',
         'city',
     ];

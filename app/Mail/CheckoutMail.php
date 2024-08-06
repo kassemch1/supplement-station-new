@@ -13,12 +13,19 @@ class CheckoutMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $client_data;
+    public $items;
+    public $order;
+
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($client_data,$items,$order)
     {
-        //
+        $this->client_data=$client_data;
+        $this->items=$items;
+        $this->order=$order;
     }
 
     /**
@@ -37,7 +44,10 @@ class CheckoutMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails/checkout',
+            view: 'mails/checkout_mail',
+            with: ['client_data'=>$this->client_data,
+                'items'=>$this->items,
+                'order'=>$this->order]
         );
     }
 

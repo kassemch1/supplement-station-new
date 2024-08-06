@@ -166,7 +166,7 @@
     <div class="header">
         <img src="https://via.placeholder.com/200x100?text=Company+Logo" alt="Company Logo">
         <h1>Thank You for Your Order!</h1>
-        <p>Hi John Doe,</p>
+        <p>Hi {{$client_data['billing_first_name']}},</p>
     </div>
     <div class="content">
         <p>We have received your order and it is being processed. Here are the details:</p>
@@ -177,19 +177,19 @@
             </tr>
             <tr>
                 <th>Date</th>
-                <td>August 5, 2024</td>
+                <td>{{ now()->format('F d, Y') }}</td>
             </tr>
             <tr>
                 <th>Shipping Address</th>
                 <td>
-                    123 Fitness Lane<br>
-                    Muscle City, FC 56789<br>
-                    USA
+                    {{$client_data['billing_address_1']}}<br>
+                    {{$client_data['billing_city']}}<br>
+                    Lebanon
                 </td>
             </tr>
             <tr>
                 <th>Payment Method</th>
-                <td>Credit Card</td>
+                <td>Cash on Delivery</td>
             </tr>
         </table>
         <h2>Order Items</h2>
@@ -199,24 +199,33 @@
                 <th>Item</th>
                 <th>Quantity</th>
                 <th>Price</th>
+                <th>Options</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Whey Protein</td>
-                <td>2</td>
-                <td>$50.00</td>
-            </tr>
-            <tr>
-                <td>Creatine</td>
-                <td>1</td>
-                <td>$25.00</td>
-            </tr>
+            @foreach($items as $item)
+                @php
+                    $originalPrice = $item->product->price;
+                    $discount = $item->product->discount;
+                    $discountedPrice = $originalPrice - ($originalPrice * $discount / 100);
+                    $selectedOptions = json_decode($item->selected_options, true);
+                @endphp
+                <tr>
+                    <td>{{$item->product->name}}</td>
+                    <td>{{$item->quantity}}</td>
+                    <td>{{ number_format($discountedPrice, 2) }}</td>
+                    <td>
+                        @foreach($selectedOptions as $key => $value)
+                            {{ $key }}: {{ $value }}<br>
+                        @endforeach
+                    </td>
+                </tr>
+            @endforeach
             </tbody>
             <tfoot>
             <tr>
                 <th colspan="2">Subtotal</th>
-                <td>$75.00</td>
+                <td>{{ number_format($order->total_amount, 2) }}</td>
             </tr>
             <tr>
                 <th colspan="2">Shipping</th>
@@ -224,7 +233,7 @@
             </tr>
             <tr>
                 <th colspan="2">Total</th>
-                <td>$85.00</td>
+                <td>{{ number_format($order->total_amount, 2) }}</td>
             </tr>
             </tfoot>
         </table>
