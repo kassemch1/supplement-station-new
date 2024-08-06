@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zxx">
-    Here you
+
 
 <head>
 
@@ -760,7 +760,7 @@
 {{--        });--}}
 {{--    });--}}
 {{--</script>--}}
-//////////////////////////////////////////////////////////////////////////////////////
+
 {{--<script>--}}
 {{--    document.addEventListener('DOMContentLoaded', function() {--}}
 {{--        const optionLinks = document.querySelectorAll('.option-value');--}}
@@ -792,7 +792,7 @@
 {{--        });--}}
 {{--    });--}}
 {{--</script>--}}
-///////////////////////////////////////////////////////////////////////////////////
+
 {{--<script>--}}
 {{--document.addEventListener('DOMContentLoaded', () => {--}}
 {{--const form = document.getElementById('add-to-cart-form');--}}

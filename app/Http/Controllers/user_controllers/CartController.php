@@ -24,33 +24,31 @@ class CartController extends Controller
         return view('user_views.Cart');
     }
 
-    public function getCart()
-{
-    $sessionId = Session::get('session_id');
-    $cart = Cart::where('session_id', $sessionId)->first();
-
-    if (!$cart) {
-        return response()->json(['items' => []]);
-    }
-
-    $items = $cart->items()->with('product')->get();
-
-    foreach ($items as $item) {
-        $selectedOptions = json_decode($item->selected_options, true);
-        $formattedOptions = [];
-
-        foreach ($selectedOptions as $optionName => $optionValue) {
-            $formattedOptions[] = ucfirst($optionName) . ': ' . ucfirst($optionValue);
+    public function getCart() {
+        $sessionId = Session::get('session_id');
+        $cart = Cart::where('session_id', $sessionId)->first();
+    
+        if (!$cart) {
+            return response()->json(['items' => []]);
         }
-
-        $item->formatted_options = implode(', ', $formattedOptions);
+    
+        $items = $cart->items()->with('product.images')->get();
+    
+        foreach ($items as $item) {
+            $selectedOptions = json_decode($item->selected_options, true);
+            $formattedOptions = [];
+    
+            foreach ($selectedOptions as $optionName => $optionValue) {
+                $formattedOptions[] = ucfirst($optionName) . ': ' . ucfirst($optionValue);
+            }
+    
+            $item->formatted_options = implode(', ', $formattedOptions);
+            $item->product_image = $item->product->images->first()->url ?? null; // Assuming you want the first image
+        }
+    
+        return response()->json(['items' => $items]);
     }
-
-    return response()->json(['items' => $items]);
-}
-
-
-
+    
 
 
     public function addToCart(Request $request)
