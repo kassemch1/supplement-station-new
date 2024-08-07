@@ -1,7 +1,7 @@
 
 <!doctype html>
 <html lang="zxx">
-   
+
 <head>
 
     <!--========= Required meta tags =========-->
@@ -95,6 +95,10 @@
             <div class="col-lg-8 pb-col-8">
                 <div class="row g-20">
                     @forelse ($product as $productItem)
+                        @php
+                            $ratingCount = $productItem->reviews()->count();
+                            $averageRating = $ratingCount > 0 ? $productItem->reviews()->avg('rating') : 5;
+                        @endphp
                     <div class="col-lg-6 col-md-6 mt-20">
                         <div class="popular-product-item ul_li">
                             <div class="xb-item--img">
@@ -106,11 +110,15 @@
                                 <h3 class="xb-item--title"><a href="{{ route('products.show', $productItem->id) }}">{{ $productItem->name }}</a></h3>
                                 <div class="xb-item--rating-inner ul_li">
                                     <ul class="xb-item--rating ul_li">
+{{--                                        @if($averageRating>0)--}}
                                         @for ($i = 0; $i < 5; $i++)
-                                            <li><img src="assets/img/icon/star.png" alt=""></li>
+                                            <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
                                         @endfor
+{{--                                        @endif--}}
+                                            <span>({{ $ratingCount }} Customer review{{ $ratingCount != 1 ? 's' : '' }})</span>
+
                                     </ul>
-                                    <span>({{ $productItem->rating_count }})</span>
+
                                 </div>
                                 <div class="xb-item--action ul_li_between">
                                     <h4 class="xb-item--price">${{ number_format($productItem->price, 2) }}</h4>
@@ -258,11 +266,16 @@
                             <h3 class="xb-item--title">
                                 <a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a>
                             </h3>
+                            @php
+                                $ratingCount = $product->reviews()->count();
+                                $averageRating = $ratingCount > 0 ? $product->reviews()->avg('rating') : 5;
+                            @endphp
                             <div class="xb-item--rating-inner ul_li_center">
                                 <ul class="xb-item--rating ul_li">
                                     @for ($i = 0; $i < 5; $i++)
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
+                                        <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
                                     @endfor
+
                                 </ul>
                             </div>
                         </div>
@@ -386,7 +399,7 @@
                         <div class="xb-pricing">
                             <div class="xb-item--head pos-rel">
                                 <h4 class="xb-item--title">{{$plane->type}}</h4>
-                                <h2 class="xb-item--price">${{$plane->price}}</h2>
+                                <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span>  </h2>
                                 <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
                                 <div class="xb-item--img" data-background="assets/img/pricing/img_01.png"></div>
                                 <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape.png"></div>
@@ -411,7 +424,7 @@
                                         @endif
                                 </ul>
                                 <div class="xb-item--btn">
-                                    <a class="thm-btn w-100 text-center mt-45" href="#!"><img src="assets/img/icon/bag.svg" alt="">BUY NOW</a>
+                                    <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=81088266"><img src="assets/img/icon/bag.svg" alt="">LEARN MORE</a>
                                 </div>
                             </div>
                         </div>
@@ -426,7 +439,7 @@
                         <div class="xb-pricing active">
                             <div class="xb-item--head pos-rel">
                                 <h4 class="xb-item--title">{{$plane->type}}</h4>
-                                <h2 class="xb-item--price">${{$plane->price}}</h2>
+                                <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span></h2>
                                 <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
                                 <div class="xb-item--img" data-background="assets/img/pricing/img_02.png"></div>
                                 <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape2.png"></div>
@@ -450,7 +463,7 @@
                                     @endif
                                 </ul>
                                 <div class="xb-item--btn">
-                                    <a class="thm-btn w-100 text-center mt-45" href="#!"><img src="assets/img/icon/bag.svg" alt="">BUY NOW</a>
+                                    <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=81088266"><img src="assets/img/icon/bag.svg" alt="">LEARN MORE</a>
                                 </div>
                             </div>
                         </div>

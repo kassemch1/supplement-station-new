@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zxx">
-   
+
 
 <head>
 
@@ -103,7 +103,7 @@
 
     @include('partials/navBar')
 
-    
+
     <div class="body-overlay"></div>
 
     <!-- main area start  -->
@@ -175,7 +175,7 @@
                         @endfor
                         <span>({{ $ratingCount  }} Customer review{{ $ratingCount > 1 ? 's' : '' }})</span>
                     </div>
-                   
+
                     <div class="price">
                         <span class="xb-item--price">
                             @if($product->discount > 0)
@@ -220,45 +220,29 @@
             </span>
 
                             <div class="inner-shop-details-bottom">
-                            <span class="posted_in">
+    <span class="posted_in">
+        @php
+            $groupedOptions = [];
+            foreach ($product->productOptions as $productOption) {
+                $groupedOptions[$productOption->option->option_name][] = $productOption;
+            }
+        @endphp
 
-                                @php
-                                    $groupedOptions = [];
-                                    foreach ($product->productOptions as $productOption) {
-                                        $groupedOptions[$productOption->option->option_name][] = $productOption;
-                                    }
-                                @endphp
-
-                                @foreach ($groupedOptions as $optionName => $productOptions)
-                                    <div>
+        @foreach ($groupedOptions as $optionName => $productOptions)
+            <div>
                 <span>{{ $optionName }}:</span>
-                    @foreach ($productOptions as $productOption)
-
-                            <a href="#" class="option-value" data-option-name="{{ $optionName }}" data-option-value="{{ $productOption->option_value }}">
-                                {{ $productOption->option_value }}
-                            </a>
-
-                    @endforeach
-
+                @foreach ($productOptions as $productOption)
+                    @if($productOption->stock > 0)
+                        <a href="#" class="option-value" data-option-name="{{ $optionName }}" data-option-value="{{ $productOption->option_value }}">
+                            {{ $productOption->option_value }}
+                        </a>
+                    @else
+                        <a href="#" class="option-value">{{ $productOption->option_value }} (Out of stock)</a>
+                    @endif
+                @endforeach
             </div>
-
-                                @endforeach
-
-{{--                <form action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form">--}}
-{{--            @csrf--}}
-{{--            <input type="hidden" name="product_id" value="{{ $product->id }}">--}}
-{{--            <input type="hidden" name="selected_options" id="selected_options" value="">--}}
-
-{{--            <button type="submit" class="btn btn-primary">Add to Cart</button>--}}
-{{--        </form>--}}
-
-            </span>
-{{--                            <span class="product-share-wrap ul_li">Share:--}}
-{{--            <a href="#"><i class="fab fa-facebook-f"></i></a>--}}
-{{--            <a href="#"><i class="fab fa-instagram"></i></a>--}}
-{{--            <a href="#"><i class="fab fa-twitter"></i></a>--}}
-{{--            <a href="#"><i class="fab fa-linkedin"></i></a>--}}
-{{--            </span>--}}
+        @endforeach
+    </span>
                             </div>
                         </div>
                     </div>
@@ -294,9 +278,9 @@
                                 <div class="tab-pane fade" id="tb-03">
                                     <div class="row">
                                         <div class="col-lg-6 col-sm-12 col-xs-12">
-                                            
 
-                                            
+
+
                                             <h3 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Reviews</h3>
 
                                             <div class="reviews-section" id="reviewsSection" style="max-height: 400px; overflow-y: auto;">
@@ -318,8 +302,8 @@
                                                 </div>
                                                 @endforeach
                                             </div>
-                                            
-                                            
+
+
                                         </div>
 
                                         <div class="col-lg-6 col-sm-12 col-xs-12 review-form-wrapper">
@@ -358,8 +342,8 @@
                                                 <div id="successMessage" style="color: green; margin-top: 10px; display: none;"></div>
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                     </div>
                                 </div>
                             </div>
@@ -648,15 +632,15 @@ function remove() {
             method: 'GET',
             success: function(response) {
                 console.log("response",response.items); // Check response structure
-    
+
                 if (!response.items || !Array.isArray(response.items)) {
                     console.error("here");
                     return;
                 }
-    
+
                 $('#mini-cart').empty(); // Clear previous items
                 let total = 0;
-    
+
                 if (response.items.length === 0) {
                     $('#mini-cart').append('<p>Your cart is empty.</p>');
                 } else {
@@ -665,7 +649,7 @@ function remove() {
                             console.error("here");
                             return;
                         }
-    
+
                         console.log(item.product);
                         const itemTotal = item.product.price * item.quantity;
                         $('#mini-cart').append(`
@@ -685,15 +669,15 @@ function remove() {
             <div class="remove-button" style="margin-left: auto;">
         <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
     </div>
-    
+
         </div>
     `);
-    
-    
+
+
                         console.log('Added item:', item.product.name); // Debugging line
                         total += itemTotal;
                     });
-    
+
                     $('#mini-cart').append(`
                         <p class="woocommerce-mini-cart__total">
                             <strong>Subtotal:</strong>
@@ -711,26 +695,26 @@ function remove() {
             }
         });
     }
-    
+
     // Fetch cart items on page load
     $(document).ready(function() {
         fetchCart();
     });
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
     // Remove item from cart
     $(document).on('click', '.remove', function(event) {
         event.preventDefault(); // Prevent the default link behavior
-    
+
         const productId = $(this).data('product_id');
-    
+
         $.ajax({
             url: '{{ route('cart.remove') }}',
             method: 'POST',
@@ -747,6 +731,5 @@ function remove() {
             }
         });
     });
-    
+
     </script>
-                    

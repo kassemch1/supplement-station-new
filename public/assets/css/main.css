@@ -4399,7 +4399,9 @@ body .mfp-wrap .mfp-container .mfp-content .mfp-close:hover::before, body .mfp-w
 }
   .product-item .xb-item--img {
     margin-bottom: 25px;
-    height: 280px; }
+    max-height: 250px;
+      width:auto;
+  }
     .product-item .xb-item--img img {
       -webkit-transition: 0.3s;
       -o-transition: 0.3s;
@@ -6191,7 +6193,7 @@ abbr[title] {
     -moz-border-radius: 3px;
     -ms-border-radius: 3px;
     -o-border-radius: 3px;
-    margin-bottom: 28px; }
+    margin-bottom: 38px; }
   .xb-pricing .xb-item--price {
     color: var(--color-white);
     font-size: 50px;
@@ -8650,4 +8652,8 @@ blockquote {
     .footer-social li a:hover svg path {
       fill: #080807; }
 
+
 /*# sourceMappingURL=main.css.map */
+.fa-star {
+    color: #FFBD12;
+}

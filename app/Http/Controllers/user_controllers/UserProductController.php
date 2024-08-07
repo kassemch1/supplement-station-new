@@ -22,7 +22,7 @@ class UserProductController extends Controller
     $product = Product::with('productOptions.option')->findOrFail($id);
 //     $products = Product::with('images')->find($id);
         $ratingCount = $product->reviews()->count();
-        $averageRating =5;
+        $averageRating = $ratingCount > 0 ? $product->reviews()->avg('rating') : 5;
 
 //    $product = Product::findOrFail($id);
     $category = Category::find($product->category_id);
