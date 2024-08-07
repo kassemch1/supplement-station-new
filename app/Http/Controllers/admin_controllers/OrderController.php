@@ -10,23 +10,31 @@ use Illuminate\Support\Facades\Redirect;
 
 class OrderController extends Controller
 {
-    public function pendingOrders()
+    public function pendingOrders(Request $request)
     {
-        $pendingOrders = Order::where('status', 'pending')->paginate(4);
-
+        $sortOrder = $request->input('sort', 'desc'); // Default to descending order
+        $pendingOrders = Order::where('status', 'pending')
+            ->orderBy('created_at', $sortOrder)
+            ->paginate(4);
+    
         return view('admin_views/manage_orders/Pending_orderList', [
             'pendingOrders' => $pendingOrders,
         ]);
     }
+    
 
-    public function deliveredOrders()
+    public function deliveredOrders(Request $request)
     {
-        $deliveredOrders = Order::where('status', 'delivered')->paginate(4);
-
+        $sortOrder = $request->input('sort', 'desc'); // Default to descending order
+        $deliveredOrders = Order::where('status', 'delivered')
+            ->orderBy('created_at', $sortOrder)
+            ->paginate(4);
+    
         return view('admin_views/manage_orders/Delivered_orderList', [
             'deliveredOrders' => $deliveredOrders,
         ]);
     }
+    
 
     public function orderDetails($orderId)
     {

@@ -52,6 +52,16 @@
             <div class="col-12 col-lg-auto mb-20">
                 <div class="page-heading">
                     <h3>Pending Orders</h3>
+                    <div>
+                        <form action="{{ route('admin.orders.pending') }}" method="GET" class="form-inline">
+                            <label for="sort" class="mr-2">Sort By:</label>
+                            <select name="sort" id="sort" class="form-control mr-2" onchange="this.form.submit()">
+                                <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Newest First</option>
+                                <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>Oldest First</option>
+                            </select>
+                        </form>
+                    </div>
+                   
                 </div>
             </div>
         </div>
