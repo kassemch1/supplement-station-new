@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Purefit - Health Supplement Landing Page</title>
+    <title>Cart</title>
 
     <link rel="shortcut icon" href="assets/img/favicon.png" type="images/x-icon"/>
 
@@ -128,7 +128,7 @@
                 <div class="breadcrumb__content text-center">
                     <h2 class="breadcrumb__title">Cart</h2>
                     <ul class="breadcrumb__list clearfix">
-                        <li class="breadcrumb-item"><a href="index.html">Purefit</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">Supplement Station</a></li>
                         <li class="breadcrumb-item">Cart</li>
                     </ul>
                 </div>

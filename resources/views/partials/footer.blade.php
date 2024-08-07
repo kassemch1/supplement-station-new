@@ -57,12 +57,12 @@
                         <div class="xb-item--head">
                             <div class="xb-item--address">
                                 <h3><img src="assets/img/icon/location.svg" alt="">our address</h3>
-                                <p>100 Orchard st, New <br> York,NY 100025 USA</p>
+                                <p>Mosharfeye ,facing turkey resturant<br> Beirut, Lebanon</p>
                             </div>
                             <div class="xb-item--open">
                                 <p>Monday - Friday <br>
                                     08:00AM - 05:00PM</p>
-                                <a href="mailto:purefit@gmail.com"><img src="assets/img/icon/sms-tracking.svg" alt="">purefit@gmail.com</a>
+                                <a href="mailto:purefit@gmail.com"><img src="assets/img/icon/sms-tracking.svg" alt="">supplement-station@gmail.com</a>
                             </div>
                             <ul class="xb-item--social ul_li mt-30">
                                 <li><a href="#!"><i class="fab fa-telegram-plane"></i></a></li>
@@ -94,16 +94,12 @@
                 <li><a href="#!">careers</a></li>
                 <li><a href="#!">contact</a></li>
             </ul>
-            <div class="footer-bottom mt-50 ul_li_between">
-                <div class="footer-copyright mt-30">
-                    Copyright © 2024 purefit All rights reserved.
+            <div class="footer-bottom mt-50 d-flex justify-content-center align-items-center">
+                <div class="footer-copyright mt-30 text-center">
+                    Copyright © 2024 Supplement Station All rights reserved.
                 </div>
-                <ul class="footer-links ul_li mt-30">
-                    <li><a href="#!">terms of conditions</a></li>
-                    <li><a href="#!">privacy pllicy</a></li>
-
-                </ul>
             </div>
+
         </div>
     </div>
 </footer>

@@ -6162,8 +6162,8 @@ abbr[title] {
 
 .xb-pricing {
     position: relative; /* Ensure the containing div is positioned */
-    min-height: 600px;
-    max-height: 600px;
+    min-height: 700px;
+    max-height: 700px;
   border: 1px solid rgba(6, 6, 6, 0.1); }
   .xb-pricing .xb-item--head {
     background-color: #000;

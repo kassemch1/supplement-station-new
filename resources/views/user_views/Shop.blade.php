@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Purefit - Health Supplement Landing Page</title>
+    <title>Shop</title>
 
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="images/x-icon"/>
 
@@ -49,7 +49,7 @@
                 <div class="breadcrumb__content text-center">
                     <h2 class="breadcrumb__title">Shop</h2>
                     <ul class="breadcrumb__list clearfix">
-                        <li class="breadcrumb-item"><a href="index.html">Purefit</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">Supplement Station</a></li>
                         <li class="breadcrumb-item">Shop</li>
                     </ul>
                 </div>
@@ -151,9 +151,9 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    
-                                      
-                                    
+
+
+
                                 </div>
 
                                 <div class="pagination_wrap pt-25">
@@ -502,15 +502,15 @@
             method: 'GET',
             success: function(response) {
                 console.log("response",response.items); // Check response structure
-    
+
                 if (!response.items || !Array.isArray(response.items)) {
                     console.error("here");
                     return;
                 }
-    
+
                 $('#mini-cart').empty(); // Clear previous items
                 let total = 0;
-    
+
                 if (response.items.length === 0) {
                     $('#mini-cart').append('<p>Your cart is empty.</p>');
                 } else {
@@ -519,7 +519,7 @@
                             console.error("here");
                             return;
                         }
-    
+
                         console.log(item.product);
                         const itemTotal = item.product.price * item.quantity;
                         $('#mini-cart').append(`
@@ -539,15 +539,15 @@
             <div class="remove-button" style="margin-left: auto;">
         <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
     </div>
-    
+
         </div>
     `);
-    
-    
+
+
                         console.log('Added item:', item.product.name); // Debugging line
                         total += itemTotal;
                     });
-    
+
                     $('#mini-cart').append(`
                         <p class="woocommerce-mini-cart__total">
                             <strong>Subtotal:</strong>
@@ -565,26 +565,26 @@
             }
         });
     }
-    
+
     // Fetch cart items on page load
     $(document).ready(function() {
         fetchCart();
     });
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
     // Remove item from cart
     $(document).on('click', '.remove', function(event) {
         event.preventDefault(); // Prevent the default link behavior
-    
+
         const productId = $(this).data('product_id');
-    
+
         $.ajax({
             url: '{{ route('cart.remove') }}',
             method: 'POST',
@@ -601,7 +601,7 @@
             }
         });
     });
-    
+
     </script>
 
 

@@ -31,7 +31,7 @@
                                 <a class="section-link" href="#shop"><span>Shop</span></a>
                                 <ul class="submenu">
                                     <li><a href="{{ route('shop') }}"><span>Products</span></a></li>
-                                    <li><a href="/Cart"><span>Cart</span></a></li>
+                                    <li><a href="{{ route('cart') }}"><span>Cart</span></a></li>
                                     <li><a href="checkout.html"><span>Checkout</span></a></li>
                                 </ul>
                             </li>
@@ -144,7 +144,7 @@
         <h4 class="sidebar-heading">Contact Information</h4>
         <ul class="sidebar-info-list list-unstyled">
             <li><span><img src="assets/img/icon/i_star.svg" alt=""></span>Mosharfeye ,facing turkey resturant</li>
-            <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>+961 81 088 266</a></li>
+            <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>+961 81-823-038</a></li>
 
         </ul>
     </div>
@@ -154,7 +154,7 @@
             <div class="xb-item-wrap row">
                 <div class="xb-item col-auto">
                     <span class="item-content">
-                        <a href="tel:02456787535" class="tel">+961 81 088 266</a>
+                        <a href="tel:02456787535" class="tel">+961 81-823-038</a>
                     </span>
                 </div>
             </div>
@@ -180,6 +180,7 @@
     </div>
 </div>
 
+
 <!-- sidebar-info end -->
 
 
@@ -192,15 +193,15 @@
             method: 'GET',
             success: function(response) {
                 console.log("response",response.items); // Check response structure
-    
+
                 if (!response.items || !Array.isArray(response.items)) {
                     console.error("here");
                     return;
                 }
-    
+
                 $('#mini-cart').empty(); // Clear previous items
                 let total = 0;
-    
+
                 if (response.items.length === 0) {
                     $('#mini-cart').append('<p>Your cart is empty.</p>');
                 } else {
@@ -209,7 +210,7 @@
                             console.error("here");
                             return;
                         }
-    
+
                         console.log(item.product);
                         const itemTotal = item.product.price * item.quantity;
                         $('#mini-cart').append(`
@@ -229,15 +230,15 @@
             <div class="remove-button" style="margin-left: auto;">
         <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
     </div>
-    
+
         </div>
     `);
-    
-    
+
+
                         console.log('Added item:', item.product.name); // Debugging line
                         total += itemTotal;
                     });
-    
+
                     $('#mini-cart').append(`
                         <p class="woocommerce-mini-cart__total">
                             <strong>Subtotal:</strong>
@@ -255,26 +256,26 @@
             }
         });
     }
-    
+
     // Fetch cart items on page load
     $(document).ready(function() {
         fetchCart();
     });
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
     // Remove item from cart
     $(document).on('click', '.remove', function(event) {
         event.preventDefault(); // Prevent the default link behavior
-    
+
         const productId = $(this).data('product_id');
-    
+
         $.ajax({
             url: '{{ route('cart.remove') }}',
             method: 'POST',
@@ -291,10 +292,9 @@
             }
         });
     });
-    
+
     </script>
-    
-    
-    
-    
-    
+
+
+
+

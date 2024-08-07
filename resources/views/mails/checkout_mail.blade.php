@@ -164,7 +164,7 @@
 <body>
 <div class="container">
     <div class="header">
-        <img src="https://via.placeholder.com/200x100?text=Company+Logo" alt="Company Logo">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSijUmd9kCFK0FrrXppEx7Y1lrwTIzxAcJKA&s" alt="Company Logo">
         <h1>Thank You for Your Order!</h1>
         <p>Hi {{$client_data['billing_first_name']}},</p>
     </div>
@@ -173,7 +173,7 @@
         <table class="order-details">
             <tr>
                 <th>Order Number</th>
-                <td>123456789</td>
+                <td>#{{$order->id}}</td>
             </tr>
             <tr>
                 <th>Date</th>
@@ -225,21 +225,21 @@
             <tfoot>
             <tr>
                 <th colspan="2">Subtotal</th>
-                <td>{{ number_format($order->total_amount, 2) }}</td>
+                <td>${{ number_format($order->total_amount, 2) }}</td>
             </tr>
             <tr>
                 <th colspan="2">Shipping</th>
-                <td>$10.00</td>
+                <td>Shipping details will be provided upon order confirmation.</td>
             </tr>
             <tr>
                 <th colspan="2">Total</th>
-                <td>{{ number_format($order->total_amount, 2) }}</td>
+                <td>${{ number_format($order->total_amount, 2) }}</td>
             </tr>
             </tfoot>
         </table>
     </div>
     <div class="footer">
-        <p>If you have any questions about your order, please contact us at support@example.com.</p>
+        <p>If you have any questions about your order, please contact us at +961 81-823-038</p>
         <p>Thank you for shopping with us!</p>
         <p>Best regards,<br>Supplement Station</p>
     </div>
