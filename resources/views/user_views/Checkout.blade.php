@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Purefit - Health Supplement Landing Page</title>
+    <title>Checkout</title>
 
     <link rel="shortcut icon" href="assets/img/favicon.png" type="images/x-icon"/>
 
@@ -208,12 +208,12 @@ $(document).ready(function() {
                     $('#place_order_btn').prop('disabled', false); // Enable button if cart has items
                     $('#cart_empty_message').hide(); // Hide message if cart has items
                     response.items.forEach(item => {
-                        
+
                         const discount = item.product.discount;
                         const price = item.product.price;
                         const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount
                         const itemTotal = discountedPrice * item.quantity; // Calculate total for this item
-                        
+
                         $('#order_review tbody').append(
                             `<tr class="cart_single">
                                 <td class="product-name">

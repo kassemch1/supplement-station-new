@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Purefit - Health Supplement Landing Page</title>
+    <title>Home</title>
 
     <link rel="shortcut icon" href="assets/img/favicon.png" type="images/x-icon"/>
 
@@ -50,7 +50,7 @@
                     <div class="col-lg-6">
                         <div class="hero__content sec-title">
                             <span class="sub-title wow fadeInUp" data-wow-duration=".6s">100% PREMIUM QUALITY</span>
-                            <h1 class="title mb-25 wow fadeInUp" data-wow-delay="150ms" data-wow-duration=".6s">Today Elevate Your Energy Levels purefit</h1>
+                            <h1 class="title mb-25 wow fadeInUp" data-wow-delay="150ms" data-wow-duration=".6s">Today Elevate Your Energy Levels at Supplement Station</h1>
                             <div class="hero__action ul_li wow fadeInUp" data-wow-delay="300ms" data-wow-duration=".6s">
                                 @if($product)
                                     <a class="thm-btn mr-45 mt-30" href="{{ route('products.show', ['id'=>$banner->product_id]) }}">BUY NOW</a>
@@ -61,7 +61,7 @@
                                     </span>
                                     <div class="info">
                                         <span>CONTACT US DAILY</span>
-                                        <h4>(+420) 318 568 511</h4>
+                                        <h4>+961 81-823-038</h4>
                                     </div>
                                 </div>
                             </div>
@@ -154,8 +154,8 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="sec-title mb-30">
-                                <span class="sub-title">about purefit</span>
-                                <h2 class="title">purefit Your health journey begins!</h2>
+                                <span class="sub-title">about Supplement Station</span>
+                                <h2 class="title">At Supplement Station  Your health journey begins!</h2>
                             </div>
                             <div class="about-experience">
                                 <span>since</span>
@@ -164,14 +164,14 @@
                         </div>
                         <div class="col-lg-6 mt-40">
                             <div class="about-content">
-                                <p>At purefit, we're dedicated to helping you  on a transformative health journey. Our mission is to provide you with the highest quality supplements, backed by science and crafted with care. Here's what you can expect from us.</p>
+                                <p>At Supplement Station, we're dedicated to helping you  on a transformative health journey. Our mission is to provide you with the highest quality supplements, backed by science and crafted with care. Here's what you can expect from us.</p>
                                 <ul class="about-list ul_li mt-10">
-                                    <li><img src="assets/img/icon/check.svg" alt="">Natural Ingredients</li>
-                                    <li><img src="assets/img/icon/check.svg" alt="">Fishbone Diagram</li>
-                                    <li><img src="assets/img/icon/check.svg" alt="">Flower Formula</li>
+                                    <li><img src="assets/img/icon/check.svg" alt="">Premium Quality Products</li>
+                                    <li><img src="assets/img/icon/check.svg" alt="">Clear Information</li>
+                                    <li><img src="assets/img/icon/check.svg" alt="">Customized Training Plans</li>
+                                    <li><img src="assets/img/icon/check.svg" alt="">Expert Guidance</li>
                                     <li><img src="assets/img/icon/check.svg" alt="">Increased Energy</li>
-                                    <li><img src="assets/img/icon/check.svg" alt="">Drug Interactions</li>
-                                    <li><img src="assets/img/icon/check.svg" alt="">100% Fat Blasting</li>
+                                    <li><img src="assets/img/icon/check.svg" alt="">Friendly Service</li>
                                 </ul>
                             </div>
                         </div>
@@ -193,8 +193,8 @@
                                     <img src="assets/img/icon/ft_01.svg" alt="">
                                 </span>
                                 <div class="xb-item--holder">
-                                    <h3 class="xb-item--title">Enhancing Joint Blood Flow</h3>
-                                    <p class="xb-item--desc">Your joints play a crucial role in your daily mobility and overall well.</p>
+                                    <h3 class="xb-item--title">Supports Optimal Performance</h3>
+                                    <p class="xb-item--desc">High-quality supplements can enhance your physical performance, helping you achieve your fitness goals more effectively.</p>
                                 </div>
                             </li>
                             <li>
@@ -202,8 +202,8 @@
                                     <img src="assets/img/icon/ft_02.svg" alt="">
                                 </span>
                                 <div class="xb-item--holder">
-                                    <h3 class="xb-item--title">Help Reduce <br> Inflammation</h3>
-                                    <p class="xb-item--desc">Inflammation is a common factor in many chronic health.</p>
+                                    <h3 class="xb-item--title">Boosts Recovery <br> Time</h3>
+                                    <p class="xb-item--desc">Supplements with ingredients like protein, amino acids, and antioxidants can aid in quicker recovery after intense workouts or physical exertion.</p>
                                 </div>
                             </li>
                             <li>
@@ -211,8 +211,8 @@
                                     <img src="assets/img/icon/ft_03.svg" alt="">
                                 </span>
                                 <div class="xb-item--holder">
-                                    <h3 class="xb-item--title">Helps You Stick To <br> Your Diet</h3>
-                                    <p class="xb-item--desc">Maintaining a healthy diet can be a challenging but essential</p>
+                                    <h3 class="xb-item--title">Promotes Muscle <br> Growth</h3>
+                                    <p class="xb-item--desc">Essential supplements like creatine, BCAAs, and whey protein can support muscle development and strength gains, contributing to overall fitness progress.</p>
                                 </div>
                             </li>
                             <li>
@@ -220,8 +220,8 @@
                                     <img src="assets/img/icon/ft_04.svg" alt="">
                                 </span>
                                 <div class="xb-item--holder">
-                                    <h3 class="xb-item--title">Ingredients To Fuel <br> Your Body</h3>
-                                    <p class="xb-item--desc">Proper nutrition is the cornerstone of a healthy lifestyle. In this guide.</p>
+                                    <h3 class="xb-item--title">Enhances Energy <br> Levels</h3>
+                                    <p class="xb-item--desc">Energy-boosting supplements can help improve endurance and reduce fatigue, allowing you to stay active and motivated throughout the day.</p>
                                 </div>
                             </li>
                         </ul>
@@ -230,8 +230,8 @@
                         <div class="feature-content">
                             <div class="sec-title sec-title--big sec-title--white">
                                 <span class="sub-title">100% PREMIUM QUALITY</span>
-                                <h2 class="title mb-25">advanced formula for our health</h2>
-                                <p>At purefit, we're dedicated to helping you  on a health journey. Our mission is to provide .</p>
+                                <h2 class="title mb-25">Maximize Your Fitness Potential</h2>
+                                <p>At Supplement Station, we're dedicated to helping you  on a health journey. Our mission is to provide 100% high-quality supplements, personalized support, and expert guidance to ensure you achieve your wellness goals..</p>
                                 <a class="thm-btn mt-45" href="#!">LEARN MORE</a>
                             </div>
                         </div>
@@ -483,7 +483,7 @@
                 <div class="accordion-inner bg_img" data-background="assets/img/bg/faq_bg.jpg">
                     <div class="sec-title sec-title--white text-center mb-60">
                         <span class="sub-title">faq</span>
-                        <h2 class="title">product information</h2>
+                        <h2 class="title">Frequently asked questions</h2>
                     </div>
                     <ul class="xb-accordion accordion_box clearfix">
                         @foreach($faqs as $faq)
@@ -626,58 +626,68 @@
         <!-- brand end -->
 
         <!-- blog start -->
-        <section id="blog" class="blog position-top blog-pb bg_img pt-180" data-background="assets/img/bg/blog_bg.jpg">
-            <div class="container">
-                <div class="ul_li_between align-items-end mb-25">
-                    <div class="sec-title mb-30">
-                        <span class="sub-title">blog</span>
-                        <h2 class="title">latest blog</h2>
-                    </div>
-                    <a class="border-btn mb-30" href="blog.html">view all blog</a>
-                </div>
-                <div class="row mt-none-30 justify-content-center">
-                    <div class="col-lg-4 col-md-6 mt-30">
-                        <div class="xb-blog">
-                            <div class="xb-item--img">
-                                <a href="blog-single.html"><img src="assets/img/blog/img_01.jpg" alt=""></a>
-                                <div class="xb-item--date">28 <br><span>sep</span></div>
-                            </div>
-                            <div class="xb-item--holder">
-                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Steven Timothy</span>
-                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">The Power of Adaptogens Stress Relief and..</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mt-30">
-                        <div class="xb-blog">
-                            <div class="xb-item--img">
-                                <a href="blog-single.html"><img src="assets/img/blog/img_02.jpg" alt=""></a>
-                                <div class="xb-item--date">28 <br><span>sep</span></div>
-                            </div>
-                            <div class="xb-item--holder">
-                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Andrew Brian</span>
-                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">The Role of Supplements in Athletic Perf..</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-8 mt-30">
-                        <div class="xb-blog">
-                            <div class="xb-item--img">
-                                <a href="blog-single.html"><img src="assets/img/blog/img_03.jpg" alt=""></a>
-                                <div class="xb-item--date">28 <br><span>sep</span></div>
-                            </div>
-                            <div class="xb-item--holder">
-                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Andrew Brian</span>
-                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">Discover the Benefits of Essential Nutrients..</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+{{--        <section id="blog" class="blog position-top blog-pb bg_img pt-180" data-background="assets/img/bg/blog_bg.jpg">--}}
+{{--            <div class="container">--}}
+{{--                <div class="ul_li_between align-items-end mb-25">--}}
+{{--                    <div class="sec-title mb-30">--}}
+{{--                        <span class="sub-title">blog</span>--}}
+{{--                        <h2 class="title">latest blog</h2>--}}
+{{--                    </div>--}}
+{{--                    <a class="border-btn mb-30" href="blog.html">view all blog</a>--}}
+{{--                </div>--}}
+{{--                <div class="row mt-none-30 justify-content-center">--}}
+{{--                    <div class="col-lg-4 col-md-6 mt-30">--}}
+{{--                        <div class="xb-blog">--}}
+{{--                            <div class="xb-item--img">--}}
+{{--                                <a href="blog-single.html"><img src="assets/img/blog/img_01.jpg" alt=""></a>--}}
+{{--                                <div class="xb-item--date">28 <br><span>sep</span></div>--}}
+{{--                            </div>--}}
+{{--                            <div class="xb-item--holder">--}}
+{{--                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Steven Timothy</span>--}}
+{{--                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">The Power of Adaptogens Stress Relief and..</a></h3>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="col-lg-4 col-md-6 mt-30">--}}
+{{--                        <div class="xb-blog">--}}
+{{--                            <div class="xb-item--img">--}}
+{{--                                <a href="blog-single.html"><img src="assets/img/blog/img_02.jpg" alt=""></a>--}}
+{{--                                <div class="xb-item--date">28 <br><span>sep</span></div>--}}
+{{--                            </div>--}}
+{{--                            <div class="xb-item--holder">--}}
+{{--                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Andrew Brian</span>--}}
+{{--                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">The Role of Supplements in Athletic Perf..</a></h3>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="col-lg-4 col-md-8 mt-30">--}}
+{{--                        <div class="xb-blog">--}}
+{{--                            <div class="xb-item--img">--}}
+{{--                                <a href="blog-single.html"><img src="assets/img/blog/img_03.jpg" alt=""></a>--}}
+{{--                                <div class="xb-item--date">28 <br><span>sep</span></div>--}}
+{{--                            </div>--}}
+{{--                            <div class="xb-item--holder">--}}
+{{--                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Andrew Brian</span>--}}
+{{--                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">Discover the Benefits of Essential Nutrients..</a></h3>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </section>--}}
         <!-- blog end -->
 
     </main>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
     <!-- main area end  -->
 
     <!-- footer strt -->
