@@ -8,8 +8,6 @@ use App\Models\Product;
 use App\Models\Plane;
 use App\Models\OrderItem;
 use App\Models\Category;
-use Illuminate\Support\Facades\Log;
-
 use Illuminate\Support\Facades\DB;
 
 
@@ -48,7 +46,7 @@ use Illuminate\Support\Facades\DB;
     $product = Product::whereIn('id', $bestSellingProductIds)->with('images')->get();
 
     // Get offers products
-    $offersCategory = Category::where('name', 'offers')->first();
+    $offersCategory = Category::where('name', 'Offers')->first();
     $offersProducts = [];
 
     if ($offersCategory) {
