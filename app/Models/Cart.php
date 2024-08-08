@@ -9,7 +9,7 @@ class Cart extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['session_id'];
+    protected $fillable = ['session_id','expires_at'];
 
     public function items()
     {
