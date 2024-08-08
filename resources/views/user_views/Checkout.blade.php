@@ -178,12 +178,7 @@
 <script src={{asset("assets/js/scrollspy.js")}}></script>
 <script src={{asset("assets/js/main.js")}}></script>
 
-<div class="header-shop-cart">
-    <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">2</span></a>
-    <div class="header-mini-cart">
-        <!-- Cart items will be dynamically inserted here -->
-    </div>
-</div>
+
 <script>
     function fetchCart() {
         $.ajax({

@@ -345,12 +345,7 @@
 
 
 </html>
-<div class="header-shop-cart">
-    <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">2</span></a>
-    <div class="header-mini-cart">
-        <!-- Cart items will be dynamically inserted here -->
-    </div>
-</div>
+
 <script>
     function fetchCart() {
         $.ajax({
@@ -611,12 +606,7 @@
 }
 
     </style>
-<div class="header-shop-cart">
-    <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">2</span></a>
-    <div class="header-mini-cart">
-        <!-- Cart items will be dynamically inserted here -->
-    </div>
-</div>
+
 <script>
     function fetchCart() {
         $.ajax({
@@ -696,8 +686,8 @@
         });
         fetchCart(); // Fetch cart items
     });
-// Remove item from mini cart
-$(document).on('click', '.remove', function(event) {
+    // Remove item from mini cart
+    $(document).on('click', '.remove', function(event) {
     event.preventDefault(); // Prevent the default link behavior
 
     const productId = $(this).data('product_id');
@@ -717,17 +707,17 @@ $(document).on('click', '.remove', function(event) {
                 alert('Failed to remove item from cart.'); // Handle unexpected response
             }
         },
-        error: function(xhr, status, error) {
+         error: function(xhr, status, error) {
             // Check if the response contains a JSON message
-            try {
+                try {
                 const errResponse = JSON.parse(xhr.responseText);
                 alert(errResponse.message || 'Failed to remove item from cart.');
-            } catch (e) {
+             } catch (e) {
                 alert('Failed to remove item from cart.');
-            }
-        }
+             }
+         }
+        });
     });
-});
 
 
 </script>
