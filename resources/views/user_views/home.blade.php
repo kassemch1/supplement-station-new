@@ -1,7 +1,7 @@
 
 <!doctype html>
 <html lang="zxx">
-best
+
 <head>
 
     <!--========= Required meta tags =========-->

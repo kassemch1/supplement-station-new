@@ -507,18 +507,23 @@
         .then(response => response.json())
         .then(data => {
             const productList = document.getElementById('product-list');
-            productHtml += `
-    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+            let productHtml = '';
+
+            if (data.product.length > 0) {
+                data.product.forEach(function(product) {
+                    console.log(product.images)
+                    productHtml += `
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="product product-item text-center">
                                 <div class="xb-item--img">
-                                    ${product.discount > 0 ? 
+                                    ${product.discount > 0 ? `
             <div class="ribbon" style="
                 width: 150px;
                 height: 150px;
                 overflow: hidden;
                 position: absolute;
                 top: -30px;
-                right: -75px;
+                right: -105px;
                 z-index: 2;
             ">
                 <span style="
@@ -536,14 +541,20 @@
                     right: -75px;
                 ">On Sale</span>
             </div>
-             : ''}
-                                    <a href="shop-single.html">
-                                        <img src="${product.images[0].url}" alt="img" style="width: 155px; height: 170px; object-fit: cover;">
-                                    </a>
+            ` : ''}
+            ${product.stock > 0 ? `
+            <a href="products/${product.id}">
+                <img src="${product.images[0].url}" alt="img" style="max-height: 120px">
+            </a>
+            ` : `
+            <div class="no-stock">
+                ${product.images[0] ? `<img src="${product.images[0].url}" alt="img" style="max-height: 120px">` : 'No image available'}
+            </div>
+            `}
                                 </div>
                                 <div class="xb-item--holder">
                                     <h3 class="xb-item--title">
-                                        <a href="shop-single.html">${product.name}</a>
+                                        ${product.stock > 0 ? `<a href="products/${product.id}">${product.name}</a>` : `<span class="no-stock-title">${product.name}</span>`}
                                     </h3>
                                     <div class="xb-item--rating-inner ul_li_center">
                                         <ul class="xb-item--rating ul_li">
@@ -558,19 +569,26 @@
                                 </div>
                                 <div class="xb-item--action ul_li mt-20">
                                     <span class="xb-item--price" style="position: relative;">
-                    ${product.discount > 0 ? 
+                    ${product.discount > 0 ? `
                         <span style="text-decoration: line-through; color: gray;">$${product.price}</span>
                         <span style="color: red;">$${(product.price - (product.price * product.discount / 100)).toFixed(2)}</span>
-                     : $${product.price}}
+                    ` : `$${product.price}`}
                 </span>
-                                    <a href="shop-single.html">
-                                        <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt="Cart"></span>
-                                        <span class="xb-item--cart">add to cart</span>
-                                    </a>
+                ${product.stock > 0 ? `
+            <a href="products/${product.id}" class="xb-item--cart-btn">
+                <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
+                <span class="xb-item--cart">add to cart</span>
+            </a>
+            ` : `
+            <a href="#" class="xb-item--cart-btn disabled" onclick="showOutOfStockMessage(event)">
+                <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
+                <span class="xb-item--cart">Out of Stock</span>
+            </a>
+            `}
                                 </div>
                             </div>
                         </div>
-`;
+                    `;
                 });
             } else {
                 productHtml = '<p>No products found.</p>';
