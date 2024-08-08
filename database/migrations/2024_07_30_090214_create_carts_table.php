@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->string('session_id');
+            $table->timestamp('expires_at')->nullable(); // Add expiry timestamp
             $table->timestamps();
         });
     }
