@@ -1,7 +1,7 @@
 
 <!doctype html>
 <html lang="zxx">
-
+best
 <head>
 
     <!--========= Required meta tags =========-->
@@ -253,75 +253,96 @@
         <div class="product-slider swiper-container">
             <div class="swiper-wrapper">
                 @forelse ($product as $product)
-                    <div class="swiper-slide product-item text-center">
-                        <div class="xb-item--img">
-                            @if($product->discount > 0)
-                            <div class="ribbon" style="
-                                width: 150px;
-                                height: 150px;
-                                overflow: hidden;
+                <div class="swiper-slide product-item text-center">
+                    <div class="xb-item--img">
+                        @if($product->discount > 0)
+                        <div class="ribbon" style="
+                            width: 150px;
+                            height: 150px;
+                            overflow: hidden;
+                            position: absolute;
+                            top: -10px;
+                            right: -10px;
+                            z-index: 2;
+                        ">
+                            <span style="
                                 position: absolute;
-                                top: -10px;
-                                right: -10px;
-                                z-index: 2;
-                            ">
-                                <span style="
-                                    position: absolute;
-                                    display: block;
-                                    width: 225px;
-                                    padding: 15px 0;
-                                    background-color: red;
-                                    color: white;
-                                    text-transform: uppercase;
-                                    font-weight: bold;
-                                    text-align: center;
-                                    transform: rotate(45deg);
-                                    top: 30px;
-                                    right: -65px;
-                                ">On Sale</span>
-                            </div>
+                                display: block;
+                                width: 225px;
+                                padding: 15px 0;
+                                background-color: red;
+                                color: white;
+                                text-transform: uppercase;
+                                font-weight: bold;
+                                text-align: center;
+                                transform: rotate(45deg);
+                                top: 30px;
+                                right: -65px;
+                            ">On Sale</span>
+                        </div>
                         @endif
-                            <a href="{{ route('products.show', $product->id) }}">
-                                <!-- Add image here -->
-                                @if($product->images->isNotEmpty())
-                                    <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px">
-                                @else
-                                    No image available
-                                @endif
-                            </a>
+                        @if($product->stock > 0)
+                        <a href="{{ route('products.show', $product->id) }}">
+                            <!-- Add image here -->
+                            @if($product->images->isNotEmpty())
+                                <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px">
+                            @else
+                                No image available
+                            @endif
+                        </a>
+                    @else
+                        <div class="no-stock">
+                            <!-- Add image here -->
+                            @if($product->images->isNotEmpty())
+                                <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px">
+                            @else
+                                No image available
+                            @endif
                         </div>
-                        <div class="xb-item--holder">
-                            <h3 class="xb-item--title">
-                                <a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a>
-                            </h3>
-                            @php
-                                $ratingCount = $product->reviews()->count();
-                                $averageRating = $ratingCount > 0 ? $product->reviews()->avg('rating') : 5;
-                            @endphp
-                            <div class="xb-item--rating-inner ul_li_center">
-                                <ul class="xb-item--rating ul_li">
-                                    @for ($i = 0; $i < 5; $i++)
-                                        <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
-                                    @endfor
-
-                                </ul>
-                            </div>
+                    @endif
+                    </div>
+                    <div class="xb-item--holder">
+                        <h3 class="xb-item--title">
+                            @if($product->stock > 0)
+                            <a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a>
+                        @else
+                            <span class="no-stock-title">{{ $product->name }}</span>
+                        @endif
+                        </h3>
+                        @php
+                            $ratingCount = $product->reviews()->count();
+                            $averageRating = $ratingCount > 0 ? $product->reviews()->avg('rating') : 5;
+                        @endphp
+                        <div class="xb-item--rating-inner ul_li_center">
+                            <ul class="xb-item--rating ul_li">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
+                                @endfor
+                            </ul>
                         </div>
-                        <div class="xb-item--action ul_li mt-20">
-                            <span class="xb-item--price">
-                                @if($product->discount > 0)
-                                    <span style="text-decoration: line-through; color: gray;">${{ number_format($product->price, 2) }}</span>
-                                    <span style="color: red;">${{ number_format($product->price - ($product->price * $product->discount / 100), 2) }}</span>
-                                @else
-                                    ${{ number_format($product->price, 2) }}
-                                @endif
-                            </span>
-                            <a href="{{ route('products.show', $product->id) }}">
+                    </div>
+                    <div class="xb-item--action ul_li mt-20">
+                        <span class="xb-item--price">
+                            @if($product->discount > 0)
+                                <span style="text-decoration: line-through; color: gray;">${{ number_format($product->price, 2) }}</span>
+                                <span style="color: red;">${{ number_format($product->price - ($product->price * $product->discount / 100), 2) }}</span>
+                            @else
+                                ${{ number_format($product->price, 2) }}
+                            @endif
+                        </span>
+                        @if($product->stock > 0)
+                            <a href="{{ route('products.show', $product->id) }}" class="xb-item--cart-btn">
                                 <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
                                 <span class="xb-item--cart">add to cart</span>
                             </a>
-                        </div>
+                        @else
+                            <a href="#" class="xb-item--cart-btn disabled" onclick="showOutOfStockMessage(event)">
+                                <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
+                                <span class="xb-item--cart">Out of Stock</span>
+                            </a>
+                        @endif
                     </div>
+                </div>
                 @empty
                     <p>No products available.</p>
                 @endforelse
@@ -869,6 +890,112 @@ $(document).on('click', '.remove', function(event) {
 </script>
 
 
+To achieve the behavior where the cart button is disabled and shows an "Out of Stock" message if the product's stock is 0, you can update your code as follows:
+
+Disable the Cart Button and Show the Message: Add conditional logic to disable the cart button and show an "Out of Stock" message if the product's stock is 0. You can use JavaScript to display the message dynamically and handle the click event.
+
+Add JavaScript for Message Display: Use JavaScript to handle the click event and display the "Out of Stock" message.
+
+Here's how you can modify your Blade template:
+
+html
+Copy code
+<div class="swiper-slide product-item text-center">
+    <div class="xb-item--img">
+        @if($product->discount > 0)
+        <div class="ribbon" style="
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            z-index: 2;
+        ">
+            <span style="
+                position: absolute;
+                display: block;
+                width: 225px;
+                padding: 15px 0;
+                background-color: red;
+                color: white;
+                text-transform: uppercase;
+                font-weight: bold;
+                text-align: center;
+                transform: rotate(45deg);
+                top: 30px;
+                right: -65px;
+            ">On Sale</span>
+        </div>
+        @endif
+        <a href="{{ route('products.show', $product->id) }}">
+            <!-- Add image here -->
+            @if($product->images->isNotEmpty())
+                <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px">
+            @else
+                No image available
+            @endif
+        </a>
+    </div>
+    <div class="xb-item--holder">
+        <h3 class="xb-item--title">
+            <a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a>
+        </h3>
+        @php
+            $ratingCount = $product->reviews()->count();
+            $averageRating = $ratingCount > 0 ? $product->reviews()->avg('rating') : 5;
+        @endphp
+        <div class="xb-item--rating-inner ul_li_center">
+            <ul class="xb-item--rating ul_li">
+                @for ($i = 0; $i < 5; $i++)
+                    <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
+                @endfor
+            </ul>
+        </div>
+    </div>
+    <div class="xb-item--action ul_li mt-20">
+        <span class="xb-item--price">
+            @if($product->discount > 0)
+                <span style="text-decoration: line-through; color: gray;">${{ number_format($product->price, 2) }}</span>
+                <span style="color: red;">${{ number_format($product->price - ($product->price * $product->discount / 100), 2) }}</span>
+            @else
+                ${{ number_format($product->price, 2) }}
+            @endif
+        </span>
+        @if($product->stock > 0)
+            <a href="{{ route('products.show', $product->id) }}" class="xb-item--cart-btn">
+                <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
+                <span class="xb-item--cart">add to cart</span>
+            </a>
+        @else
+            <a href="#" class="xb-item--cart-btn disabled" onclick="showOutOfStockMessage(event)">
+                <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
+                <span class="xb-item--cart">Out of Stock</span>
+            </a>
+        @endif
+    </div>
+</div>
+
+<script>
+    function showOutOfStockMessage(event) {
+        event.preventDefault();
+        const cartButton = event.currentTarget;
+        cartButton.querySelector('.xb-item--cart').innerText = 'Out of Stock';
+        cartButton.classList.add('disabled');
+        
+        setTimeout(() => {
+            cartButton.querySelector('.xb-item--cart').innerText = 'add to cart';
+            cartButton.classList.remove('disabled');
+        }, 4000);
+    }
+</script>
+
+<style>
+    .xb-item--cart-btn.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+</style>
 
 
 
