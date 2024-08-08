@@ -32,7 +32,7 @@
                                 <ul class="submenu">
                                     <li><a href="{{ route('shop') }}"><span>Products</span></a></li>
                                     <li><a href="{{ route('cart') }}"><span>Cart</span></a></li>
-                                    <li><a href="checkout.html"><span>Checkout</span></a></li>
+                                    <li><a href="{{ route('checkout') }}"><span>Checkout</span></a></li>
                                 </ul>
                             </li>
                             <li><a class="section-link" href="{{ route('home') }}#pricing"><span>Pricing</span></a></li>
@@ -68,9 +68,8 @@
                                             <a class="section-link" href="#shop"><span>Shop</span></a>
                                             <ul class="sub-menu">
                                                 <li><a href="{{ route('shop') }}"><span>Products</span></a></li>
-                                                <li><a href="shop-single.html"><span>Single Product</span></a></li>
                                                 <li><a href="{{ route('cart') }}"><span>Cart</span></a></li>
-                                                <li><a href="checkout.html"><span>Checkout</span></a></li>
+                                                <li><a href="{{ route('checkout') }}"><span>Checkout</span></a></li>
                                             </ul>
                                         </li>
                                         <li class="menu-item"><a class="section-link" href="{{ route('home') }}#pricing"><span>Pricing</span></a></li>
@@ -92,7 +91,7 @@
                 <div class="header__right d-none d-lg-block" >
                     <div class="ul_li">
                         <div class="header-shop-cart">
-                            <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">2</span></a>
+                            <a href="javascript:void(0);"><img src="{{ asset('assets/img/icon/bag.svg')}}" alt=""><span class="mini-cart-count">2</span></a>
                             <div class="header-mini-cart" >
                                
                                 
@@ -181,15 +180,5 @@
 </div>
 
 
-<!-- sidebar-info end -->
 
-
-
-
-
-    <style>
-
-        </style>
-    
-    
     

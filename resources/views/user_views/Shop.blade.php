@@ -112,7 +112,7 @@
                                                     <a href="{{ route('products.show', $item->id) }}">
                                                         <div class="xb-item--img">
                                                             @if($item->images->isNotEmpty())
-                                                                <img src="{{asset($item->images->first()->url)}}" alt="img">
+                                                                <img src="{{asset($item->images->first()->url)}}" alt="img" style="width: 155px; height: 170px; object-fit: cover;">
                                                             @else
                                                                 No image available
                                                             @endif
@@ -345,6 +345,122 @@
 
 
 </html>
+<div class="header-shop-cart">
+    <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">2</span></a>
+    <div class="header-mini-cart">
+        <!-- Cart items will be dynamically inserted here -->
+    </div>
+</div>
+<script>
+    function fetchCart() {
+        $.ajax({
+            url: '{{ route('api.cart.get') }}',
+            method: 'GET',
+            success: function(response) {
+                console.log("response", response.items); // Check response structure
+
+                if (!response.items || !Array.isArray(response.items)) {
+                    console.error("Invalid response structure");
+                    return;
+                }
+
+                $('.header-mini-cart').empty(); // Clear previous items
+                let total = 0;
+
+                if (response.items.length === 0) {
+                    $('.header-mini-cart').append('<p>Your cart is empty.</p>');
+                } else {
+                    response.items.forEach(item => {
+                        if (!item.product || !item.product.price || !item.product.name) {
+                            console.error("Invalid item structure");
+                            return;
+                        }
+
+                        const discount = item.product.discount || 0; // Get discount percentage
+                        const price = item.product.price;
+                        const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount
+                        const itemTotal = discountedPrice * item.quantity; // Calculate total for this item
+
+                        $('.header-mini-cart').append(`
+                            <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
+                                <div class="mini-cart-img" style="margin-right: 10px;">
+                                    <img src="${item.product_image || 'path/to/default/image.jpg'}" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
+                                </div>
+                                <div class="mini-cart-content" style="flex-grow: 1;">
+                                    <h4 class="product-title" style="margin: 0; font-size: 14px;">
+                                        <a href="shop-details.html" style="text-decoration: none; color: #000;">${item.product.name}</a>
+                                    </h4>
+                                    <div class="mini-cart-price" style="margin-top: 5px;">
+                                        ${item.quantity} ×
+                                        <span class="woocommerce-Price-amount amount" style="color: red;">$${discountedPrice.toFixed(2)}</span>
+                                    
+                                    </div>
+                                </div>
+                                <div class="remove-button" style="margin-left: auto;">
+                                    <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
+                                </div>
+                            </div>
+                        `);
+
+                        total += itemTotal; // Sum the total amount
+                    });
+
+                    $('.header-mini-cart').append(`
+                        <p class="woocommerce-mini-cart__total">
+                            <strong>Subtotal:</strong>
+                            <span class="woocommerce-Price-amount">$${total.toFixed(2)}</span>
+                        </p>
+                        <p class="checkout-link">
+                            <a href="/viewCart" class="button wc-forward">View cart</a>
+                            <a href="/Checkout" class="button checkout wc-forward">Checkout</a>
+                        </p>
+                    `);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', error);
+            }
+        });
+    }
+
+    // Fetch cart items on page load
+    $(document).ready(function() {
+        $('.header-shop-cart a').on('click', function() {
+            $('.header-mini-cart').toggle(); // Toggle visibility on click
+        });
+        fetchCart(); // Fetch cart items
+    });
+
+    // Remove item from cart
+    $(document).on('click', '.remove', function(event) {
+        event.preventDefault(); // Prevent the default link behavior
+
+        const productId = $(this).data('product_id');
+
+        $.ajax({
+            url: '{{ route('cart.remove') }}',
+            method: 'POST',
+            data: {
+                product_id: productId,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                alert(response.message);
+                fetchCart(); // Refresh the cart items
+            },
+            error: function(xhr, status, error) {
+                alert('Failed to remove item from cart.');
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var products = @json($product);
@@ -385,7 +501,7 @@
                             <div class="product product-item text-center">
                                 <div class="xb-item--img">
                                     <a href="shop-single.html">
-                                        <img src="${product.images[0].url}" alt="${product.name}">
+                                        <img src="${product.images[0].url}" alt="img" style="width: 155px; height: 170px; object-fit: cover;">
                                     </a>
                                 </div>
                                 <div class="xb-item--holder">
@@ -501,20 +617,19 @@
         <!-- Cart items will be dynamically inserted here -->
     </div>
 </div>
-
 <script>
     function fetchCart() {
         $.ajax({
             url: '{{ route('api.cart.get') }}',
             method: 'GET',
             success: function(response) {
-                console.log("response",response.items); // Check response structure
+                console.log("response", response.items); // Check response structure
 
                 if (!response.items || !Array.isArray(response.items)) {
                     console.error("Invalid response structure");
                     return;
                 }
-    
+
                 $('.header-mini-cart').empty(); // Clear previous items
                 let total = 0;
 
@@ -527,12 +642,15 @@
                             return;
                         }
 
-                        console.log(item.product);
-                        const itemTotal = item.product.price * item.quantity;
+                        const discount = item.product.discount || 0; // Get discount percentage
+                        const price = item.product.price;
+                        const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount
+                        const itemTotal = discountedPrice * item.quantity; // Calculate total for this item
+
                         $('.header-mini-cart').append(`
                             <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
                                 <div class="mini-cart-img" style="margin-right: 10px;">
-                                    <img src="https://atlas-content-cdn.pixelsquid.com/assets_v2/265/2653773395304388238/previews/G03-200x200.jpg" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <img src="${item.product_image || 'path/to/default/image.jpg'}" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
                                 </div>
                                 <div class="mini-cart-content" style="flex-grow: 1;">
                                     <h4 class="product-title" style="margin: 0; font-size: 14px;">
@@ -540,7 +658,8 @@
                                     </h4>
                                     <div class="mini-cart-price" style="margin-top: 5px;">
                                         ${item.quantity} ×
-                                        <span class="woocommerce-Price-amount amount" style="color: red;">$${parseFloat(item.product.price).toFixed(2)}</span>
+                                        <span class="woocommerce-Price-amount amount" style="color: red;">$${discountedPrice.toFixed(2)}</span>
+                                    
                                     </div>
                                 </div>
                                 <div class="remove-button" style="margin-left: auto;">
@@ -548,19 +667,18 @@
                                 </div>
                             </div>
                         `);
-    
-                        console.log('Added item:', item.product.name); // Debugging line
-                        total += itemTotal;
+
+                        total += itemTotal; // Sum the total amount
                     });
-    
+
                     $('.header-mini-cart').append(`
                         <p class="woocommerce-mini-cart__total">
                             <strong>Subtotal:</strong>
                             <span class="woocommerce-Price-amount">$${total.toFixed(2)}</span>
                         </p>
                         <p class="checkout-link">
-                            <a href="/Cart" class="button wc-forward">View cart</a>
-                            <a href="checkout.html" class="button checkout wc-forward">Checkout</a>
+                            <a href="/viewCart" class="button wc-forward">View cart</a>
+                            <a href="/Checkout" class="button checkout wc-forward">Checkout</a>
                         </p>
                     `);
                 }
@@ -576,60 +694,41 @@
         $('.header-shop-cart a').on('click', function() {
             $('.header-mini-cart').toggle(); // Toggle visibility on click
         });
-        fetchCart();
+        fetchCart(); // Fetch cart items
     });
-    
-    // Remove item from cart
-    $(document).on('click', '.remove', function(event) {
-        event.preventDefault(); // Prevent the default link behavior
+// Remove item from mini cart
+$(document).on('click', '.remove', function(event) {
+    event.preventDefault(); // Prevent the default link behavior
 
-        const productId = $(this).data('product_id');
+    const productId = $(this).data('product_id');
 
-        $.ajax({
-            url: '{{ route('cart.remove') }}',
-            method: 'POST',
-            data: {
-                product_id: productId,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
+    $.ajax({
+        url: '{{ route('cart.remove') }}',
+        method: 'POST',
+        data: {
+            product_id: productId,
+            _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            if (response.success) {
                 alert(response.message);
                 fetchCart(); // Refresh the cart items
-            },
-            error: function(xhr, status, error) {
+            } else {
+                alert('Failed to remove item from cart.'); // Handle unexpected response
+            }
+        },
+        error: function(xhr, status, error) {
+            // Check if the response contains a JSON message
+            try {
+                const errResponse = JSON.parse(xhr.responseText);
+                alert(errResponse.message || 'Failed to remove item from cart.');
+            } catch (e) {
                 alert('Failed to remove item from cart.');
             }
-        });
+        }
     });
+});
+
+
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

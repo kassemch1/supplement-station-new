@@ -209,27 +209,28 @@ class CartController extends Controller
         $request->validate([
             'product_id' => 'required|exists:products,id',
         ]);
-
+        
         $sessionId = Session::get('session_id');
         $cart = Cart::where('session_id', $sessionId)->first();
-
+        
         if (!$cart) {
-            return response()->json(['error' => 'Cart not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Cart not found'], 404);
         }
-
+        
         $cartItem = CartItem::where('cart_id', $cart->id)
             ->where('product_id', $request->product_id)
             ->first();
-
+        
         if (!$cartItem) {
-            return response()->json(['error' => 'Cart item not found'], 404);
+            return response()->json(['success' => false, 'message' => 'Cart item not found'], 404);
         }
-
+        
         $cartItem->delete();
-
+        
         return response()->json(['success' => true, 'message' => 'Item removed from cart']);
     }
-
+    
+    
     public function placeOrder(Request $request)
     {
         $request->validate([

@@ -84,45 +84,41 @@
         <!-- hero end -->
 
         <div class="bg_img position-botttom bottom--105 pb-70" data-background="assets/img/bg/pp_bg.png">
-         <!-- popular product start -->
-<section class="popular-product pt-120 pb-120">
+      <!-- offers product start -->
+<section class="offers-product pt-120 pb-120">
     <div class="container">
         <div class="sec-title text-center mb-30">
             <span class="sub-title">Shop</span>
-            <h2 class="title">Our Popular Products</h2>
+            <h2 class="title">Our Special Offers</h2>
         </div>
         <div class="row">
             <div class="col-lg-8 pb-col-8">
                 <div class="row g-20">
-                    @forelse ($product as $productItem)
+                    @forelse ($offersProducts as $offer)
                         @php
-                            $ratingCount = $productItem->reviews()->count();
-                            $averageRating = $ratingCount > 0 ? $productItem->reviews()->avg('rating') : 5;
+                            $ratingCount = $offer->reviews()->count();
+                            $averageRating = $ratingCount > 0 ? $offer->reviews()->avg('rating') : 0; // Default to 0 if no ratings
                         @endphp
                     <div class="col-lg-6 col-md-6 mt-20">
                         <div class="popular-product-item ul_li">
                             <div class="xb-item--img">
-                                <a href="{{ route('products.show', $productItem->id) }}">
-                                    <img src="{{ asset($productItem->images->first()->url) }}" alt="{{ $productItem->name }}" style="width: 100%; height: auto; object-fit: cover;">
+                                <a href="{{ route('products.show', $offer->id) }}">
+                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" style="width: 100%; height: auto; object-fit: cover;">
                                 </a>
                             </div>
                             <div class="xb-item--holder">
-                                <h3 class="xb-item--title"><a href="{{ route('products.show', $productItem->id) }}">{{ $productItem->name }}</a></h3>
+                                <h3 class="xb-item--title"><a href="{{ route('products.show', $offer->id) }}">{{ $offer->name }}</a></h3>
                                 <div class="xb-item--rating-inner ul_li">
                                     <ul class="xb-item--rating ul_li">
-{{--                                        @if($averageRating>0)--}}
                                         @for ($i = 0; $i < 5; $i++)
                                             <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
                                         @endfor
-{{--                                        @endif--}}
-                                            <span>({{ $ratingCount }} Customer review{{ $ratingCount != 1 ? 's' : '' }})</span>
-
+                                        <span>({{ $ratingCount }} Customer review{{ $ratingCount != 1 ? 's' : '' }})</span>
                                     </ul>
-
                                 </div>
                                 <div class="xb-item--action ul_li_between">
-                                    <h4 class="xb-item--price">${{ number_format($productItem->price, 2) }}</h4>
-                                    <a class="xb-item--cart" href="{{ route('products.show', $productItem->id) }}">
+                                    <h4 class="xb-item--price">${{ number_format($offer->price, 2) }}</h4>
+                                    <a class="xb-item--cart" href="{{ route('products.show', $offer->id) }}">
                                         <img src="assets/img/icon/bag.svg" alt="">
                                     </a>
                                 </div>
@@ -131,10 +127,17 @@
                     </div>
                     @empty
                     <div class="col-12">
-                        <p>No popular products found.</p>
+                        <p>No special offers found.</p>
                     </div>
                     @endforelse
                 </div>
+                <div class="text-center mt-30">
+                    <a href="{{ url('/Shop?category=offers') }}" class="btn-orange" style="background-color: #FF4D24; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                        View More <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
+                    </a>
+                </div>
+                
+                
             </div>
             <div class="col-lg-4 pb-col-4">
                 <div class="popular-product__img mt-20">
@@ -144,8 +147,7 @@
         </div>
     </div>
 </section>
-<!-- popular product end -->
-
+<!-- offers product end -->
 
 
             <!-- about start -->
@@ -256,7 +258,7 @@
                             <a href="{{ route('products.show', $product->id) }}">
                                 <!-- Add image here -->
                                 @if($product->images->isNotEmpty())
-                                    <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 20px">
+                                    <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px">
                                 @else
                                     No image available
                                 @endif
@@ -720,7 +722,6 @@
         <!-- Cart items will be dynamically inserted here -->
     </div>
 </div>
-
 <script>
     function fetchCart() {
         $.ajax({
@@ -728,15 +729,15 @@
             method: 'GET',
             success: function(response) {
                 console.log("response", response.items); // Check response structure
-    
+
                 if (!response.items || !Array.isArray(response.items)) {
                     console.error("Invalid response structure");
                     return;
                 }
-    
+
                 $('.header-mini-cart').empty(); // Clear previous items
                 let total = 0;
-    
+
                 if (response.items.length === 0) {
                     $('.header-mini-cart').append('<p>Your cart is empty.</p>');
                 } else {
@@ -745,13 +746,16 @@
                             console.error("Invalid item structure");
                             return;
                         }
-    
-                        console.log(item.product);
-                        const itemTotal = item.product.price * item.quantity;
+
+                        const discount = item.product.discount || 0; // Get discount percentage
+                        const price = item.product.price;
+                        const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount
+                        const itemTotal = discountedPrice * item.quantity; // Calculate total for this item
+
                         $('.header-mini-cart').append(`
                             <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
                                 <div class="mini-cart-img" style="margin-right: 10px;">
-                                    <img src="https://atlas-content-cdn.pixelsquid.com/assets_v2/265/2653773395304388238/previews/G03-200x200.jpg" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <img src="${item.product_image || 'path/to/default/image.jpg'}" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
                                 </div>
                                 <div class="mini-cart-content" style="flex-grow: 1;">
                                     <h4 class="product-title" style="margin: 0; font-size: 14px;">
@@ -759,7 +763,8 @@
                                     </h4>
                                     <div class="mini-cart-price" style="margin-top: 5px;">
                                         ${item.quantity} ×
-                                        <span class="woocommerce-Price-amount amount" style="color: red;">$${parseFloat(item.product.price).toFixed(2)}</span>
+                                        <span class="woocommerce-Price-amount amount" style="color: red;">$${discountedPrice.toFixed(2)}</span>
+                                    
                                     </div>
                                 </div>
                                 <div class="remove-button" style="margin-left: auto;">
@@ -767,19 +772,18 @@
                                 </div>
                             </div>
                         `);
-    
-                        console.log('Added item:', item.product.name); // Debugging line
-                        total += itemTotal;
+
+                        total += itemTotal; // Sum the total amount
                     });
-    
+
                     $('.header-mini-cart').append(`
                         <p class="woocommerce-mini-cart__total">
                             <strong>Subtotal:</strong>
                             <span class="woocommerce-Price-amount">$${total.toFixed(2)}</span>
                         </p>
                         <p class="checkout-link">
-                            <a href="/Cart" class="button wc-forward">View cart</a>
-                            <a href="checkout.html" class="button checkout wc-forward">Checkout</a>
+                            <a href="/viewCart" class="button wc-forward">View cart</a>
+                            <a href="/Checkout" class="button checkout wc-forward">Checkout</a>
                         </p>
                     `);
                 }
@@ -789,42 +793,48 @@
             }
         });
     }
-    
+
     // Fetch cart items on page load
     $(document).ready(function() {
         $('.header-shop-cart a').on('click', function() {
             $('.header-mini-cart').toggle(); // Toggle visibility on click
         });
-        fetchCart();
+        fetchCart(); // Fetch cart items
     });
-    
-    // Remove item from cart
-    $(document).on('click', '.remove', function(event) {
-        event.preventDefault(); // Prevent the default link behavior
-    
-        const productId = $(this).data('product_id');
-    
-        $.ajax({
-            url: '{{ route('cart.remove') }}',
-            method: 'POST',
-            data: {
-                product_id: productId,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
+
+    // Remove item from mini cart
+$(document).on('click', '.remove', function(event) {
+    event.preventDefault(); // Prevent the default link behavior
+
+    const productId = $(this).data('product_id');
+
+    $.ajax({
+        url: '{{ route('cart.remove') }}',
+        method: 'POST',
+        data: {
+            product_id: productId,
+            _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            if (response.success) {
                 alert(response.message);
                 fetchCart(); // Refresh the cart items
-            },
-            error: function(xhr, status, error) {
+            } else {
+                alert('Failed to remove item from cart.'); // Handle unexpected response
+            }
+        },
+        error: function(xhr, status, error) {
+            // Check if the response contains a JSON message
+            try {
+                const errResponse = JSON.parse(xhr.responseText);
+                alert(errResponse.message || 'Failed to remove item from cart.');
+            } catch (e) {
                 alert('Failed to remove item from cart.');
             }
-        });
+        }
     });
+});
 </script>
-
-    
-
-
 
 
 
