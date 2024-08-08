@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers\user_controllers;
 
-use App\Http\Controllers\user_controllers\Controller;
+
 use App\Models\Product;
 use App\Models\Category;
 
 class ShopController extends Controller
-{public function Shop($categoryName = null)
+{
+    
+    public function Shop()
     {
         $categories = Category::all();
         $search = request()->query('search');
         $orderBy = request()->query('orderby');
         $categoryName = request()->query('category');
         $page = request()->query('page', 1); // Default to page 1
-    
+
         $productQuery = Product::query()->with('images');
-    
+
         if ($categoryName) {
             $category = Category::where('name', $categoryName)->first();
             if (!$category) {
@@ -24,20 +26,23 @@ class ShopController extends Controller
             }
             $productQuery->where('category_id', $category->id);
         }
-    
+
         if ($search) {
             $productQuery->where('name', 'like', '%' . $search . '%');
         }
-    
+
+        // Calculate the discounted price and apply sorting
+        $productQuery->selectRaw('*, (price - (price * discount / 100)) as discounted_price');
+
         if ($orderBy === 'price') {
-            $productQuery->orderByRaw('(price - (price * discount / 100)) asc');
+            $productQuery->orderBy('discounted_price', 'asc'); // Ascending order
         } elseif ($orderBy === 'price-desc') {
-            $productQuery->orderByRaw('(price - (price * discount / 100)) desc');
+            $productQuery->orderBy('discounted_price', 'desc'); // Descending order
         }
-    
+
         // Apply pagination
         $products = $productQuery->paginate(6, ['*'], 'page', $page);
-    
+
         if (request()->ajax()) {
             return response()->json([
                 'product' => $products->items(),
@@ -47,12 +52,11 @@ class ShopController extends Controller
                 ],
             ]);
         }
-    
-        return view('user_views/Shop', [
+
+        return view('user_views.Shop', [
             'product' => $products,
             'categories' => $categories,
             'selectedCategory' => $categoryName,
         ]);
     }
-    
 }
