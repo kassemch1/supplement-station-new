@@ -279,7 +279,7 @@
 
 </html>
 <div class="header-shop-cart">
-    <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">2</span></a>
+    <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">0</span></a>
     <div class="header-mini-cart">
         <!-- Cart items will be dynamically inserted here -->
     </div>
@@ -299,6 +299,7 @@
 
                 $('.header-mini-cart').empty(); // Clear previous items
                 let total = 0;
+                let itemCount = 0; // Initialize item count
 
                 if (response.items.length === 0) {
                     $('.header-mini-cart').append('<p>Your cart is empty.</p>');
@@ -313,6 +314,7 @@
                         const price = item.product.price;
                         const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount
                         const itemTotal = discountedPrice * item.quantity; // Calculate total for this item
+                        itemCount += item.quantity; // Sum the quantities for the cart count
 
                         $('.header-mini-cart').append(`
                             <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
@@ -326,7 +328,7 @@
                                     <div class="mini-cart-price" style="margin-top: 5px;">
                                         ${item.quantity} ×
                                         <span class="woocommerce-Price-amount amount" style="color: red;">$${discountedPrice.toFixed(2)}</span>
-                                    
+
                                     </div>
                                 </div>
                                 <div class="remove-button" style="margin-left: auto;">
@@ -348,6 +350,7 @@
                             <a href="/Checkout" class="button checkout wc-forward">Checkout</a>
                         </p>
                     `);
+                    $('.mini-cart-count').text(itemCount); // Update the cart count in the header
                 }
             },
             error: function(xhr, status, error) {
