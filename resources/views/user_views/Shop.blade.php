@@ -500,6 +500,32 @@
                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="product product-item text-center">
                                 <div class="xb-item--img">
+                                    ${product.discount > 0 ? `
+            <div class="ribbon" style="
+                width: 150px;
+                height: 150px;
+                overflow: hidden;
+                position: absolute;
+                top: -30px;
+                right: -75px;
+                z-index: 2;
+            ">
+                <span style="
+                    position: absolute;
+                    display: block;
+                    width: 225px;
+                    padding: 15px 0px;
+                    background-color: red;
+                    color: white;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                    text-align: center;
+                    transform: rotate(45deg);
+                    top: 20px;
+                    right: -75px;
+                ">On Sale</span>
+            </div>
+            ` : ''}
                                     <a href="shop-single.html">
                                         <img src="${product.images[0].url}" alt="img" style="width: 155px; height: 170px; object-fit: cover;">
                                     </a>
@@ -520,7 +546,12 @@
                                     </div>
                                 </div>
                                 <div class="xb-item--action ul_li mt-20">
-                                    <span class="xb-item--price">$${product.price}</span>
+                                    <span class="xb-item--price" style="position: relative;">
+                    ${product.discount > 0 ? `
+                        <span style="text-decoration: line-through; color: gray;">$${product.price}</span>
+                        <span style="color: red;">$${(product.price - (product.price * product.discount / 100)).toFixed(2)}</span>
+                    ` : `$${product.price}`}
+                </span>
                                     <a href="shop-single.html">
                                         <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt="Cart"></span>
                                         <span class="xb-item--cart">add to cart</span>

@@ -255,6 +255,32 @@
                 @forelse ($product as $product)
                     <div class="swiper-slide product-item text-center">
                         <div class="xb-item--img">
+                            @if($product->discount > 0)
+                            <div class="ribbon" style="
+                                width: 150px;
+                                height: 150px;
+                                overflow: hidden;
+                                position: absolute;
+                                top: -10px;
+                                right: -10px;
+                                z-index: 2;
+                            ">
+                                <span style="
+                                    position: absolute;
+                                    display: block;
+                                    width: 225px;
+                                    padding: 15px 0;
+                                    background-color: red;
+                                    color: white;
+                                    text-transform: uppercase;
+                                    font-weight: bold;
+                                    text-align: center;
+                                    transform: rotate(45deg);
+                                    top: 30px;
+                                    right: -65px;
+                                ">On Sale</span>
+                            </div>
+                        @endif
                             <a href="{{ route('products.show', $product->id) }}">
                                 <!-- Add image here -->
                                 @if($product->images->isNotEmpty())
@@ -282,7 +308,14 @@
                             </div>
                         </div>
                         <div class="xb-item--action ul_li mt-20">
-                            <span class="xb-item--price">${{ number_format($product->price, 2) }}</span>
+                            <span class="xb-item--price">
+                                @if($product->discount > 0)
+                                    <span style="text-decoration: line-through; color: gray;">${{ number_format($product->price, 2) }}</span>
+                                    <span style="color: red;">${{ number_format($product->price - ($product->price * $product->discount / 100), 2) }}</span>
+                                @else
+                                    ${{ number_format($product->price, 2) }}
+                                @endif
+                            </span>
                             <a href="{{ route('products.show', $product->id) }}">
                                 <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
                                 <span class="xb-item--cart">add to cart</span>

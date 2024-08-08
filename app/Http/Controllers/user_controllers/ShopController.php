@@ -30,9 +30,9 @@ class ShopController extends Controller
         }
     
         if ($orderBy === 'price') {
-            $productQuery->orderBy('price', 'asc');
+            $productQuery->orderByRaw('(price - (price * discount / 100)) asc');
         } elseif ($orderBy === 'price-desc') {
-            $productQuery->orderBy('price', 'desc');
+            $productQuery->orderByRaw('(price - (price * discount / 100)) desc');
         }
     
         // Apply pagination
