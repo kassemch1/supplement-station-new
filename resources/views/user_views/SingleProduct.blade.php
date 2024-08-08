@@ -144,7 +144,8 @@
                                     @foreach($products->images as $index => $image)
                                         <div class="tab-pane {{ $index == 0 ? 'show active' : '' }}" id="tab-{{ $index }}" role="tabpanel">
                                             <div class="pl_thumb">
-                                                <img src="{{ asset($image->url) }}" alt="{{ $products->name }} image {{ $index + 1 }}"  style="height: 550px; width: 600px;">
+                                                <img src="{{ asset($image->url) }}" alt="{{ $products->name }} image {{ $index + 1 }}"  style="width: auto;display: block;object-fit: cover;max-width: 100%; /* Ensure it doesn't exceed its container width */
+    height: 500px; /* Auto height to ensure responsive scaling */">
                                             </div>
                                         </div>
                                     @endforeach
@@ -261,7 +262,7 @@
                                 <ul class="nav nav-tabs" id="pills-tab" role="tablist">
                                     <li><button  class="active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#tb-01">Product Details</button></li>
                                     <li><button id="tab-two" data-bs-toggle="pill" data-bs-target="#tb-02">Additional imformation</button></li>
-                                    <li><button  id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#tb-03">Review (09)</button></li>
+                                    <li><button  id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#tb-03">Review ({{$ratingCount}})</button></li>
                                 </ul>
                             </div>
 
@@ -379,16 +380,21 @@
                                                             <h3 class="xb-item--title">
                                                                 <a href="">{{ $item->name }}</a>
                                                             </h3>
+                                                            @php
+                                                                $ratingCount = $item->reviews()->count();
+                                                                $averageRating = $ratingCount > 0 ? $item->reviews()->avg('rating') : 5; // Default to 0 if no ratings
+                                                            @endphp
                                                             <div class="xb-item--rating-inner ul_li_center">
-                                                                <ul class="xb-item--rating ul_li">
-                                                                    <!-- You might want to dynamically generate star ratings if you have that data -->
-                                                                    <li><img src="{{ asset('assets/img/icon/star.png') }}" alt=""></li>
-                                                                    <li><img src="{{ asset('assets/img/icon/star.png') }}" alt=""></li>
-                                                                    <li><img src="{{ asset('assets/img/icon/star.png') }}" alt=""></li>
-                                                                    <li><img src="{{ asset('assets/img/icon/star.png') }}" alt=""></li>
-                                                                    <li><img src="{{ asset('assets/img/icon/star.png') }}" alt=""></li>
-                                                                </ul>
-                                                                <span>(36)</span>
+                                                                <div class="rating">
+                                                                    @for ($i = 0; $i < 5; $i++)
+                                                                        <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
+                                                                    @endfor
+
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="rating-count">
+                                                            <span>({{ $ratingCount  }} Customer review{{ $ratingCount > 1 ? 's' : '' }})</span>
                                                             </div>
                                                         </div>
                                                         <div class="xb-item--action ul_li mt-20">
@@ -489,7 +495,7 @@
                                     <div class="mini-cart-price" style="margin-top: 5px;">
                                         ${item.quantity} ×
                                         <span class="woocommerce-Price-amount amount" style="color: red;">$${discountedPrice.toFixed(2)}</span>
-                                    
+
                                     </div>
                                 </div>
                                 <div class="remove-button" style="margin-left: auto;">

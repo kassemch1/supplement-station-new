@@ -97,7 +97,7 @@
                     @forelse ($offersProducts as $offer)
                         @php
                             $ratingCount = $offer->reviews()->count();
-                            $averageRating = $ratingCount > 0 ? $offer->reviews()->avg('rating') : 0; // Default to 0 if no ratings
+                            $averageRating = $ratingCount > 0 ? $offer->reviews()->avg('rating') : 5; // Default to 0 if no ratings
                         @endphp
                     <div class="col-lg-6 col-md-6 mt-20">
                         <div class="popular-product-item ul_li">
@@ -136,8 +136,8 @@
                         View More <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
                     </a>
                 </div>
-                
-                
+
+
             </div>
             <div class="col-lg-4 pb-col-4">
                 <div class="popular-product__img mt-20">
@@ -750,7 +750,7 @@
 
 </html>
 <div class="header-shop-cart">
-    <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">2</span></a>
+    <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">0</span></a>
     <div class="header-mini-cart">
         <!-- Cart items will be dynamically inserted here -->
     </div>
@@ -770,6 +770,8 @@
 
                 $('.header-mini-cart').empty(); // Clear previous items
                 let total = 0;
+                let itemCount = 0; // Initialize item count
+
 
                 if (response.items.length === 0) {
                     $('.header-mini-cart').append('<p>Your cart is empty.</p>');
@@ -784,6 +786,7 @@
                         const price = item.product.price;
                         const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount
                         const itemTotal = discountedPrice * item.quantity; // Calculate total for this item
+                        itemCount += item.quantity; // Sum the quantities for the cart count
 
                         $('.header-mini-cart').append(`
                             <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
@@ -797,7 +800,7 @@
                                     <div class="mini-cart-price" style="margin-top: 5px;">
                                         ${item.quantity} ×
                                         <span class="woocommerce-Price-amount amount" style="color: red;">$${discountedPrice.toFixed(2)}</span>
-                                    
+
                                     </div>
                                 </div>
                                 <div class="remove-button" style="margin-left: auto;">
@@ -819,6 +822,7 @@
                             <a href="/Checkout" class="button checkout wc-forward">Checkout</a>
                         </p>
                     `);
+                    $('.mini-cart-count').text(itemCount); // Update the cart count in the header
                 }
             },
             error: function(xhr, status, error) {
@@ -829,6 +833,7 @@
 
     // Fetch cart items on page load
     $(document).ready(function() {
+        fetchCart();
         $('.header-shop-cart a').on('click', function() {
             $('.header-mini-cart').toggle(); // Toggle visibility on click
         });

@@ -4752,7 +4752,13 @@ body .mfp-wrap .mfp-container .mfp-content .mfp-close:hover::before, body .mfp-w
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
-  -o-border-radius: 5px; }
+  -o-border-radius: 5px;
+    width: 500px; /* Fixed width for the container */
+    height: 500px; /* Fixed height for the container */
+    overflow: hidden; /* Hide any part of the image that overflows the container */
+
+}
+
 
 .shop_thumb_tab {
   margin-top: 10px; }
