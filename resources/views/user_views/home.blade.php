@@ -749,12 +749,6 @@
 
 
 </html>
-<div class="header-shop-cart">
-    <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">0</span></a>
-    <div class="header-mini-cart">
-        <!-- Cart items will be dynamically inserted here -->
-    </div>
-</div>
 <script>
     function fetchCart() {
         $.ajax({
