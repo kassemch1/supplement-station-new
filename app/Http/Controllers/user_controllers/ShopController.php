@@ -14,9 +14,9 @@ class ShopController extends Controller
         $orderBy = request()->query('orderby');
         $categoryName = request()->query('category');
         $page = request()->query('page', 1); // Default to page 1
-    
+
         $productQuery = Product::query()->with('images');
-    
+
         if ($categoryName) {
             $category = Category::where('name', $categoryName)->first();
             if (!$category) {
@@ -24,20 +24,20 @@ class ShopController extends Controller
             }
             $productQuery->where('category_id', $category->id);
         }
-    
+
         if ($search) {
             $productQuery->where('name', 'like', '%' . $search . '%');
         }
-    
+
         if ($orderBy === 'price') {
             $productQuery->orderBy('price', 'asc');
         } elseif ($orderBy === 'price-desc') {
             $productQuery->orderBy('price', 'desc');
         }
-    
+
         // Apply pagination
         $products = $productQuery->paginate(6, ['*'], 'page', $page);
-    
+
         if (request()->ajax()) {
             return response()->json([
                 'product' => $products->items(),
@@ -47,12 +47,12 @@ class ShopController extends Controller
                 ],
             ]);
         }
-    
+
         return view('user_views/Shop', [
             'product' => $products,
             'categories' => $categories,
             'selectedCategory' => $categoryName,
         ]);
     }
-    
+
 }
