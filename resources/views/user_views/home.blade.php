@@ -136,7 +136,7 @@
                     @endforelse
                 </div>
                 <div class="text-center mt-30">
-                    <a href="{{ url('/Shop?category=offers') }}" class="btn-orange" style="background-color: #FF4D24; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                    <a href="{{ url('/Shop') }}" class="btn-orange" style="background-color: #FF4D24; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
                         View More <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
                     </a>
                 </div>
