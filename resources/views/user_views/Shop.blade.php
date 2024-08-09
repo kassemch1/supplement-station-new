@@ -44,7 +44,7 @@
     <!-- main area start  -->
     <main>
         <!-- breadcrumb start -->
-        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/page_title2.jpg')}}">
+        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/page_title.png')}}">
             <div class="container">
                 <div class="breadcrumb__content text-center">
                     <h2 class="breadcrumb__title">Shop</h2>
@@ -217,8 +217,8 @@
                                 <div class="products" id="product-list">
                                     <div class="row">
                                         @foreach($product as $item)
-    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-        <div class="product product-item text-center" style="position: relative; overflow: hidden;">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-12" >
+        <div class="product product-item text-center" style="position: relative; overflow: hidden; min-height:450px">
             @if($item->discount > 0)
                 <div class="ribbon" style="
                     width: 150px;
@@ -234,7 +234,7 @@
                         display: block;
                         width: 225px;
                         padding: 15px 0;
-                        background-color: red;
+                        background-color: #A02334;
                         color: white;
                         text-transform: uppercase;
                         font-weight: bold;
@@ -269,7 +269,7 @@
                     @if($item->stock > 0)
                         <a href="{{ route('products.show', $item->id) }}">{{ $item->name }}</a>
                     @else
-                        <span class="no-stock-title">{{ $item->name }}</span>
+                    <span class="no-stock-title">{{ $item->name }}<span style="opacity: 0.8; color: #d9534f;"><br/>(out of stock)</span></span>
                     @endif
                 </h3>
                 <div class="xb-item--rating-inner ul_li_center">
@@ -283,11 +283,11 @@
                     <span>(36)</span>
                 </div>
             </div>
-            <div class="xb-item--action ul_li mt-20">
+            <div class="xb-item--action ul_li mt-20" style="position: absolute; bottom: 30px; width: 80%;">
                 <span class="xb-item--price">
                     @if($item->discount > 0)
                         <span style="text-decoration: line-through; color: gray;">${{ number_format($item->price, 2) }}</span>
-                        <span style="color: red;">${{ number_format($item->price - ($item->price * $item->discount / 100), 2) }}</span>
+                        <span style="color: #A02334;">${{ number_format($item->price - ($item->price * $item->discount / 100), 2) }}</span>
                     @else
                         ${{ number_format($item->price, 2) }}
                     @endif
@@ -365,10 +365,46 @@
 
 
 </body>
-
+<style>
+    /* Styling for the sale label */
+    .sale-label {
+        background-color: #A02334; /* Background color for the label */
+        color: white; /* Text color */
+        padding: 5px 10px; /* Padding around the text */
+        font-weight: bold; /* Bold text */
+        position: absolute; /* Absolute positioning */
+        top: 10px; /* Position it at the top */
+        left: 10px; /* Adjust as needed */
+        z-index: 10; /* Ensure it appears above the image */
+        border-radius: 3px; /* Rounded corners */
+        text-transform: uppercase; /* Uppercase text */
+        font-size: 14px; /* Font size */
+    }
+    
+    .xb-item--img {
+        position: relative; /* Needed for absolute positioning of the label */
+        display: inline-block; /* Ensure the container fits around the image */
+    }
+    
+        .xb-item--cart-btn.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .no-stock img {
+            pointer-events: none;
+        }
+        .no-stock-title {
+            color: gray;
+            cursor: default;
+        }
+    
+        </style>
 
 </html>
 
+
+
+<!--minicart-->
 <script>
     function fetchCart() {
         $.ajax({
@@ -478,7 +514,7 @@
 
 
 
-
+<!--product cards after filtering-->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var products = @json($product);
@@ -516,7 +552,7 @@
                     console.log(product.images)
                     productHtml += `
                         <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                            <div class="product product-item text-center">
+                            <div class="product product-item text-center" style="min-height: 400px">
                                 <div class="xb-item--img">
                                     ${product.discount > 0 ? `
             <div class="ribbon" style="
@@ -533,7 +569,7 @@
                     display: block;
                     width: 225px;
                     padding: 15px 0px;
-                    background-color: red;
+                    background-color: #A02334;
                     color: white;
                     text-transform: uppercase;
                     font-weight: bold;
@@ -556,7 +592,7 @@
                                 </div>
                                 <div class="xb-item--holder">
                                     <h3 class="xb-item--title">
-                                        ${product.stock > 0 ? `<a href="products/${product.id}">${product.name}</a>` : `<span class="no-stock-title">${product.name}</span>`}
+                                        ${product.stock > 0 ? `<a href="products/${product.id}">${product.name}</a>` : ` <span class="no-stock-title"> ${product.name} <span style="opacity: 0.8; color: #d9534f;"><br/>(out of stock)</span></span>`}
                                     </h3>
                                     <div class="xb-item--rating-inner ul_li_center">
                                         <ul class="xb-item--rating ul_li">
@@ -569,11 +605,11 @@
                                         <span>(36)</span>
                                     </div>
                                 </div>
-                                <div class="xb-item--action ul_li mt-20">
+                                <div class="xb-item--action ul_li mt-20" >
                                     <span class="xb-item--price" style="position: relative;">
                     ${product.discount > 0 ? `
                         <span style="text-decoration: line-through; color: gray;">$${product.price}</span>
-                        <span style="color: red;">$${(product.price - (product.price * product.discount / 100)).toFixed(2)}</span>
+                        <span style="color: #A02334;">$${(product.price - (product.price * product.discount / 100)).toFixed(2)}</span>
                     ` : `$${product.price}`}
                 </span>
                 ${product.stock > 0 ? `
@@ -651,28 +687,7 @@
     });
     </script>
 
-<style>
-/* Styling for the sale label */
-.sale-label {
-    background-color: red; /* Background color for the label */
-    color: white; /* Text color */
-    padding: 5px 10px; /* Padding around the text */
-    font-weight: bold; /* Bold text */
-    position: absolute; /* Absolute positioning */
-    top: 10px; /* Position it at the top */
-    left: 10px; /* Adjust as needed */
-    z-index: 10; /* Ensure it appears above the image */
-    border-radius: 3px; /* Rounded corners */
-    text-transform: uppercase; /* Uppercase text */
-    font-size: 14px; /* Font size */
-}
 
-.xb-item--img {
-    position: relative; /* Needed for absolute positioning of the label */
-    display: inline-block; /* Ensure the container fits around the image */
-}
-
-    </style>
 <script>
     function fetchCart() {
         $.ajax({
@@ -790,30 +805,5 @@
 
 
 </script>
-<script>
-    function showOutOfStockMessage(event) {
-        event.preventDefault();
-        const cartButton = event.currentTarget;
-        cartButton.querySelector('.xb-item--cart').innerText = 'Out of Stock';
-        cartButton.classList.add('disabled');
-        
-        setTimeout(() => {
-            cartButton.querySelector('.xb-item--cart').innerText = 'add to cart';
-            cartButton.classList.remove('disabled');
-        }, 4000);
-    }
-</script>
 
-<style>
-    .xb-item--cart-btn.disabled {
-        pointer-events: none;
-        opacity: 0.5;
-    }
-    .no-stock img {
-        pointer-events: none;
-    }
-    .no-stock-title {
-        color: gray;
-        cursor: default;
-    }
-</style>
+

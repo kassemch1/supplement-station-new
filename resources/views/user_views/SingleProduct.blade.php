@@ -447,7 +447,7 @@
 <script src={{asset("assets/js/scrollspy.js")}}></script>
 <script src={{asset("assets/js/main.js")}}></script>
 
-
+<!--minicart-->
 <script>
     function fetchCart() {
         $.ajax({
@@ -566,7 +566,7 @@ $(document).on('click', '.remove', function(event) {
 
 
 
-
+<!--add to cart-->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const optionLinks = document.querySelectorAll('.option-value');
@@ -668,7 +668,7 @@ $(document).on('click', '.remove', function(event) {
     });
 
 
-
+//reviews
 
     document.getElementById('reviewForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent form from submitting normally

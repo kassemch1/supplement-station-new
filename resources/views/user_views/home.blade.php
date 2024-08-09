@@ -254,10 +254,10 @@
             <span class="sub-title">products</span>
             <h2 class="title">best selling products</h2>
         </div>
-        <div class="product-slider swiper-container">
-            <div class="swiper-wrapper">
+        <div class="product-slider swiper-container"  >
+            <div class="swiper-wrapper" >
                 @forelse ($product as $product)
-                <div class="swiper-slide product-item text-center">
+                <div class="swiper-slide product-item text-center" style="min-height: 400px">
                     <div class="xb-item--img">
                         @if($product->discount > 0)
                         <div class="ribbon" style="
@@ -266,7 +266,7 @@
                             overflow: hidden;
                             position: absolute;
                             top: -10px;
-                            right: -10px;
+                            right: 0px;
                             z-index: 2;
                         ">
                             <span style="
@@ -274,7 +274,7 @@
                                 display: block;
                                 width: 225px;
                                 padding: 15px 0;
-                                background-color: red;
+                                background-color: #A02334;
                                 color: white;
                                 text-transform: uppercase;
                                 font-weight: bold;
@@ -310,7 +310,8 @@
                             @if($product->stock > 0)
                             <a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a>
                         @else
-                            <span class="no-stock-title">{{ $product->name }}</span>
+                        <span>{{ $product->name }}<span style="opacity: 0.8; color: #d9534f;"><br/>(out of stock)</span></span>
+
                         @endif
                         </h3>
                         @php
@@ -325,11 +326,11 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="xb-item--action ul_li mt-20">
+                    <div class="xb-item--action ul_li mt-20" style="position: absolute; bottom: 30px; width: 80%;">
                         <span class="xb-item--price">
                             @if($product->discount > 0)
                                 <span style="text-decoration: line-through; color: gray;">${{ number_format($product->price, 2) }}</span>
-                                <span style="color: red;">${{ number_format($product->price - ($product->price * $product->discount / 100), 2) }}</span>
+                                <span style="color: #A02334;">${{ number_format($product->price - ($product->price * $product->discount / 100), 2) }}</span>
                             @else
                                 ${{ number_format($product->price, 2) }}
                             @endif
@@ -340,7 +341,7 @@
                                 <span class="xb-item--cart">add to cart</span>
                             </a>
                         @else
-                            <a href="#" class="xb-item--cart-btn disabled" onclick="showOutOfStockMessage(event)">
+                            <a href="#" class="xb-item--cart-btn disabled" >
                                 <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
                                 <span class="xb-item--cart">Out of Stock</span>
                             </a>
@@ -921,6 +922,7 @@ $(document).on('click', '.remove', function(event) {
     .xb-item--cart-btn.disabled {
         pointer-events: none;
         opacity: 0.5;
+        width: 300px
     }
 </style>
 
