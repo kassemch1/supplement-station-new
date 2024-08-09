@@ -45,7 +45,7 @@
                 <div class="breadcrumb__content text-center">
                     <h2 class="breadcrumb__title">Checkout</h2>
                     <ul class="breadcrumb__list clearfix">
-                        <li class="breadcrumb-item"><a href="index.html">Purefit</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">Supplement Station</a></li>
                         <li class="breadcrumb-item">Checkout</li>
                     </ul>
                 </div>
@@ -76,11 +76,15 @@
                                             <p class="form-row">
                                                 <label for="billing_phone">Phone <abbr class="required" title="required">*</abbr></label>
                                                 <input type="tel" name="billing_phone" id="billing_phone" placeholder="Phone Number" required style="border: 1px solid #ccc; padding: 0.5rem; width: 100%; border-radius: 4px;" />
+                                                @error('billing_phone')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                             </p>
 
                                             <p class="form-row">
-                                                <label for="billing_email">Email <abbr class="required" title="required">*</abbr></label>
-                                                <input type="email" name="billing_email" id="billing_email" placeholder="Email" required style="border: 1px solid #ccc; padding: 0.5rem; width: 100%; border-radius: 4px;" />
+                                                <label for="billing_email">Email (<abbr class="required" title="required">optional</abbr>)</label>
+                                                <input type="email" name="billing_email" id="billing_email" placeholder="Email"  style="border: 1px solid #ccc; padding: 0.5rem; width: 100%; border-radius: 4px;" />
+                                                <small class="form-text text-muted " style="color: red !important;">Note:Providing your email is optional, but it's best to enter it to receive a receipt.</small>
                                             </p>
 
                                             <p class="form-row">
