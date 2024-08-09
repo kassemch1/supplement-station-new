@@ -47,7 +47,7 @@ class CartController extends Controller
 
             $item->formatted_options = implode(', ', $formattedOptions);
             $item->product_image = $item->product->images->first()->url ?? null; // Assuming you want the first image
-            
+
             // Calculate the price after discount if available
             $discount = $item->product->discount;
             $price = $item->product->price;
@@ -209,63 +209,65 @@ class CartController extends Controller
         $request->validate([
             'product_id' => 'required|exists:products,id',
         ]);
-        
+
         $sessionId = Session::get('session_id');
         $cart = Cart::where('session_id', $sessionId)->first();
-        
+
         if (!$cart) {
             return response()->json(['success' => false, 'message' => 'Cart not found'], 404);
         }
-        
+
         $cartItem = CartItem::where('cart_id', $cart->id)
             ->where('product_id', $request->product_id)
             ->first();
-        
+
         if (!$cartItem) {
             return response()->json(['success' => false, 'message' => 'Cart item not found'], 404);
         }
-        
+
         $cartItem->delete();
-        
+
         return response()->json(['success' => true, 'message' => 'Item removed from cart']);
     }
-    
-    
+
+
     public function placeOrder(Request $request)
     {
         $request->validate([
             'billing_first_name' => 'required|string',
-            'billing_phone' => 'required|numeric',
+            'billing_phone' => 'required|phone:LB',
             'billing_address_1' => 'required|string',
             'billing_city' => 'required|string',
-            'billing_email' => 'required|email',
-        ]);
-    
+        ], [
+                'billing_phone.phone' => 'The phone number must be a valid Lebanese phone number.',
+            ]
+        );
+
         $sessionId = Session::get('session_id');
         $cart = Cart::where('session_id', $sessionId)->first();
         $client_data = $request->only('billing_first_name', 'billing_phone', 'billing_address_1', 'billing_city','billing_email');
 
-    
+
         if (!$cart || $cart->items->isEmpty()) {
             return redirect()->back()->with('error', 'Your cart is empty. Please add items to your cart before placing an order.');
         }
-    
+
         DB::beginTransaction();
-    
+
         try {
-           
+
             $totalAmount = $cart->items->sum(function ($item) {
-                $discount = $item->product->discount; 
+                $discount = $item->product->discount;
                 $price = $item->product->price;
                 $discountedPrice = $discount ? $price * (1 - ($discount / 100)) : $price; // Apply discount
-                return $discountedPrice * $item->quantity; 
+                return $discountedPrice * $item->quantity;
             });
-    
+
             $order = Order::create([
                 'total_amount' => $totalAmount,
                 'status' => 'pending',
             ]);
-    
+
             ShippingDetail::create([
                 'order_id' => $order->id,
                 'name' => $request->billing_first_name,
@@ -274,28 +276,30 @@ class CartController extends Controller
                 'address' => $request->billing_address_1,
                 'city' => $request->billing_city,
             ]);
-    
+
             foreach ($cart->items as $cartItem) {
-                $discount = $cartItem->product->discount; 
+                $discount = $cartItem->product->discount;
                 $price = $cartItem->product->price;
-                $discountedPrice = $discount ? $price * (1 - ($discount / 100)) : $price; 
-    
+                $discountedPrice = $discount ? $price * (1 - ($discount / 100)) : $price;
+
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $cartItem->product_id,
                     'quantity' => $cartItem->quantity,
-                    'price' => $discountedPrice, 
-                    'selected_options' => $cartItem->selected_options, 
+                    'price' => $discountedPrice,
+                    'selected_options' => $cartItem->selected_options,
                 ]);
 
             }
-    
-            $cart->items()->delete(); 
-    
+
+            $cart->items()->delete();
+
             DB::commit();
 
-            Mail::to($request->billing_email)->send(new CheckoutMail($client_data,$cart->items,$order));
-    
+            if ($request->billing_email){
+                Mail::to($request->billing_email)->send(new CheckoutMail($client_data,$cart->items,$order));
+            }
+
             return redirect()->route('checkout')->with('success', 'Order placed successfully!');
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
@@ -305,7 +309,7 @@ class CartController extends Controller
             return response()->json(['error' => 'General error: ' . $e->getMessage()], 500);
         }
     }
-    
+
 
 
 

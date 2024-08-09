@@ -91,7 +91,7 @@
                                         @endforeach
                                     </ul>
                                 </div>
-                                
+
                             </div>
 
                         <!--Start Of the Offers Section -->
@@ -122,14 +122,14 @@
                                                             ${{ number_format($offer->price, 2) }}
                                                         @endif
                                                     </span>
-                                                    
+
                                                 </div>
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
                             </div>
-      
+
                                     <!--End Of the Offers Section -->
 
 
@@ -318,12 +318,12 @@
         text-transform: uppercase; /* Uppercase text */
         font-size: 14px; /* Font size */
     }
-    
+
     .xb-item--img {
         position: relative; /* Needed for absolute positioning of the label */
         display: inline-block; /* Ensure the container fits around the image */
     }
-    
+
         .xb-item--cart-btn.disabled {
             pointer-events: none;
             opacity: 0.5;
@@ -335,7 +335,7 @@
             color: gray;
             cursor: default;
         }
-    
+
         </style>
 
 </html>
