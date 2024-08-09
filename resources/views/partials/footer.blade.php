@@ -1,5 +1,5 @@
 <!-- footer strt -->
-<footer class="position-top bg_img pb-70" data-background="{{ asset('assets/img/bg/footer_bg.png')}}">
+<footer class="position-top bg_img pb-70" data-background="{{ asset('assets/img/bg/footer_bg2.jpg')}}">
     <div class="container">
         <div id="contact" class="contact pb-100">
             <div class="row">
@@ -70,7 +70,7 @@
                                 <li><a href="https://www.instagram.com/supplement_station_lb" target="_blank"><i class="fab fa-instagram"></i></a></li>
                             </ul>
                         </div>
-                        <div class="xb-item--cta" data-background="assets/img/bg/cta_bg.jpg">
+                        <div class="xb-item--cta" data-background="assets/img/bg/cta_bg2.jpg">
                             <p>Our help desk is a vailable for you <br> every day, 07:00AM - 10:00PM</p>
                             <h3>+961 81-823-038</h3>
                         </div>

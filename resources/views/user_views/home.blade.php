@@ -44,7 +44,7 @@
     <!-- main area start  -->
     <main>
         <!-- hero start -->
-        <section class="hero hero-style-one bg_img hero-height d-flex align-items-center" data-background="assets/img/bg/hero_bg.jpg">
+        <section class="hero hero-style-one bg_img hero-height d-flex align-items-center" data-background="assets/img/bg/hero_bg2.jpg">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
@@ -136,7 +136,7 @@
                     @endforelse
                 </div>
                 <div class="text-center mt-30">
-                    <a href="{{ url('/Shop') }}" class="btn-orange" style="background-color: #FF4D24; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                    <a href="{{ url('/Shop') }}" class="btn-orange" style="background-color: #A02334; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
                         View More <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
                     </a>
                 </div>
@@ -189,7 +189,7 @@
         </div>
 
         <!-- feature start -->
-        <section id="features" class="feature bg_img pt-200 pb-120" data-background="assets/img/bg/feature_bg.jpg">
+        <section id="features" class="feature bg_img pt-200 pb-120" data-background="assets/img/bg/feature_bg2.jpg">
             <div class="container">
                 <div class="row align-items-center mt-none-30">
                     <div class="col-lg-4 col-md-6 mt-30">
@@ -357,7 +357,7 @@
 <!-- product end -->
 
         <!-- testimonial start -->
-        <section class="testimonial bg_img pt-120 pb-115" data-background="assets/img/bg/tm_bg.jpg">
+        <section class="testimonial bg_img pt-120 pb-115" data-background="assets/img/bg/tm_bg2.jpg">
             <div class="container">
                 <div class="sec-title sec-title--white text-center mb-60">
                     <span class="sub-title">OVERALL RATING</span>
@@ -540,7 +540,7 @@
         <!-- faq start -->
         <section class="faq" data-bg-color="#fff">
             <div class="container">
-                <div class="accordion-inner bg_img" data-background="assets/img/bg/faq_bg.jpg">
+                <div class="accordion-inner bg_img" data-background="assets/img/bg/faq_bg2.jpg">
                     <div class="sec-title sec-title--white text-center mb-60">
                         <span class="sub-title">faq</span>
                         <h2 class="title">Frequently asked questions</h2>
