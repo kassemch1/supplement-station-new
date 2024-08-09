@@ -43,6 +43,32 @@ class ShopController extends Controller
         // Apply pagination
         $products = $productQuery->paginate(6, ['*'], 'page', $page);
 
+        // Get offers products
+        $offersCategory = Category::where('name', 'Offers')->first();
+        $offersProducts = [];
+        
+        if ($offersCategory) {
+            $offersProducts = Product::where('category_id', $offersCategory->id)
+                                     ->take(4)
+                                     ->with('images')
+                                     ->get();
+            
+          
+            if ($offersProducts->isEmpty()) {
+                $offersProducts = Product::inRandomOrder() 
+                                         ->take(4) 
+                                         ->with('images')
+                                         ->get();
+            }
+        } else {
+          
+            $offersProducts = Product::inRandomOrder()
+                                     ->take(4)
+                                     ->with('images')
+                                     ->get();
+        }
+        
+
         if (request()->ajax()) {
             return response()->json([
                 'product' => $products->items(),
@@ -50,6 +76,7 @@ class ShopController extends Controller
                     'current_page' => $products->currentPage(),
                     'last_page' => $products->lastPage(),
                 ],
+                
             ]);
         }
 
@@ -57,6 +84,7 @@ class ShopController extends Controller
             'product' => $products,
             'categories' => $categories,
             'selectedCategory' => $categoryName,
+            'offersProducts'=>$offersProducts,
         ]);
     }
 }

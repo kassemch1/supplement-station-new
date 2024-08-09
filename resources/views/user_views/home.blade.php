@@ -145,7 +145,8 @@
             </div>
             <div class="col-lg-4 pb-col-4">
                 <div class="popular-product__img mt-20">
-                    <img src="assets/img/bg/pp_img.jpg" alt="">
+                    <br><br>
+                    <img src="assets/img/bg/pp_img2.jpg" alt="">
                 </div>
             </div>
         </div>
@@ -165,7 +166,7 @@
                             </div>
                             <div class="about-experience">
                                 <span>since</span>
-                                <h2>1998</h2>
+                                <h2>2020</h2>
                             </div>
                         </div>
                         <div class="col-lg-6 mt-40">
@@ -310,7 +311,7 @@
                             @if($product->stock > 0)
                             <a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a>
                         @else
-                        <span>{{ $product->name }}<span style="opacity: 0.8; color: #d9534f;"><br/>(out of stock)</span></span>
+                        <span>{{ $product->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
 
                         @endif
                         </h3>

@@ -44,7 +44,7 @@
     <!-- main area start  -->
     <main>
         <!-- breadcrumb start -->
-        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/page_title.png')}}">
+        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/page_title2.jpg')}}">
             <div class="container">
                 <div class="breadcrumb__content text-center">
                     <h2 class="breadcrumb__title">Shop</h2>
@@ -94,107 +94,45 @@
                                 
                             </div>
 
-
+                        <!--Start Of the Offers Section -->
                             <div class="widget mt-40">
-                                <h2 class="widget__title">Top Rated Products</h2>
+                                <h2 class="widget__title">Our Best Offers</h2>
                                 <div class="widget__inner">
                                     <ul class="widget-product">
-                                        <li class="widget-product__item">
-                                            <div class="thumb">
-                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_01.jpg')}}" alt=""></a>
-                                            </div>
-                                            <div class="content">
-                                                <h3><a href="shop-single.html">iso whey powder</a></h3>
-                                                <span class="price">$129.00</span>
-                                                <ul class="rating ul_li">
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li class="widget-product__item">
-                                            <div class="thumb">
-                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_02.jpg')}}" alt=""></a>
-                                            </div>
-                                            <div class="content">
-                                                <h3><a href="shop-single.html">xplode powder</a></h3>
-                                                <span class="price">$129.00</span>
-                                                <ul class="rating ul_li">
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li class="widget-product__item">
-                                            <div class="thumb">
-                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_03.jpg')}}" alt=""></a>
-                                            </div>
-                                            <div class="content">
-                                                <h3><a href="shop-single.html">strawberry protine</a></h3>
-                                                <span class="price">$129.00</span>
-                                                <ul class="rating ul_li">
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li class="widget-product__item">
-                                            <div class="thumb">
-                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_04.jpg')}}" alt=""></a>
-                                            </div>
-                                            <div class="content">
-                                                <h3><a href="shop-single.html">nutraone protine</a></h3>
-                                                <span class="price">$129.00</span>
-                                                <ul class="rating ul_li">
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </li>
+                                        @foreach($offersProducts as $offer)
+                                            <li class="widget-product__item">
+                                                <div class="thumb">
+                                                    <a href="{{ route('products.show', ['id' => $offer->id]) }}">
+                                                        @if($offer->images->isNotEmpty())
+                                                            <img src="{{ asset($offer->images->first()->url) }}" alt="">
+                                                        @else
+                                                            No image available
+                                                        @endif
+                                                    </a>
+                                                </div>
+                                                <div class="content">
+                                                    <h3>
+                                                        <a href="{{ route('products.show', ['id' => $offer->id]) }}">{{ $offer->name }}</a>
+                                                    </h3>
+                                                    <span class="price">
+                                                        @if($offer->discount > 0)
+                                                            <span style="text-decoration: line-through; color: gray;">${{ number_format($offer->price, 2) }}</span>
+                                                            <span style="color: #A02334;">${{ number_format($offer->price - ($offer->price * $offer->discount / 100), 2) }}</span>
+                                                        @else
+                                                            ${{ number_format($offer->price, 2) }}
+                                                        @endif
+                                                    </span>
+                                                    
+                                                </div>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
-{{--                            <div class="widget widget_price_filter mt-40">--}}
-{{--                                <h2 class="widget__title">Filter By Price</h2>--}}
-{{--                                <div class="widget__inner">--}}
-{{--                                    <div class="filter-price">--}}
-{{--                                        <form>--}}
-{{--                                            <div id="slider-range"></div>--}}
-{{--                                            <p>Price : <input type="text" id="amount"></p>--}}
-{{--                                            <button>filter</button>--}}
-{{--                                        </form>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="widget mt-40">--}}
-{{--                                <h2 class="widget__title">--}}
-{{--                                    <span>Tags</span>--}}
-{{--                                </h2>--}}
-{{--                                <div class="widget__inner">--}}
-{{--                                    <div class="tagcloud">--}}
-{{--                                        <a href="#!">energy</a>--}}
-{{--                                        <a href="#!">fitness</a>--}}
-{{--                                        <a href="#!">healthy</a>--}}
-{{--                                        <a href="#!">powders</a>--}}
-{{--                                        <a href="#!">nutrition</a>--}}
-{{--                                        <a href="#!">snacks</a>--}}
-{{--                                        <a href="#!">wellness</a>--}}
-{{--                                        <a href="#!">powders</a>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+      
+                                    <!--End Of the Offers Section -->
+
+
                         </div>
                     </div>
                     <div class="col-lg-9 mt-60">
@@ -269,7 +207,7 @@
                     @if($item->stock > 0)
                         <a href="{{ route('products.show', $item->id) }}">{{ $item->name }}</a>
                     @else
-                    <span class="no-stock-title">{{ $item->name }}<span style="opacity: 0.8; color: #d9534f;"><br/>(out of stock)</span></span>
+                    <span class="no-stock-title">{{ $item->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
                     @endif
                 </h3>
                 <div class="xb-item--rating-inner ul_li_center">
@@ -592,7 +530,7 @@
                                 </div>
                                 <div class="xb-item--holder">
                                     <h3 class="xb-item--title">
-                                        ${product.stock > 0 ? `<a href="products/${product.id}">${product.name}</a>` : ` <span class="no-stock-title"> ${product.name} <span style="opacity: 0.8; color: #d9534f;"><br/>(out of stock)</span></span>`}
+                                        ${product.stock > 0 ? `<a href="products/${product.id}">${product.name}</a>` : ` <span class="no-stock-title"> ${product.name} <span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>`}
                                     </h3>
                                     <div class="xb-item--rating-inner ul_li_center">
                                         <ul class="xb-item--rating ul_li">
