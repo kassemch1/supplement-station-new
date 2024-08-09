@@ -216,75 +216,96 @@
                                 <div class="products" id="product-list">
                                     <div class="row">
                                         @foreach($product as $item)
-                                            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                                <div class="product product-item text-center" style="position: relative; overflow: hidden;">
-                                                    @if($item->discount > 0)
-                                                        <div class="ribbon" style="
-                                                            width: 150px;
-                                                            height: 150px;
-                                                            overflow: hidden;
-                                                            position: absolute;
-                                                            top: -10px;
-                                                            right: -10px;
-                                                            z-index: 2;
-                                                        ">
-                                                            <span style="
-                                                                position: absolute;
-                                                                display: block;
-                                                                width: 225px;
-                                                                padding: 15px 0;
-                                                                background-color: red;
-                                                                color: white;
-                                                                text-transform: uppercase;
-                                                                font-weight: bold;
-                                                                text-align: center;
-                                                                transform: rotate(45deg);
-                                                                top: 30px;
-                                                                right: -65px;
-                                                            ">On Sale</span>
-                                                        </div>
-                                                    @endif
-                                                    <a href="{{ route('products.show', $item->id) }}">
-                                                        <div class="xb-item--img">
-                                                            @if($item->images->isNotEmpty())
-                                                                <img src="{{asset($item->images->first()->url)}}" alt="img" style="width: 155px; height: 170px; object-fit: cover;">
-                                                            @else
-                                                                No image available
-                                                            @endif
-                                                        </div>
-                                                    </a>
-                                                    <div class="xb-item--holder">
-                                                        <h3 class="xb-item--title">
-                                                            <a href="shop-single.html">{{ $item->name }}</a>
-                                                        </h3>
-                                                        <div class="xb-item--rating-inner ul_li_center">
-                                                            <ul class="xb-item--rating ul_li">
-                                                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
-                                                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
-                                                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
-                                                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
-                                                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
-                                                            </ul>
-                                                            <span>(36)</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="xb-item--action ul_li mt-20">
-                                                        <span class="xb-item--price">
-                                                            @if($item->discount > 0)
-                                                                <span style="text-decoration: line-through; color: gray;">${{ number_format($item->price, 2) }}</span>
-                                                                <span style="color: red;">${{ number_format($item->price - ($item->price * $item->discount / 100), 2) }}</span>
-                                                            @else
-                                                                ${{ number_format($item->price, 2) }}
-                                                            @endif
-                                                        </span>
-                                                        <a href="shop-single.html">
-                                                            <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart"></span>
-                                                            <span class="xb-item--cart">add to cart</span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
+    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+        <div class="product product-item text-center" style="position: relative; overflow: hidden;">
+            @if($item->discount > 0)
+                <div class="ribbon" style="
+                    width: 150px;
+                    height: 150px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: -10px;
+                    right: -10px;
+                    z-index: 2;
+                ">
+                    <span style="
+                        position: absolute;
+                        display: block;
+                        width: 225px;
+                        padding: 15px 0;
+                        background-color: red;
+                        color: white;
+                        text-transform: uppercase;
+                        font-weight: bold;
+                        text-align: center;
+                        transform: rotate(45deg);
+                        top: 30px;
+                        right: -65px;
+                    ">On Sale</span>
+                </div>
+            @endif
+            @if($item->stock > 0)
+                <a href="{{ route('products.show', $item->id) }}">
+                    <div class="xb-item--img">
+                        @if($item->images->isNotEmpty())
+                            <img src="{{ asset($item->images->first()->url) }}" alt="img" style="width: 155px; height: 170px; object-fit: cover;">
+                        @else
+                            No image available
+                        @endif
+                    </div>
+                </a>
+            @else
+                <div class="xb-item--img no-stock">
+                    @if($item->images->isNotEmpty())
+                        <img src="{{ asset($item->images->first()->url) }}" alt="img" style="width: 155px; height: 170px; object-fit: cover;">
+                    @else
+                        No image available
+                    @endif
+                </div>
+            @endif
+            <div class="xb-item--holder">
+                <h3 class="xb-item--title">
+                    @if($item->stock > 0)
+                        <a href="{{ route('products.show', $item->id) }}">{{ $item->name }}</a>
+                    @else
+                        <span class="no-stock-title">{{ $item->name }}</span>
+                    @endif
+                </h3>
+                <div class="xb-item--rating-inner ul_li_center">
+                    <ul class="xb-item--rating ul_li">
+                        <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
+                        <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
+                        <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
+                        <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
+                        <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
+                    </ul>
+                    <span>(36)</span>
+                </div>
+            </div>
+            <div class="xb-item--action ul_li mt-20">
+                <span class="xb-item--price">
+                    @if($item->discount > 0)
+                        <span style="text-decoration: line-through; color: gray;">${{ number_format($item->price, 2) }}</span>
+                        <span style="color: red;">${{ number_format($item->price - ($item->price * $item->discount / 100), 2) }}</span>
+                    @else
+                        ${{ number_format($item->price, 2) }}
+                    @endif
+                </span>
+                @if($item->stock > 0)
+                    <a href="{{ route('products.show', $item->id) }}" class="xb-item--cart-btn">
+                        <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart"></span>
+                        <span class="xb-item--cart">add to cart</span>
+                    </a>
+                @else
+                    <a href="#" class="xb-item--cart-btn disabled" onclick="showOutOfStockMessage(event)">
+                        <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart"></span>
+                        <span class="xb-item--cart">Out of Stock</span>
+                    </a>
+                @endif
+            </div>
+        </div>
+    </div>
+@endforeach
                                     </div>
 
 
@@ -503,7 +524,7 @@
                 overflow: hidden;
                 position: absolute;
                 top: -30px;
-                right: -75px;
+                right: -105px;
                 z-index: 2;
             ">
                 <span style="
@@ -522,13 +543,19 @@
                 ">On Sale</span>
             </div>
             ` : ''}
-                                    <a href="shop-single.html">
-                                        <img src="${product.images[0].url}" alt="img" style="width: 155px; height: 170px; object-fit: cover;">
-                                    </a>
+            ${product.stock > 0 ? `
+            <a href="products/${product.id}">
+                <img src="${product.images[0].url}" alt="img" style="max-height: 120px">
+            </a>
+            ` : `
+            <div class="no-stock">
+                ${product.images[0] ? `<img src="${product.images[0].url}" alt="img" style="max-height: 120px">` : 'No image available'}
+            </div>
+            `}
                                 </div>
                                 <div class="xb-item--holder">
                                     <h3 class="xb-item--title">
-                                        <a href="shop-single.html">${product.name}</a>
+                                        ${product.stock > 0 ? `<a href="products/${product.id}">${product.name}</a>` : `<span class="no-stock-title">${product.name}</span>`}
                                     </h3>
                                     <div class="xb-item--rating-inner ul_li_center">
                                         <ul class="xb-item--rating ul_li">
@@ -548,10 +575,17 @@
                         <span style="color: red;">$${(product.price - (product.price * product.discount / 100)).toFixed(2)}</span>
                     ` : `$${product.price}`}
                 </span>
-                                    <a href="shop-single.html">
-                                        <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt="Cart"></span>
-                                        <span class="xb-item--cart">add to cart</span>
-                                    </a>
+                ${product.stock > 0 ? `
+            <a href="products/${product.id}" class="xb-item--cart-btn">
+                <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
+                <span class="xb-item--cart">add to cart</span>
+            </a>
+            ` : `
+            <a href="#" class="xb-item--cart-btn disabled" onclick="showOutOfStockMessage(event)">
+                <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
+                <span class="xb-item--cart">Out of Stock</span>
+            </a>
+            `}
                                 </div>
                             </div>
                         </div>
@@ -755,4 +789,30 @@
 
 
 </script>
+<script>
+    function showOutOfStockMessage(event) {
+        event.preventDefault();
+        const cartButton = event.currentTarget;
+        cartButton.querySelector('.xb-item--cart').innerText = 'Out of Stock';
+        cartButton.classList.add('disabled');
+        
+        setTimeout(() => {
+            cartButton.querySelector('.xb-item--cart').innerText = 'add to cart';
+            cartButton.classList.remove('disabled');
+        }, 4000);
+    }
+</script>
 
+<style>
+    .xb-item--cart-btn.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+    .no-stock img {
+        pointer-events: none;
+    }
+    .no-stock-title {
+        color: gray;
+        cursor: default;
+    }
+</style>
