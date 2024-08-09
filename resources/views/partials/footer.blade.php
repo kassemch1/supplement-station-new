@@ -80,7 +80,7 @@
         </div>
         <div class="footer-inner">
             <div class="footer-logo mb-25 text-center">
-                <img src="assets/img/logo/f_logo.png" alt="">
+                <img src="assets/img/logo/supLogo.png" alt="" style="max-height: 120px; max-width: 120px;" class="logo"></a>
             </div>
             <div class="sec-title sec-title--white text-center mb-50">
                 <h2 class="title">in a healthy body, healthy mind</h2>
@@ -96,7 +96,9 @@
             </ul>
             <div class="footer-bottom mt-50 d-flex justify-content-center align-items-center">
                 <div class="footer-copyright mt-30 text-center">
-                    Copyright © 2024 Supplement Station All rights reserved.
+                    <span class="item-content">
+                        &copy; {{ date('Y') }} Supplement Station. All rights reserved.<br> Powered by <a href="https://www.tawwer.tech/" target="_blank">Tawwer</a>.
+                    </span>
                 </div>
             </div>
 

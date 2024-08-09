@@ -130,6 +130,7 @@
     </div>
     <div class="sidebar-top mb-65">
         <div class="sidebar-logo mb-40">
+            <br><br><br>
             <a href="index.html">
                 <img src="{{ asset('assets/img/logo/preloader2.png')}}" alt="logo" style="max-height: 150px;max-width: 150px">
             </a>
@@ -142,7 +143,7 @@
     <div class="sidebar-contact-info mb-65">
         <h4 class="sidebar-heading">Contact Information</h4>
         <ul class="sidebar-info-list list-unstyled">
-            <li><span><img src="assets/img/icon/i_star.svg" alt=""></span>Mosharfeye ,facing turkey resturant</li>
+            <li><span><img src="assets/img/icon/i_star.svg" alt=""></span>Mosharfeye,Facing turkey resturant</li>
             <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>+961 81-823-038</a></li>
 
         </ul>

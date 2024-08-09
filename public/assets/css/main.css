@@ -3016,11 +3016,11 @@ span.mini-cart-count {
     left: 0;
     position: absolute;
     transform: translateY(-50%);
-    background-image: url(../img/icon/s_left.png);
+    background-image: url(../img/icon/s_left2.png);
     background-repeat: no-repeat;
     background-position: center center; }
   .sec-title .sub-title::after {
-    background-image: url(../img/icon/s_right.png);
+    background-image: url(../img/icon/s_right2.png);
     left: auto;
     right: 0; }
 .sec-title .title {

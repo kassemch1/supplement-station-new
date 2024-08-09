@@ -87,7 +87,7 @@
         </section>
         <!-- hero end -->
 
-        <div class="bg_img position-botttom bottom--105 pb-70" data-background="assets/img/bg/pp_bg.png">
+        <div class="bg_img position-botttom bottom--105 pb-70" data-background="assets/img/bg/pp_bg2.png">
       <!-- offers product start -->
 <section class="offers-product pt-120 pb-120">
     <div class="container">
