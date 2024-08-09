@@ -469,7 +469,7 @@
             const sortOrder = document.getElementById('sort-by-price') ? document.getElementById('sort-by-price').value : '';
             const category = document.querySelector('.widget__category a.active') ? document.querySelector('.widget__category a.active').getAttribute('data-category') : '';
 
-            const url = `/shop?page=${page}&search=${encodeURIComponent(searchQuery)}&orderby=${encodeURIComponent(sortOrder)}&category=${encodeURIComponent(category)}`;
+            const url = `/Shop?page=${page}&search=${encodeURIComponent(searchQuery)}&orderby=${encodeURIComponent(sortOrder)}&category=${encodeURIComponent(category)}`;
 
             fetchProducts(url, page); // Pass the current page
         });
