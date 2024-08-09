@@ -52,8 +52,10 @@
                             <span class="sub-title wow fadeInUp" data-wow-duration=".6s">100% PREMIUM QUALITY</span>
                             <h1 class="title mb-25 wow fadeInUp" data-wow-delay="150ms" data-wow-duration=".6s">Today Elevate Your Energy Levels at Supplement Station</h1>
                             <div class="hero__action ul_li wow fadeInUp" data-wow-delay="300ms" data-wow-duration=".6s">
-                                @if($product)
+                                @if($banner && $banner->product_id)
                                     <a class="thm-btn mr-45 mt-30" href="{{ route('products.show', ['id'=>$banner->product_id]) }}">BUY NOW</a>
+                                @else
+                                    <a class="thm-btn mr-45 mt-30" href="#">BUY NOW</a>
                                 @endif
                                 <div class="hero__cta ul_li mt-30">
                                     <span class="icon">
@@ -69,8 +71,10 @@
                     </div>
                     <div class="col-lg-5">
                         <div class="hero__product text-md-end">
-                            @if($product)
+                            @if($banner && $banner->product_id)
                                 <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("$banner->image")}}" alt="" height="500" width="500">
+                            @else
+                                <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("assets/img/shop/hero_product.png")}}" alt="" height="500" width="500">
                             @endif
                         </div>
                     </div>

@@ -61,6 +61,141 @@
         <section class="shop pt-115 pb-385">
             <div class="container">
                 <div class="row mt-none-60">
+                    <div class="col-lg-3 mt-60">
+                        <div class="shop-sidebar sidebar-area mt-none-40">
+                            <div class="widget mt-40">
+                                <h2 class="widget__title">Search</h2>
+                                <div class="widget__inner">
+                                    <form id="search-form" class="widget__search" method="GET">
+                                        <input type="text" name="search" placeholder="Search..." id="search-input">
+                                        <button type="submit"><i class="far fa-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                            <div class="widget mt-40">
+                                <h2 class="widget__title">
+                                    <span>Product Categories</span>
+                                </h2>
+                                <div class="widget__inner">
+                                    <ul class="widget__category list-unstyled">
+                                        @foreach($categories as $category)
+                                            <li>
+                                                <!-- Use data-category instead of href -->
+                                                <a href="#" data-category="{{ $category->name }}">
+                                                    {{ $category->name }}
+                                                    <span></span>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                            <div class="widget mt-40">
+                                <h2 class="widget__title">Top Rated Products</h2>
+                                <div class="widget__inner">
+                                    <ul class="widget-product">
+                                        <li class="widget-product__item">
+                                            <div class="thumb">
+                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_01.jpg')}}" alt=""></a>
+                                            </div>
+                                            <div class="content">
+                                                <h3><a href="shop-single.html">iso whey powder</a></h3>
+                                                <span class="price">$129.00</span>
+                                                <ul class="rating ul_li">
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li class="widget-product__item">
+                                            <div class="thumb">
+                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_02.jpg')}}" alt=""></a>
+                                            </div>
+                                            <div class="content">
+                                                <h3><a href="shop-single.html">xplode powder</a></h3>
+                                                <span class="price">$129.00</span>
+                                                <ul class="rating ul_li">
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li class="widget-product__item">
+                                            <div class="thumb">
+                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_03.jpg')}}" alt=""></a>
+                                            </div>
+                                            <div class="content">
+                                                <h3><a href="shop-single.html">strawberry protine</a></h3>
+                                                <span class="price">$129.00</span>
+                                                <ul class="rating ul_li">
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li class="widget-product__item">
+                                            <div class="thumb">
+                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_04.jpg')}}" alt=""></a>
+                                            </div>
+                                            <div class="content">
+                                                <h3><a href="shop-single.html">nutraone protine</a></h3>
+                                                <span class="price">$129.00</span>
+                                                <ul class="rating ul_li">
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                    <li><i class="fas fa-star"></i></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+{{--                            <div class="widget widget_price_filter mt-40">--}}
+{{--                                <h2 class="widget__title">Filter By Price</h2>--}}
+{{--                                <div class="widget__inner">--}}
+{{--                                    <div class="filter-price">--}}
+{{--                                        <form>--}}
+{{--                                            <div id="slider-range"></div>--}}
+{{--                                            <p>Price : <input type="text" id="amount"></p>--}}
+{{--                                            <button>filter</button>--}}
+{{--                                        </form>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="widget mt-40">--}}
+{{--                                <h2 class="widget__title">--}}
+{{--                                    <span>Tags</span>--}}
+{{--                                </h2>--}}
+{{--                                <div class="widget__inner">--}}
+{{--                                    <div class="tagcloud">--}}
+{{--                                        <a href="#!">energy</a>--}}
+{{--                                        <a href="#!">fitness</a>--}}
+{{--                                        <a href="#!">healthy</a>--}}
+{{--                                        <a href="#!">powders</a>--}}
+{{--                                        <a href="#!">nutrition</a>--}}
+{{--                                        <a href="#!">snacks</a>--}}
+{{--                                        <a href="#!">wellness</a>--}}
+{{--                                        <a href="#!">powders</a>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+                        </div>
+                    </div>
                     <div class="col-lg-9 mt-60">
                         <div class="woocommerce-content-wrap">
                             <div class="woocommerce-toolbar-top ul_li_between">
@@ -177,141 +312,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 mt-60">
-                        <div class="shop-sidebar sidebar-area mt-none-40">
-                            <div class="widget mt-40">
-                                <h2 class="widget__title">Search</h2>
-                                <div class="widget__inner">
-                                    <form id="search-form" class="widget__search" method="GET">
-                                        <input type="text" name="search" placeholder="Search..." id="search-input">
-                                        <button type="submit"><i class="far fa-search"></i></button>
-                                    </form>
-                                </div>
-                            </div>
 
-
-<div class="widget mt-40">
-    <h2 class="widget__title">
-        <span>Product Categories</span>
-    </h2>
-    <div class="widget__inner">
-        <ul class="widget__category list-unstyled">
-            @foreach($categories as $category)
-            <li>
-                <!-- Use data-category instead of href -->
-                <a href="#" data-category="{{ $category->name }}">
-                    {{ $category->name }}
-                    <span></span>
-                </a>
-            </li>
-            @endforeach
-        </ul>
-    </div>
-</div>
-
-
-                            <div class="widget mt-40">
-                                <h2 class="widget__title">Top Rated Products</h2>
-                                <div class="widget__inner">
-                                    <ul class="widget-product">
-                                        <li class="widget-product__item">
-                                            <div class="thumb">
-                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_01.jpg')}}" alt=""></a>
-                                            </div>
-                                            <div class="content">
-                                                <h3><a href="shop-single.html">iso whey powder</a></h3>
-                                                <span class="price">$129.00</span>
-                                                <ul class="rating ul_li">
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li class="widget-product__item">
-                                            <div class="thumb">
-                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_02.jpg')}}" alt=""></a>
-                                            </div>
-                                            <div class="content">
-                                                <h3><a href="shop-single.html">xplode powder</a></h3>
-                                                <span class="price">$129.00</span>
-                                                <ul class="rating ul_li">
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li class="widget-product__item">
-                                            <div class="thumb">
-                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_03.jpg')}}" alt=""></a>
-                                            </div>
-                                            <div class="content">
-                                                <h3><a href="shop-single.html">strawberry protine</a></h3>
-                                                <span class="price">$129.00</span>
-                                                <ul class="rating ul_li">
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li class="widget-product__item">
-                                            <div class="thumb">
-                                                <a href="shop-single.html"><img src="{{ asset('assets/img/shop/prd_04.jpg')}}" alt=""></a>
-                                            </div>
-                                            <div class="content">
-                                                <h3><a href="shop-single.html">nutraone protine</a></h3>
-                                                <span class="price">$129.00</span>
-                                                <ul class="rating ul_li">
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="widget widget_price_filter mt-40">
-                                <h2 class="widget__title">Filter By Price</h2>
-                                <div class="widget__inner">
-                                    <div class="filter-price">
-                                        <form>
-                                            <div id="slider-range"></div>
-                                            <p>Price : <input type="text" id="amount"></p>
-                                            <button>filter</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="widget mt-40">
-                                <h2 class="widget__title">
-                                    <span>Tags</span>
-                                </h2>
-                                <div class="widget__inner">
-                                    <div class="tagcloud">
-                                        <a href="#!">energy</a>
-                                        <a href="#!">fitness</a>
-                                        <a href="#!">healthy</a>
-                                        <a href="#!">powders</a>
-                                        <a href="#!">nutrition</a>
-                                        <a href="#!">snacks</a>
-                                        <a href="#!">wellness</a>
-                                        <a href="#!">powders</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
