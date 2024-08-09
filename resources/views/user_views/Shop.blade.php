@@ -78,7 +78,7 @@
                                 <h2 class="widget__title">
                                     <span>Product Categories</span>
                                 </h2>
-                                <div class="widget__inner">
+                                <div class="widget__inner" style="max-height: 300px; overflow-y: auto; padding-right: 10px; box-sizing: border-box;">
                                     <ul class="widget__category list-unstyled">
                                         @foreach($categories as $category)
                                             <li>
@@ -91,6 +91,7 @@
                                         @endforeach
                                     </ul>
                                 </div>
+                                
                             </div>
 
 
