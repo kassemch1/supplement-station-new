@@ -95,23 +95,59 @@
             <span class="sub-title">Shop</span>
             <h2 class="title">Our Special Offers</h2>
         </div>
-        <div class="row">
-            <div class="col-lg-8 pb-col-8">
+        <div class="row" >
+            <div class="col-lg-8 pb-col-8" >
                 <div class="row g-20">
                     @forelse ($offersProducts as $offer)
                         @php
                             $ratingCount = $offer->reviews()->count();
                             $averageRating = $ratingCount > 0 ? $offer->reviews()->avg('rating') : 5; // Default to 0 if no ratings
                         @endphp
-                    <div class="col-lg-6 col-md-6 mt-20">
-                        <div class="popular-product-item ul_li">
+                    <div class="col-lg-6 col-md-6 mt-20" >
+                        
+                        <div class="popular-product-item ul_li" style="position: relative; min-height: 300px; max-height: 400px; overflow: hidden;">
+                            <div class="ribbon" style="
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            z-index: 2;
+        ">
+            <span style="
+                position: absolute;
+                display: block;
+                width: 225px;
+                padding: 10px 0;
+                background-color: #A02334;
+                color: white;
+                text-transform: uppercase;
+                font-weight: bold;
+                text-align: center;
+                transform: rotate(45deg);
+                top: 20px;
+                right: -75px;
+            ">On Sale</span>
+        </div>
                             <div class="xb-item--img">
+                                @if($offer->stock > 0)
                                 <a href="{{ route('products.show', $offer->id) }}">
                                     <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" style="width: 100%; height: auto; object-fit: cover;">
                                 </a>
+                                @else
+                                <a >
+                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" style="width: 100%; height: auto; object-fit: cover;">
+                                </a>
+                                @endif
                             </div>
+                            
                             <div class="xb-item--holder">
-                                <h3 class="xb-item--title"><a href="{{ route('products.show', $offer->id) }}">{{ $offer->name }}</a></h3>
+                                <h3 class="xb-item--title"> @if($offer->stock > 0)
+                                    <a href="{{ route('products.show', $offer->id) }}">{{ $offer->name }}</a>
+                                @else
+                                <span class="no-stock-title">{{ $offer->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
+                                @endif</h3>
                                 <div class="xb-item--rating-inner ul_li">
                                     <ul class="xb-item--rating ul_li">
                                         @for ($i = 0; $i < 5; $i++)
@@ -120,11 +156,17 @@
                                         <span>({{ $ratingCount }} Customer review{{ $ratingCount != 1 ? 's' : '' }})</span>
                                     </ul>
                                 </div>
-                                <div class="xb-item--action ul_li_between">
+                                <div class="xb-item--action ul_li_between" style="position: absolute; bottom:40px;width:55%">
                                     <h4 class="xb-item--price">${{ number_format($offer->price, 2) }}</h4>
+                                    @if($offer->stock > 0)
                                     <a class="xb-item--cart" href="{{ route('products.show', $offer->id) }}">
                                         <img src="assets/img/icon/bag.svg" alt="">
                                     </a>
+                                    @else
+                                    <a class="xb-item--cart" >
+                                        <img src="assets/img/icon/bag.svg" alt="">
+                                    </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -925,6 +967,17 @@ $(document).on('click', '.remove', function(event) {
         opacity: 0.5;
         width: 300px
     }
+    .xb-item--cart-btn.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .no-stock img {
+            pointer-events: none;
+        }
+        .no-stock-title {
+            color: gray;
+            cursor: default;
+        }
 </style>
 
 
