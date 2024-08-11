@@ -5,12 +5,16 @@ namespace App\Http\Controllers\user_controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use Jenssegers\Agent\Agent;
 
 class ShopController extends Controller
 {
-    
+
     public function Shop()
     {
+
+
+        $agent = new Agent();
         $categories = Category::all();
         $search = request()->query('search');
         $orderBy = request()->query('orderby');
@@ -46,28 +50,28 @@ class ShopController extends Controller
         // Get offers products
         $offersCategory = Category::where('name', 'Offers')->first();
         $offersProducts = [];
-        
+
         if ($offersCategory) {
             $offersProducts = Product::where('category_id', $offersCategory->id)
                                      ->take(4)
                                      ->with('images')
                                      ->get();
-            
-          
+
+
             if ($offersProducts->isEmpty()) {
-                $offersProducts = Product::inRandomOrder() 
-                                         ->take(4) 
+                $offersProducts = Product::inRandomOrder()
+                                         ->take(4)
                                          ->with('images')
                                          ->get();
             }
         } else {
-          
+
             $offersProducts = Product::inRandomOrder()
                                      ->take(4)
                                      ->with('images')
                                      ->get();
         }
-        
+
 
         if (request()->ajax()) {
             return response()->json([
@@ -76,7 +80,7 @@ class ShopController extends Controller
                     'current_page' => $products->currentPage(),
                     'last_page' => $products->lastPage(),
                 ],
-                
+
             ]);
         }
 
@@ -85,6 +89,7 @@ class ShopController extends Controller
             'categories' => $categories,
             'selectedCategory' => $categoryName,
             'offersProducts'=>$offersProducts,
+            'agent'=>$agent,
         ]);
     }
 }

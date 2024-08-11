@@ -448,76 +448,77 @@
 
 <!--minicart-->
 <script>
-    function fetchCart() {
-        $.ajax({
-            url: '{{ route('api.cart.get') }}',
-            method: 'GET',
-            success: function(response) {
-                console.log("response", response.items); // Check response structure
+    {{--function fetchCart() {--}}
+    {{--    $.ajax({--}}
+    {{--        url: '{{ route('api.cart.get') }}',--}}
+    {{--        method: 'GET',--}}
+    {{--        success: function(response) {--}}
+    {{--            console.log("response", response.items); // Check response structure--}}
 
-                if (!response.items || !Array.isArray(response.items)) {
-                    console.error("Invalid response structure");
-                    return;
-                }
+    {{--            if (!response.items || !Array.isArray(response.items)) {--}}
+    {{--                console.error("Invalid response structure");--}}
+    {{--                return;--}}
+    {{--            }--}}
 
-                $('.header-mini-cart').empty(); // Clear previous items
-                let total = 0;
+    {{--            $('.header-mini-cart').empty(); // Clear previous items--}}
+    {{--            let total = 0;--}}
 
-                if (response.items.length === 0) {
-                    $('.header-mini-cart').append('<p>Your cart is empty.</p>');
-                } else {
-                    response.items.forEach(item => {
-                        if (!item.product || !item.product.price || !item.product.name) {
-                            console.error("Invalid item structure");
-                            return;
-                        }
+    {{--            if (response.items.length === 0) {--}}
+    {{--                $('.header-mini-cart').append('<p>Your cart is empty.</p>');--}}
+    {{--            } else {--}}
+    {{--                response.items.forEach(item => {--}}
+    {{--                    if (!item.product || !item.product.price || !item.product.name) {--}}
+    {{--                        console.error("Invalid item structure");--}}
+    {{--                        return;--}}
+    {{--                    }--}}
 
-                        const discount = item.product.discount || 0; // Get discount percentage
-                        const price = item.product.price;
-                        const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount
-                        const itemTotal = discountedPrice * item.quantity; // Calculate total for this item
+    {{--                    const discount = item.product.discount || 0; // Get discount percentage--}}
+    {{--                    const price = item.product.price;--}}
+    {{--                    const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount--}}
+    {{--                    const itemTotal = discountedPrice * item.quantity; // Calculate total for this item--}}
 
-                        $('.header-mini-cart').append(`
-                            <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
-                                <div class="mini-cart-img" style="margin-right: 10px;">
-                                    <img src="{{asset('${item.product_image}')}}" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
-                                </div>
-                                <div class="mini-cart-content" style="flex-grow: 1;">
-                                    <h4 class="product-title" style="margin: 0; font-size: 14px;">
-                                        <a href="shop-details.html" style="text-decoration: none; color: #000;">${item.product.name}</a>
-                                    </h4>
-                                    <div class="mini-cart-price" style="margin-top: 5px;">
-                                        ${item.quantity} ×
-                                        <span class="woocommerce-Price-amount amount" style="color: red;">$${discountedPrice.toFixed(2)}</span>
+    {{--                    $('.header-mini-cart').append(`--}}
+    {{--                        <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">--}}
+    {{--                            <div class="mini-cart-img" style="margin-right: 10px;">--}}
+    {{--                                <img src="{{asset('${item.product_image}')}}" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">--}}
+    {{--                            </div>--}}
+    {{--                            <div class="mini-cart-content" style="flex-grow: 1;">--}}
+    {{--                                <h4 class="product-title" style="margin: 0; font-size: 14px;">--}}
+    {{--                                    <a href="shop-details.html" style="text-decoration: none; color: #000;">${item.product.name}</a>--}}
+    {{--                                </h4>--}}
+    {{--                                <div class="mini-cart-price" style="margin-top: 5px;">--}}
+    {{--                                    ${item.quantity} ×--}}
+    {{--                                    <span class="woocommerce-Price-amount amount" style="color: red;">$${discountedPrice.toFixed(2)}</span>--}}
 
-                                    </div>
-                                </div>
-                                <div class="remove-button" style="margin-left: auto;">
-                                    <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
-                                </div>
-                            </div>
-                        `);
+    {{--                                </div>--}}
+    {{--                            </div>--}}
+    {{--                            <div class="remove-button" style="margin-left: auto;">--}}
+    {{--                                <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>--}}
+    {{--                            </div>--}}
+    {{--                        </div>--}}
+    {{--                    `);--}}
 
-                        total += itemTotal; // Sum the total amount
-                    });
+    {{--                    total += itemTotal; // Sum the total amount--}}
+    {{--                });--}}
 
-                    $('.header-mini-cart').append(`
-                        <p class="woocommerce-mini-cart__total">
-                            <strong>Subtotal:</strong>
-                            <span class="woocommerce-Price-amount">$${total.toFixed(2)}</span>
-                        </p>
-                        <p class="checkout-link">
-                            <a href="/viewCart" class="button wc-forward">View cart</a>
-                            <a href="/Checkout" class="button checkout wc-forward">Checkout</a>
-                        </p>
-                    `);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX error:', error);
-            }
-        });
-    }
+    {{--                $('.header-mini-cart').append(`--}}
+    {{--                    <p class="woocommerce-mini-cart__total">--}}
+    {{--                        <strong>Subtotal:</strong>--}}
+    {{--                        <span class="woocommerce-Price-amount">$${total.toFixed(2)}</span>--}}
+    {{--                    </p>--}}
+    {{--                    <p class="checkout-link">--}}
+    {{--                        <a href="/viewCart" class="button wc-forward">View cart</a>--}}
+    {{--                        <a href="/Checkout" class="button checkout wc-forward">Checkout</a>--}}
+    {{--                    </p>--}}
+    {{--                `);--}}
+    {{--                $('.header-mini-cart').show();--}}
+    {{--            }--}}
+    {{--        },--}}
+    {{--        error: function(xhr, status, error) {--}}
+    {{--            console.error('AJAX error:', error);--}}
+    {{--        }--}}
+    {{--    });--}}
+    {{--}--}}
 
     // Fetch cart items on page load
     $(document).ready(function() {
@@ -567,6 +568,105 @@ $(document).on('click', '.remove', function(event) {
 
 <!--add to cart-->
 <script>
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const optionLinks = document.querySelectorAll('.option-value');
+    //     const selectedOptionsInput = document.getElementById('selected_options');
+    //     const quantityInput = document.getElementById('quantity');
+    //     const form = document.getElementById('add-to-cart-form');
+    //     const addToCartButton = form.querySelector('.add-to-cart');
+    //     let selectedOptions = {};
+    //     let totalOptions = new Set();
+    //
+    //     optionLinks.forEach(link => {
+    //         totalOptions.add(link.dataset.optionName);
+    //
+    //         link.addEventListener('click', function(event) {
+    //             event.preventDefault();
+    //             const optionName = this.dataset.optionName;
+    //             const optionValue = this.dataset.optionValue;
+    //
+    //             // Toggle selection
+    //             if (selectedOptions[optionName] === optionValue) {
+    //                 // Option is already selected, remove it
+    //                 delete selectedOptions[optionName];
+    //                 this.classList.remove('selected');
+    //                 this.style.color = ''; // Reset text color
+    //             } else {
+    //                 // Option is not selected, add it and remove any existing selection for the same option name
+    //                 optionLinks.forEach(otherLink => {
+    //                     if (otherLink.dataset.optionName === optionName) {
+    //                         otherLink.classList.remove('selected');
+    //                         otherLink.style.color = ''; // Reset text color
+    //                     }
+    //                 });
+    //                 selectedOptions[optionName] = optionValue;
+    //                 this.classList.add('selected');
+    //                 this.style.color = 'white'; // Change text color to white
+    //             }
+    //
+    //             // Update the hidden input value
+    //             selectedOptionsInput.value = JSON.stringify(selectedOptions);
+    //
+    //             // Enable the add to cart button
+    //             addToCartButton.disabled = false;
+    //         });
+    //     });
+    //
+    //     // Handle form submission with AJAX
+    //     $('#add-to-cart-form').submit(function (e) {
+    //         e.preventDefault(); // Prevent default form submission
+    //
+    //         // Check if there are selected options
+    //         if (Object.keys(selectedOptions).length === 0) {
+    //             selectedOptionsInput.value = JSON.stringify({});
+    //         } else {
+    //             selectedOptionsInput.value = JSON.stringify(selectedOptions);
+    //         }
+    //
+    //         // Debugging logs
+    //         console.log('Selected Options:', selectedOptions);
+    //         console.log('Selected Options Input Value:', selectedOptionsInput.value);
+    //
+    //         // Serialize form data
+    //         var formData = new FormData(this);
+    //
+    //         // Send AJAX request
+    //         $.ajax({
+    //             headers: {
+    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //             },
+    //             type: 'POST',
+    //             url: $(this).attr('action'), // Use form's action attribute as URL
+    //             data: formData,
+    //             processData: false,
+    //             contentType: false,
+    //             success: function (response) {
+    //                 // Show success alert
+    //                 $('#successAlert').text(response.message).fadeIn();
+    //                 setTimeout(function () {
+    //                     $('#successAlert').fadeOut();
+    //                 }, 3000);
+    //             },
+    //             error: function (xhr) {
+    //                 // Show error alert
+    //                 var errorMessage = xhr.responseJSON.message || 'There was an error adding the item to the cart.';
+    //                 $('#errorAlert').text(errorMessage).fadeIn();
+    //                 setTimeout(function () {
+    //                     $('#errorAlert').fadeOut();
+    //                 }, 3000);
+    //             }
+    //         });
+    //     });
+    //
+    //     // Optional: Validate or update quantity based on specific rules
+    //     quantityInput.addEventListener('change', function() {
+    //         const quantity = parseInt(this.value, 10);
+    //         if (isNaN(quantity) || quantity < 1) {
+    //             this.value = 1; // Default to 1 if invalid
+    //         }
+    //     });
+    // });
+
     document.addEventListener('DOMContentLoaded', function() {
         const optionLinks = document.querySelectorAll('.option-value');
         const selectedOptionsInput = document.getElementById('selected_options');
@@ -586,12 +686,10 @@ $(document).on('click', '.remove', function(event) {
 
                 // Toggle selection
                 if (selectedOptions[optionName] === optionValue) {
-                    // Option is already selected, remove it
                     delete selectedOptions[optionName];
                     this.classList.remove('selected');
                     this.style.color = ''; // Reset text color
                 } else {
-                    // Option is not selected, add it and remove any existing selection for the same option name
                     optionLinks.forEach(otherLink => {
                         if (otherLink.dataset.optionName === optionName) {
                             otherLink.classList.remove('selected');
@@ -605,26 +703,13 @@ $(document).on('click', '.remove', function(event) {
 
                 // Update the hidden input value
                 selectedOptionsInput.value = JSON.stringify(selectedOptions);
-
-                // Enable the add to cart button
-                addToCartButton.disabled = false;
+                addToCartButton.disabled = false; // Enable the add to cart button
             });
         });
 
         // Handle form submission with AJAX
         $('#add-to-cart-form').submit(function (e) {
             e.preventDefault(); // Prevent default form submission
-
-            // Check if there are selected options
-            if (Object.keys(selectedOptions).length === 0) {
-                selectedOptionsInput.value = JSON.stringify({});
-            } else {
-                selectedOptionsInput.value = JSON.stringify(selectedOptions);
-            }
-
-            // Debugging logs
-            console.log('Selected Options:', selectedOptions);
-            console.log('Selected Options Input Value:', selectedOptionsInput.value);
 
             // Serialize form data
             var formData = new FormData(this);
@@ -640,14 +725,22 @@ $(document).on('click', '.remove', function(event) {
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    // Show success alert
                     $('#successAlert').text(response.message).fadeIn();
                     setTimeout(function () {
                         $('#successAlert').fadeOut();
                     }, 3000);
+
+                    fetchCart(); // Refresh cart content
+
+                    // Open the mini cart
+                    $('.header-mini-cart').addClass('visible'); // Add the class to show the mini cart
+
+                    // Optionally, remove the class after some time to close it
+                    setTimeout(function () {
+                        $('.header-mini-cart').removeClass('visible');
+                    }, 5000); // Close after 3 seconds
                 },
                 error: function (xhr) {
-                    // Show error alert
                     var errorMessage = xhr.responseJSON.message || 'There was an error adding the item to the cart.';
                     $('#errorAlert').text(errorMessage).fadeIn();
                     setTimeout(function () {
@@ -665,6 +758,91 @@ $(document).on('click', '.remove', function(event) {
             }
         });
     });
+
+    // Fetch cart items on page load
+    $(document).ready(function() {
+        $('.header-shop-cart a').on('click', function() {
+            $('.header-mini-cart').toggle(); // Toggle visibility on click
+        });
+        fetchCart(); // Fetch cart items
+    });
+
+    function fetchCart() {
+        $.ajax({
+            url: '{{ route('api.cart.get') }}',
+            method: 'GET',
+            success: function(response) {
+                console.log("Fetching cart items", response.items); // Check response structure
+
+                if (!response.items || !Array.isArray(response.items)) {
+                    console.error("Invalid response structure");
+                    return;
+                }
+
+                $('.header-mini-cart').empty(); // Clear previous items
+                let total = 0;
+                let itemCount = 0; // Initialize item count
+
+                if (response.items.length === 0) {
+                    $('.header-mini-cart').append('<p>Your cart is empty.</p>');
+                } else {
+                    response.items.forEach(item => {
+                        if (!item.product || !item.product.price || !item.product.name) {
+                            console.error("Invalid item structure");
+                            return;
+                        }
+
+                        const discount = item.product.discount || 0; // Get discount percentage
+                        const price = item.product.price;
+                        const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount
+                        const itemTotal = discountedPrice * item.quantity; // Calculate total for this item
+                        itemCount += item.quantity; // Sum the quantities for the cart count
+
+                        $('.header-mini-cart').append(`
+                        <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
+                            <div class="mini-cart-img" style="margin-right: 10px;">
+                                <img src="{{asset('${item.product_image}')}}" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
+                            </div>
+                            <div class="mini-cart-content" style="flex-grow: 1;">
+                                <h4 class="product-title" style="margin: 0; font-size: 14px;">
+                                    <a href="shop-details.html" style="text-decoration: none; color: #000;">${item.product.name}</a>
+                                </h4>
+                                <div class="mini-cart-price" style="margin-top: 5px;">
+                                    ${item.quantity} ×
+                                    <span class="woocommerce-Price-amount amount" style="color: red;">$${discountedPrice.toFixed(2)}</span>
+
+                                </div>
+                            </div>
+                            <div class="remove-button" style="margin-left: auto;">
+                                <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
+                            </div>
+                        </div>
+                    `);
+
+                        total += itemTotal; // Sum the total amount
+                    });
+
+                    $('.header-mini-cart').append(`
+                    <p class="woocommerce-mini-cart__total">
+                        <strong>Subtotal:</strong>
+                        <span class="woocommerce-Price-amount">$${total.toFixed(2)}</span>
+                    </p>
+                    <p class="checkout-link">
+                        <a href="/viewCart" class="button wc-forward">View cart</a>
+                        <a href="/Checkout" class="button checkout wc-forward">Checkout</a>
+                    </p>
+                `);
+                    $('.mini-cart-count').text(itemCount); // Update the cart count in the header
+                }
+
+                // Ensure the mini cart is shown
+                $('.header-mini-cart').show();
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', error);
+            }
+        });
+    }
 
 
 //reviews

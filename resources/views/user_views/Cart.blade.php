@@ -65,6 +65,42 @@
         .quantity button.quantity-plus {
             border-radius: 0 4px 4px 0;
         }
+        @media (max-width: 991px) {
+            .quantity button.quantity-plus {
+                background-color: transparent; /* Light grey background */
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                color: #333;
+                cursor: pointer;
+                font-size: 16px;
+                height: 40px;
+                line-height: 1;
+                padding: 10px;
+                width: 30px;
+                text-align: center;
+                transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
+            }
+            .quantity input {
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 16px;
+                height: 40px;
+                text-align: center;
+                width: 50px;
+            }
+            .quantity {
+                display: flex;
+                align-items: center;
+                position: relative;
+                left: -15px;
+        }
+            .quantity button:hover {
+                background-color:#FF4D24;
+                border-color: orange;
+                color: white; /* Optional: change text color to white for better contrast */
+            }
+
+        }
 
         .quantity input,
         .quantity button {
@@ -262,7 +298,7 @@
     <!-- footer end -->
 
 
-</div>
+
 
 <!-- jquery include -->
 <script src={{asset("assets/js/jquery-3.7.1.min.js")}}></script>
@@ -277,7 +313,7 @@
 <script src={{asset("assets/js/scrollspy.js")}}></script>
 <script src={{asset("assets/js/main.js")}}></script>
 
-</html>
+
 <script>
     function fetchCart() {
         $.ajax({
