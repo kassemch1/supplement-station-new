@@ -54,8 +54,9 @@
                                     <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/supLogo.png')}}" alt="" style="max-height: 120px; max-width: 120px;" class="logo"></a>
                                 </div>
                                 <div class="xb-header-mobile-search xb-hide-xl">
-                                    <form role="search" action="#">
-                                        <input type="text" placeholder="Search..." name="s" class="search-field">
+                                    <form role="search" action="{{route('shop')}}" method="get">
+                                        @csrf
+                                        <input type="text" placeholder="Search..." name="home-search" class="search-field">
                                     </form>
                                 </div>
                                 <nav class="xb-header-nav">

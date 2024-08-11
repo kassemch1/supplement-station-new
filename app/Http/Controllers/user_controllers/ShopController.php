@@ -5,10 +5,13 @@ namespace App\Http\Controllers\user_controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Jenssegers\Agent\Agent;
 
 class ShopController extends Controller
 {
-    
+
     public function Shop()
     {
         $categories = Category::all();
@@ -46,28 +49,28 @@ class ShopController extends Controller
         // Get offers products
         $offersCategory = Category::where('name', 'Offers')->first();
         $offersProducts = [];
-        
+
         if ($offersCategory) {
             $offersProducts = Product::where('category_id', $offersCategory->id)
                                      ->take(4)
                                      ->with('images')
                                      ->get();
-            
-          
+
+
             if ($offersProducts->isEmpty()) {
-                $offersProducts = Product::inRandomOrder() 
-                                         ->take(4) 
+                $offersProducts = Product::inRandomOrder()
+                                         ->take(4)
                                          ->with('images')
                                          ->get();
             }
         } else {
-          
+
             $offersProducts = Product::inRandomOrder()
                                      ->take(4)
                                      ->with('images')
                                      ->get();
         }
-        
+
 
         if (request()->ajax()) {
             return response()->json([
@@ -76,7 +79,7 @@ class ShopController extends Controller
                     'current_page' => $products->currentPage(),
                     'last_page' => $products->lastPage(),
                 ],
-                
+
             ]);
         }
 
@@ -85,6 +88,97 @@ class ShopController extends Controller
             'categories' => $categories,
             'selectedCategory' => $categoryName,
             'offersProducts'=>$offersProducts,
+        ]);
+    }
+
+    public function index(Request $request)
+    {
+        // Initialize the query
+        $query = Product::query();
+
+        if($request->has('home-search') && $request->input('home-search') !== ''){
+            $searchTerm=$request->input('home-search');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', '%' . $searchTerm . '%');
+            });
+        }
+        if($request->has('shop-search') && $request->input('shop-search') !== ''){
+            $searchTerm=$request->input('shop-search');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', '%' . $searchTerm . '%');
+            });
+        }
+        // Apply category filtering if a category is selected
+        if ($request->has('category') && $request->input('category') !== '') {
+            $categoryName = $request->input('category');
+            $category = Category::where('name', $categoryName)->first();
+
+            if ($category) {
+                $query->where('category_id', $category->id);
+            }
+        }
+
+        if ($request->has('category-phone') && $request->input('category-phone') !== '') {
+            $categoryName = $request->input('category-phone');
+            $category = Category::where('name', $categoryName)->first();
+
+            if ($category) {
+                $query->where('category_id', $category->id);
+            }
+        }
+
+        // Apply sorting based on the 'orderby' parameter if present
+        if ($request->input('orderby') === 'low-to-high') {
+            $query->orderByRaw('(price * (1 - discount / 100)) ASC');
+        } elseif ($request->input('orderby') === 'high-to-low') {
+            $query->orderByRaw('(price * (1 - discount / 100)) DESC');
+        }
+        else {
+            // Default sorting (e.g., by creation date or id)
+            $query->orderBy('created_at', 'ASC'); // or any other default attribute
+        }
+
+        // Paginate the results
+        $products = $query->with('images')->paginate(6);
+
+        // Retrieve other necessary data
+        $categories = Category::all();
+        $offersCategory = Category::where('name', 'Offers')->first();
+        $offers = Product::where('category_id', $offersCategory->id)->take(4)->get();
+
+        if ($request->ajax()) {
+            $productList = view('partials.product_list', ['product' => $products])->render();
+            $pagination = view('partials.product_pagination', ['product' => $products])->render();
+
+            return response()->json([
+                'productList' => $productList,
+                'paginatee' => $pagination,
+            ]);
+        }
+
+
+        $agent=new Agent();
+        // Return the view with data
+        return view('user_views.Shop', [
+            'product' => $products,
+            'categories' => $categories,
+            'offersProducts' => $offers,
+            'agent'=>$agent
+        ]);
+    }
+
+
+
+    public function homeSearchToShop(Request $request)
+    {
+        $searchTerm=$request->input('home-search');
+
+        $products = DB::table('products')->where('name','LIKE','%'.$searchTerm.'%')
+            ->get();
+
+        return view('',[
+            'products'=>$products
+
         ]);
     }
 }
