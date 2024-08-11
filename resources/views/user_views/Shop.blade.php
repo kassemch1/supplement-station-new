@@ -91,9 +91,9 @@
                                         @endforeach
                                     </ul>
                                 </div>
-                                
-                            </div>
 
+                            </div>
+                            @if(!$agent->isMobile())
                         <!--Start Of the Offers Section -->
                             <div class="widget mt-40">
                                 <h2 class="widget__title">Our Best Offers</h2>
@@ -122,19 +122,21 @@
                                                             ${{ number_format($offer->price, 2) }}
                                                         @endif
                                                     </span>
-                                                    
+
                                                 </div>
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
                             </div>
-      
+                            @endif
+
                                     <!--End Of the Offers Section -->
 
 
                         </div>
                     </div>
+
                     <div class="col-lg-9 mt-60">
                         <div class="woocommerce-content-wrap">
                             <div class="woocommerce-toolbar-top ul_li_between">
@@ -269,6 +271,55 @@
 
 
 
+                                <div class="col-lg-3 mt-60">
+                                    <div class="shop-sidebar sidebar-area mt-none-40">
+
+                                        @if($agent->isMobile())
+                                            <!--Start Of the Offers Section -->
+                                            <div class="widget mt-40">
+                                                <h2 class="widget__title">Our Best Offers</h2>
+                                                <div class="widget__inner">
+                                                    <ul class="widget-product">
+                                                        @foreach($offersProducts as $offer)
+                                                            <li class="widget-product__item">
+                                                                <div class="thumb">
+                                                                    <a href="{{ route('products.show', ['id' => $offer->id]) }}">
+                                                                        @if($offer->images->isNotEmpty())
+                                                                            <img src="{{ asset($offer->images->first()->url) }}" alt="">
+                                                                        @else
+                                                                            No image available
+                                                                        @endif
+                                                                    </a>
+                                                                </div>
+                                                                <div class="content">
+                                                                    <h3>
+                                                                        <a href="{{ route('products.show', ['id' => $offer->id]) }}">{{ $offer->name }}</a>
+                                                                    </h3>
+                                                                    <span class="price">
+                                                        @if($offer->discount > 0)
+                                                                            <span style="text-decoration: line-through; color: gray;">${{ number_format($offer->price, 2) }}</span>
+                                                                            <span style="color: #A02334;">${{ number_format($offer->price - ($offer->price * $offer->discount / 100), 2) }}</span>
+                                                                        @else
+                                                                            ${{ number_format($offer->price, 2) }}
+                                                                        @endif
+                                                    </span>
+
+                                                                </div>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <!--End Of the Offers Section -->
+
+
+                                    </div>
+                                </div>
+
+
+
                             </div>
                         </div>
                     </div>
@@ -318,12 +369,12 @@
         text-transform: uppercase; /* Uppercase text */
         font-size: 14px; /* Font size */
     }
-    
+
     .xb-item--img {
         position: relative; /* Needed for absolute positioning of the label */
         display: inline-block; /* Ensure the container fits around the image */
     }
-    
+
         .xb-item--cart-btn.disabled {
             pointer-events: none;
             opacity: 0.5;
@@ -335,7 +386,7 @@
             color: gray;
             cursor: default;
         }
-    
+
         </style>
 
 </html>

@@ -1,6 +1,8 @@
 <?php
 
 return [
+    Jenssegers\Agent\AgentServiceProvider::class,
+    'Agent' => Jenssegers\Agent\Facades\Agent::class,
 
     /*
     |--------------------------------------------------------------------------
