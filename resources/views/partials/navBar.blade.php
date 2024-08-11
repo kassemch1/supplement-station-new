@@ -51,7 +51,7 @@
                             <div class="xb-header-menu-scroll">
                                 <div class="xb-menu-close xb-hide-xl xb-close"></div>
                                 <div class="xb-logo-mobile xb-hide-xl">
-                                    <a href="{{ route('home') }}" rel="home"><img src="assets/img/logo/logo.svg" alt=""></a>
+                                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/supLogo.png')}}" alt="" style="max-height: 120px; max-width: 120px;" class="logo"></a>
                                 </div>
                                 <div class="xb-header-mobile-search xb-hide-xl">
                                     <form role="search" action="#">

@@ -261,7 +261,6 @@
                             <div class="tablist">
                                 <ul class="nav nav-tabs" id="pills-tab" role="tablist">
                                     <li><button  class="active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#tb-01">Product Details</button></li>
-                                    <li><button id="tab-two" data-bs-toggle="pill" data-bs-target="#tb-02">Additional imformation</button></li>
                                     <li><button  id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#tb-03">Review ({{$ratingCount}})</button></li>
                                 </ul>
                             </div>
