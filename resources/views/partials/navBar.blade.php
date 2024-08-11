@@ -108,6 +108,14 @@
                         </a>
                     </div>
                 </div>
+                <div class="ul_li">
+                <div class="header-shop-cart d-lg-none">
+                    <a href="javascript:void(0);"><img src="{{ asset('assets/img/icon/bag.svg')}}" alt=""><span class="mini-cart-count">0</span></a>
+                    <div class="header-mini-cart" >
+
+
+                    </div>
+                </div>
                 <div class="header-bar-mobile d-lg-none">
                     <a class="header__bar xb-nav-mobile" href="javascript:void(0);">
                         <div class="header__bar-icon">
@@ -118,6 +126,8 @@
                         </div>
                     </a>
                 </div>
+                </div>
+
             </div>
         </div>
     </div>

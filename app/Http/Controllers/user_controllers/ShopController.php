@@ -14,6 +14,9 @@ class ShopController extends Controller
 
     public function Shop()
     {
+
+
+        $agent = new Agent();
         $categories = Category::all();
         $search = request()->query('search');
         $orderBy = request()->query('orderby');
@@ -88,6 +91,7 @@ class ShopController extends Controller
             'categories' => $categories,
             'selectedCategory' => $categoryName,
             'offersProducts'=>$offersProducts,
+            'agent'=>$agent,
         ]);
     }
 
