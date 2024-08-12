@@ -61,12 +61,14 @@ use Illuminate\Support\Facades\DB;
         }
     }
 
+    $categories=Category::all();
     return view('user_views.home', [
         'product' => $product,
         'offersProducts' => $offersProducts,
         'banner' => $banner,
         'planes' => $planes,
         'faqs' => $faqs,
+        'categories'=>$categories
     ]);
 }
 

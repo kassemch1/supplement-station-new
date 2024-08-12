@@ -34,7 +34,7 @@
 </div>
 <!-- backtotop - end -->
 
-@include('partials/navBar')
+@include('partials/navBar',['categories'=>$categories])
     <!-- header end -->
 
 
@@ -104,7 +104,7 @@
                             $averageRating = $ratingCount > 0 ? $offer->reviews()->avg('rating') : 5; // Default to 0 if no ratings
                         @endphp
                     <div class="col-lg-6 col-md-6 mt-20" >
-                        
+
                         <div class="popular-product-item ul_li" style="position: relative; min-height: 300px; max-height: 400px; overflow: hidden;">
                             <div class="ribbon" style="
             width: 150px;
@@ -141,7 +141,7 @@
                                 </a>
                                 @endif
                             </div>
-                            
+
                             <div class="xb-item--holder">
                                 <h3 class="xb-item--title"> @if($offer->stock > 0)
                                     <a href="{{ route('products.show', $offer->id) }}">{{ $offer->name }}</a>
@@ -949,7 +949,7 @@ $(document).on('click', '.remove', function(event) {
         const cartButton = event.currentTarget;
         cartButton.querySelector('.xb-item--cart').innerText = 'Out of Stock';
         cartButton.classList.add('disabled');
-        
+
         setTimeout(() => {
             cartButton.querySelector('.xb-item--cart').innerText = 'add to cart';
             cartButton.classList.remove('disabled');
