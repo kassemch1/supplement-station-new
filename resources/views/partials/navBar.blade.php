@@ -13,12 +13,12 @@
 <div class="body_wrap">
 
    <!-- header start -->
-<header id="home" class="header-area header-default is-sticky">
-    <div class="xb-header stricky">
-        <div class="container">
+<header id="home" class="header-area header-default is-sticky" >
+    <div class="xb-header stricky" >
+        <div class="container" >
             <div class="header__wrap ul_li_between">
                 <div class="header-logo">
-                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/supLogo.png')}}" alt="" style="max-height: 120px; max-width: 120px;" class="logo"></a>
+                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/supplement-logo-nav.png')}}" alt="" style="width: 300px;height: auto" class="logo"></a>
                 </div>
                 <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
                     <nav class="main-menu collapse navbar-collapse">
@@ -37,8 +37,16 @@
                             </li>
                             <li><a class="section-link" href="{{ route('home') }}#pricing"><span>Pricing</span></a></li>
                             <li class="menu-item-has-children">
-                                <a class="section-link" href="#blog"><span>Blog</span></a>
+                                <a class="section-link" href="#blog"><span>Categories</span></a>
                                 <ul class="submenu">
+                                    @foreach($categories as $category)
+                                        <form action="">
+                                            @csrf
+                                            <input type="hidden" name="category-sidebar">
+                                            <li><a type="submit" ><span>{{$category->name}}</span></a></li>
+
+                                        </form>
+                                    @endforeach
                                     <li><a href="blog.html"><span>Blog</span></a></li>
                                     <li><a href="blog-single.html"><span>Blog Details</span></a></li>
                                 </ul>
@@ -75,10 +83,16 @@
                                         </li>
                                         <li class="menu-item"><a class="section-link" href="{{ route('home') }}#pricing"><span>Pricing</span></a></li>
                                         <li class="menu-item menu-item-has-children">
-                                            <a class="section-link" href="#blog"><span>Blog</span></a>
+                                            <a class="section-link" href="#blog"><span>Categories</span></a>
                                             <ul class="sub-menu">
-                                                <li><a href="blog.html"><span>Blog</span></a></li>
-                                                <li><a href="blog-single.html"><span>Blog Details</span></a></li>
+                                                @foreach($categories as $category)
+                                                    <form action="">
+                                                        @csrf
+                                                        <input type="hidden" name="category-sidebar">
+                                                        <li><button type="submit" class="btn btn-link" style="text-decoration: none;color: inherit"><span>{{$category->name}}</span></button></li>
+
+                                                    </form>
+                                                @endforeach
                                             </ul>
                                         </li>
                                         <li class="menu-item"><a class="section-link" href="{{ route('home') }}#contact"><span>Contact</span></a></li>
