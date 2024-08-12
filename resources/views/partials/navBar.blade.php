@@ -18,7 +18,7 @@
         <div class="container" >
             <div class="header__wrap ul_li_between">
                 <div class="header-logo">
-                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/supplement-logo-nav.png')}}" alt="" style="width: 300px;height: auto" class="logo"></a>
+                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/supplement-logo-nav.png')}}" alt="" style="width: 190px;height: auto" class="logo"></a>
                 </div>
                 <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
                     <nav class="main-menu collapse navbar-collapse">
@@ -26,24 +26,23 @@
                             <li class="menu-item active">
                                 <a class="section-link" href="{{ route('home') }}"><span>Home</span></a>
                             </li>
-                            <li><a class="section-link" href="{{ route('home') }}#features"><span>Features</span></a></li>
-                            <li class="menu-item-has-children">
-                                <a class="section-link" href="#shop"><span>Shop</span></a>
-                                <ul class="submenu">
+                            
+                           
+                                
                                     <li><a href="{{ route('shop') }}"><span>Products</span></a></li>
                                     <li><a href="{{ route('cart') }}"><span>Cart</span></a></li>
-                                    <li><a href="{{ route('checkout') }}"><span>Checkout</span></a></li>
-                                </ul>
-                            </li>
-                            <li><a class="section-link" href="{{ route('home') }}#pricing"><span>Pricing</span></a></li>
+                                 
+                                
+                            
+                           
                             <li class="menu-item-has-children">
                                 <a class="section-link" href="#blog"><span>Categories</span></a>
-                                <ul class="submenu">
+                            <ul class="submenu"  >
                                     @foreach($categories as $category)
-                                        <form action="">
+                                        <form action="" >
                                             @csrf
                                             <input type="hidden" name="category-sidebar">
-                                            <li><a type="submit" ><span>{{$category->name}}</span></a></li>
+                                            <li><a type="submit" ><span >{{$category->name}}</span></a></li>
 
                                         </form>
                                     @endforeach
@@ -51,6 +50,7 @@
                                     <li><a href="blog-single.html"><span>Blog Details</span></a></li>
                                 </ul>
                             </li>
+                            <li><a class="section-link" href="{{ route('home') }}#plans"><span>Plans</span></a></li>
                             <li><a class="section-link" href="{{ route('home') }}#contact"><span>Contact</span></a></li>
                         </ul>
                     </nav>
@@ -59,7 +59,7 @@
                             <div class="xb-header-menu-scroll">
                                 <div class="xb-menu-close xb-hide-xl xb-close"></div>
                                 <div class="xb-logo-mobile xb-hide-xl">
-                                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/supLogo.png')}}" alt="" style="max-height: 120px; max-width: 120px;" class="logo"></a>
+                                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/supplement-logo-nav.png')}}" alt="" style="max-height: 180px; max-width: 120px;" class="logo"></a>
                                 </div>
                                 <div class="xb-header-mobile-search xb-hide-xl">
                                     <form role="search" action="{{route('shop')}}" method="get">
@@ -73,15 +73,12 @@
                                             <a class="" href="{{ route('home') }}"><span>Home</span></a>
                                         </li>
                                         <li class="menu-item"><a class="section-link" href="{{ route('home') }}#features"><span>Features</span></a></li>
-                                        <li class="menu-item menu-item-has-children">
-                                            <a class="section-link" href="#shop"><span>Shop</span></a>
-                                            <ul class="sub-menu">
+                                        
                                                 <li><a href="{{ route('shop') }}"><span>Products</span></a></li>
                                                 <li><a href="{{ route('cart') }}"><span>Cart</span></a></li>
-                                                <li><a href="{{ route('checkout') }}"><span>Checkout</span></a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item"><a class="section-link" href="{{ route('home') }}#pricing"><span>Pricing</span></a></li>
+                                             
+                                           
+                                        
                                         <li class="menu-item menu-item-has-children">
                                             <a class="section-link" href="#blog"><span>Categories</span></a>
                                             <ul class="sub-menu">
@@ -95,6 +92,7 @@
                                                 @endforeach
                                             </ul>
                                         </li>
+                                        <li class="menu-item"><a class="section-link" href="{{ route('home') }}#plans"><span>plans</span></a></li>
                                         <li class="menu-item"><a class="section-link" href="{{ route('home') }}#contact"><span>Contact</span></a></li>
                                     </ul>
                                 </nav>

@@ -2988,9 +2988,9 @@ span.mini-cart-count {
         -webkit-box-orient: vertical;
         -webkit-box-direction: normal;
         -ms-flex-direction: column;
-        flex-direction: column;
+        flex-direction: row;
         position: absolute;
-        min-width: 260px;
+        min-width: auto;
         top: calc(100% + 10px);
         opacity: 0;
         visibility: hidden;
@@ -3002,7 +3002,9 @@ span.mini-cart-count {
         transition: 0.3s;
         z-index: 3;
         text-align: left;
-        box-shadow: 0 0.5rem 1.875rem rgba(0, 0, 0, 0.1); }
+        box-shadow: 0 0.5rem 1.875rem rgba(0, 0, 0, 0.1);
+        max-height: 300px; 
+        overflow-y: auto; }
         .main-menu ul li .submenu li {
           -webkit-transition: all 0.35s cubic-bezier(0.39, 0.66, 0.56, 1.05);
           -o-transition: all 0.35s cubic-bezier(0.39, 0.66, 0.56, 1.05);
@@ -3030,7 +3032,9 @@ span.mini-cart-count {
 
 .main-menu ul li.menu-last ul.submenu ul {
   right: auto;
-  left: -100%; }
+  left: -100%;
+
+ }
 
 .main-menu ul li ul.submenu .menu-item-has-children > a::after {
   position: absolute;
@@ -7771,7 +7775,10 @@ blockquote {
   display: none;
   list-style: none;
   margin: 0;
-  padding: 0; }
+  padding: 0; 
+  max-height: 300px;
+  overflow-y: auto;
+}
 
 .xb-menu-primary .sub-menu li a, .xb-menu-primary .children li a {
   font-weight: 500;
