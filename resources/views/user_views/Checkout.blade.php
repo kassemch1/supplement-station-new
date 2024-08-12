@@ -141,6 +141,9 @@
                                                             <div id="cart_empty_message" class="text-danger" style="display: none; margin-top: 10px;">
                                                                 Your cart is empty. Please add items to your cart before placing an order.
                                                             </div>
+                                                            <div id="success_message" class="text-success" style="display: none; margin-top: 10px;">
+                                                                Your order has been placed successfully!
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -365,6 +368,7 @@ $(document).ready(function() {
     }
 
     fetchCartForCheckout();
+
 });
 </script>
 

@@ -26,7 +26,7 @@
     <style>
         .selected {
             font-weight: bold;
-            background-color: #FF4D24;
+            background-color: #A02334;
             color: white;
         }
         .inner-shop-details-bottom {
@@ -63,13 +63,13 @@
         }
         .inner-shop-details-bottom span a:hover {
             color: #fff;
-            background: #FF4D24;
-            border-color: #FF4D24;
+            background: #A02334;
+            border-color: #A02334;
         }
 
         #successAlert {
-            background-color: #4CAF50; /* Green */
-            color: white;
+            background-color: transparent;
+            color: green;
             padding: 15px;
             margin: 10px 0;
             border-radius: 5px;
@@ -77,8 +77,8 @@
         }
 
         #errorAlert {
-            background-color: #F44336; /* Red */
-            color: white;
+            background-color: transparent;
+            color: #F44336;
             padding: 15px;
             margin: 10px 0;
             border-radius: 5px;
@@ -125,13 +125,7 @@
         <!-- shop single start -->
         <section class="shop-single-section pt-115 pb-385">
 {{--            <div id="message-container" style="display: none;"></div>--}}
-            <div id="successAlert" class="alert alert-success mt-3" style="display: none;">
-                <strong>Success!</strong> Image added successfully.
-            </div>
-            <!-- Error Alert -->
-            <div id="errorAlert" class="alert alert-danger mt-3" style="display: none;">
-                <strong>Error!</strong> Failed to add Image. Please try again.
-            </div>
+
 
             <div class="container">
                 <div class="row">
@@ -206,6 +200,13 @@
                                         <i class="far fa-shopping-bag"></i> Add to cart
                                     </button>
                                 </div>
+                            </div>
+                            <div id="successAlert" class="alert alert-success mt-3" style="display: none;">
+                                <strong>Success!</strong> Image added successfully.
+                            </div>
+                            <!-- Error Alert -->
+                            <div id="errorAlert" class="alert alert-danger mt-3" style="display: none;">
+                                <strong>Error!</strong> Failed to add Image. Please try again.
                             </div>
                         </form>
                     </div>
