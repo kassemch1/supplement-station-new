@@ -33,7 +33,7 @@
     </a>
 </div>
 <!-- backtotop - end -->
-@include('partials/navBar')
+@include('partials/navBar',['categories'=>$categories])
 
     <div class="body-overlay"></div>
 

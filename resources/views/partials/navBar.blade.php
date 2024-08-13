@@ -26,28 +26,26 @@
                             <li class="menu-item active">
                                 <a class="section-link" href="{{ route('home') }}"><span>Home</span></a>
                             </li>
-                            
-                           
-                                
+
+
+
                                     <li><a href="{{ route('shop') }}"><span>Products</span></a></li>
                                     <li><a href="{{ route('cart') }}"><span>Cart</span></a></li>
-                                 
-                                
-                            
-                           
+
+
+
+
                             <li class="menu-item-has-children">
-                                <a class="section-link" href="#blog"><span>Categories</span></a>
+                                <a class="section-link" href="#"><span>Categories</span></a>
                             <ul class="submenu"  >
                                     @foreach($categories as $category)
-                                        <form action="" >
+                                        <form action="{{route('shop')}}" >
                                             @csrf
-                                            <input type="hidden" name="category-sidebar">
-                                            <li><a type="submit" ><span >{{$category->name}}</span></a></li>
+                                            <input type="hidden" name="category-nav" value="{{$category->id}}">
+                                            <li><a href="#" onclick="this.closest('form').submit(); return false;"><span >{{$category->name}}</span></a></li>
 
                                         </form>
                                     @endforeach
-                                    <li><a href="blog.html"><span>Blog</span></a></li>
-                                    <li><a href="blog-single.html"><span>Blog Details</span></a></li>
                                 </ul>
                             </li>
                             <li><a class="section-link" href="{{ route('home') }}#plans"><span>Plans</span></a></li>
@@ -73,19 +71,19 @@
                                             <a class="" href="{{ route('home') }}"><span>Home</span></a>
                                         </li>
                                         <li class="menu-item"><a class="section-link" href="{{ route('home') }}#features"><span>Features</span></a></li>
-                                        
+
                                                 <li><a href="{{ route('shop') }}"><span>Products</span></a></li>
                                                 <li><a href="{{ route('cart') }}"><span>Cart</span></a></li>
-                                             
-                                           
-                                        
+
+
+
                                         <li class="menu-item menu-item-has-children">
-                                            <a class="section-link" href="#blog"><span>Categories</span></a>
+                                            <a class="section-link" href="#"><span>Categories</span></a>
                                             <ul class="sub-menu">
                                                 @foreach($categories as $category)
-                                                    <form action="">
+                                                    <form action="{{route('shop')}}">
                                                         @csrf
-                                                        <input type="hidden" name="category-sidebar">
+                                                        <input type="hidden" name="category-sidebar" value="{{$category->id}}">
                                                         <li><button type="submit" class="btn btn-link" style="text-decoration: none;color: inherit"><span>{{$category->name}}</span></button></li>
 
                                                     </form>
