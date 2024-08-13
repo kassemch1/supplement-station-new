@@ -34,7 +34,7 @@
     </a>
 </div>
 <!-- backtotop - end -->
-@include('partials/navBar')
+@include('partials/navBar',['categories'=>$categories])
 <!-- header end -->
 
 <!-- sidebar-info end -->
@@ -84,6 +84,16 @@
                                 <div class="widget__inner"
                                      style="max-height: 300px; overflow-y: auto; padding-right: 10px; box-sizing: border-box;">
                                     <ul class="widget__category list-unstyled">
+                                        <li>
+                                                <form action="{{route('shop')}}" method="GET" class="category-form">
+                                                    @csrf
+                                                    <input type="hidden" name="category" value="show-all">
+                                                    <button type="submit" class="btn btn-link" style="text-decoration: none;color: inherit">
+                                                        Show All
+                                                    </button>
+
+                                                </form>
+                                        </li>
                                         @foreach($categories as $category)
                                             <li>
                                                 <form action="{{route('shop')}}" method="GET" class="category-form">
@@ -106,6 +116,7 @@
                                                 <form action="{{route('shop')}}" method="GET" class="category-form-phone">
                                                     @csrf
                                                     <select name="category-phone" id="category-phone">
+                                                        <option value="all">Show All</option>
                                                         @foreach($categories as $category)
                                                             <option value="{{$category->name}}">{{$category->name}}</option>
                                                         @endforeach
@@ -169,7 +180,7 @@
                 <div class="col-lg-9 mt-60">
                     <div class="woocommerce-content-wrap">
                         <div class="woocommerce-toolbar-top ul_li_between">
-                            <p class="woocommerce-result-count">Showing 1–12 of 70 results</p>
+                            <p class="woocommerce-result-count">Showing {{$startIndex}}–{{$endIndex}} of {{$totalProducts}} results</p>
                             <div class="woocommerce-toolbar-top-right ul_li">
                                 <form id="sort-form" class="woocommerce-ordering" method="get" action="{{route('shop')}}">
                                     @csrf
@@ -420,8 +431,56 @@
             }
         });
     });
+
+
 </script>
 
+<script>
+    $(document).ready(function() {
+        // Function to handle pagination clicks
+        $(document).on('click', '#pagination-container .pagination a', function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+
+            var url = $(this).attr('href'); // Get the URL from the link
+            fetchPage(url);
+        });
+
+        // Function to fetch page content via AJAX
+        function fetchPage(url) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'GET',
+                url: url,
+                success: function(response) {
+                    // Update the product list and pagination links
+                    if (response.productList) {
+                        $('#product-list').empty().html(response.productList);
+                    } else {
+                        $('#product-list').html('<p>No products found.</p>');
+                    }
+
+                    if (response.paginatee) {
+                        $('#pagination-container').empty().html(response.paginatee);
+                    } else {
+                        $('#pagination-container').html('');
+                    }
+
+                    // Scroll to the top of the products
+                    $('html, body').animate({
+                        scrollTop: $('#product-list').offset().top
+                    }, 500);
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                    alert('An error occurred while processing the request.');
+                }
+            });
+        }
+    });
+
+</script>
 </body>
 <style>
     /* Styling for the sale label */

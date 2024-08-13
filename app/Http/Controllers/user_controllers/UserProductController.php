@@ -39,7 +39,10 @@ class UserProductController extends Controller
 
 
     $reviews = $product->reviews;
-    return view('user_views/SingleProduct', [
+
+    $categories=Category::all();
+
+        return view('user_views/SingleProduct', [
         'product' => $product,
         'category' => $category,
         'products'=>$products,
@@ -47,7 +50,7 @@ class UserProductController extends Controller
         'reviews' => $reviews,
         'ratingCount' => $ratingCount,
         'averageRating' => $averageRating,
-//        'productO'=>$productO,
+            'categories'=>$categories
     ]);
 }
 

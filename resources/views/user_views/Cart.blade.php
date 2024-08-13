@@ -150,7 +150,7 @@
 </div>
 <!-- backtotop - end -->
 
-@include('partials/navBar')
+@include('partials/navBar',['categories'=>$categories])
     <!-- header end -->
 
 

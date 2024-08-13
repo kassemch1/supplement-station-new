@@ -8,6 +8,7 @@ use App\Mail\ContactMail;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\CartItemOption;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -24,7 +25,10 @@ class CartController extends Controller
 {
     public function Cart()
     {
-        return view('user_views.Cart');
+        $categories=Category::all();
+        return view('user_views.Cart',[
+            'categories'=>$categories
+        ]);
     }
 
     public function getCart() {

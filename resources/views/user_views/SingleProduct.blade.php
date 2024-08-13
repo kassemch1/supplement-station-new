@@ -101,7 +101,7 @@
 
 <div class="body_wrap">
 
-    @include('partials/navBar')
+    @include('partials/navBar',['categories'=>$categories])
 
 
     <div class="body-overlay"></div>
