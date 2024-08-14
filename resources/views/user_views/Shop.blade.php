@@ -196,7 +196,7 @@
                         </div>
                         <div class="woocommerce-content-inner">
                             <div class="products" id="product-list">
-                                @include('partials/product_list',['product'=>$product])
+                                @include('partials/product_list',['product'=>$product,'agent'=>$agent])
                             </div>
 
                             <div id="pagination">
