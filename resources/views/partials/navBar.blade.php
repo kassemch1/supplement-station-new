@@ -23,19 +23,19 @@
                 <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
                     <nav class="main-menu collapse navbar-collapse">
                         <ul>
-                            <li class="menu-item active">
+                            <li class="menu-item {{ url()->current() ==route('home')? 'active' : '' }}">
                                 <a class="section-link" href="{{ route('home') }}"><span>Home</span></a>
                             </li>
 
 
 
-                                    <li><a href="{{ route('shop') }}"><span>Products</span></a></li>
-                                    <li><a href="{{ route('cart') }}"><span>Cart</span></a></li>
+                                    <li class="{{ url()->current() ==route('shop')? 'active' : '' }}"><a href="{{ route('shop') }}"><span>Products</span></a></li>
+                                    <li class="{{ url()->current() ==route('cart')? 'active' : '' }}"><a href="{{ route('cart') }}"><span>Cart</span></a></li>
 
 
 
 
-                            <li class="menu-item-has-children">
+                            <li class="menu-item-has-children ">
                                 <a class="section-link" href="#"><span>Categories</span></a>
                             <ul class="submenu"  >
                                     @foreach($categories as $category)
