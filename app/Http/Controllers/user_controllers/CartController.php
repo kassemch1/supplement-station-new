@@ -237,6 +237,7 @@ class CartController extends Controller
 
     public function placeOrder(Request $request)
     {
+//        dd($request->all());
         $request->validate([
             'billing_first_name' => 'required|string',
             'billing_phone' => 'required|phone:LB',
@@ -304,10 +305,11 @@ class CartController extends Controller
                 Mail::to($request->billing_email)->send(new CheckoutMail($client_data,$cart->items,$order));
             }
 
-            return redirect()->route('checkout')->with('success', 'Order placed successfully!');
+            return response()->json(['success' => true,
+                'billing_email' => $request->billing_email,]);
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Database error: ' . $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'Error message'], 400);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => 'General error: ' . $e->getMessage()], 500);

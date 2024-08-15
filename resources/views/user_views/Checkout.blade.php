@@ -9,6 +9,8 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <title>Checkout</title>
 
@@ -60,7 +62,7 @@
                     <div class="col col-xs-12">
                         <div class="woocommerce">
 
-                            <form name="checkout" method="post" class="checkout woocommerce-checkout" action="{{ route('place.order') }}" enctype="multipart/form-data">
+                            <form id="checkout_form" name="checkout" method="post" class="checkout woocommerce-checkout" action="{{ route('place.order') }}" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="col2-set" id="customer_details">
@@ -71,30 +73,35 @@
                                             <p class="form-row">
                                                 <label for="billing_first_name">Name <abbr class="required" title="required">*</abbr></label>
                                                 <input type="text" name="billing_first_name" id="billing_first_name" placeholder="Name" required style="border: 1px solid #ccc; padding: 0.5rem; width: 100%; border-radius: 4px;" />
+                                                <span class="error-message" id="billing_first_name_error" style="color: red; font-weight: bold" ></span>
                                             </p>
 
                                             <p class="form-row">
                                                 <label for="billing_phone">Phone <abbr class="required" title="required">*</abbr></label>
                                                 <input type="tel" name="billing_phone" id="billing_phone" placeholder="Phone Number" required style="border: 1px solid #ccc; padding: 0.5rem; width: 100%; border-radius: 4px;" />
-                                                @error('billing_phone')
-                                                <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                            <span class="error-message" id="billing_phone_error" style="color: red; font-weight: bold" ></span>
+{{--                                                @error('billing_phone')--}}
+{{--                                                <span class="text-danger">{{ $message }}</span>--}}
+{{--                                                @enderror--}}
                                             </p>
 
                                             <p class="form-row">
                                                 <label for="billing_email">Email (<abbr class="required" title="required">optional</abbr>)</label>
                                                 <input type="email" name="billing_email" id="billing_email" placeholder="Email"  style="border: 1px solid #ccc; padding: 0.5rem; width: 100%; border-radius: 4px;" />
                                                 <small class="form-text text-muted " style="color: red !important;">Note:Providing your email is optional, but it's best to enter it to receive a receipt.</small>
+                                                <span class="error-message" id="billing_email_error" style="color: red; font-weight: bold" ></span>
                                             </p>
 
                                             <p class="form-row">
                                                 <label for="billing_address_1">Address <abbr class="required" title="required">*</abbr></label>
                                                 <input type="text" name="billing_address_1" id="billing_address_1" placeholder="Street address" required style="border: 1px solid #ccc; padding: 0.5rem; width: 100%; border-radius: 4px;" />
+                                                <span class="error-message" id="billing_address_1_error" style="color: red; font-weight: bold" ></span>
                                             </p>
 
                                             <p class="form-row">
                                                 <label for="billing_city">Town / City <abbr class="required" title="required">*</abbr></label>
                                                 <input type="text" name="billing_city" id="billing_city" placeholder="City" required style="border: 1px solid #ccc; padding: 0.5rem; width: 100%; border-radius: 4px;" />
+                                                <span class="error-message" id="billing_city_error" style="color: red; font-weight: bold" ></span>
                                             </p>
 
                                         </div>
@@ -370,6 +377,83 @@ $(document).ready(function() {
     fetchCartForCheckout();
 
 });
+$(document).ready(function() {
+    $('#checkout_form').on('submit', function(e) {
+        e.preventDefault();
+
+        // Collect form data
+        let formData = $(this).serialize();
+
+        $.ajax({
+            url: '{{ route('place.order') }}',
+            method: 'POST',
+            data: formData,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                if (response.success) {
+                    $('#place_order_btn').hide();
+                    $('#success_message').show();
+                    // Reset mini cart items count to 0
+                    $('.mini-cart-count').text('0'); // Reset mini cart count to 0
+
+                    // Optionally clear the mini cart content
+                    $('.header-mini-cart').empty();
+                    if (response.billing_email) {
+                        $('#success_message').append('<p>Check your email for your invoice &#128516;.</p>');
+                    }
+                } else {
+                    alert('Order could not be placed.');
+                }
+            },
+            error: function(xhr) {
+                // Clear previous error messages
+                $('.error-message').empty();
+
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+
+                    // Display error messages under the corresponding fields
+                    $.each(errors, function(key, value) {
+                        let errorField = $('#' + key + '_error');
+                        if (errorField.length) {
+                            errorField.text(value);
+                        } else {
+                            // For fields without specific error containers, you can use a general error display
+                            alert('Validation errors:\n' + value);
+                        }
+                    });
+                } else {
+                    alert('Failed to place the order. Please try again.');
+                }
+            }
+
+            {{--//keep this way to use it in @error--}}
+
+
+            // error: function(xhr) {
+            //     // Clear previous error messages
+            //     $('.text-danger').remove();
+            //
+            //     if (xhr.status === 422) {
+            //         let errors = xhr.responseJSON.errors;
+            //
+            //         // Display error messages under the corresponding fields
+            //         $.each(errors, function(key, value) {
+            //             let field = $('#' + key);
+            //             if (field.length) {
+            //                 field.after('<span class="text-danger">' + value + '</span>');
+            //             }
+            //         });
+            //     } else {
+            //         alert('Failed to place the order. Please try again.');
+            //     }
+            // }
+        });
+    });
+});
+
 </script>
 
 
