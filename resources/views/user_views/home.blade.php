@@ -12,7 +12,7 @@
 
     <title>Home</title>
 
-    <link rel="shortcut icon" href="assets/img/favicon.png" type="images/x-icon"/>
+    <link rel="shortcut icon" href={{ asset('assets/img/logo/preloader2.png')}} type="images/x-icon"/>
 
     <!-- css include -->
     <link rel="stylesheet" href={{asset("assets/css/bootstrap.min.css")}}>
@@ -44,7 +44,7 @@
     <!-- main area start  -->
     <main>
         <!-- hero start -->
-        <section class="hero hero-style-one bg_img hero-height d-flex align-items-center" data-background="assets/img/bg/hero_bg2.jpg">
+        <section class="hero hero-style-one bg_img hero-height d-flex align-items-center" data-background="{{asset("assets/img/bg/home-banner.jpg")}}">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
@@ -81,9 +81,9 @@
 
                 </div>
             </div>
-            <div class="hero-shape">
-                <img src="assets/img/bg/hero_shape.png" alt="">
-            </div>
+{{--            <div class="hero-shape">--}}
+{{--                <img src="{{asset("assets/img/bg/home-banner.jpg")}}" alt="">--}}
+{{--            </div>--}}
         </section>
         <!-- hero end -->
 
@@ -188,7 +188,7 @@
             <div class="col-lg-4 pb-col-4">
                 <div class="popular-product__img mt-20">
                     <br><br>
-                    <img src="assets/img/bg/pp_img2.jpg" alt="">
+                    <img src="{{asset("assets/img/bg/products-image.jpg")}} " alt="">
                 </div>
             </div>
         </div>
