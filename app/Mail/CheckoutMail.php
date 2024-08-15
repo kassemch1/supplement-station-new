@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -34,6 +35,7 @@ class CheckoutMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
+            from:new Address("admin@supplement-station.com","Supplement Station"),
             subject: 'Checkout From Supplement-Station',
         );
     }

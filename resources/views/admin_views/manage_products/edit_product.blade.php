@@ -119,7 +119,7 @@
                                     No image available
                                 @endif
                             </td>
-                            <td>{{ $product->name }}</td>
+                            <td style="white-space: pre-wrap; word-wrap: break-word;">{{ $product->name }}</td>
                             <td>{{ $product->price }} $</td>
                             <td style="max-width: 250px" class="text-truncate">{{ $product->description }}</td>
                             <td>{{ $product->getCategory->name }}</td>
@@ -135,6 +135,7 @@
                                 <a class="button button-info" href="{{ route('manageProducts.edit', ['id' => $product->id]) }}">
                                     <i class="zmdi zmdi-edit"></i><span>Edit</span>
                                 </a>
+                                <br>
                                 <button id="deleteTestimonial" class="button button-danger" data-toggle="modal" data-target="#exampleModalCenter" data-id="{{ $product->id }}" onclick="getProductId('{{ $product->id }}')">
                                     <i class="zmdi zmdi-delete"></i><span>Delete</span>
                                 </button>
@@ -142,6 +143,7 @@
                                 <a class="button button-info" href="{{ route('manageProductsOptions.create', ['product_id' => $product->id]) }}">
                                     <span>Add Option</span>
                                 </a>
+                                <br>
                                 <a class="button button-info" href="{{ route('manageProductOptions.show', ['product_id' => $product->id]) }}">
                                     <span>Check Options</span>
                                 </a>

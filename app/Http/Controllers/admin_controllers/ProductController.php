@@ -13,21 +13,21 @@ class ProductController extends Controller
 {
     public function index(Request $request)
 {
-    
+
     $query = Product::query();
 
-    
+
     if ($request->has('search') && $request->input('search') != '') {
         $searchTerm = $request->input('search');
         $query->where('name', 'LIKE', "%$searchTerm%");
     }
 
-  
+
     if ($request->has('category_id') && $request->input('category_id') != '') {
         $query->where('category_id', $request->input('category_id'));
     }
 
-  
+
     if ($request->has('stock') && $request->input('stock') != '') {
         if ($request->input('stock') === 'in-stock') {
             $query->where('stock', 1);
@@ -36,7 +36,7 @@ class ProductController extends Controller
         }
     }
 
-   
+
     $products = $query->paginate(3);
     $categories = Category::all();
 
@@ -66,7 +66,6 @@ class ProductController extends Controller
             'stock' => 'required', // Assumes stock should be an integer
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
-
 
         // Create a new product using the validated data
         $product = new Product();
