@@ -400,89 +400,77 @@
 </section>
 <!-- product end -->
 
-        <!-- testimonial start -->
-        <section class="testimonial bg_img pt-120 pb-115" data-background="assets/img/bg/tm_bg2.jpg">
-            <div class="container">
-                <div class="sec-title sec-title--white text-center mb-60">
-                    <span class="sub-title">OVERALL RATING</span>
-                    <h2 class="title">CUSTOMER REVIEWS</h2>
-                </div>
-                <div class="testimonial-slider swiper-container">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide xb-testimonial">
-                            <div class="xb-item--author ul_li">
-                                <div class="xb-item--avatar">
-                                    <img src="assets/img/avatar/tst_01.png" alt="">
-                                    <div class="xb-item--quote">
-                                        <img src="assets/img/icon/quote.svg" alt="">
-                                    </div>
-                                </div>
-                                <div class="xb-item--holder">
-                                    <h3 class="xb-item--name">Richard Thomas</h3>
-                                    <span class="xb-item--date">October 17, 2024</span>
-                                </div>
-                            </div>
-                            <div class="xb-item--desc mt-35">
-                                "I've been using Purefit for a few months, and it has significantly boosted my energy levels. It's a game-changer for my daily routine. Thank you, Purefit!"
-                            </div>
+    <!-- testimonial start -->
+<section class="testimonial bg_img pt-120 pb-115" data-background="assets/img/bg/tm_bg2.jpg">
+    <div class="container">
+        <div class="sec-title sec-title--white text-center mb-60">
+            <span class="sub-title">SUPPLEMENT GUIDE</span>
+            <h2 class="title">WHY THESE SUPPLEMENTS MATTER</h2>
+        </div>
+        <div class="testimonial-slider swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide xb-testimonial">
+                    <div class="xb-item--author ul_li">
+                        <div class="xb-item--avatar">
+                            <img src="assets/img/avatar/creatine.png" alt="" style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
-                        <div class="swiper-slide xb-testimonial">
-                            <div class="xb-item--author ul_li">
-                                <div class="xb-item--avatar">
-                                    <img src="assets/img/avatar/tst_02.png" alt="">
-                                    <div class="xb-item--quote">
-                                        <img src="assets/img/icon/quote.svg" alt="">
-                                    </div>
-                                </div>
-                                <div class="xb-item--holder">
-                                    <h3 class="xb-item--name">Richard Thomas</h3>
-                                    <span class="xb-item--date">October 17, 2024</span>
-                                </div>
-                            </div>
-                            <div class="xb-item--desc mt-35">
-                                "Since I started using purefit, my energy levels have skyrocketed. I'm more alert and focused, and it's transformed my daily productivity. Highly recommended!"
-                            </div>
-                        </div>
-                        <div class="swiper-slide xb-testimonial">
-                            <div class="xb-item--author ul_li">
-                                <div class="xb-item--avatar">
-                                    <img src="assets/img/avatar/tst_03.png" alt="">
-                                    <div class="xb-item--quote">
-                                        <img src="assets/img/icon/quote.svg" alt="">
-                                    </div>
-                                </div>
-                                <div class="xb-item--holder">
-                                    <h3 class="xb-item--name">Richard Thomas</h3>
-                                    <span class="xb-item--date">October 17, 2024</span>
-                                </div>
-                            </div>
-                            <div class="xb-item--desc mt-35">
-                                "As an active person, I've had joint discomfort. Purefit has made a remarkable difference, allowing me to enjoy daily activities. Thank you, Purefit!"
-                            </div>
-                        </div>
-                        <div class="swiper-slide xb-testimonial">
-                            <div class="xb-item--author ul_li">
-                                <div class="xb-item--avatar">
-                                    <img src="assets/img/avatar/tst_01.png" alt="">
-                                    <div class="xb-item--quote">
-                                        <img src="assets/img/icon/quote.svg" alt="">
-                                    </div>
-                                </div>
-                                <div class="xb-item--holder">
-                                    <h3 class="xb-item--name">Richard Thomas</h3>
-                                    <span class="xb-item--date">October 17, 2024</span>
-                                </div>
-                            </div>
-                            <div class="xb-item--desc mt-35">
-                                "I've been using Purefit for a few months, and it has significantly boosted my energy levels. It's a game-changer for my daily routine. Thank you, Purefit!"
-                            </div>
+                        <div class="xb-item--holder">
+                            <h3 class="xb-item--name">Creatine</h3>
+                            <span class="xb-item--date">Essential for Strength</span>
                         </div>
                     </div>
-                    <div class="swiper-pagination"></div>
+                    <div class="xb-item--desc mt-35">
+                        "Creatine enhances your strength and power, which is crucial for high-intensity training. It helps increase muscle mass and improves recovery times."
+                    </div>
+                </div>
+                <div class="swiper-slide xb-testimonial">
+                    <div class="xb-item--author ul_li">
+                        <div class="xb-item--avatar">
+                            <img src="assets/img/avatar/protein.png" alt="" style="width: 100px; height: 100px; object-fit: cover;">
+                        </div>
+                        <div class="xb-item--holder">
+                            <h3 class="xb-item--name">Protein</h3>
+                            <span class="xb-item--date">Builds Muscle</span>
+                        </div>
+                    </div>
+                    <div class="xb-item--desc mt-35">
+                        "Protein is vital for muscle repair and growth. It ensures you recover from workouts and helps build lean muscle mass effectively."
+                    </div>
+                </div>
+                <div class="swiper-slide xb-testimonial">
+                    <div class="xb-item--author ul_li">
+                        <div class="xb-item--avatar">
+                            <img src="assets/img/avatar/EAA.png" alt="" style="width: 100px; height: 100px; object-fit: cover;">
+                        </div>
+                        <div class="xb-item--holder">
+                            <h3 class="xb-item--name">EAAs</h3>
+                            <span class="xb-item--date">Essential Amino Acids</span>
+                        </div>
+                    </div>
+                    <div class="xb-item--desc mt-35">
+                        "Essential Amino Acids (EAAs) are crucial for muscle repair and reducing exercise-induced muscle damage, aiding in faster recovery."
+                    </div>
+                </div>
+                <div class="swiper-slide xb-testimonial">
+                    <div class="xb-item--author ul_li">
+                        <div class="xb-item--avatar">
+                            <img src="assets/img/avatar/Preworkout.png" alt="" style="width: 100px; height: 100px; object-fit: cover;">
+                        </div>
+                        <div class="xb-item--holder">
+                            <h3 class="xb-item--name">Pre-Workout</h3>
+                            <span class="xb-item--date">Boosts Energy</span>
+                        </div>
+                    </div>
+                    <div class="xb-item--desc mt-35">
+                        "Pre-workout supplements boost energy, focus, and endurance, helping you maximize performance during intense training sessions."
+                    </div>
                 </div>
             </div>
-        </section>
-        <!-- testimonial end -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</section>
+<!-- testimonial end -->
 
         <!-- pricing start -->
         <section id="pricing" class="pricing pt-120 pb-130" data-bg-color="#fff">
@@ -694,32 +682,33 @@
         <section class="brand pt-110 md-pb-0 pb-90" data-bg-color="#fff">
             <div class="container">
                 <div class="sec-title text-center mb-35">
-                    <span class="sub-title">Perfect Brand is Featured on</span>
+                    <span class="sub-title">Explore Our Top Brands</span>
                 </div>
+                
                 <div class="xb-swiper-sliders brand-slider">
                     <div class="xb-carousel-inner">
                         <div class="xb-swiper-container swiper-container">
                             <div class="xb-swiper-wrapper swiper-wrapper">
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_01.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/Muscletech.png" alt=""></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_02.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/KevinLevrone.png" alt=""></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_03.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/ON.png" alt=""></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_04.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/Dymatize.png" alt=""></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_05.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/BPI.png" alt=""></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_06.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/XTEND.png" alt=""></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_01.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/Challenger.png" alt=""></a>
                                 </div>
                             </div>
                         </div>
