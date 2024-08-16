@@ -6,10 +6,20 @@
             <div class="col-6">
                 <div class="product-cart">
                     <!-- Sale Label -->
+                    <div style="
+                    width: 150px;
+                    height: 150px;
+                    overflow: hidden;
+                    position: absolute;
+                    top:0;
+                    right: 0px;
+                    z-index: 2;
+                ">
                     @if($item->discount > 0)
                         <span class="sale-labels">On Sale</span>
                     @endif
-            
+                    </div>
+
                     <!-- Product Image -->
                     <a href="{{ route('products.show', $item->id) }}" class="product-image">
                         @if($item->images->isNotEmpty())
@@ -28,8 +38,8 @@
                             ">No image available</span>
                         @endif
                     </a>
-            
-                    
+
+
                     <!-- Product Name -->
                     @if($item->stock > 0)
                         <a href="{{ route('products.show', $item->id) }}" class="product-name">
@@ -49,12 +59,15 @@
                             ${{ number_format($item->price, 2) }}
                         @endif
                     </div>
-                    
+
                     @if($item->stock > 0)
                     <!-- Add to Cart Button -->
-                    <a class="add-to-cart-button" href="{{ route('products.show', $item->id) }}">
-                        Add to Cart
-                    </a>
+                        <a class="add-to-cart-button" href="{{ route('products.show', $item->id) }}" style="display: flex; align-items: center;">
+    <span class="xb-item--cart-icon" style="display: flex; justify-content: center; align-items: center; margin-right: 5px; margin-bottom: 3px">
+        <img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart" style="height: 15px; width: 15px;">
+    </span>
+                            Add to Cart
+                        </a>
                     @else
                     <a class="add-to-cart-button-disabled" >
                         Add to Cart
@@ -168,14 +181,14 @@
 
 <style>
     .mobile-layout .product-item {
-        padding: 10px; 
+        padding: 10px;
         background-color: var(--color-white);
         box-sizing: border-box;
-        min-height: auto; 
+        min-height: auto;
     }
 
     .mobile-layout .xb-item--img img {
-        width: 100%; 
+        width: 100%;
         height: auto;
     }
 
@@ -187,30 +200,30 @@
 
     .product-cart {
             border: 1px solid #ddd;
-            border-radius: 8px; 
-            padding: 20px; 
-            max-width: 340px; 
-            height: 380px; 
-            margin: 16px auto; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-            position: relative; 
-            background-color: #fff; 
+            border-radius: 0px;
+            padding: 20px;
+            max-width: 340px;
+            height: 380px;
+            margin: 16px auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            background-color: #fff;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; 
+            justify-content: space-between;
         }
 
         .product-image {
             position: relative;
-            width: 80px; 
-            height: 140px; 
-            overflow: hidden; 
+            width: 80px;
+            height: 140px;
+            overflow: hidden;
             border-radius: 8px;
             margin-bottom: 12px;
             margin: 0 auto 12px auto;
             display: flex;
             align-items: center;
-            justify-content: center; 
+            justify-content: center;
         }
 
         .product-image img {
@@ -224,62 +237,67 @@
             position: absolute;
     top: 8px;
     right: 8px;
+            display: block;
     background-color: #A02334;
-    color: #fff; 
-    padding: 2px 6px; 
-    border-radius: 8px;
-    font-weight: bold; 
-    text-transform: uppercase; 
-    font-size: 8px; 
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2); 
-    letter-spacing: 0.3px; 
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 0px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    letter-spacing: 0.3px;
+            text-align: center;
 }
 
         .product-name {
             text-align: center;
             margin: 12px 0;
-            font-size: 14px; 
-            color: #333; 
-            overflow: hidden; 
+            font-size: 14px;
+            color: #333;
+            overflow: hidden;
             text-overflow: ellipsis;
-            white-space: normal; 
+            white-space: normal;
             font-weight: bold
         }
 
         .out-of-stock {
-            opacity: 0.8; 
-            color: #ff0000; 
+            opacity: 0.8;
+            color: #ff0000;
         }
 
         .add-to-cart-button {
-            width: 100%; 
-            padding: 12px; 
+            width: 100%;
+            padding: 12px;
             background-color: #A02334;
-            color: #fff; 
-            border: none; 
-            border-radius: 4px; 
-            font-size: 16px; 
-            cursor: pointer; 
-            transition: background-color 0.3s; 
-            margin-top: auto; 
-            text-align: center
+            color: #fff;
+            border: none;
+            border-radius: 0px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: auto;
+            text-align: center;
+            justify-content: center;
+            align-self: center;
+
         }
 
         .add-to-cart-button-disabled {
-            width: 100%; 
-            padding: 12px; 
-            background-color: grey; 
-            color: #fff; 
-            border: none; 
-            border-radius: 4px; 
-            font-size: 16px; 
-            cursor: pointer; 
-            transition: background-color 0.3s; 
-            margin-top: auto; 
+            width: 100%;
+            padding: 12px;
+            background-color: grey;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: auto;
             align-items: center;
             justify-content: center;
             align-self: center;
-            text-align: center
+            text-align: center;
         }
 </style>
 
