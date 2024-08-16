@@ -48,7 +48,7 @@
                                     @endforeach
                                 </ul>
                             </li>
-                            <li><a class="section-link" href="{{ route('home') }}#plans"><span>Plans</span></a></li>
+                            <li><a class="section-link" href="{{ route('home') }}#pricing"><span>Plans</span></a></li>
                             <li><a class="section-link" href="{{ route('home') }}#contact"><span>Contact</span></a></li>
                         </ul>
                     </nav>
