@@ -3,6 +3,10 @@
     <!-- Mobile Layout -->
     <div class="row">
         @foreach($product as $item)
+            @php
+                $ratingCount = $item->reviews()->count();
+                $averageRating = $ratingCount > 0 ? $item->reviews()->avg('rating') : 5;
+            @endphp
             <div class="col-6">
                 <div class="product-cart">
                     <!-- Sale Label -->
@@ -51,6 +55,13 @@
                             <span class="out-of-stock">(out of stock)</span>
                         </span>
                     @endif
+                    <div class="xb-item--rating-inner ul_li_center" style="margin-top: 5px;margin-bottom: 5px">
+                        <ul class="xb-item--rating ul_li">
+                            @for ($i = 0; $i < 5; $i++)
+                                <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
+                            @endfor
+                        </ul>
+                    </div>
                     <div >
                         @if($item->discount > 0)
                             <span style="text-decoration: line-through; color: gray;font-size:12px">${{ number_format($item->price, 2) }}</span>
@@ -59,6 +70,7 @@
                             ${{ number_format($item->price, 2) }}
                         @endif
                     </div>
+
 
                     @if($item->stock > 0)
                     <!-- Add to Cart Button -->
@@ -82,6 +94,10 @@
     <!-- Desktop Layout -->
     <div class="row">
         @foreach($product as $item)
+                @php
+                    $ratingCount = $item->reviews()->count();
+                    $averageRating = $ratingCount > 0 ? $item->reviews()->avg('rating') : 5;
+                @endphp
             <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                 <div class="product product-item text-center"
                      style="position: relative; overflow: hidden; min-height:450px">
@@ -141,13 +157,12 @@
                                         style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
                             @endif
                         </h3>
-                        <div class="xb-item--rating-inner ul_li_center">
+                        <div class="xb-item--rating-inner ul_li_center" style="margin-top: 10px;margin-bottom: 5px">
                             <ul class="xb-item--rating ul_li">
-                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
-                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
-                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
-                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
-                                <li><img src="{{ asset('assets/img/icon/star.png') }}" alt="Star"></li>
+                                @for ($i = 0; $i < 5; $i++)
+                                    <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
+                                @endfor
+{{--                                    <span>({{ $ratingCount }})</span>--}}
                             </ul>
                         </div>
                     </div>

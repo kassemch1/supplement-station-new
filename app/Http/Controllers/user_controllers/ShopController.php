@@ -167,9 +167,9 @@ class ShopController extends Controller
         $categories = Category::all();
         $offersCategory = Category::where('name', 'Offers')->first();
         $offers = Product::where('category_id', $offersCategory->id)->take(4)->get();
-
+        $agent=new Agent();
         if ($request->ajax()) {
-            $productList = view('partials.product_list', ['product' => $products])->render();
+            $productList = view('partials.product_list', ['product' => $products,'agent'=>$agent,])->render();
             $pagination = view('partials.product_pagination', ['product' => $products])->render();
 
             return response()->json([
@@ -179,7 +179,7 @@ class ShopController extends Controller
         }
 
 
-        $agent=new Agent();
+
         // Return the view with data
         return view('user_views.Shop', [
             'product' => $products,
