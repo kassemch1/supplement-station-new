@@ -352,71 +352,181 @@
                     </div>
                 </div> <!-- end row -->
 
-                <div class="row">
-                    <div class="col col-xs-12">
-                        <div class="realted-porduct">
-                            <h3 class="title">Related product</h3>
-                            <div class="shop-area">
-                                <div class="products">
-                                    <div class="row mb-none-30">
 
-
-
-                                        <div class="row">
-                                            @foreach($relatedProducts as $item)
-                                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-                                                    <div class="product product-item text-center">
-                                                        <div class="xb-item--img">
-                                                            <a href="{{ route('products.show', $item->id) }}">
-                                                                @if($item->images->isNotEmpty())
-                                                                <img src="{{asset($item->images->first()->url)}}" alt="img">
-
-                                                            @else
-                                                                No image available
-                                                            @endif
-                                                            </a>
-                                                        </div>
-                                                        <div class="xb-item--holder">
-                                                            <h3 class="xb-item--title">
-                                                                <a href="">{{ $item->name }}</a>
-                                                            </h3>
-                                                            @php
-                                                                $ratingCount = $item->reviews()->count();
-                                                                $averageRating = $ratingCount > 0 ? $item->reviews()->avg('rating') : 5; // Default to 0 if no ratings
-                                                            @endphp
-                                                            <div class="xb-item--rating-inner ul_li_center">
-                                                                <div class="rating">
-                                                                    @for ($i = 0; $i < 5; $i++)
-                                                                        <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
-                                                                    @endfor
-
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="rating-count">
-                                                            <span>({{ $ratingCount  }} Customer review{{ $ratingCount > 1 ? 's' : '' }})</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="xb-item--action ul_li mt-20">
-                                                            <span class="xb-item--price">${{ number_format($item->price, 2) }}</span>
-                                                            <a href="">
-                                                                <span class="xb-item--cart-icon">
-                                                                    <img src="{{ asset('assets/img/icon/bag.svg') }}" alt="">
-                                                                </span>
-                                                                <span class="xb-item--cart">add to cart</span>
-                                                            </a>
-                                                        </div>
-                                                    </div>
+{{--                @if($agent->isMobile())--}}
+                    <!-- Mobile Layout -->
+                    <div class="container">
+                        <div class="sec-title text-center mb-55">
+                            <h2 class="title">Related products</h2>
+                        </div>
+                        <div class="product-slider swiper-container"  >
+                            <div class="swiper-wrapper" >
+                                @foreach($relatedProducts as $item)
+                                    <div class="swiper-slide product-item text-center" style="min-height: 400px">
+                                        <div class="xb-item--img">
+                                            @if($item->discount > 0)
+                                                <div class="ribbon" style="
+                            width: 150px;
+                            height: 150px;
+                            overflow: hidden;
+                            position: absolute;
+                            top: -10px;
+                            right: 0px;
+                            z-index: 2;
+                        ">
+                            <span style="
+                                position: absolute;
+                                display: block;
+                                width: 225px;
+                                padding: 15px 0;
+                                background-color: #A02334;
+                                color: white;
+                                text-transform: uppercase;
+                                font-weight: bold;
+                                text-align: center;
+                                transform: rotate(45deg);
+                                top: 30px;
+                                right: -65px;
+                            ">On Sale</span>
                                                 </div>
-                                            @endforeach
+                                            @endif
+                                            @if($item->stock > 0)
+                                                <a href="{{ route('products.show', $item->id) }}">
+                                                    <!-- Add image here -->
+                                                    @if($item->images->isNotEmpty())
+                                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" style="max-height: 120px">
+                                                    @else
+                                                        No image available
+                                                    @endif
+                                                </a>
+                                            @else
+                                                <div class="no-stock">
+                                                    <!-- Add image here -->
+                                                    @if($item->images->isNotEmpty())
+                                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" style="max-height: 120px">
+                                                    @else
+                                                        No image available
+                                                    @endif
+                                                </div>
+                                            @endif
                                         </div>
+                                        <div class="xb-item--holder">
+                                            <h3 class="xb-item--title">
+                                                @if($item->stock > 0)
+                                                    <a href="{{ route('products.show', $item->id) }}">{{ $item->name }}</a>
+                                                @else
+                                                    <span>{{ $item->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
 
+                                                @endif
+                                            </h3>
+                                            @php
+                                                $ratingCount = $item->reviews()->count();
+                                                $averageRating = $ratingCount > 0 ? $item->reviews()->avg('rating') : 5;
+                                            @endphp
+                                            <div class="xb-item--rating-inner ul_li_center">
+                                                <ul class="xb-item--rating ul_li">
+                                                    @for ($i = 0; $i < 5; $i++)
+                                                        <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
+                                                    @endfor
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="xb-item--action ul_li mt-20" style="position: absolute; bottom: 30px; width: 80%;">
+                        <span class="xb-item--price">
+                            @if($item->discount > 0)
+                                <span style="text-decoration: line-through; color: gray;">${{ number_format($item->price, 2) }}</span>
+                                <span style="color: #A02334;">${{ number_format($item->price - ($item->price * $item->discount / 100), 2) }}</span>
+                            @else
+                                ${{ number_format($item->price, 2) }}
+                            @endif
+                        </span>
+                                            @if($item->stock > 0)
+                                                <a href="{{ route('products.show', $product->id) }}" class="xb-item--cart-btn">
+                                                    <span class="xb-item--cart-icon"><img src="{{asset('assets/img/icon/bag.svg')}}" alt=""></span>
+                                                    <span class="xb-item--cart">add to cart</span>
+                                                </a>
+                                            @else
+                                                <a href="#" class="xb-item--cart-btn disabled" >
+                                                    <span class="xb-item--cart-icon"><img src="{{asset('assets/img/icon/bag.svg')}}" alt=""></span>
+                                                    <span class="xb-item--cart">Out of Stock</span>
+                                                </a>
+                                            @endif
+                                        </div>
                                     </div>
-                                </div>
+{{--                                @empty--}}
+{{--                                    <p>No products available.</p>--}}
+                                        @endforeach
                             </div>
                         </div>
                     </div>
-                </div>
+{{--                @else--}}
+
+{{--                <div class="row">--}}
+{{--                    <div class="col col-xs-12">--}}
+{{--                        <div class="realted-porduct">--}}
+{{--                            <h3 class="title">Related product</h3>--}}
+{{--                            <div class="shop-area">--}}
+{{--                                <div class="products">--}}
+{{--                                    <div class="row mb-none-30">--}}
+
+
+
+{{--                                        <div class="row">--}}
+{{--                                            @foreach($relatedProducts as $item)--}}
+{{--                                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">--}}
+{{--                                                    <div class="product product-item text-center">--}}
+{{--                                                        <div class="xb-item--img">--}}
+{{--                                                            <a href="{{ route('products.show', $item->id) }}">--}}
+{{--                                                                @if($item->images->isNotEmpty())--}}
+{{--                                                                <img src="{{asset($item->images->first()->url)}}" alt="img">--}}
+
+{{--                                                            @else--}}
+{{--                                                                No image available--}}
+{{--                                                            @endif--}}
+{{--                                                            </a>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="xb-item--holder">--}}
+{{--                                                            <h3 class="xb-item--title">--}}
+{{--                                                                <a href="">{{ $item->name }}</a>--}}
+{{--                                                            </h3>--}}
+{{--                                                            @php--}}
+{{--                                                                $ratingCount = $item->reviews()->count();--}}
+{{--                                                                $averageRating = $ratingCount > 0 ? $item->reviews()->avg('rating') : 5; // Default to 0 if no ratings--}}
+{{--                                                            @endphp--}}
+{{--                                                            <div class="xb-item--rating-inner ul_li_center">--}}
+{{--                                                                <div class="rating">--}}
+{{--                                                                    @for ($i = 0; $i < 5; $i++)--}}
+{{--                                                                        <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>--}}
+{{--                                                                    @endfor--}}
+
+{{--                                                                </div>--}}
+
+{{--                                                            </div>--}}
+{{--                                                            <div class="rating-count">--}}
+{{--                                                            <span>({{ $ratingCount  }} Customer review{{ $ratingCount > 1 ? 's' : '' }})</span>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="xb-item--action ul_li mt-20">--}}
+{{--                                                            <span class="xb-item--price">${{ number_format($item->price, 2) }}</span>--}}
+{{--                                                            <a href="">--}}
+{{--                                                                <span class="xb-item--cart-icon">--}}
+{{--                                                                    <img src="{{ asset('assets/img/icon/bag.svg') }}" alt="">--}}
+{{--                                                                </span>--}}
+{{--                                                                <span class="xb-item--cart">add to cart</span>--}}
+{{--                                                            </a>--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            @endforeach--}}
+{{--                                        </div>--}}
+
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                @endif--}}
 
             </div> <!-- end of container -->
         </section>
