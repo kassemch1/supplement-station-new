@@ -90,7 +90,7 @@
 
                     @else
                     <a class="add-to-cart-button-disabled" >
-                        Add to Cart
+                        <span class="xb-item--cart">Out of Stock</span>
                     </a>
                     @endif
                 </div>
@@ -238,12 +238,12 @@
 
         .product-image {
             position: relative;
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             /*overflow: hidden;*/
             /*border-radius: 0px;*/
             /*margin-top: 20px;*/
-            margin: 30px auto 12px auto;
+            margin: 25px auto 12px auto;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -314,6 +314,7 @@
     }
 
 .add-to-cart-button-disabled {
+    pointer-events: none; /* Disable the link */
     width: 100%;
     padding: 12px;
     background-color: grey;
@@ -321,7 +322,7 @@
     border: none;
     /*border-radius: 4px;*/
     font-size: 14px; /* Ensure consistent font size */
-    cursor: pointer;
+    cursor: not-allowed;
     transition: background-color 0.3s;
     margin-top: auto;
     align-items: center;

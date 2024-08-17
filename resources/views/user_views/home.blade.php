@@ -933,7 +933,7 @@ $(document).on('click', '.remove', function(event) {
 
 
 
-<!-- out of stoch message-->
+<!-- out of stock message-->
 <script>
     function showOutOfStockMessage(event) {
         event.preventDefault();
