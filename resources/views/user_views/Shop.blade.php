@@ -44,7 +44,7 @@
 <!-- main area start  -->
 <main>
     <!-- breadcrumb start -->
-    <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner.png')}}">
+    <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner2.png')}}">
         <div class="container">
             <div class="breadcrumb__content text-center">
                 <h2 class="breadcrumb__title">Shop</h2>
@@ -365,6 +365,7 @@
         e.preventDefault(); // Prevent default form submission
 
         var formData = $(this).serialize(); // Convert form data to a query string
+        console.log(formData);  // Log the serialized form data
 
         $.ajax({
             headers: {

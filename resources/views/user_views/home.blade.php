@@ -153,7 +153,7 @@
                                         @for ($i = 0; $i < 5; $i++)
                                             <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
                                         @endfor
-                                        <span>({{ $ratingCount }} Customer review{{ $ratingCount != 1 ? 's' : '' }})</span>
+{{--                                        <span>({{ $ratingCount }} Customer review{{ $ratingCount != 1 ? 's' : '' }})</span>--}}
                                     </ul>
                                 </div>
                                 <div class="xb-item--action ul_li_between" style="position: absolute; bottom:40px;width:55%">
@@ -188,7 +188,7 @@
             <div class="col-lg-4 pb-col-4">
                 <div class="popular-product__img mt-20">
                     <br><br>
-                    <img src="{{asset("assets/img/bg/products-image.jpg")}} " alt="">
+                    <img src="{{asset("assets/img/bg/products-image.jpg")}} " alt="" style="margin-top: -53px;">
                 </div>
             </div>
         </div>
@@ -494,7 +494,8 @@
                                 <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span>  </h2>
                                 <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
                                 <div class="xb-item--img" data-background="assets/img/pricing/img_01.png"></div>
-                                <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape.png"></div>
+                                <br>
+                                <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape4.png"></div>
                             </div>
                             <div class="xb-item--body">
                                 <ul class="xb-item--list list-unstyled">
@@ -534,6 +535,7 @@
                                 <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span></h2>
                                 <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
                                 <div class="xb-item--img" data-background="assets/img/pricing/img_02.png"></div>
+                                <br>
                                 <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape2.png"></div>
                             </div>
                             <div class="xb-item--body">
@@ -684,7 +686,7 @@
                 <div class="sec-title text-center mb-35">
                     <span class="sub-title">Explore Our Top Brands</span>
                 </div>
-                
+
                 <div class="xb-swiper-sliders brand-slider">
                     <div class="xb-carousel-inner">
                         <div class="xb-swiper-container swiper-container">
