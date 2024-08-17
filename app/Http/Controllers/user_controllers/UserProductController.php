@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Jenssegers\Agent\Agent;
 
 class UserProductController extends Controller
 {
@@ -15,7 +16,7 @@ class UserProductController extends Controller
     public function show($id)
 {
 //    $productImage=ProductImage::with('images')->find($id);
-
+        $agent=new Agent();
     $products = Product::with('images','reviews')->find($id);
 //     $product = Product::findOrFail($id);
 
@@ -50,7 +51,8 @@ class UserProductController extends Controller
         'reviews' => $reviews,
         'ratingCount' => $ratingCount,
         'averageRating' => $averageRating,
-            'categories'=>$categories
+            'categories'=>$categories,
+            'agent'=>$agent,
     ]);
 }
 
