@@ -208,7 +208,7 @@
                             </div>
                             <div class="about-experience">
                                 <span>since</span>
-                                <h2>2020</h2>
+                                <h2>2018</h2>
                             </div>
                         </div>
                         <div class="col-lg-6 mt-40">
