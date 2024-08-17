@@ -61,8 +61,8 @@
                                 </div>
                                 <div class="xb-header-mobile-search xb-hide-xl">
                                     <form role="search" action="{{route('shop')}}" method="get">
-                                        @csrf
-                                        <input type="text" placeholder="Search..." name="home-search" class="search-field">
+
+                                        <input type="text" placeholder="Search..." name="shop-search" class="search-field">
                                     </form>
                                 </div>
                                 <nav class="xb-header-nav">

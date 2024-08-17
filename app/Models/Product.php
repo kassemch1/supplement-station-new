@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
     use HasFactory;
- 
+
 
     protected $fillable = ['name', 'description', 'price', 'category_id', 'stock', 'discount'];
 
@@ -36,10 +37,10 @@ class Product extends Model
     {
         return $this->hasMany(Review::class);
     }
-    
+
     public function getPriceAfterDiscountAttribute()
     {
         return $this->price - ($this->price * $this->discount / 100);
     }
-    
+
 }

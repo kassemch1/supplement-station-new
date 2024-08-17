@@ -153,16 +153,25 @@ class ShopController extends Controller
         }
 
         // Paginate the results
-        $products = $query->with('images')->paginate(6);
-
         $totalProducts = $query->count();
+        $perPage = 12;
+        $products = $query->with('images')->paginate($perPage);
 
-        $perPage = 6;
-        // Calculate the start index
-        $startIndex = ($products->currentPage() - 1) * $perPage + 1;
 
-        // Calculate the end index
-        $endIndex = min($products->currentPage() * $perPage, $totalProducts);
+
+
+        // Calculate the start and end indices based on the paginated results
+        if($products->total() > 0) {
+            $startIndex = ($products->currentPage() - 1) * $perPage + 1;
+            $endIndex = min($products->currentPage() * $perPage, $products->total());
+        } else {
+            $startIndex = 0;
+            $endIndex = 0;
+        }
+
+
+
+
 
         $categories = Category::all();
         $offersCategory = Category::where('name', 'Offers')->first();
@@ -171,10 +180,11 @@ class ShopController extends Controller
         if ($request->ajax()) {
             $productList = view('partials.product_list', ['product' => $products,'agent'=>$agent,])->render();
             $pagination = view('partials.product_pagination', ['product' => $products])->render();
-
+            $productsIndexing=view('partials.products_indexing',['startIndex'=>$startIndex,'endIndex'=>$endIndex,'totalProducts'=>$totalProducts])->render();
             return response()->json([
                 'productList' => $productList,
                 'paginatee' => $pagination,
+                'productsIndexing'=>$productsIndexing
             ]);
         }
 
@@ -194,16 +204,16 @@ class ShopController extends Controller
 
 
 
-    public function homeSearchToShop(Request $request)
-    {
-        $searchTerm=$request->input('home-search');
-
-        $products = DB::table('products')->where('name','LIKE','%'.$searchTerm.'%')
-            ->get();
-
-        return view('',[
-            'products'=>$products
-
-        ]);
-    }
+//    public function homeSearchToShop(Request $request)
+//    {
+//        $searchTerm=$request->input('home-search');
+//
+//        $products = DB::table('products')->where('name','LIKE','%'.$searchTerm.'%')
+//            ->get();
+//
+//        return view('user_views/shop',[
+//            'products'=>$products
+//
+//        ]);
+//    }
 }
