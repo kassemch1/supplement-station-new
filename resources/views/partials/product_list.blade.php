@@ -24,24 +24,31 @@
                     @endif
                     </div>
 
-                    <!-- Product Image -->
-                    <a href="{{ route('products.show', $item->id) }}" class="product-image">
-                        @if($item->images->isNotEmpty())
-                            <img src="{{ asset($item->images->first()->url) }}" alt="Product Image">
-                        @else
-                            <span style="
-                                display: block;
-                                width: 100%;
-                                height: 100%;
-                                background-color: #f0f0f0; /* Placeholder color */
-                                border-radius: 8px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                color: #888;
-                            ">No image available</span>
-                        @endif
-                    </a>
+                   <!-- Product Image -->
+    <a href="{{ route('products.show', $item->id) }}" class="product-image">
+    @if($item->images->isNotEmpty())
+        <img src="{{ asset($item->images->first()->url) }}" alt="Product Image" style="
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        ">
+    @else
+        <span style="
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: #f0f0f0; /* Placeholder color */
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+        ">No image available</span>
+    @endif
+    </a>
+
 
 
                     <!-- Product Name -->
@@ -74,12 +81,13 @@
 
                     @if($item->stock > 0)
                     <!-- Add to Cart Button -->
-                        <a class="add-to-cart-button" href="{{ route('products.show', $item->id) }}" style="display: flex; align-items: center;">
-    <span class="xb-item--cart-icon" style="display: flex; justify-content: center; align-items: center; margin-right: 5px; margin-bottom: 3px">
+<a class="add-to-cart-button" href="{{ route('products.show', $item->id) }}" style="display: flex; align-items: center;">
+    <span class="xb-item--cart-icon" style="display: flex; justify-content: center; align-items: center; margin-right: 5px;">
         <img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart" style="height: 15px; width: 15px;">
     </span>
-                            Add to Cart
-                        </a>
+    Add to Cart
+</a>
+
                     @else
                     <a class="add-to-cart-button-disabled" >
                         Add to Cart
@@ -282,37 +290,43 @@
         }
 
         .add-to-cart-button {
-            width: 100%;
-            padding: 12px;
-            background-color: #A02334;
-            color: #fff;
-            border: none;
-            border-radius: 0px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: auto;
-            text-align: center;
-            justify-content: center;
-            align-self: center;
+    width: 100%;
+    padding: 12px;
+    background-color: #A02334;
+    color: #fff;
+    border: none;
+    border-radius: 0px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: auto;
+    text-align: center;
+    justify-content: center;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    white-space: nowrap; /* Prevent text from wrapping */
+}
 
-        }
+.add-to-cart-button-disabled {
+    width: 100%;
+    padding: 12px;
+    background-color: grey;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px; /* Ensure consistent font size */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: auto;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    white-space: nowrap; /* Prevent text from wrapping */
+}
 
-        .add-to-cart-button-disabled {
-            width: 100%;
-            padding: 12px;
-            background-color: grey;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: auto;
-            align-items: center;
-            justify-content: center;
-            align-self: center;
-            text-align: center;
-        }
 </style>
 
