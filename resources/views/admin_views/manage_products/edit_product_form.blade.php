@@ -72,7 +72,7 @@
                 <form id="productForm" method="post" action="{{route('manageProducts.update')}}" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="product_id" value="{{$product->id}}">
-                    <h4 class="title">Add Product</h4>
+                    <h4 class="title">Edit Product</h4>
 
                     <div class="row">
                         <div class="col-lg-6 col-12 mb-30">

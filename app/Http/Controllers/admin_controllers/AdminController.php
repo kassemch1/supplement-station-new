@@ -30,7 +30,7 @@ class AdminController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/admin');
+            return redirect()->intended('/manageProducts/create');
         }
         Log::info('Login failed');
         return back()->withErrors([
@@ -46,6 +46,6 @@ class AdminController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

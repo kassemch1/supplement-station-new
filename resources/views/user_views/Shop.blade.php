@@ -49,7 +49,7 @@
             <div class="breadcrumb__content text-center">
                 <h2 class="breadcrumb__title">Shop</h2>
                 <ul class="breadcrumb__list clearfix">
-                    <li class="breadcrumb-item"><a href="index.html">Supplement Station</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('home')}}">Supplement Station</a></li>
                     <li class="breadcrumb-item">Shop</li>
                 </ul>
             </div>
@@ -88,7 +88,7 @@
                                                 <form action="{{route('shop')}}" method="GET" class="category-form">
                                                     @csrf
                                                     <input type="hidden" name="category" value="show-all">
-                                                    <button type="submit" class="btn btn-link" style="text-decoration: none;color: inherit">
+                                                    <button type="submit" class="btn btn-link category-button" style="text-decoration: none;color: inherit">
                                                         Show All
                                                     </button>
 
@@ -99,7 +99,7 @@
                                                 <form action="{{route('shop')}}" method="GET" class="category-form">
                                                     @csrf
                                                     <input type="hidden" name="category" value="{{ $category->name }}">
-                                                    <button type="submit" class="btn btn-link" style="text-decoration: none;color: inherit">
+                                                    <button type="submit" class="btn btn-link category-button" style="text-decoration: none;color: inherit">
                                                         {{ $category->name }}
                                                     </button>
 
@@ -180,10 +180,13 @@
                 <div class="col-lg-9 mt-60">
                     <div class="woocommerce-content-wrap">
                         <div class="woocommerce-toolbar-top ul_li_between">
-                            <p class="woocommerce-result-count">Showing {{$startIndex}}–{{$endIndex}} of {{$totalProducts}} results</p>
+                            <div id="products_indexing">
+                                @include('partials/products_indexing')
+                            </div>
                             <div class="woocommerce-toolbar-top-right ul_li">
                                 <form id="sort-form" class="woocommerce-ordering" method="get" action="{{route('shop')}}">
                                     @csrf
+                                    <input type="hidden" name="category" id="category-input" value="">
                                     <select name="orderby" class="orderby" id="sort-by-price">
                                         <option value="default" selected="selected">Apply sorting</option>
                                         <option value="default">Default</option>
@@ -313,10 +316,15 @@
                     } else {
                         $('#pagination').html('');
                     }
+                    if (response.productsIndexing) { // Corrected the key name
+                        $('#products_indexing').empty().html(response.productsIndexing);
+                    } else {
+                        $('#products_indexing').html('');
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.error('AJAX Error:', status, error);
-                    alert('An error occurred while processing the request.');
+                    alert('An error occurred while processing the request aa.');
                 }
             });
         });
@@ -324,12 +332,37 @@
 
     // Handle sort form change
     $('#sort-by-price').change(function () {
-        $('#sort-form').submit(); // Submit the form via AJAX
+        // Submit the form
+        $('#sort-form').submit();
     });
+
+
 
     // Handle sort form submission via AJAX
     $('#sort-form').submit(function (e) {
         e.preventDefault(); // Prevent default form submission
+        var selectedCategory;
+
+        // Check if the user is on mobile (category-phone select exists)
+                if (document.getElementById('category-phone')) {
+                    selectedCategory = document.getElementById('category-phone').value;
+                }
+        // If not mobile, check for desktop forms
+                else {
+                    var activeForm = document.querySelector('.category-form button.active'); // Assuming you have a way to mark the active button
+                    if (activeForm) {
+                        selectedCategory = activeForm.closest('form').querySelector('input[name="category"]').value;
+                    } else {
+                        // Fallback to the first category form's input if no button has been clicked
+                        var categoryFormInputs = document.querySelector('.category-form input[name="category"]');
+                        if (categoryFormInputs) {
+                            selectedCategory = categoryFormInputs.value;
+                        }
+                    }
+                }
+
+        // Update the hidden input in the sort-form with the selected category
+                document.getElementById('category-input').value = selectedCategory;
 
         var formData = $(this).serialize(); // Convert form data to a query string
 
@@ -351,6 +384,11 @@
                     $('#pagination').empty().html(response.paginatee);
                 } else {
                     $('#pagination').html('');
+                }
+                if (response.productsIndexing) { // Corrected the key name
+                    $('#products_indexing').empty().html(response.productsIndexing);
+                } else {
+                    $('#products_indexing').html('');
                 }
             },
             error: function (xhr, status, error) {
@@ -386,10 +424,15 @@
                 } else {
                     $('#pagination').html('');
                 }
+                if (response.productsIndexing) { // Corrected the key name
+                    $('#products_indexing').empty().html(response.productsIndexing);
+                } else {
+                    $('#products_indexing').html('');
+                }
             },
             error: function (xhr, status, error) {
                 console.error('AJAX Error:', status, error);
-                alert('An error occurred while processing the request.');
+                alert('An error occurred while processing the request. h');
             }
         });
     });
@@ -424,6 +467,11 @@
                     $('#pagination').empty().html(response.paginatee);
                 } else {
                     $('#pagination').html('');
+                }
+                if (response.productsIndexing) { // Corrected the key name
+                    $('#products_indexing').empty().html(response.productsIndexing);
+                } else {
+                    $('#products_indexing').html('');
                 }
             },
             error: function (xhr, status, error) {
@@ -466,6 +514,11 @@
                         $('#pagination-container').empty().html(response.paginatee);
                     } else {
                         $('#pagination-container').html('');
+                    }
+                    if (response.productsIndexing) { // Corrected the key name
+                        $('#products_indexing').empty().html(response.productsIndexing);
+                    } else {
+                        $('#products_indexing').html('');
                     }
 
                     // Scroll to the top of the products
@@ -788,6 +841,18 @@
     });
 
 
+</script>
+//add active class to know which category button is currently active on desktop
+<script>
+    $(document).ready(function() {
+        $('.category-button').on('click', function() {
+            // Remove 'active' class from all buttons
+            $('.category-button').removeClass('active');
+
+            // Add 'active' class to the clicked button
+            $(this).addClass('active');
+        });
+    });
 </script>
 
 
