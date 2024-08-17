@@ -95,7 +95,7 @@
                 left: -15px;
         }
             .quantity button:hover {
-                background-color:#FF4D24;
+                background-color:#A02334;
                 border-color: orange;
                 color: white; /* Optional: change text color to white for better contrast */
             }
@@ -114,7 +114,7 @@
 
         /* Hover effect */
         .quantity button:hover {
-            background-color:#FF4D24;
+            background-color:#A02334;
             border-color: orange;
             color: white; /* Optional: change text color to white for better contrast */
         }
