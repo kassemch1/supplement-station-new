@@ -319,7 +319,7 @@
                                                     
                                                         @if($agent->isMobile())
                                                         <div>
-                                                            <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="height: 80px;width:80px">
+                                                            <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="height: 60px;width:60px">
                                                         </div>
                                                         @else
                                                         <div class="client-pic">
@@ -966,7 +966,7 @@ function addNewReview(review) {
        
             @if($agent->isMobile())
                                                         <div>
-                                                            <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="height: 80px;width:80px">
+                                                            <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="height: 60px;width:60px">
                                                         </div>
                                                         @else
                                                         <div class="client-pic">

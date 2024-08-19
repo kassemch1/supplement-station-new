@@ -229,8 +229,8 @@
                                                        class="shipping_method" />
                                                 <form class="woocommerce-shipping-calculator"
                                                       action="http://localhost/wp/?page_id=5" method="post">
-                                                    <p><a href="#!" class="shipping-calculator-button">Calculate
-                                                            Shipping</a></p>
+                                                    <p><a href="#!" class="shipping-calculator-button">to be announced
+                                                            </a></p>
                                                     <section class="shipping-calculator-form" style="display:none;">
                                                         <h2 class="hidden">Cart total</h2>
                                                         <p class="form-row form-row-wide"
