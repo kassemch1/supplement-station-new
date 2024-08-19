@@ -50,13 +50,13 @@
                     <div class="col-lg-6">
                         <div class="hero__content sec-title">
                             <span class="sub-title wow fadeInUp" data-wow-duration=".6s">100% PREMIUM QUALITY</span>
-                            <h1 class="title mb-25 wow fadeInUp" 
-                            data-wow-delay="150ms" 
-                            data-wow-duration=".6s" 
+                            <h1 class="title mb-25 wow fadeInUp"
+                            data-wow-delay="150ms"
+                            data-wow-duration=".6s"
                             style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">
                             Today Elevate Your Energy Levels at Supplement Station
                         </h1>
-                        
+
                             <div class="hero__action ul_li wow fadeInUp" data-wow-delay="300ms" data-wow-duration=".6s">
                                 @if($banner && $banner->product_id)
                                     <a class="thm-btn mr-45 mt-30" href="{{ route('products.show', ['id'=>$banner->product_id]) }}">BUY NOW</a>
@@ -68,7 +68,7 @@
                                         <img src="assets/img/icon/call.svg" alt="">
                                     </span>
                                     <div class="info">
-                                        <span>CONTACT US DAILY</span>
+                                            <span style="color: #FFFFFF !important;">CONTACT US DAILY</span>
                                         <h4>+961 81-823-038</h4>
                                     </div>
                                 </div>
@@ -917,7 +917,7 @@ $(document).on('click', '.remove', function(event) {
         },
         success: function(response) {
             if (response.success) {
-                alert(response.message);
+                // alert(response.message);
                 fetchCart(); // Refresh the cart items
             } else {
                 alert('Failed to remove item from cart.'); // Handle unexpected response

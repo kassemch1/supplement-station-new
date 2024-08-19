@@ -62,16 +62,16 @@
                             <div class="xb-item--open">
                                 <p>Monday - Friday <br>
                                     09:00AM - 09:00PM</p>
-                                <a href="mailto:purefit@gmail.com"><img src="assets/img/icon/sms-tracking.svg" alt="">supplement-station@gmail.com</a>
+                                <a href="mailto:admin@supplement-station.com"><img src="assets/img/icon/sms-tracking.svg" alt="">admin@supplement-station.com</a>
                             </div>
                             <ul class="xb-item--social ul_li mt-30">
-                               
+
                                 <li><a href="https://api.whatsapp.com/send?phone=96181823038" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
                                 <li><a href="https://www.instagram.com/supplement_station_lb" target="_blank"><i class="fab fa-instagram"></i></a></li>
                             </ul>
                         </div>
                         <div class="xb-item--cta" data-background="assets/img/bg/cta_bg2.jpg">
-                            <p>Our help desk is a vailable for you <br> every day, 09:00AM - 9:00PM</p>
+                            <p>we are available for you <br> every day, 09:00AM - 9:00PM</p>
                             <h3>+961 81-823-038</h3>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
             <div class="footer-bottom mt-50 d-flex justify-content-center align-items-center">
                 <div class="footer-copyright mt-30 text-center">
                     <span class="item-content">
-                        &copy; {{ date('Y') }} Supplement Station. All rights reserved.<br> Powered by <a href="https://www.tawwer.tech/" target="_blank">Tawwer</a>.
+                        &copy; {{ date('Y') }} Supplement Station, Owned by Amine el Sayed. All rights reserved.<br> Powered by <a href="https://www.tawwer.tech/" target="_blank">Tawwer</a>.
                     </span>
                 </div>
             </div>

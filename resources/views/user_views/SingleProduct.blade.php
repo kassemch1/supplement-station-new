@@ -156,7 +156,7 @@
                 </div>
             </div>
         </section>
-        
+
         <!-- breadcrumb end -->
 
         <!-- shop single start -->
@@ -218,7 +218,7 @@
                             @endif
                         </span>
                     </div>
-                   
+
                     <div class="product-option">
 
 
@@ -323,7 +323,7 @@
                                             <div class="reviews-section" id="reviewsSection" style="max-height: 400px; overflow-y: auto;">
                                                 @foreach($reviews as $review)
                                                 <div class="client-rv">
-                                                    
+
                                                         @if($agent->isMobile())
                                                         <div>
                                                             <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="height: 60px;width:60px">
@@ -333,7 +333,7 @@
                                                         <img src="{{ asset('assets/img/icon/profile.png')}}" alt="Client Avatar" style="width:100px;height:60px">
                                                     </div>
                                                         @endif
-                                                    
+
                                                     <div class="details">
                                                         <div class="name-rating-time" style="display: flex; flex-direction: column;">
                                                             <div class="name-rating" style="display: flex; align-items: center;">
@@ -359,9 +359,9 @@
                                                     <div>
                                                         <input type="text" class="form-control" name="name" placeholder="Name *" required>
                                                     </div>
-                                                    <div>
-                                                        <input type="text" class="form-control" name="phoneNumber" placeholder="Phone *" required>
-                                                    </div>
+{{--                                                    <div>--}}
+{{--                                                        <input type="text" class="form-control" name="phoneNumber" placeholder="Phone *" required>--}}
+{{--                                                    </div>--}}
                                                     <div>
                                                         <textarea class="form-control" name="message" placeholder="Review *" required></textarea>
                                                     </div>
@@ -630,7 +630,7 @@ $(document).on('click', '.remove', function(event) {
         },
         success: function(response) {
             if (response.success) {
-                alert(response.message);
+                // alert(response.message);
                 fetchCart(); // Refresh the cart items
             } else {
                 alert('Failed to remove item from cart.'); // Handle unexpected response
@@ -970,7 +970,7 @@ function addNewReview(review) {
     const reviewElement = document.createElement('div');
     reviewElement.className = 'client-rv';
     reviewElement.innerHTML = `
-       
+
             @if($agent->isMobile())
                                                         <div>
                                                             <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="height: 60px;width:60px">
@@ -980,7 +980,7 @@ function addNewReview(review) {
                                                         <img src="{{ asset('assets/img/icon/profile.png')}}" alt="Client Avatar" style="width:100px;height:60px">
                                                     </div>
                                                         @endif
-      
+
         <div class="details">
             <div class="name-rating-time" style="display: flex; flex-direction: column;">
                 <div class="name-rating" style="display: flex; align-items: center;">

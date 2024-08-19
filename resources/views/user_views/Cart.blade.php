@@ -229,7 +229,6 @@
                                         <tr class="shipping">
                                             <th>Shipping</th>
                                             <td data-title="Shipping">
-                                                Free Shipping
                                                 <input type="hidden" name="shipping_method[0]" data-index="0"
                                                        id="shipping_method_0" value="free_shipping:1"
                                                        class="shipping_method" />

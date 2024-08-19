@@ -99,9 +99,9 @@
     </div><!-- Content Body End -->
 
       <!-- Footer Section Start -->
-   
+
       @include('partials.adminFooter')
-     
+
       <!-- Footer Section End -->
 
 </div>
@@ -145,10 +145,18 @@
                 url: $(this).attr('action'), // Use form's action attribute as URL
                 data: formData,
                 success: function(response) {
-                    $('#successAlert').fadeIn();
-                    setTimeout(function() {
-                        $('#successAlert').fadeOut();
-                    }, 3000);
+                    if(response.status ==='success'){
+                        $('#successAlert').text(response.message).fadeIn();
+                        setTimeout(function() {
+                            $('#successAlert').fadeOut();
+                        }, 3000);
+                    }
+                    else if(response.status==='exists'){
+                        $('#errorAlert').text(response.message).fadeIn();
+                        setTimeout(function() {
+                            $('#errorAlert').fadeOut();
+                        }, 3000);
+                    }
                 },
                 error: function(xhr, status, error) {
                     $('#errorAlert').fadeIn();

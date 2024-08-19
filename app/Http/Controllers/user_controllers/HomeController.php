@@ -9,9 +9,10 @@ use App\Models\Plane;
 use App\Models\OrderItem;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
+use Jenssegers\Agent\Agent;
 
 
-    class HomeController extends Controller
+class HomeController extends Controller
 {
     public function index()
 {
@@ -62,13 +63,15 @@ use Illuminate\Support\Facades\DB;
     }
 
     $categories=Category::all();
+    $agent=new Agent();
     return view('user_views.home', [
         'product' => $product,
         'offersProducts' => $offersProducts,
         'banner' => $banner,
         'planes' => $planes,
         'faqs' => $faqs,
-        'categories'=>$categories
+        'categories'=>$categories,
+        'agent'=>$agent
     ]);
 }
 
