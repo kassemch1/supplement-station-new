@@ -218,7 +218,7 @@
                             @endif
                         </span>
                     </div>
-                    <p>{{ $product->description ?? 'Product description' }}</p>
+                   
                     <div class="product-option">
 
 
@@ -306,8 +306,7 @@
 
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="tb-01">
-                                    <p>Travelling salesman and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer</p>
-                                    <p> waved about helplessly as he looked. "What's happened to me?" he thought. It wasn't a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar wallstrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer. Gregor then turned to look out the window at the dull weather</p>
+                                    <p>{{ $product->description ?? 'Product description' }}</p>
                                 </div>
                                 <div class="tab-pane fade" id="tb-02">
                                     <p>Travelling salesman and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer</p>
@@ -324,9 +323,17 @@
                                             <div class="reviews-section" id="reviewsSection" style="max-height: 400px; overflow-y: auto;">
                                                 @foreach($reviews as $review)
                                                 <div class="client-rv">
-                                                    <div class="client-pic">
-                                                        <img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-2048x2048-cqe5466q.png" alt="Client Avatar">
+                                                    
+                                                        @if($agent->isMobile())
+                                                        <div>
+                                                            <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="height: 60px;width:60px">
+                                                        </div>
+                                                        @else
+                                                        <div class="client-pic">
+                                                        <img src="{{ asset('assets/img/icon/profile.png')}}" alt="Client Avatar" style="width:100px;height:60px">
                                                     </div>
+                                                        @endif
+                                                    
                                                     <div class="details">
                                                         <div class="name-rating-time" style="display: flex; flex-direction: column;">
                                                             <div class="name-rating" style="display: flex; align-items: center;">
@@ -963,9 +970,17 @@ function addNewReview(review) {
     const reviewElement = document.createElement('div');
     reviewElement.className = 'client-rv';
     reviewElement.innerHTML = `
-        <div class="client-pic">
-            <img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-2048x2048-cqe5466q.png" alt="Client Avatar">
-        </div>
+       
+            @if($agent->isMobile())
+                                                        <div>
+                                                            <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="height: 60px;width:60px">
+                                                        </div>
+                                                        @else
+                                                        <div class="client-pic">
+                                                        <img src="{{ asset('assets/img/icon/profile.png')}}" alt="Client Avatar" style="width:100px;height:60px">
+                                                    </div>
+                                                        @endif
+      
         <div class="details">
             <div class="name-rating-time" style="display: flex; flex-direction: column;">
                 <div class="name-rating" style="display: flex; align-items: center;">
