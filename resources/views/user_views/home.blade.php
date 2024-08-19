@@ -50,7 +50,13 @@
                     <div class="col-lg-6">
                         <div class="hero__content sec-title">
                             <span class="sub-title wow fadeInUp" data-wow-duration=".6s">100% PREMIUM QUALITY</span>
-                            <h1 class="title mb-25 wow fadeInUp" data-wow-delay="150ms" data-wow-duration=".6s">Today Elevate Your Energy Levels at Supplement Station</h1>
+                            <h1 class="title mb-25 wow fadeInUp" 
+                            data-wow-delay="150ms" 
+                            data-wow-duration=".6s" 
+                            style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">
+                            Today Elevate Your Energy Levels at Supplement Station
+                        </h1>
+                        
                             <div class="hero__action ul_li wow fadeInUp" data-wow-delay="300ms" data-wow-duration=".6s">
                                 @if($banner && $banner->product_id)
                                     <a class="thm-btn mr-45 mt-30" href="{{ route('products.show', ['id'=>$banner->product_id]) }}">BUY NOW</a>
@@ -281,7 +287,7 @@
                                 <span class="sub-title">100% PREMIUM QUALITY</span>
                                 <h2 class="title mb-25">Maximize Your Fitness Potential</h2>
                                 <p>At Supplement Station, we're dedicated to helping you  on a health journey. Our mission is to provide 100% high-quality supplements, personalized support, and expert guidance to ensure you achieve your wellness goals..</p>
-                                <a class="thm-btn mt-45" href="#!">LEARN MORE</a>
+                                <a class="thm-btn mt-45" href="{{ url('/Shop') }}">LEARN MORE</a>
                             </div>
                         </div>
                     </div>

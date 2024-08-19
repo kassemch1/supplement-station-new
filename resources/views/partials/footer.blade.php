@@ -6,7 +6,7 @@
                 <div class="col-lg-7">
                     <div class="xb-contact contact-mt--255">
                         <div class="contact-title mb-35">
-                            <span><img src="assets/img/icon/directbox-notif.svg" alt="">Contact Us</span>
+                            <span><img src={{ asset("assets/img/icon/directbox-notif.svg")}} alt="">Contact Us</span>
                             <h3>Do you have questions or want more <br> information?</h3>
                         </div>
                         <form id="contact_form" class="contact-from" action="{{route('contact.send')}}" method="post">
@@ -56,22 +56,22 @@
                     <div class="contact-info contact-mt--255 mt-md-30">
                         <div class="xb-item--head">
                             <div class="xb-item--address">
-                                <h3><img src="assets/img/icon/location.svg" alt="">our address</h3>
-                                <p>Mosharfeye ,facing turkey resturant<br> Beirut, Lebanon</p>
+                                <h3><img src={{ asset("assets/img/icon/location.svg") }} alt="">our address</h3>
+                                <p>Masharfeye,Facing Alturki Resturant<br> Beirut, Lebanon</p>
                             </div>
                             <div class="xb-item--open">
                                 <p>Monday - Friday <br>
-                                    08:00AM - 05:00PM</p>
+                                    09:00AM - 09:00PM</p>
                                 <a href="mailto:purefit@gmail.com"><img src="assets/img/icon/sms-tracking.svg" alt="">supplement-station@gmail.com</a>
                             </div>
                             <ul class="xb-item--social ul_li mt-30">
-                                <li><a href="#!"><i class="fab fa-telegram-plane"></i></a></li>
+                               
                                 <li><a href="https://api.whatsapp.com/send?phone=96181823038" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
                                 <li><a href="https://www.instagram.com/supplement_station_lb" target="_blank"><i class="fab fa-instagram"></i></a></li>
                             </ul>
                         </div>
                         <div class="xb-item--cta" data-background="assets/img/bg/cta_bg2.jpg">
-                            <p>Our help desk is a vailable for you <br> every day, 07:00AM - 10:00PM</p>
+                            <p>Our help desk is a vailable for you <br> every day, 09:00AM - 9:00PM</p>
                             <h3>+961 81-823-038</h3>
                         </div>
                     </div>
