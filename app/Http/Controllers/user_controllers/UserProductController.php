@@ -62,7 +62,6 @@ public function createReview(Request $request, $productId)
 {
     $request->validate([
         'name' => 'required|string|max:255',
-        'phoneNumber' => 'required|string|max:15',
         'message' => 'required|string',
         'rating' => 'required|integer|between:1,5',
     ]);
@@ -71,7 +70,6 @@ public function createReview(Request $request, $productId)
     $review = Review::create([
         'product_id' => $productId,
         'name' => $request->name,
-        'phoneNumber' => $request->phoneNumber,
         'message' => $request->message,
         'rating' => $request->rating,
     ]);

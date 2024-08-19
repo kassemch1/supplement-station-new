@@ -59,7 +59,7 @@
                 </div>
             </div>
         </section>
-        
+
         <!-- breadcrumb end -->
 
         <!-- start checkout-section -->
@@ -297,7 +297,7 @@ $(document).on('click', '.remove', function(event) {
         },
         success: function(response) {
             if (response.success) {
-                alert(response.message);
+                // alert(response.message);
                 fetchCart(); // Refresh the cart items
             } else {
                 alert('Failed to remove item from cart.'); // Handle unexpected response

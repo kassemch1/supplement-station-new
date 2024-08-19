@@ -1,208 +1,172 @@
-
-@if($agent->isMobile())
-    <!-- Mobile Layout -->
-    <div class="row">
-        @foreach($product as $item)
-            @php
-                $ratingCount = $item->reviews()->count();
-                $averageRating = $ratingCount > 0 ? $item->reviews()->avg('rating') : 5;
-            @endphp
-            <div class="col-6">
-                <div class="product-cart">
-                    <!-- Sale Label -->
-                    <div style="
-                    width: 150px;
-                    height: 150px;
-                    overflow: hidden;
-                    position: absolute;
-                    top:0;
-                    right: 0px;
-                    z-index: 2;
-                ">
-                    @if($item->discount > 0)
-                        <span class="sale-labels">On Sale</span>
-                    @endif
-                    </div>
-
-                   <!-- Product Image -->
-    <a href="{{ route('products.show', $item->id) }}" class="product-image">
-    @if($item->images->isNotEmpty())
-        <img src="{{ asset($item->images->first()->url) }}" alt="Product Image" style="
-            width: 100%;
-            height: auto;
-            max-width: 100%;
-            object-fit: contain;
-            border-radius: 8px;
-        ">
-    @else
-        <span style="
-            display: block;
-            width: 100%;
-            height: 100%;
-            background-color: #f0f0f0; /* Placeholder color */
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-        ">No image available</span>
-    @endif
-    </a>
-
-
-
-                    <!-- Product Name -->
-                    @if($item->stock > 0)
-                        <a href="{{ route('products.show', $item->id) }}" class="product-name">
-                            {{ $item->name }}
-                        </a>
-                    @else
-                        <span class="product-name">
-                            {{ $item->name }}<br/>
-                            <span class="out-of-stock">(out of stock)</span>
-                        </span>
-                    @endif
-                    <div class="xb-item--rating-inner ul_li_center" style="margin-top: 5px;margin-bottom: 5px">
-                        <ul class="xb-item--rating ul_li">
-                            @for ($i = 0; $i < 5; $i++)
-                                <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
-                            @endfor
-                        </ul>
-                    </div>
-                    <div >
-                        @if($item->discount > 0)
-                            <span style="text-decoration: line-through; color: gray;font-size:12px">${{ number_format($item->price, 2) }}</span>
-                            <span style="color: #A02334;">${{ number_format($item->price - ($item->price * $item->discount / 100), 2) }}</span>
-                        @else
-                            ${{ number_format($item->price, 2) }}
-                        @endif
-                    </div>
-
-
-                    @if($item->stock > 0)
-                    <!-- Add to Cart Button -->
-<a class="add-to-cart-button" href="{{ route('products.show', $item->id) }}" style="display: flex; align-items: center;">
-    <span class="xb-item--cart-icon" style="display: flex; justify-content: center; align-items: center; margin-right: 5px;">
-        <img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart" style="height: 15px; width: 15px;">
-    </span>
-    Add to Cart
-</a>
-
-                    @else
-                    <a class="add-to-cart-button-disabled" >
-                        <span class="xb-item--cart">Out of Stock</span>
-                    </a>
-                    @endif
-                </div>
-            </div>
-        @endforeach
+@if($product->isEmpty())
+    <div class="no-products-found">
+        <p>No products were found.</p>
     </div>
 @else
-
-    <!-- Desktop Layout -->
-    <div class="row">
-        @foreach($product as $item)
+    @if($agent->isMobile())
+        <!-- Mobile Layout -->
+        <div class="row">
+            @foreach($product as $item)
                 @php
                     $ratingCount = $item->reviews()->count();
                     $averageRating = $ratingCount > 0 ? $item->reviews()->avg('rating') : 5;
                 @endphp
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                <div class="product product-item text-center"
-                     style="position: relative; overflow: hidden; min-height:450px">
-                    @if($item->discount > 0)
-                    <div class="ribbon" style="
-                    width: 150px;
-                    height: 150px;
-                    overflow: hidden;
-                    position: absolute;
-                    top: -10px;
-                    right: 0px;
-                    z-index: 2;
-                ">
-                    <span style="
-                        position: absolute;
-                        display: block;
-                        width: 225px;
-                        padding: 15px 0;
-                        background-color: #A02334;
-                        color: white;
-                        text-transform: uppercase;
-                        font-weight: bold;
-                        text-align: center;
-                        transform: rotate(45deg);
-                        top: 30px;
-                        right: -65px;
-                    ">On Sale</span>
-                </div>
-                    @endif
-                    @if($item->stock > 0)
-                        <a href="{{ route('products.show', $item->id) }}">
-                            <div class="xb-item--img">
-                                @if($item->images->isNotEmpty())
-                                    <img src="{{ asset($item->images->first()->url) }}" alt="img"
-                                         style="width: 155px; height: 170px; object-fit: cover;">
-                                @else
-                                    No image available
-                                @endif
-                            </div>
-                        </a>
-                    @else
-                        <div class="xb-item--img no-stock">
-                            @if($item->images->isNotEmpty())
-                                <img src="{{ asset($item->images->first()->url) }}" alt="img"
-                                     style="width: 155px; height: 170px; object-fit: cover;">
-                            @else
-                                No image available
+                <div class="col-6">
+                    <div class="product-cart">
+                        <!-- Sale Label -->
+                        <div style="width: 150px; height: 150px; overflow: hidden; position: absolute; top:0; right: 0px; z-index: 2;">
+                            @if($item->discount > 0)
+                                <span class="sale-labels">On Sale</span>
                             @endif
                         </div>
-                    @endif
-                    <div class="xb-item--holder">
-                        <h3 class="xb-item--title">
-                            @if($item->stock > 0)
-                                <a href="{{ route('products.show', $item->id) }}">{{ $item->name }}</a>
+
+                        <!-- Product Image -->
+                        <a href="{{ route('products.show', $item->id) }}" class="product-image">
+                            @if($item->images->isNotEmpty())
+                                <img src="{{ asset($item->images->first()->url) }}" alt="Product Image" style="width: 100%; height: auto; max-width: 100%; object-fit: contain; border-radius: 8px;">
                             @else
-                                <span class="no-stock-title">{{ $item->name }}<span
-                                        style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
+                                <span style="display: block; width: 100%; height: 100%; background-color: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #888;">No image available</span>
                             @endif
-                        </h3>
-                        <div class="xb-item--rating-inner ul_li_center" style="margin-top: 10px;margin-bottom: 5px">
+                        </a>
+
+                        <!-- Product Name -->
+                        @if($item->stock > 0)
+                            <a href="{{ route('products.show', $item->id) }}" class="product-name">
+                                {{ $item->name }}
+                            </a>
+                        @else
+                            <span class="product-name">
+                                {{ $item->name }}<br/>
+                                <span class="out-of-stock">(out of stock)</span>
+                            </span>
+                        @endif
+
+                        <!-- Rating -->
+                        <div class="xb-item--rating-inner ul_li_center" style="margin-top: 5px;margin-bottom: 5px">
                             <ul class="xb-item--rating ul_li">
                                 @for ($i = 0; $i < 5; $i++)
                                     <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
                                 @endfor
-{{--                                    <span>({{ $ratingCount }})</span>--}}
                             </ul>
                         </div>
-                    </div>
-                    <div class="xb-item--action ul_li mt-20"
-                         style="position: absolute; bottom: 30px; width: 80%;">
-                        <span class="xb-item--price">
+
+                        <!-- Price -->
+                        <div>
                             @if($item->discount > 0)
-                                <span style="text-decoration: line-through; color: gray;">${{ number_format($item->price, 2) }}</span>
+                                <span style="text-decoration: line-through; color: gray; font-size:12px">${{ number_format($item->price, 2) }}</span>
                                 <span style="color: #A02334;">${{ number_format($item->price - ($item->price * $item->discount / 100), 2) }}</span>
                             @else
                                 ${{ number_format($item->price, 2) }}
                             @endif
-                        </span>
+                        </div>
+
+                        <!-- Add to Cart Button -->
                         @if($item->stock > 0)
-                            <a href="{{ route('products.show', $item->id) }}" class="xb-item--cart-btn">
-                                <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart"></span>
-                                <span class="xb-item--cart">Add to Cart</span>
+                            <a class="add-to-cart-button" href="{{ route('products.show', $item->id) }}" style="display: flex; align-items: center;">
+                                <span class="xb-item--cart-icon" style="display: flex; justify-content: center; align-items: center; margin-right: 5px;">
+                                    <img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart" style="height: 15px; width: 15px;">
+                                </span>
+                                Add to Cart
                             </a>
                         @else
-                            <a href="#" class="xb-item--cart-btn disabled" onclick="showOutOfStockMessage(event)">
-                                <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart"></span>
+                            <a class="add-to-cart-button-disabled">
                                 <span class="xb-item--cart">Out of Stock</span>
                             </a>
                         @endif
                     </div>
                 </div>
-            </div>
-        @endforeach
-    </div>
+            @endforeach
+        </div>
+    @else
+        <!-- Desktop Layout -->
+        <div class="row">
+            @foreach($product as $item)
+                @php
+                    $ratingCount = $item->reviews()->count();
+                    $averageRating = $ratingCount > 0 ? $item->reviews()->avg('rating') : 5;
+                @endphp
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                    <div class="product product-item text-center" style="position: relative; overflow: hidden; min-height:450px">
+                        @if($item->discount > 0)
+                            <div class="ribbon" style="width: 150px; height: 150px; overflow: hidden; position: absolute; top: -10px; right: 0px; z-index: 2;">
+                                <span style="position: absolute; display: block; width: 225px; padding: 15px 0; background-color: #A02334; color: white; text-transform: uppercase; font-weight: bold; text-align: center; transform: rotate(45deg); top: 30px; right: -65px;">
+                                    On Sale
+                                </span>
+                            </div>
+                        @endif
+                        @if($item->stock > 0)
+                            <a href="{{ route('products.show', $item->id) }}">
+                                <div class="xb-item--img">
+                                    @if($item->images->isNotEmpty())
+                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" style="width: 155px; height: 170px; object-fit: cover;">
+                                    @else
+                                        No image available
+                                    @endif
+                                </div>
+                            </a>
+                        @else
+                            <div class="xb-item--img no-stock">
+                                @if($item->images->isNotEmpty())
+                                    <img src="{{ asset($item->images->first()->url) }}" alt="img" style="width: 155px; height: 170px; object-fit: cover;">
+                                @else
+                                    No image available
+                                @endif
+                            </div>
+                        @endif
+                        <div class="xb-item--holder">
+                            <h3 class="xb-item--title">
+                                @if($item->stock > 0)
+                                    <a href="{{ route('products.show', $item->id) }}">{{ $item->name }}</a>
+                                @else
+                                    <span class="no-stock-title">{{ $item->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
+                                @endif
+                            </h3>
+                            <div class="xb-item--rating-inner ul_li_center" style="margin-top: 10px;margin-bottom: 5px">
+                                <ul class="xb-item--rating ul_li">
+                                    @for ($i = 0; $i < 5; $i++)
+                                        <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
+                                    @endfor
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="xb-item--action ul_li mt-20" style="position: absolute; bottom: 30px; width: 80%;">
+                            <span class="xb-item--price">
+                                @if($item->discount > 0)
+                                    <span style="text-decoration: line-through; color: gray;">${{ number_format($item->price, 2) }}</span>
+                                    <span style="color: #A02334;">${{ number_format($item->price - ($item->price * $item->discount / 100), 2) }}</span>
+                                @else
+                                    ${{ number_format($item->price, 2) }}
+                                @endif
+                            </span>
+                            @if($item->stock > 0)
+                                <a href="{{ route('products.show', $item->id) }}" class="xb-item--cart-btn">
+                                    <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart"></span>
+                                    <span class="xb-item--cart">Add to Cart</span>
+                                </a>
+                            @else
+                                <a href="#" class="xb-item--cart-btn disabled" onclick="showOutOfStockMessage(event)">
+                                    <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart"></span>
+                                    <span class="xb-item--cart">Out of Stock</span>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @endif
 @endif
 
 <style>
+    .no-products-found {
+        text-align: center;
+        padding: 20px;
+        background-color: #f8f8f8;
+        /*border: 1px solid #ddd;*/
+        margin-top: 20px;
+        font-size: 18px;
+        color: #555;
+    }
     .mobile-layout .product-item {
         padding: 10px;
         background-color: var(--color-white);

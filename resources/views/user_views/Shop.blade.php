@@ -61,8 +61,8 @@
             </div>
         </div>
     </section>
-    
-    
+
+
 
     <!-- breadcrumb end -->
 
@@ -722,7 +722,7 @@
                 _token: '{{ csrf_token() }}'
             },
             success: function (response) {
-                alert(response.message);
+                // alert(response.message);
                 fetchCart(); // Refresh the cart items
             },
             error: function (xhr, status, error) {
@@ -831,7 +831,7 @@
             },
             success: function (response) {
                 if (response.success) {
-                    alert(response.message);
+                    // alert(response.message);
                     fetchCart(); // Refresh the cart items
                 } else {
                     alert('Failed to remove item from cart.'); // Handle unexpected response

@@ -11,9 +11,8 @@ class CreateReviewsTable extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Foreign key to products table
             $table->string('name');
-            $table->string('phoneNumber');
             $table->text('message');
-            $table->unsignedTinyInteger('rating'); 
+            $table->unsignedTinyInteger('rating');
             $table->timestamps();
         });
     }
