@@ -44,17 +44,26 @@
 <!-- main area start  -->
 <main>
     <!-- breadcrumb start -->
-    <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner2.png')}}">
+    <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner.png')}}">
         <div class="container">
             <div class="breadcrumb__content text-center">
-                <h2 class="breadcrumb__title">Shop</h2>
+                <h2 class="breadcrumb__title" style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">Shop</h2>
                 <ul class="breadcrumb__list clearfix">
-                    <li class="breadcrumb-item"><a href="{{route('home')}}">Supplement Station</a></li>
-                    <li class="breadcrumb-item">Shop</li>
+                    <li class="breadcrumb-item">
+                        <a href="{{route('home')}}" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); color: #fff;">
+                            Supplement Station
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); color: #fff;">
+                        Shop
+                    </li>
                 </ul>
             </div>
         </div>
     </section>
+    
+    
+
     <!-- breadcrumb end -->
 
     <!-- shop start -->
@@ -842,7 +851,7 @@
 
 
 </script>
-//add active class to know which category button is currently active on desktop
+
 <script>
     $(document).ready(function() {
         $('.category-button').on('click', function() {

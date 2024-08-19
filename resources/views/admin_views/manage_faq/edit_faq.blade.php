@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Admin | Faq </title>
+    <title>Manage FAQ</title>
     <meta name="robots" content="noindex, follow"/>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -128,18 +128,11 @@
         <!--Bordered Table Light End-->
 
     </div><!-- Content Body End -->
-
-    <!-- Footer Section Start -->
-    <div class="footer-section">
-        <div class="container-fluid">
-
-            <div class="footer-copyright text-center">
-                <p class="text-body-light">2019 &copy; <a
-                        href="https://themeforest.net/user/codecarnival">Codecarnival</a></p>
-            </div>
-
-        </div>
-    </div><!-- Footer Section End -->
+  <!-- Footer Section Start -->
+   
+  @include('partials.adminFooter')
+     
+  <!-- Footer Section End -->
 
 </div>
 

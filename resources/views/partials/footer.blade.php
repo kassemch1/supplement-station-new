@@ -83,16 +83,14 @@
                 <img src="assets/img/logo/supLogo.png" alt="" style="max-height: 120px; max-width: 120px;" class="logo"></a>
             </div>
             <div class="sec-title sec-title--white text-center mb-50">
-                <h2 class="title">in a healthy body, healthy mind</h2>
+                <h2 class="title">BREAK YOUR LIMITS AT SUPPLEMENT STATION</h2>
             </div>
             <ul class="footer-nav ul_li_center">
-                <li><a href="#!">all products</a></li>
-                <li><a href="#!">track order</a></li>
-                <li><a href="#!">my account</a></li>
-                <li><a href="#!">gift cards</a></li>
-                <li><a href="#!">our story</a></li>
-                <li><a href="#!">careers</a></li>
-                <li><a href="#!">contact</a></li>
+                <li><a href="{{ route('shop') }}">all products</a></li>
+                <li><a href="{{ route('home') }}#pricing">plans</a></li>
+                <li><a href="{{ route('home') }}#contact">contact</a></li>
+                <li><a href="{{ route('cart') }}">cart</a></li>
+                <li><a href="{{ route('checkout') }}">checkout</a></li>
             </ul>
             <div class="footer-bottom mt-50 d-flex justify-content-center align-items-center">
                 <div class="footer-copyright mt-30 text-center">

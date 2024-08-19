@@ -188,7 +188,7 @@
             <div class="col-lg-4 pb-col-4">
                 <div class="popular-product__img mt-20">
                     <br><br>
-                    <img src="{{asset("assets/img/bg/products-image.jpg")}} " alt="" style="margin-top: -53px;">
+                    <img src="{{asset("assets/img/bg/products-image3.jpg")}} " alt="" style="margin-top: -53px;">
                 </div>
             </div>
         </div>
