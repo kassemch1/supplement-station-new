@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/products.php';
@@ -24,6 +25,11 @@ use App\Http\Controllers\user_controllers\ShopController;
 use App\Http\Middleware\GuestSession;
 
 
+
+Route::get('/foo', function () {
+    Artisan::call('storage:link');
+    return "success";
+});
 Route::middleware([GuestSession::class])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/viewCart', [CartController::class, 'Cart'])->name('cart');

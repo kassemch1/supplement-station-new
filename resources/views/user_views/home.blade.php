@@ -479,102 +479,104 @@
 <!-- testimonial end -->
 
         <!-- pricing start -->
-        <section id="pricing" class="pricing pt-120 pb-130" data-bg-color="#fff">
+        @if(!$planes->isEmpty())
+            <section id="pricing" class="pricing pt-120 pb-130" data-bg-color="#fff">
 
-            <div class="container">
-                <div class="sec-title text-center mb-55">
-                    <span class="sub-title">plans</span>
-                    <h2 class="title">flexible plans</h2>
-                </div>
-{{--                <div class="swiper-wrapper">--}}
-                <div class="row justify-content-center mt-none-30">
+                <div class="container">
+                    <div class="sec-title text-center mb-55">
+                        <span class="sub-title">plans</span>
+                        <h2 class="title">flexible plans</h2>
+                    </div>
+                    {{--                <div class="swiper-wrapper">--}}
+                    <div class="row justify-content-center mt-none-30">
 
                         @foreach($planes as $plane)
-                        @if($plane->id%2==1)
-                    <div class="col-lg-4 col-md-6 mt-30">
+                            @if($plane->id%2==1)
+                                <div class="col-lg-4 col-md-6 mt-30">
 
 
-                        <div class="xb-pricing">
-                            <div class="xb-item--head pos-rel">
-                                <h4 class="xb-item--title">{{$plane->type}}</h4>
-                                <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span>  </h2>
-                                <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
-                                <div class="xb-item--img" data-background="assets/img/pricing/img_01.png"></div>
-                                <br>
-                                <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape4.png"></div>
-                            </div>
-                            <div class="xb-item--body">
-                                <ul class="xb-item--list list-unstyled">
-                                    @if($plane->point1)
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point1}}</li>
-                                    @endif
+                                    <div class="xb-pricing">
+                                        <div class="xb-item--head pos-rel">
+                                            <h4 class="xb-item--title">{{$plane->type}}</h4>
+                                            <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span>  </h2>
+                                            <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
+                                            <div class="xb-item--img" data-background="assets/img/pricing/img_01.png"></div>
+                                            <br>
+                                            <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape4.png"></div>
+                                        </div>
+                                        <div class="xb-item--body">
+                                            <ul class="xb-item--list list-unstyled">
+                                                @if($plane->point1)
+                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point1}}</li>
+                                                @endif
 
-                                    @if($plane->point2)
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point2}}</li>
-                                        @endif
-                                        @if($plane->point3)
-                                            <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point3}}</li>
-                                        @endif
-                                        @if($plane->point4)
-                                            <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point4}}</li>
-                                        @endif
-                                        @if($plane->point5)
-                                            <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point5}}</li>
-                                        @endif
-                                </ul>
-                                <div class="xb-item--btn">
-                                    <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=81088266"><img src="assets/img/icon/bag.svg" alt="">LEARN MORE</a>
+                                                @if($plane->point2)
+                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point2}}</li>
+                                                @endif
+                                                @if($plane->point3)
+                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point3}}</li>
+                                                @endif
+                                                @if($plane->point4)
+                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point4}}</li>
+                                                @endif
+                                                @if($plane->point5)
+                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point5}}</li>
+                                                @endif
+                                            </ul>
+                                            <div class="xb-item--btn">
+                                                <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=81088266"><img src="assets/img/icon/bag.svg" alt="">LEARN MORE</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
                                 </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                        @elseif($plane->id%2==0)
+                            @elseif($plane->id%2==0)
 
 
 
-                    <div class="col-lg-4 col-md-6 mt-30">
-                        <div class="xb-pricing active">
-                            <div class="xb-item--head pos-rel">
-                                <h4 class="xb-item--title">{{$plane->type}}</h4>
-                                <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span></h2>
-                                <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
-                                <div class="xb-item--img" data-background="assets/img/pricing/img_02.png"></div>
-                                <br>
-                                <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape2.png"></div>
-                            </div>
-                            <div class="xb-item--body">
-                                <ul class="xb-item--list list-unstyled">
-                                    @if($plane->point1)
-                                        <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point1}}</li>
-                                    @endif
-                                    @if($plane->point2)
-                                        <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point2}}</li>
-                                    @endif
-                                    @if($plane->point3)
-                                        <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point3}}</li>
-                                    @endif
-                                    @if($plane->point4)
-                                        <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point4}}</li>
-                                    @endif
-                                    @if($plane->point5)
-                                        <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point5}}</li>
-                                    @endif
-                                </ul>
-                                <div class="xb-item--btn">
-                                    <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=81088266"><img src="assets/img/icon/bag.svg" alt="">LEARN MORE</a>
+                                <div class="col-lg-4 col-md-6 mt-30">
+                                    <div class="xb-pricing active">
+                                        <div class="xb-item--head pos-rel">
+                                            <h4 class="xb-item--title">{{$plane->type}}</h4>
+                                            <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span></h2>
+                                            <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
+                                            <div class="xb-item--img" data-background="assets/img/pricing/img_02.png"></div>
+                                            <br>
+                                            <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape2.png"></div>
+                                        </div>
+                                        <div class="xb-item--body">
+                                            <ul class="xb-item--list list-unstyled">
+                                                @if($plane->point1)
+                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point1}}</li>
+                                                @endif
+                                                @if($plane->point2)
+                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point2}}</li>
+                                                @endif
+                                                @if($plane->point3)
+                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point3}}</li>
+                                                @endif
+                                                @if($plane->point4)
+                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point4}}</li>
+                                                @endif
+                                                @if($plane->point5)
+                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point5}}</li>
+                                                @endif
+                                            </ul>
+                                            <div class="xb-item--btn">
+                                                <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=81088266"><img src="assets/img/icon/bag.svg" alt="">LEARN MORE</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            @endif
+                        @endforeach
                     </div>
-                        @endif
-                            @endforeach
+                    {{--                </div>--}}
                 </div>
-{{--                </div>--}}
-            </div>
 
-        </section>
+            </section>
+        @endif
         <!-- pricing end -->
 
         <!-- faq start -->

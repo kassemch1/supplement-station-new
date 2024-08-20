@@ -14,7 +14,7 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        $hashedPassword = Hash::make('amine2024$$$');
+        $hashedPassword = Hash::make('amine1951$$$sss');
         DB::table('users')->insert([
             'name'=>'admin',
             'email'=>'admin@supplement-station.com',
@@ -50,34 +50,34 @@ class AdminSeeder extends Seeder
 
         ]);
 
-        DB::table('planes')->insert([
-           [
-               'type'=>'Basic Wellness Plan',
-               'price'=>39.99,
-               'point1'=>'1 Bottle of Daily Multivitamins (30 servings)',
-               'point2'=>'1 Bottle of Omega-3 Fish Oil (60 softgels)',
-               'point3'=>'1 Bag of Whey Protein (1 lb)',
-               'point4'=>'1 Online Training Session (30 minutes)',
-               'point5'=>'Email support for general inquiries'
-           ],
-            [
-                'type'=>'Fitness Booster Plan',
-                'price'=>69.99,
-                'point1'=>'1 Bottle of Pre-Workout Supplement (30 servings)',
-                'point2'=>'1 Bottle of Post-Workout Recovery Formula (30 servings)',
-                'point3'=>'1 Bag of BCAA Powder (1 lb)',
-                'point4'=>'1 Bottle of Creatine Monohydrate (60 servings)',
-                'point5'=>'2 Online Training Sessions (45 minutes each)'
-            ],
-            [
-                'type'=>'Performance Elite Plan',
-                'price'=>129.99,
-                'point1'=>'1 Bottle of Pre-Workout Supplement (30 servings)',
-                'point2'=>'1 Bottle of Post-Workout Recovery Formula (30 servings)',
-                'point3'=>'1 Bag of Whey Protein (2 lbs)',
-                'point4'=>'1 Bottle of BCAA Powder (1 lb)',
-                'point5'=>'4 Online Training Sessions (1 hour each)'
-            ],
-        ]);
+//        DB::table('planes')->insert([
+//           [
+//               'type'=>'Basic Wellness Plan',
+//               'price'=>39.99,
+//               'point1'=>'1 Bottle of Daily Multivitamins (30 servings)',
+//               'point2'=>'1 Bottle of Omega-3 Fish Oil (60 softgels)',
+//               'point3'=>'1 Bag of Whey Protein (1 lb)',
+//               'point4'=>'1 Online Training Session (30 minutes)',
+//               'point5'=>'Email support for general inquiries'
+//           ],
+//            [
+//                'type'=>'Fitness Booster Plan',
+//                'price'=>69.99,
+//                'point1'=>'1 Bottle of Pre-Workout Supplement (30 servings)',
+//                'point2'=>'1 Bottle of Post-Workout Recovery Formula (30 servings)',
+//                'point3'=>'1 Bag of BCAA Powder (1 lb)',
+//                'point4'=>'1 Bottle of Creatine Monohydrate (60 servings)',
+//                'point5'=>'2 Online Training Sessions (45 minutes each)'
+//            ],
+//            [
+//                'type'=>'Performance Elite Plan',
+//                'price'=>129.99,
+//                'point1'=>'1 Bottle of Pre-Workout Supplement (30 servings)',
+//                'point2'=>'1 Bottle of Post-Workout Recovery Formula (30 servings)',
+//                'point3'=>'1 Bag of Whey Protein (2 lbs)',
+//                'point4'=>'1 Bottle of BCAA Powder (1 lb)',
+//                'point5'=>'4 Online Training Sessions (1 hour each)'
+//            ],
+//        ]);
     }
 }
