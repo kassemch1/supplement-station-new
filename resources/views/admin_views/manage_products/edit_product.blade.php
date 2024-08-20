@@ -147,6 +147,10 @@
                                 <a class="button button-info" href="{{ route('manageProductOptions.show', ['product_id' => $product->id]) }}">
                                     <span>Check Options</span>
                                 </a>
+                                <br>
+                                <a class="button button-info" href="{{ route('manageProductReview.show', ['product_id' => $product->id]) }}">
+                                    <span>Product Review</span>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

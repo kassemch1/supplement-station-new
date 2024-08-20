@@ -164,8 +164,8 @@
     <div class="sidebar-contact-info mb-65">
         <h4 class="sidebar-heading">Contact Information</h4>
         <ul class="sidebar-info-list list-unstyled">
-            <li><span><img src="assets/img/icon/i_star.svg" alt=""></span>Masharfeye,Facing Alturki Resturant</li>
-            <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>+961 81-823-038</a></li>
+            <li><span><img src="{{ asset("assets/img/icon/i_star.svg")}}" alt=""></span>Msharafieh,Facing Garden State.</li>
+            <li><a href="#!"><span><img src="{{ asset("assets/img/icon/i_star.svg")}}" alt=""></span>+961 81-823-038</a></li>
 
         </ul>
     </div>
