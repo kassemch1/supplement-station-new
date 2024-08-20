@@ -13,32 +13,27 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'Shilajit',
-            'Offers',
-            'XPN SUPPLEMENTS',
             'Whey Protein',
-            'Isolate Whey Protein',
+            'Whey Protein Isolate',
             'Creatine',
-            'Shakers',
-            'Vitamins',
-            'Testosterone Boosters',
-            'Pre-Workout',
-            'Lean Mass Builders',
             'Mass Gainers',
-            'Arginine & Citrulline',
-            'Fishoil',
-            'Fat Burners',
+            'Offers',
             'Amino Acids',
-            'Anti Aging',
-            'BCAA',
-            'Collagen',
+            'Testosterone Boosters',
+            'EAA & BCAA',
+            'Pre-Workout',
+            'Herbs',
+            'Vitamins',
+            'Fat Burner',
             'Carbs',
-            'Ashwagandha',
             'Beef Protein',
-            'Melatonin',
-            'ZMA',
-            'Universal',
-            'STRESS RELIEF',
+            'Collagen',
+            'Shakers',
+            'Gym Gear',
+            'Shirts',
+            'Protein Bars',
+
+           
         ];
 
         foreach ($categories as $category) {

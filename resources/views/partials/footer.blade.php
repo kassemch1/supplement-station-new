@@ -57,7 +57,7 @@
                         <div class="xb-item--head">
                             <div class="xb-item--address">
                                 <h3><img src={{ asset("assets/img/icon/location.svg") }} alt="">our address</h3>
-                                <p>Masharfeye,Facing Alturki Resturant<br> Beirut, Lebanon</p>
+                                <p>Msharafieh Hadi Nasrallah Street Facing Garden State Behind Al Turki Restaurant<br> Beirut, Lebanon</p>
                             </div>
                             <div class="xb-item--open">
                                 <p>Monday - Friday <br>
@@ -73,6 +73,7 @@
                         <div class="xb-item--cta" data-background="assets/img/bg/cta_bg2.jpg">
                             <p>we are available for you <br> every day, 09:00AM - 9:00PM</p>
                             <h3>+961 81-823-038</h3>
+                            
                         </div>
                     </div>
                 </div>

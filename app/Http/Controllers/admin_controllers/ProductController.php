@@ -7,6 +7,7 @@ use App\Http\Controllers\user_controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -90,6 +91,7 @@ class ProductController extends Controller
             }
         }
     }
+    
     public function edit($id)
     {
         $categories=Category::all();
@@ -143,6 +145,21 @@ class ProductController extends Controller
         return response()->json(['success' => 'product deleted successfully']);
     }
 
+
+
+    public function show($product_id)
+    {
+        $reviews = Review::where('product_id', $product_id)->get();
+        return view('admin_views/manage_review/edit_review', compact('reviews', 'product_id'));
+    }
+
+    public function destroyReview($id)
+    {
+        $review = Review::findOrFail($id);
+        $review->delete();
+
+        return response()->json(['message' => 'Review deleted successfully.']);
+    }
 
 
 

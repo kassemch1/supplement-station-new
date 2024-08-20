@@ -98,8 +98,8 @@
                             <a href="{{ route('products.show', $item->id) }}">
                                 <div class="xb-item--img">
                                     @if($item->images->isNotEmpty())
-                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" style="width: 155px; height: 170px; object-fit: cover;">
-                                    @else
+                                    <img src="{{ asset($item->images->first()->url) }}" alt="img" style="width: 155px; height: 170px; object-fit: contain;">
+                                @else
                                         No image available
                                     @endif
                                 </div>
