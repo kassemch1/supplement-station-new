@@ -59,7 +59,7 @@
             <!-- Page Heading Start -->
             <div class="col-12 col-lg-auto mb-20">
                 <div class="page-heading">
-                    <h3>Manage Testimonials</h3>
+                    <h3>Manage FAQs</h3>
                 </div>
             </div><!-- Page Heading End -->
 
@@ -112,9 +112,9 @@
     </div><!-- Content Body End -->
 
      <!-- Footer Section Start -->
-   
+
      @include('partials.adminFooter')
-     
+
      <!-- Footer Section End -->
 
 </div>

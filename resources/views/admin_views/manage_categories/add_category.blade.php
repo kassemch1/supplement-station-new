@@ -57,7 +57,7 @@
             <!-- Page Heading Start -->
             <div class="col-12 col-lg-auto mb-20">
                 <div class="page-heading">
-                    <h3>Manage Products</h3>
+                    <h3>Manage Categories</h3>
                 </div>
             </div><!-- Page Heading End -->
 

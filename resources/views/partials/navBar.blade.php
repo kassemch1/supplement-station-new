@@ -70,15 +70,13 @@
                                         <li class="menu-item active">
                                             <a class="" href="{{ route('home') }}"><span>Home</span></a>
                                         </li>
-                                        <li class="menu-item"><a class="section-link" href="{{ route('home') }}#features"><span>Features</span></a></li>
-
                                                 <li><a href="{{ route('shop') }}"><span>Products</span></a></li>
                                                 <li><a href="{{ route('cart') }}"><span>Cart</span></a></li>
 
 
 
                                         <li class="menu-item menu-item-has-children">
-                                            <a class="section-link" href="#"><span>Categories</span></a>
+                                            <a class="section-link" href="#"><span>Categoriess</span></a>
                                             <ul class="sub-menu">
                                                 @foreach($categories as $category)
                                                     <form action="{{route('shop')}}">

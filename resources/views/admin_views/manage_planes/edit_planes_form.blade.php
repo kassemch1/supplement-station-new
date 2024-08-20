@@ -59,7 +59,7 @@
             <!-- Page Heading Start -->
             <div class="col-12 col-lg-auto mb-20">
                 <div class="page-heading">
-                    <h3>Manage process</h3>
+                    <h3>Manage Plans</h3>
                 </div>
             </div><!-- Page Heading End -->
 
@@ -79,48 +79,48 @@
                     <div class="row">
                         <div class="col-lg-6 col-12 mb-30">
                             <label for="">Type</label>
-                            <input name="type" class="form-control" type="text" placeholder="Type" value="">
+                            <input name="type" class="form-control" type="text" placeholder="Type" value="{{$plane->type}}">
                         </div>
                         <div class="row">
                             <div class="col-lg-6 col-12 mb-30">
                                 <label for="">Price</label>
-                                <input name="price" class="form-control" type="text" placeholder="Price" value="">
+                                <input name="price" class="form-control" type="text" placeholder="Price" value="{{$plane->price}}">
                             </div>
                         </div>
 
                         <div class="col-12 mb-30">
                             <label for="description">Point 1</label>
-                            <textarea name="point1" class="form-control"></textarea>
+                            <textarea name="point1" class="form-control">{{$plane->point1}}</textarea>
                         </div>
 
                         <div class="col-12 mb-30">
                             <label for="description">Point 2</label>
-                            <textarea name="point2" class="form-control"></textarea>
+                            <textarea name="point2" class="form-control">{{$plane->point2}}</textarea>
                         </div>
 
                         <div class="col-12 mb-30">
                             <label for="description">Point 3</label>
-                            <textarea name="point3" class="form-control"></textarea>
+                            <textarea name="point3" class="form-control">{{$plane->point3}}</textarea>
                         </div>
 
                         <div class="col-12 mb-30">
                             <label for="description">Point 4</label>
-                            <textarea name="point4" class="form-control"></textarea>
+                            <textarea name="point4" class="form-control">{{$plane->point4}}</textarea>
                         </div>
 
                         <div class="col-12 mb-30">
                             <label for="description">Point 5</label>
-                            <textarea name="point5" class="form-control"></textarea>
+                            <textarea name="point5" class="form-control">{{$plane->point5}}</textarea>
                         </div>
 
                     </div>
                     <!-- Success Alert -->
                     <div id="successAlert" class="alert alert-success mt-3" style="display: none;">
-                        <strong>Success!</strong> Phase edited successfully.
+                        <strong>Success!</strong> Plan edited successfully.
                     </div>
                     <!-- Error Alert -->
                     <div id="errorAlert" class="alert alert-danger mt-3" style="display: none;">
-                        <strong>Error!</strong> Failed to Edit Phase. Please try again.
+                        <strong>Error!</strong> Failed to Edit Plan. Please try again.
                     </div>
                     <!-- Button Group Start -->
                     <div class="row">
@@ -138,9 +138,9 @@
     </div><!-- Content Body End -->
 
      <!-- Footer Section Start -->
-   
+
      @include('partials.adminFooter')
-     
+
      <!-- Footer Section End -->
 
 </div>
