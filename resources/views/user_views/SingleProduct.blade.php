@@ -175,9 +175,19 @@
                                     @foreach($products->images as $index => $image)
                                         <div class="tab-pane {{ $index == 0 ? 'show active' : '' }}" id="tab-{{ $index }}" role="tabpanel">
                                             <div class="pl_thumb">
-                                                <img src="{{ asset($image->url) }}" alt="{{ $products->name }} image {{ $index + 1 }}"  style="width: auto;display: block;object-fit: cover;max-width: 100%; /* Ensure it doesn't exceed its container width */
-    height: 500px; /* Auto height to ensure responsive scaling */">
+                                                <img src="{{ asset($image->url) }}" 
+                                                     alt="{{ $products->name }} image {{ $index + 1 }}" 
+                                                     style="width: 100%; /* Make the image responsive to the container's width */
+                                                            height: auto; /* Maintain aspect ratio */
+                                                            display: block; 
+                                                            object-fit: cover; 
+                                                            max-width: 100%; /* Ensure it doesn't exceed its container width */
+                                                            max-height: 500px; /* Set maximum height */
+                                                            ">
                                             </div>
+                                            
+
+
                                         </div>
                                     @endforeach
                                 </div>
