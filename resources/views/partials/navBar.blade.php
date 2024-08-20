@@ -76,8 +76,8 @@
 
 
                                         <li class="menu-item menu-item-has-children">
-                                            <a class="section-link" href="#"><span>Categoriess</span></a>
-                                            <ul class="sub-menu">
+                                            <a class="menu-item menu-item-has-children" href="" onclick="toggleDropdown(event, 'categories-dropdown'); return false;"><span>Categoriess</span></a>
+                                            <ul class="sub-menu" id="categories-dropdown">
                                                 @foreach($categories as $category)
                                                     <form action="{{route('shop')}}">
                                                         @csrf
@@ -163,7 +163,7 @@
         <h4 class="sidebar-heading">Contact Information</h4>
         <ul class="sidebar-info-list list-unstyled">
             <li><span><img src="{{ asset("assets/img/icon/i_star.svg")}}" alt=""></span>Msharafieh,Facing Garden State.</li>
-            <li><a href="#!"><span><img src="{{ asset("assets/img/icon/i_star.svg")}}" alt=""></span>+961 81-823-038</a></li>
+            <li><a href="#!"><span><img src="{{ asset("assets/img/icon/i_star.svg")}}" alt=""></span>+961 81-823-038 / 81-088-266</a></li>
 
         </ul>
     </div>
@@ -200,5 +200,14 @@
 </div>
 
 
-
-
+    <script>
+        function toggleDropdown(event, dropdownId) {
+            event.preventDefault();
+            var dropdown = document.getElementById(dropdownId);
+            if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        }
+    </script>

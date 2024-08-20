@@ -69,7 +69,7 @@
                                     </span>
                                     <div class="info">
                                             <span style="color: #FFFFFF !important;">CONTACT US DAILY</span>
-                                        <h4>+961 81-823-038</h4>
+                                        <h4>+961 81-823-038 / 81-088-266</h4>
                                     </div>
                                 </div>
                             </div>

@@ -72,8 +72,8 @@
                         </div>
                         <div class="xb-item--cta" data-background="assets/img/bg/cta_bg2.jpg">
                             <p>we are available for you <br> every day, 09:00AM - 9:00PM</p>
-                            <h3>+961 81-823-038</h3>
-                            
+                            <h3>+961 81-823-038 / 81-088-266</h3>
+
                         </div>
                     </div>
                 </div>
