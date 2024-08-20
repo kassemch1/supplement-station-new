@@ -7287,10 +7287,10 @@ blockquote {
       font-size: 45px; }
       @media only screen and (min-width: 1200px) and (max-width: 1500px) {
         .contact-info .xb-item--cta h3 {
-          font-size: 36px; } }
+          font-size: 20px; } }
       @media (max-width: 1199px) {
         .contact-info .xb-item--cta h3 {
-          font-size: 32px; } }
+          font-size: 18px; } }
   .contact-info .xb-item--social li:not(:last-child) {
     margin-right: 10px; }
   .contact-info .xb-item--social li a {
@@ -7704,7 +7704,10 @@ blockquote {
   visibility: visible; }
 
 .xb-header-menu-scroll {
-  padding: 50px 25px 40px; }
+  padding: 50px 25px 40px;
+    max-height: 100vh; /* Set the maximum height to the full height of the viewport */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
+    -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on touch devices */}
 
 .xb-header-menu-scroll .xb-close {
   position: absolute;
