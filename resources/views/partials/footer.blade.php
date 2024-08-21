@@ -14,25 +14,25 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="xb-item--field">
-                                        <span><img src="assets/img/icon/c_user.svg" alt=""></span>
+                                        <span><img src="{{ asset('assets/img/icon/c_user.svg')}}" alt=""></span>
                                         <input type="text" placeholder="Name" name="name">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="xb-item--field">
-                                        <span><img src="assets/img/icon/c_mail.svg" alt=""></span>
+                                        <span><img src="{{ asset('assets/img/icon/c_mail.svg')}}" alt=""></span>
                                         <input type="text" placeholder="Email" name="email">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="xb-item--field">
-                                        <span><img src="assets/img/icon/c_call.svg" alt=""></span>
+                                        <span><img src="{{ asset('assets/img/icon/c_call.svg')}}" alt=""></span>
                                         <input type="text" placeholder="phone" name="phone">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="xb-item--field">
-                                        <span><img src="assets/img/icon/c_message.svg" alt=""></span>
+                                        <span><img src="{{ asset('assets/img/icon/c_message.svg')}}" alt=""></span>
                                         <textarea name="message" id="message" cols="30" rows="10"
                                                   placeholder="Write Your Message..." ></textarea>
                                     </div>
