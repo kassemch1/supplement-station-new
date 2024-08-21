@@ -5063,7 +5063,7 @@ body .mfp-wrap .mfp-container .mfp-content .mfp-close:hover::before, body .mfp-w
   color: var(--color-primary); }
 
 @media (max-width: 767px) {
-  .shop-single-section .single-product-info .tablist {
+    .shop-single-section .single-product-info .tablist {
     margin-bottom: 25px; } }
 .shop-single-section .single-product-info h4 {
   font-size: 18px;

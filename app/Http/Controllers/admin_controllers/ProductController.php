@@ -65,6 +65,7 @@ class ProductController extends Controller
             'discount' => 'required|numeric|between:0,100', // Ensures discount is between 0 and 100
             'description' => 'required|string',
             'stock' => 'required', // Assumes stock should be an integer
+            'images' => 'required|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
@@ -91,7 +92,7 @@ class ProductController extends Controller
             }
         }
     }
-    
+
     public function edit($id)
     {
         $categories=Category::all();
@@ -104,6 +105,9 @@ class ProductController extends Controller
     public function update(Request $request)
     {
 //        dd($request);
+        $product =Product::findOrFail($request->input('product_id'));
+        // Check if the product already has images
+        $hasImages = $product->images()->count() > 0;
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0.01', // Ensures price is greater than 0
@@ -111,10 +115,10 @@ class ProductController extends Controller
             'discount' => 'required|numeric|between:0,100', // Ensures discount is between 0 and 100
             'description' => 'required|string',
             'stock' => 'required', // Assumes stock should be an integer
+            'images' => $hasImages ? 'array' : 'required|array', // Make images required if no existing images
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
-        $product =Product::findOrFail($request->input('product_id'));
 
         $product->name = $validatedData['name'];
         $product->price = $validatedData['price'];
