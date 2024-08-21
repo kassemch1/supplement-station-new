@@ -57,7 +57,7 @@
                             <div class="xb-header-menu-scroll">
                                 <div class="xb-menu-close xb-hide-xl xb-close"></div>
                                 <div class="xb-logo-mobile xb-hide-xl">
-                                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/outlined-logo-nav.png')}}" alt="" style="height: 60px; width: 160px;" class="logo"></a>
+                                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/outlined-logo-nav.png')}}" alt="" style="height: 50px; width: 160px;" class="logo"></a>
                                 </div>
                                 <div class="xb-header-mobile-search xb-hide-xl">
                                     <form role="search" action="{{route('shop')}}" method="get">
@@ -76,7 +76,7 @@
 
 
                                         <li class="menu-item menu-item-has-children">
-                                            <a class="menu-item menu-item-has-children" href="" onclick="toggleDropdown(event, 'categories-dropdown'); return false;"><span>Categoriess</span></a>
+                                            <a class="menu-item menu-item-has-children" href="" onclick="toggleDropdown(event, 'categories-dropdown'); return false;"><span>Categories</span></a>
                                             <ul class="sub-menu" id="categories-dropdown">
                                                 @foreach($categories as $category)
                                                     <form action="{{route('shop')}}">
