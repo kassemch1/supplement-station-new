@@ -124,7 +124,7 @@
                             <td style="max-width: 250px" class="text-truncate">{{ $product->description }}</td>
                             <td>{{ $product->getCategory->name }}</td>
                             <td>
-                                @if($product->stock === 1)
+                                @if((int)$product->stock === 1)
                                     <span class="badge badge-success">In Stock</span>
                                 @else
                                     <span class="badge badge-danger">Out of Stock</span>
@@ -197,9 +197,9 @@
     </div><!-- Content Body End -->
 
      <!-- Footer Section Start -->
-   
+
      @include('partials.adminFooter')
-     
+
      <!-- Footer Section End -->
 
 </div>

@@ -76,7 +76,7 @@
 
 
                                         <li class="menu-item menu-item-has-children">
-                                            <a class="menu-item menu-item-has-children" href="" onclick="toggleDropdown(event, 'categories-dropdown'); return false;"><span>Categoriess</span></a>
+                                            <a class="menu-item menu-item-has-children" href="" onclick="toggleDropdown(event, 'categories-dropdown'); return false;"><span>Categories</span></a>
                                             <ul class="sub-menu" id="categories-dropdown">
                                                 @foreach($categories as $category)
                                                     <form action="{{route('shop')}}">

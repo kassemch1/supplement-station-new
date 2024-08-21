@@ -175,17 +175,17 @@
                                     @foreach($products->images as $index => $image)
                                         <div class="tab-pane {{ $index == 0 ? 'show active' : '' }}" id="tab-{{ $index }}" role="tabpanel">
                                             <div class="pl_thumb">
-                                                <img src="{{ asset($image->url) }}" 
-                                                     alt="{{ $products->name }} image {{ $index + 1 }}" 
+                                                <img src="{{ asset($image->url) }}"
+                                                     alt="{{ $products->name }} image {{ $index + 1 }}"
                                                      style="width: 100%; /* Make the image responsive to the container's width */
                                                             height: auto; /* Maintain aspect ratio */
-                                                            display: block; 
-                                                            object-fit: cover; 
+                                                            display: block;
+                                                            object-fit: cover;
                                                             max-width: 100%; /* Ensure it doesn't exceed its container width */
                                                             max-height: 500px; /* Set maximum height */
                                                             ">
                                             </div>
-                                            
+
 
 
                                         </div>
@@ -409,6 +409,11 @@
 
 {{--                @if($agent->isMobile())--}}
                     <!-- Mobile Layout -->
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
                     <div class="container">
                         <div class="sec-title text-center mb-55">
                             <h2 class="title">Related products</h2>
@@ -838,7 +843,7 @@ $(document).on('click', '.remove', function(event) {
                     }, 5000); // Close after 3 seconds
                 },
                 error: function (xhr) {
-                    var errorMessage = xhr.responseJSON.message || 'There was an error adding the item to the cart.';
+                    var errorMessage = xhr.responseJSON.message || 'Please select an option before adding item to cart.';
                     $('#errorAlert').text(errorMessage).fadeIn();
                     setTimeout(function () {
                         $('#errorAlert').fadeOut();

@@ -10,8 +10,13 @@
                 @php
                     $ratingCount = $item->reviews()->count();
                     $averageRating = $ratingCount > 0 ? $item->reviews()->avg('rating') : 5;
+                    $truncatedName = \Illuminate\Support\Str::limit($item->name, 54,'...');
+
                 @endphp
                 <div class="col-6">
+                    @if((int)$item->stock === 1)
+                        <a href="{{ route('products.show', $item->id) }}" class="product-link" style="text-decoration: none; color: inherit;">
+                        @endif
                     <div class="product-cart">
                         <!-- Sale Label -->
                         <div style="width: 150px; height: 150px; overflow: hidden; position: absolute; top:0; right: 0px; z-index: 2;">
@@ -32,11 +37,11 @@
                         <!-- Product Name -->
                         @if($item->stock > 0)
                             <a href="{{ route('products.show', $item->id) }}" class="product-name">
-                                {{ $item->name }}
+                                {{ $truncatedName }}
                             </a>
                         @else
                             <span class="product-name">
-                                {{ $item->name }}<br/>
+                                {{ $truncatedName }}<br/>
                                 <span class="out-of-stock">(out of stock)</span>
                             </span>
                         @endif
@@ -84,6 +89,7 @@
                 @php
                     $ratingCount = $item->reviews()->count();
                     $averageRating = $ratingCount > 0 ? $item->reviews()->avg('rating') : 5;
+                    $truncatedName = \Illuminate\Support\Str::limit($item->name, 54);
                 @endphp
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
                     <div class="product product-item text-center" style="position: relative; overflow: hidden; min-height:450px">
@@ -116,9 +122,9 @@
                         <div class="xb-item--holder">
                             <h3 class="xb-item--title">
                                 @if($item->stock > 0)
-                                    <a href="{{ route('products.show', $item->id) }}">{{ $item->name }}</a>
+                                    <a href="{{ route('products.show', $item->id) }}">{{ $truncatedName }}</a>
                                 @else
-                                    <span class="no-stock-title">{{ $item->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
+                                    <span class="no-stock-title">{{ $truncatedName }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
                                 @endif
                             </h3>
                             <div class="xb-item--rating-inner ul_li_center" style="margin-top: 10px;margin-bottom: 5px">
