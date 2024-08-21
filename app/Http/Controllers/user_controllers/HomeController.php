@@ -16,7 +16,7 @@ class HomeController extends Controller
 {
     public function index()
 {
-    $planes = plane::all();
+    $planes = Plane::all();
     $banner = Banner::first();
     $faqs = Faq::all();
 
