@@ -30,6 +30,7 @@ Route::get('/foo', function () {
     Artisan::call('storage:link');
     return "success";
 });
+Route::get('/test',[HomeController::class,'test']);
 Route::middleware([GuestSession::class])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/viewCart', [CartController::class, 'Cart'])->name('cart');
