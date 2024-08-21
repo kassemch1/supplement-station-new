@@ -8,8 +8,6 @@
     <title>Document</title>
 </head>
 <body>
-@foreach($products as $product)
-    {{$product->name}}
-@endforeach
+    <h1>test</h1>
 </body>
 </html>
