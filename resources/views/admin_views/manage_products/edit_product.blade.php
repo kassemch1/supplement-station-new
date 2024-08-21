@@ -2,11 +2,10 @@
 <html class="no-js" lang="en">
 
 
-<!-- Mirrored from demo.hasthemes.com/adomx-preview/dark/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 26 May 2024 12:18:03 GMT -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Admin | Faq </title>
+    <title>Manage Products</title>
     <meta name="robots" content="noindex, follow"/>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -65,96 +64,143 @@
 
         </div><!-- Page Headings End -->
 
-        <!--Bordered Table Light Start-->
-        <div class="col-lg-6 col-12 mb-30">
-            <div class="box">
-                <div class="box-head">
-                    <h4 class="title">Products</h4>
-                </div>
-                <div class="box-body">
-                    <table class="table table-bordered">
-                        <thead>
+<!-- Combined Filter Form -->
+<form method="GET" action="{{ route('manageProducts.index') }}" class="mb-3">
+    <!-- Search Bar -->
+    <input type="text" name="search" placeholder="Search for products..." value="{{ request('search') }}" style="padding: 5px; border: 1px solid #ccc; border-radius: 4px;"/>
+
+    <!-- Dropdown for Categories -->
+    <select name="category_id" style="padding: 5px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;">
+        <option value="">Select Category</option>
+        @foreach($categories as $category)
+            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+        @endforeach
+    </select>
+
+    <!-- Dropdown for Stock Status -->
+    <select name="stock" style="padding: 5px; border: 1px solid #ccc; border-radius: 4px; margin-right: 10px;">
+        <option value="">Select Stock Status</option>
+        <option value="in-stock" {{ request('stock') == 'in-stock' ? 'selected' : '' }}>In Stock</option>
+        <option value="out-of-stock" {{ request('stock') == 'out-of-stock' ? 'selected' : '' }}>Out of Stock</option>
+    </select>
+
+    <button type="submit" style="padding: 5px 10px; border: none; background-color: #17A2B8; color: white; border-radius: 4px; cursor: pointer;">Filter</button>
+</form>
+
+
+<div class="col-lg-6 col-12 mb-30">
+    <div class="box">
+        <div class="box-head">
+            <h4 class="title">Products</h4>
+        </div>
+        <div class="box-body">
+
+            <!-- Products Table -->
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Stock</th>
+                        <th>Discount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody">
+                    @foreach($products as $product)
                         <tr>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Description</th>
-                            <th>Category</th>
-                            <th>Stock</th>
-                            <th>Discount</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($products as $product)
-                            <tr>
-                                <td>{{$product->name}}</td>
-                                <td>{{$product->price}} $</td>
-                                <td style="max-width: 250px" class="text-truncate">{{$product->description}}</td>
-                                <td>{{$product->getCategory->name}}</td>
-                                @if($product->stock === 1)
-                                    <td>In Stock</td>
+                            <td>
+                                @if($product->images->isNotEmpty())
+                                    <img src="{{ asset($product->images->first()->url) }}" alt="img">
                                 @else
-                                    <td>Out of Stock</td>
+                                    No image available
                                 @endif
-                                <td>{{$product->discount}} %</td>
-
-
-                                <td>
-                                    <a class="button button-info"
-                                       href="{{route("manageProducts.edit",['id'=>$product->id])}}"><span>Edit</span></a>
-                                    <button id="deleteTestimonial" class="button button-danger" data-toggle="modal"
-                                            data-target="#exampleModalCenter" data-id="{{$product->id}}" onclick="getProductId('{{$product->id}}')"><span>Delete</span>
+                            </td>
+                            <td style="white-space: pre-wrap; word-wrap: break-word;">{{ $product->name }}</td>
+                            <td>{{ $product->price }} $</td>
+                            <td style="max-width: 250px" class="text-truncate">{{ $product->description }}</td>
+                            <td>{{ $product->getCategory->name }}</td>
+                            <td>
+                                @if((int)$product->stock === 1)
+                                    <span class="badge badge-success">In Stock</span>
+                                @else
+                                    <span class="badge badge-danger">Out of Stock</span>
+                                @endif
+                            </td>
+                            <td>{{ $product->discount }} %</td>
+                            <td>
+                                <a class="button button-info" href="{{ route('manageProducts.edit', ['id' => $product->id]) }}">
+                                    <i class="zmdi zmdi-edit"></i><span>Edit</span>
+                                </a>
+                                <br>
+                                <button id="deleteTestimonial" class="button button-danger" data-toggle="modal" data-target="#exampleModalCenter" data-id="{{ $product->id }}" onclick="getProductId('{{ $product->id }}')">
+                                    <i class="zmdi zmdi-delete"></i><span>Delete</span>
+                                </button>
+                                <br>
+                                <a class="button button-info" href="{{ route('manageProductsOptions.create', ['product_id' => $product->id]) }}">
+                                    <span>Add Option</span>
+                                </a>
+                                <br>
+                                <a class="button button-info" href="{{ route('manageProductOptions.show', ['product_id' => $product->id]) }}">
+                                    <span>Check Options</span>
+                                </a>
+                                <br>
+                                <a class="button button-info" href="{{ route('manageProductReview.show', ['product_id' => $product->id]) }}">
+                                    <span>Product Review</span>
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
                                     </button>
-                                </td>
-                            </tr>
-                        @endforeach
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Are you sure you want to delete this item?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
-                                        </button>
-                                        <form id="deleteProductForm"
-                                              action="{{route('manageProducts.destroy')}}" method="post">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit" class="btn btn-danger">Yes</button>
-                                        </form>
-                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete this item?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                    </button>
+                                    <form id="deleteProductForm"
+                                          action="{{route('manageProducts.destroy')}}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger">Yes</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                        </tbody>
-                    </table>
-                </div>
+                    </div>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-center">
+                {!! $products->appends(request()->query())->links() !!}
             </div>
         </div>
-        <!--Bordered Table Light End-->
+    </div>
+</div>
+<!--Bordered Table Light End-->
+
+
 
     </div><!-- Content Body End -->
 
-    <!-- Footer Section Start -->
-    <div class="footer-section">
-        <div class="container-fluid">
+     <!-- Footer Section Start -->
 
-            <div class="footer-copyright text-center">
-                <p class="text-body-light">2019 &copy; <a
-                        href="https://themeforest.net/user/codecarnival">Codecarnival</a></p>
-            </div>
+     @include('partials.adminFooter')
 
-        </div>
-    </div><!-- Footer Section End -->
+     <!-- Footer Section End -->
 
 </div>
 
@@ -220,5 +266,4 @@
 </body>
 
 
-<!-- Mirrored from demo.hasthemes.com/adomx-preview/dark/edit-product.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 26 May 2024 12:19:55 GMT -->
 </html>

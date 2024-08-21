@@ -22,12 +22,29 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
         ]);
-        $category=new Category();
-        $category->name=$validatedData['name'];
+
+        $existingCategory = Category::where('name', $validatedData['name'])->first();
+
+        if ($existingCategory) {
+            return response()->json([
+                'status' => 'exists',
+                'message' => 'The category name already exists.',
+            ]);
+        }
+
+        $category = new Category();
+        $category->name = $validatedData['name'];
         $category->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Category created successfully.',
+        ]);
     }
+
+
     public function edit($id)
     {
         $category=Category::find($id);
@@ -38,17 +55,32 @@ class CategoryController extends Controller
     public function update(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
         ]);
 
-        $category =Category::findOrFail($request->input('category_id'));
+        $category = Category::findOrFail($request->input('category_id'));
 
-        $category->name=$validatedData['name'];
+        // Check if another category with the same name exists
+        $existingCategory = Category::where('name', $validatedData['name'])
+            ->where('id', '!=', $category->id)
+            ->first();
 
+        if ($existingCategory) {
+            return response()->json([
+                'status' => 'exists',
+                'message' => 'The category name already exists.',
+            ]);
+        }
 
+        $category->name = $validatedData['name'];
         $category->save();
-        return response()->json(['success' => 'Category updated successfully']);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Category updated successfully.',
+        ]);
     }
+
     public function destroy(Request $request)
     {
         $category=Category::findOrFail($request->id);

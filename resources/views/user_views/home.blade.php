@@ -1,7 +1,7 @@
+
 <!doctype html>
 <html lang="zxx">
 
-<!-- Mirrored from html.xpressbuddy.com/purefit/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:33:38 GMT -->
 <head>
 
     <!--========= Required meta tags =========-->
@@ -10,9 +10,9 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Purefit - Health Supplement Landing Page</title>
+    <title>Home</title>
 
-    <link rel="shortcut icon" href="assets/img/favicon.png" type="images/x-icon"/>
+    <link rel="shortcut icon" href={{ asset('assets/img/logo/preloader2.png')}} type="images/x-icon"/>
 
     <!-- css include -->
     <link rel="stylesheet" href={{asset("assets/css/bootstrap.min.css")}}>
@@ -34,232 +34,42 @@
 </div>
 <!-- backtotop - end -->
 
-<!-- preloader start -->
-<div id="xb-loadding" class="xb-loadding-container">
-    <div class="xb-loader">
-        <div class="xb-loadding-inner">
-            <img src="assets/img/logo/preloader.png" alt="">
-        </div>
-    </div>
-</div>
-<!-- preloader end -->
-
-<div class="body_wrap">
-
-    <!-- header start -->
-    <header id="home" class="header-area header-default is-sticky">
-        <div class="xb-header stricky">
-            <div class="container">
-                <div class="header__wrap ul_li_between">
-                    <div class="header-logo">
-                        <a href="index.html"><img src="assets/img/logo/logo.svg" alt=""></a>
-                    </div>
-                    <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
-                        <nav class="main-menu collapse navbar-collapse">
-                            <ul>
-                                <li class="menu-item-has-children active">
-                                    <a class="section-link" href="#home"><span>Home</span></a>
-                                    <ul class="submenu">
-                                        <li class="active"><a href="index.html"><span>Home Style 01</span></a></li>
-                                        <li><a href="home-2.html"><span>Home Style 02</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a class="section-link" href="#features"><span>Features</span></a></li>
-                                <li class="menu-item-has-children">
-                                    <a class="section-link" href="#shop"><span>Shop</span></a>
-                                    <ul class="submenu">
-                                        <li><a href="cart.html"><span>Products</span></a></li>
-                                        <li><a href="cart.html"><span>Cart</span></a></li>
-                                        <li><a href="checkout.html"><span>Checkout</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a class="section-link" href="#pricing"><span>Pricing</span></a></li>
-                                <li class="menu-item-has-children">
-                                    <a class="section-link" href="#blog"><span>Blog</span></a>
-                                    <ul class="submenu">
-                                        <li><a href="blog.html"><span>Blog</span></a></li>
-                                        <li><a href="blog-single.html"><span>Blog Details</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a class="section-link" href="#contact"><span>Contact</span></a></li>
-                            </ul>
-                        </nav>
-                        <div class="xb-header-wrap">
-                            <div class="xb-header-menu">
-                                <div class="xb-header-menu-scroll">
-                                    <div class="xb-menu-close xb-hide-xl xb-close"></div>
-                                    <div class="xb-logo-mobile xb-hide-xl">
-                                        <a href="index.html" rel="home"><img src="assets/img/logo/logo.svg" alt=""></a></div>
-                                    <div class="xb-header-mobile-search xb-hide-xl">
-                                        <form role="search" action="#">
-                                            <input type="text" placeholder="Search..." name="s" class="search-field">
-                                        </form>
-                                    </div>
-                                    <nav class="xb-header-nav">
-                                        <ul class="xb-menu-primary clearfix">
-                                            <li class="menu-item menu-item-has-children active">
-                                                <a class="section-link" href="#home"><span>Home</span></a>
-                                                <ul class="sub-menu">
-                                                    <li class="active"><a href="index.html"><span>Home Style 01</span></a></li>
-                                                    <li><a href="home-2.html"><span>Home Style 02</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item"><a class="section-link" href="#features"><span>Features</span></a></li>
-                                            <li class="menu-item menu-item-has-children">
-                                                <a class="section-link" href="#shop"><span>Shop</span></a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="shop.html"><span>Products</span></a></li>
-                                                    <li><a href="shop-single.html"><span>Single Product</span></a></li>
-                                                    <li><a href="cart.html"><span>Cart</span></a></li>
-                                                    <li><a href="checkout.html"><span>Checkout</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item"><a class="section-link" href="#pricing"><span>Pricing</span></a></li>
-                                            <li class="menu-item menu-item-has-children">
-                                                <a class="section-link" href="#blog"><span>Blog</span></a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="blog.html"><span>Blog</span></a></li>
-                                                    <li><a href="blog-single.html"><span>Blog Details</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item"><a class="section-link" href="#contact"><span>Contact</span></a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="xb-header-menu-backdrop"></div>
-                        </div>
-                    </div>
-                    <div class="header__right d-none d-lg-block">
-                        <div class="ul_li">
-                            <div class="header-shop-cart">
-                                <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">2</span></a>
-                                <div class="header-mini-cart">
-                                    <ul class="woocommerce-mini-cart cart_list product_list_widget list-wrap">
-                                        <li class="woocommerce-mini-cart-item d-flex align-items-center">
-                                            <a href="#" class="remove remove_from_cart_button">×</a>
-                                            <div class="mini-cart-img">
-                                                <img src="assets/img/shop/product_02.png" alt="Product">
-                                            </div>
-                                            <div class="mini-cart-content">
-                                                <h4 class="product-title"><a href="shop-details.html">
-                                                        xplode powder</a></h4>
-                                                <div class="mini-cart-price">1 ×
-                                                    <span class="woocommerce-Price-amount amount">$49</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="woocommerce-mini-cart-item d-flex align-items-center">
-                                            <a href="#" class="remove remove_from_cart_button">×</a>
-                                            <div class="mini-cart-img">
-                                                <img src="assets/img/shop/product_03.png" alt="Product">
-                                            </div>
-                                            <div class="mini-cart-content">
-                                                <h4 class="product-title"><a href="shop-details.html">creatine powder</a></h4>
-                                                <div class="mini-cart-price">2 ×
-                                                    <span class="woocommerce-Price-amount amount">$69</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <p class="woocommerce-mini-cart__total">
-                                        <strong>Subtotal:</strong>
-                                        <span class="woocommerce-Price-amount">$149</span>
-                                    </p>
-                                    <p class="checkout-link">
-                                        <a href="shop-details.html" class="button wc-forward">View cart</a>
-                                        <a href="shop-details.html" class="button checkout wc-forward">Checkout</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <a class="header__bar offcanvas-sidebar-btn" href="javascript:void(0);">
-                                <div class="header__bar-icon">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="header-bar-mobile d-lg-none">
-                        <a class="header__bar xb-nav-mobile" href="javascript:void(0);">
-                            <div class="header__bar-icon">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+@include('partials/navBar',['categories'=>$categories])
     <!-- header end -->
 
-    <!-- sidebar-info start -->
-    <div class="offcanvas-sidebar">
-        <div class="sidebar-menu-close">
-            <a class="xb-close" href="javascript:void(0);"></a>
-        </div>
-        <div class="sidebar-top mb-65">
-            <div class="sidebar-logo mb-40">
-                <a href="index.html">
-                    <img src="assets/img/logo/logo_black.svg" alt="logo">
-                </a>
-            </div>
-            <div class="sidebar-content">
-                Achieving optimal nutrition is a complex endeavor without the inclusion of supplementary support
-            </div>
-        </div>
 
-        <div class="sidebar-contact-info mb-65">
-            <h4 class="sidebar-heading">Contact Information</h4>
-            <ul class="sidebar-info-list list-unstyled">
-                <li><span><img src="assets/img/icon/i_star.svg" alt=""></span>Wasington SY, UK, NY 12099</li>
-                <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>+81 800 123 06 78</a></li>
-                <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>contact@purefit.com</a></li>
-            </ul>
-        </div>
-        <div class="xb-content-wrap d-flex">
-            <div class="xb-title col-auto">Call us:</div>
-            <div class="xb-inf-content-wrap col">
-                <div class="xb-item-wrap row">
-                    <div class="xb-item col-auto ">
-                        <span class="item-content"><a href="tel:02456787535" class="tel">024 5678 7535</a></span>
-                    </div>
-                    <div class="xb-item col-auto "> <span class="item-content"><a href="mailto:support@gmail.com">contact@purefit.com</a></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="sidebar-socials-wrap mt-30"> <a class="social-item" href="https://facebook.com/" target="_blank">Facebook</a><a class="social-item" href="https://www.behance.net/" target="_blank">Behance</a><a class="social-item" href="#" target="_blank">Telegram</a><a class="social-item" href="https://dribbble.com/" target="_blank">Dribbble</a></div>
-
-    </div>
-    <!-- sidebar-info end -->
 
     <div class="body-overlay"></div>
 
     <!-- main area start  -->
     <main>
         <!-- hero start -->
-        <section class="hero hero-style-one bg_img hero-height d-flex align-items-center" data-background="assets/img/bg/hero_bg.jpg">
+        <section class="hero hero-style-one bg_img hero-height d-flex align-items-center" data-background="{{asset("assets/img/bg/home-banner.jpg")}}">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="hero__content sec-title">
                             <span class="sub-title wow fadeInUp" data-wow-duration=".6s">100% PREMIUM QUALITY</span>
-                            <h1 class="title mb-25 wow fadeInUp" data-wow-delay="150ms" data-wow-duration=".6s">Today Elevate Your Energy Levels purefit</h1>
+                            <h1 class="title mb-25 wow fadeInUp"
+                            data-wow-delay="150ms"
+                            data-wow-duration=".6s"
+                            style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">
+                            Today Elevate Your Energy Levels at Supplement Station
+                        </h1>
+
                             <div class="hero__action ul_li wow fadeInUp" data-wow-delay="300ms" data-wow-duration=".6s">
-                                <a class="thm-btn mr-45 mt-30" href="{{ route('products.show', ['id'=>$banner->product_id]) }}">BUY NOW</a>
+                                @if($banner && $banner->product_id)
+                                    <a class="thm-btn mr-45 mt-30" href="{{ route('products.show', ['id'=>$banner->product_id]) }}">BUY NOW</a>
+                                @else
+                                    <a class="thm-btn mr-45 mt-30" href="#">BUY NOW</a>
+                                @endif
                                 <div class="hero__cta ul_li mt-30">
                                     <span class="icon">
                                         <img src="assets/img/icon/call.svg" alt="">
                                     </span>
                                     <div class="info">
-                                        <span>CONTACT US DAILY</span>
-                                        <h4>(+420) 318 568 511</h4>
+                                            <span style="color: #FFFFFF !important;">CONTACT US DAILY</span>
+                                        <h4>+961 81-823-038 / 81-088-266</h4>
                                     </div>
                                 </div>
                             </div>
@@ -267,136 +77,131 @@
                     </div>
                     <div class="col-lg-5">
                         <div class="hero__product text-md-end">
-                            <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("$banner->image")}}" alt="" height="500" width="500">
+                            @if($banner && $banner->product_id)
+                                <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("$banner->image")}}" alt="" height="500" width="500">
+                            @else
+                                <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("assets/img/shop/hero_product.png")}}" alt="" height="500" width="500">
+                            @endif
                         </div>
                     </div>
 
                 </div>
             </div>
-            <div class="hero-shape">
-                <img src="assets/img/bg/hero_shape.png" alt="">
-            </div>
+{{--            <div class="hero-shape">--}}
+{{--                <img src="{{asset("assets/img/bg/home-banner.jpg")}}" alt="">--}}
+{{--            </div>--}}
         </section>
         <!-- hero end -->
 
-        <div class="bg_img position-botttom bottom--105 pb-70" data-background="assets/img/bg/pp_bg.png">
-            <!-- popular product start -->
-            <section class="popular-product pt-120 pb-120">
-                <div class="container">
-                    <div class="sec-title text-center mb-30">
-                        <span class="sub-title">Shop</span>
-                        <h2 class="title">our popular product</h2>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-8 pb-col-8">
-                            <div class="row g-20">
-                                <div class="col-lg-6 col-md-6 mt-20">
-                                    <div class="popular-product-item ul_li">
-                                        <div class="xb-item--img">
-                                            <a href="shop-single.html"><img src="assets/img/shop/product_17.png" alt=""></a>
-                                        </div>
-                                        <div class="xb-item--holder">
-                                            <h3 class="xb-item--title"><a href="shop-single.html">xplode powder</a></h3>
-                                            <div class="xb-item--rating-inner ul_li">
-                                                <ul class="xb-item--rating ul_li">
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                </ul>
-                                                <span>(36)</span>
-                                            </div>
-                                            <div class="xb-item--action ul_li_between">
-                                                <h4 class="xb-item--price">$115.00</h4>
-                                                <a class="xb-item--cart" href="shop-single.html"><img src="assets/img/icon/bag.svg" alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
+        <div class="bg_img position-botttom bottom--105 pb-70" data-background="assets/img/bg/pp_bg2.png">
+      <!-- offers product start -->
+<section class="offers-product pt-120 pb-120">
+    <div class="container">
+        <div class="sec-title text-center mb-30">
+            <span class="sub-title">Shop</span>
+            <h2 class="title">Our Special Offers</h2>
+        </div>
+        <div class="row" >
+            <div class="col-lg-8 pb-col-8" >
+                <div class="row g-20">
+                    @forelse ($offersProducts as $offer)
+                        @php
+                            $ratingCount = $offer->reviews()->count();
+                            $averageRating = $ratingCount > 0 ? $offer->reviews()->avg('rating') : 5; // Default to 0 if no ratings
+                        @endphp
+                    <div class="col-lg-6 col-md-6 mt-20" >
+
+                        <div class="popular-product-item ul_li" style="position: relative; min-height: 300px; max-height: 400px; overflow: hidden;">
+                            <div class="ribbon" style="
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            z-index: 2;
+        ">
+            <span style="
+                position: absolute;
+                display: block;
+                width: 225px;
+                padding: 10px 0;
+                background-color: #A02334;
+                color: white;
+                text-transform: uppercase;
+                font-weight: bold;
+                text-align: center;
+                transform: rotate(45deg);
+                top: 20px;
+                right: -75px;
+            ">On Sale</span>
+        </div>
+                            <div class="xb-item--img">
+                                @if($offer->stock > 0)
+                                <a href="{{ route('products.show', $offer->id) }}">
+                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" style="width: 100%; height: auto; object-fit: cover;">
+                                </a>
+                                @else
+                                <a >
+                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" style="width: 100%; height: auto; object-fit: cover;">
+                                </a>
+                                @endif
+                            </div>
+
+                            <div class="xb-item--holder">
+                                <h3 class="xb-item--title"> @if($offer->stock > 0)
+                                    <a href="{{ route('products.show', $offer->id) }}">{{ $offer->name }}</a>
+                                @else
+                                <span class="no-stock-title">{{ $offer->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
+                                @endif</h3>
+                                <div class="xb-item--rating-inner ul_li">
+                                    <ul class="xb-item--rating ul_li">
+                                        @for ($i = 0; $i < 5; $i++)
+                                            <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
+                                        @endfor
+{{--                                        <span>({{ $ratingCount }} Customer review{{ $ratingCount != 1 ? 's' : '' }})</span>--}}
+                                    </ul>
                                 </div>
-                                <div class="col-lg-6 col-md-6 mt-20">
-                                    <div class="popular-product-item ul_li">
-                                        <div class="xb-item--img">
-                                            <a href="shop-single.html"><img src="assets/img/shop/product_02.png" alt=""></a>
-                                        </div>
-                                        <div class="xb-item--holder">
-                                            <h3 class="xb-item--title"><a href="shop-single.html">Ultimate Havoc</a></h3>
-                                            <div class="xb-item--rating-inner ul_li">
-                                                <ul class="xb-item--rating ul_li">
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                </ul>
-                                                <span>(36)</span>
-                                            </div>
-                                            <div class="xb-item--action ul_li_between">
-                                                <h4 class="xb-item--price">$125.00</h4>
-                                                <a class="xb-item--cart" href="shop-single.html"><img src="assets/img/icon/bag.svg" alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 mt-20">
-                                    <div class="popular-product-item ul_li">
-                                        <div class="xb-item--img">
-                                            <a href="shop-single.html"><img src="assets/img/shop/product_03.png" alt=""></a>
-                                        </div>
-                                        <div class="xb-item--holder">
-                                            <h3 class="xb-item--title"><a href="shop-single.html">xplode powder</a></h3>
-                                            <div class="xb-item--rating-inner ul_li">
-                                                <ul class="xb-item--rating ul_li">
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                </ul>
-                                                <span>(36)</span>
-                                            </div>
-                                            <div class="xb-item--action ul_li_between">
-                                                <h4 class="xb-item--price">$135.00</h4>
-                                                <a class="xb-item--cart" href="shop-single.html"><img src="assets/img/icon/bag.svg" alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 mt-20">
-                                    <div class="popular-product-item ul_li">
-                                        <div class="xb-item--img">
-                                            <a href="shop-single.html"><img src="assets/img/shop/product_04.png" alt=""></a>
-                                        </div>
-                                        <div class="xb-item--holder">
-                                            <h3 class="xb-item--title"><a href="shop-single.html">xplode powder</a></h3>
-                                            <div class="xb-item--rating-inner ul_li">
-                                                <ul class="xb-item--rating ul_li">
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                    <li><img src="assets/img/icon/star.png" alt=""></li>
-                                                </ul>
-                                                <span>(36)</span>
-                                            </div>
-                                            <div class="xb-item--action ul_li_between">
-                                                <h4 class="xb-item--price">$145.00</h4>
-                                                <a class="xb-item--cart" href="shop-single.html"><img src="assets/img/icon/bag.svg" alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="xb-item--action ul_li_between" style="position: absolute; bottom:40px;width:55%">
+                                    <h4 class="xb-item--price">${{ number_format($offer->price, 2) }}</h4>
+                                    @if($offer->stock > 0)
+                                    <a class="xb-item--cart" href="{{ route('products.show', $offer->id) }}">
+                                        <img src="assets/img/icon/bag.svg" alt="">
+                                    </a>
+                                    @else
+                                    <a class="xb-item--cart" >
+                                        <img src="assets/img/icon/bag.svg" alt="">
+                                    </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 pb-col-4">
-                            <div class="popular-product__img mt-20">
-                                <img src="assets/img/bg/pp_img.jpg" alt="">
-                            </div>
-                        </div>
                     </div>
+                    @empty
+                    <div class="col-12">
+                        <p>No special offers found.</p>
+                    </div>
+                    @endforelse
                 </div>
-            </section>
-            <!-- popular product end -->
+                <div class="text-center mt-30">
+                    <a href="{{ url('/Shop') }}" class="btn-orange" style="background-color: #A02334; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                        View More <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
+                    </a>
+                </div>
+
+
+            </div>
+            <div class="col-lg-4 pb-col-4">
+                <div class="popular-product__img mt-20">
+                    <br><br>
+                    <img src="{{asset("assets/img/bg/products-image3.jpg")}} " alt="" style="margin-top: -53px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- offers product end -->
+
 
             <!-- about start -->
             <section class="about pb-120">
@@ -404,24 +209,24 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="sec-title mb-30">
-                                <span class="sub-title">about purefit</span>
-                                <h2 class="title">purefit Your health journey begins!</h2>
+                                <span class="sub-title">about Supplement Station</span>
+                                <h2 class="title">At Supplement Station  Your health journey begins!</h2>
                             </div>
                             <div class="about-experience">
                                 <span>since</span>
-                                <h2>1998</h2>
+                                <h2>2018</h2>
                             </div>
                         </div>
                         <div class="col-lg-6 mt-40">
                             <div class="about-content">
-                                <p>At purefit, we're dedicated to helping you  on a transformative health journey. Our mission is to provide you with the highest quality supplements, backed by science and crafted with care. Here's what you can expect from us.</p>
+                                <p>At Supplement Station, we're dedicated to helping you  on a transformative health journey. Our mission is to provide you with the highest quality supplements, backed by science and crafted with care. Here's what you can expect from us.</p>
                                 <ul class="about-list ul_li mt-10">
-                                    <li><img src="assets/img/icon/check.svg" alt="">Natural Ingredients</li>
-                                    <li><img src="assets/img/icon/check.svg" alt="">Fishbone Diagram</li>
-                                    <li><img src="assets/img/icon/check.svg" alt="">Flower Formula</li>
+                                    <li><img src="assets/img/icon/check.svg" alt="">Premium Quality Products</li>
+                                    <li><img src="assets/img/icon/check.svg" alt="">Clear Information</li>
+                                    <li><img src="assets/img/icon/check.svg" alt="">Customized Training Plans</li>
+                                    <li><img src="assets/img/icon/check.svg" alt="">Expert Guidance</li>
                                     <li><img src="assets/img/icon/check.svg" alt="">Increased Energy</li>
-                                    <li><img src="assets/img/icon/check.svg" alt="">Drug Interactions</li>
-                                    <li><img src="assets/img/icon/check.svg" alt="">100% Fat Blasting</li>
+                                    <li><img src="assets/img/icon/check.svg" alt="">Friendly Service</li>
                                 </ul>
                             </div>
                         </div>
@@ -433,7 +238,7 @@
         </div>
 
         <!-- feature start -->
-        <section id="features" class="feature bg_img pt-200 pb-120" data-background="assets/img/bg/feature_bg.jpg">
+        <section id="features" class="feature bg_img pt-200 pb-120" data-background="assets/img/bg/feature_bg2.jpg">
             <div class="container">
                 <div class="row align-items-center mt-none-30">
                     <div class="col-lg-4 col-md-6 mt-30">
@@ -443,8 +248,8 @@
                                     <img src="assets/img/icon/ft_01.svg" alt="">
                                 </span>
                                 <div class="xb-item--holder">
-                                    <h3 class="xb-item--title">Enhancing Joint Blood Flow</h3>
-                                    <p class="xb-item--desc">Your joints play a crucial role in your daily mobility and overall well.</p>
+                                    <h3 class="xb-item--title">Supports Optimal Performance</h3>
+                                    <p class="xb-item--desc">High-quality supplements can enhance your physical performance, helping you achieve your fitness goals more effectively.</p>
                                 </div>
                             </li>
                             <li>
@@ -452,8 +257,8 @@
                                     <img src="assets/img/icon/ft_02.svg" alt="">
                                 </span>
                                 <div class="xb-item--holder">
-                                    <h3 class="xb-item--title">Help Reduce <br> Inflammation</h3>
-                                    <p class="xb-item--desc">Inflammation is a common factor in many chronic health.</p>
+                                    <h3 class="xb-item--title">Boosts Recovery <br> Time</h3>
+                                    <p class="xb-item--desc">Supplements with ingredients like protein, amino acids, and antioxidants can aid in quicker recovery after intense workouts or physical exertion.</p>
                                 </div>
                             </li>
                             <li>
@@ -461,8 +266,8 @@
                                     <img src="assets/img/icon/ft_03.svg" alt="">
                                 </span>
                                 <div class="xb-item--holder">
-                                    <h3 class="xb-item--title">Helps You Stick To <br> Your Diet</h3>
-                                    <p class="xb-item--desc">Maintaining a healthy diet can be a challenging but essential</p>
+                                    <h3 class="xb-item--title">Promotes Muscle <br> Growth</h3>
+                                    <p class="xb-item--desc">Essential supplements like creatine, BCAAs, and whey protein can support muscle development and strength gains, contributing to overall fitness progress.</p>
                                 </div>
                             </li>
                             <li>
@@ -470,8 +275,8 @@
                                     <img src="assets/img/icon/ft_04.svg" alt="">
                                 </span>
                                 <div class="xb-item--holder">
-                                    <h3 class="xb-item--title">Ingredients To Fuel <br> Your Body</h3>
-                                    <p class="xb-item--desc">Proper nutrition is the cornerstone of a healthy lifestyle. In this guide.</p>
+                                    <h3 class="xb-item--title">Enhances Energy <br> Levels</h3>
+                                    <p class="xb-item--desc">Energy-boosting supplements can help improve endurance and reduce fatigue, allowing you to stay active and motivated throughout the day.</p>
                                 </div>
                             </li>
                         </ul>
@@ -480,9 +285,9 @@
                         <div class="feature-content">
                             <div class="sec-title sec-title--big sec-title--white">
                                 <span class="sub-title">100% PREMIUM QUALITY</span>
-                                <h2 class="title mb-25">advanced formula for our health</h2>
-                                <p>At purefit, we're dedicated to helping you  on a health journey. Our mission is to provide .</p>
-                                <a class="thm-btn mt-45" href="#!">LEARN MORE</a>
+                                <h2 class="title mb-25">Maximize Your Fitness Potential</h2>
+                                <p>At Supplement Station, we're dedicated to helping you  on a health journey. Our mission is to provide 100% high-quality supplements, personalized support, and expert guidance to ensure you achieve your wellness goals..</p>
+                                <a class="thm-btn mt-45" href="{{ url('/Shop') }}">LEARN MORE</a>
                             </div>
                         </div>
                     </div>
@@ -498,35 +303,100 @@
             <span class="sub-title">products</span>
             <h2 class="title">best selling products</h2>
         </div>
-        <div class="product-slider swiper-container">
-            <div class="swiper-wrapper">
-                @forelse ($product as $product) <!-- Use $products here -->
-                    <div class="swiper-slide product-item text-center">
-                        <div class="xb-item--img">
-                            <a href="{{ route('products.show', $product->id) }}">
-                           <!--add image here -->     <img src="https://images.squarespace-cdn.com/content/v1/5afce90c697a9872b1f05673/1597164341913-HOJF1K1RLOLSYVLFJK1K/Iso-Tone1.png?format=1000w" alt="">
-                            </a>
+        <div class="product-slider swiper-container"  >
+            <div class="swiper-wrapper" >
+                @forelse ($product as $product)
+                <div class="swiper-slide product-item text-center" style="min-height: 400px">
+                    <div class="xb-item--img">
+                        @if($product->discount > 0)
+                        <div class="ribbon" style="
+                            width: 150px;
+                            height: 150px;
+                            overflow: hidden;
+                            position: absolute;
+                            top: -10px;
+                            right: 0px;
+                            z-index: 2;
+                        ">
+                            <span style="
+                                position: absolute;
+                                display: block;
+                                width: 225px;
+                                padding: 15px 0;
+                                background-color: #A02334;
+                                color: white;
+                                text-transform: uppercase;
+                                font-weight: bold;
+                                text-align: center;
+                                transform: rotate(45deg);
+                                top: 30px;
+                                right: -65px;
+                            ">On Sale</span>
                         </div>
-                        <div class="xb-item--holder">
-                            <h3 class="xb-item--title">
-                                <a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a>
-                            </h3>
-                            <div class="xb-item--rating-inner ul_li_center">
-                                <ul class="xb-item--rating ul_li">
-                                    @for ($i = 0; $i < 5; $i++)
-                                        <li><img src="assets/img/icon/star.png" alt=""></li>
-                                    @endfor
-                                </ul>
-                            </div>
+                        @endif
+                        @if($product->stock > 0)
+                        <a href="{{ route('products.show', $product->id) }}">
+                            <!-- Add image here -->
+                            @if($product->images->isNotEmpty())
+                                <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px">
+                            @else
+                                No image available
+                            @endif
+                        </a>
+                    @else
+                        <div class="no-stock">
+                            <!-- Add image here -->
+                            @if($product->images->isNotEmpty())
+                                <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px">
+                            @else
+                                No image available
+                            @endif
                         </div>
-                        <div class="xb-item--action ul_li mt-20">
-                            <span class="xb-item--price">${{ number_format($product->price, 2) }}</span>
-                            <a href="{{ route('products.show', $product->id) }}">
+                    @endif
+                    </div>
+                    <div class="xb-item--holder">
+                        <h3 class="xb-item--title">
+                            @if($product->stock > 0)
+                            <a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a>
+                        @else
+                        <span>{{ $product->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
+
+                        @endif
+                        </h3>
+                        @php
+                            $ratingCount = $product->reviews()->count();
+                            $averageRating = $ratingCount > 0 ? $product->reviews()->avg('rating') : 5;
+                        @endphp
+                        <div class="xb-item--rating-inner ul_li_center">
+                            <ul class="xb-item--rating ul_li">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
+                                @endfor
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="xb-item--action ul_li mt-20" style="position: absolute; bottom: 30px; width: 80%;">
+                        <span class="xb-item--price">
+                            @if($product->discount > 0)
+                                <span style="text-decoration: line-through; color: gray;">${{ number_format($product->price, 2) }}</span>
+                                <span style="color: #A02334;">${{ number_format($product->price - ($product->price * $product->discount / 100), 2) }}</span>
+                            @else
+                                ${{ number_format($product->price, 2) }}
+                            @endif
+                        </span>
+                        @if($product->stock > 0)
+                            <a href="{{ route('products.show', $product->id) }}" class="xb-item--cart-btn">
                                 <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
                                 <span class="xb-item--cart">add to cart</span>
                             </a>
-                        </div>
+                        @else
+                            <a href="#" class="xb-item--cart-btn disabled" >
+                                <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
+                                <span class="xb-item--cart">Out of Stock</span>
+                            </a>
+                        @endif
                     </div>
+                </div>
                 @empty
                     <p>No products available.</p>
                 @endforelse
@@ -534,277 +404,284 @@
         </div>
     </div>
 </section>
+<!-- product end -->
 
-        <!-- product end -->
-
-        <!-- testimonial start -->
-        <section class="testimonial bg_img pt-120 pb-115" data-background="assets/img/bg/tm_bg.jpg">
-            <div class="container">
-                <div class="sec-title sec-title--white text-center mb-60">
-                    <span class="sub-title">OVERALL RATING</span>
-                    <h2 class="title">CUSTOMER REVIEWS</h2>
-                </div>
-                <div class="testimonial-slider swiper-container">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide xb-testimonial">
-                            <div class="xb-item--author ul_li">
-                                <div class="xb-item--avatar">
-                                    <img src="assets/img/avatar/tst_01.png" alt="">
-                                    <div class="xb-item--quote">
-                                        <img src="assets/img/icon/quote.svg" alt="">
-                                    </div>
-                                </div>
-                                <div class="xb-item--holder">
-                                    <h3 class="xb-item--name">Richard Thomas</h3>
-                                    <span class="xb-item--date">October 17, 2024</span>
-                                </div>
-                            </div>
-                            <div class="xb-item--desc mt-35">
-                                "I've been using Purefit for a few months, and it has significantly boosted my energy levels. It's a game-changer for my daily routine. Thank you, Purefit!"
-                            </div>
+    <!-- testimonial start -->
+<section class="testimonial bg_img pt-120 pb-115" data-background="assets/img/bg/tm_bg2.jpg">
+    <div class="container">
+        <div class="sec-title sec-title--white text-center mb-60">
+            <span class="sub-title">SUPPLEMENT GUIDE</span>
+            <h2 class="title">WHY THESE SUPPLEMENTS MATTER</h2>
+        </div>
+        <div class="testimonial-slider swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide xb-testimonial">
+                    <div class="xb-item--author ul_li">
+                        <div class="xb-item--avatar">
+                            <img src="assets/img/avatar/creatine.png" alt="" style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
-                        <div class="swiper-slide xb-testimonial">
-                            <div class="xb-item--author ul_li">
-                                <div class="xb-item--avatar">
-                                    <img src="assets/img/avatar/tst_02.png" alt="">
-                                    <div class="xb-item--quote">
-                                        <img src="assets/img/icon/quote.svg" alt="">
-                                    </div>
-                                </div>
-                                <div class="xb-item--holder">
-                                    <h3 class="xb-item--name">Richard Thomas</h3>
-                                    <span class="xb-item--date">October 17, 2024</span>
-                                </div>
-                            </div>
-                            <div class="xb-item--desc mt-35">
-                                "Since I started using purefit, my energy levels have skyrocketed. I'm more alert and focused, and it's transformed my daily productivity. Highly recommended!"
-                            </div>
-                        </div>
-                        <div class="swiper-slide xb-testimonial">
-                            <div class="xb-item--author ul_li">
-                                <div class="xb-item--avatar">
-                                    <img src="assets/img/avatar/tst_03.png" alt="">
-                                    <div class="xb-item--quote">
-                                        <img src="assets/img/icon/quote.svg" alt="">
-                                    </div>
-                                </div>
-                                <div class="xb-item--holder">
-                                    <h3 class="xb-item--name">Richard Thomas</h3>
-                                    <span class="xb-item--date">October 17, 2024</span>
-                                </div>
-                            </div>
-                            <div class="xb-item--desc mt-35">
-                                "As an active person, I've had joint discomfort. Purefit has made a remarkable difference, allowing me to enjoy daily activities. Thank you, Purefit!"
-                            </div>
-                        </div>
-                        <div class="swiper-slide xb-testimonial">
-                            <div class="xb-item--author ul_li">
-                                <div class="xb-item--avatar">
-                                    <img src="assets/img/avatar/tst_01.png" alt="">
-                                    <div class="xb-item--quote">
-                                        <img src="assets/img/icon/quote.svg" alt="">
-                                    </div>
-                                </div>
-                                <div class="xb-item--holder">
-                                    <h3 class="xb-item--name">Richard Thomas</h3>
-                                    <span class="xb-item--date">October 17, 2024</span>
-                                </div>
-                            </div>
-                            <div class="xb-item--desc mt-35">
-                                "I've been using Purefit for a few months, and it has significantly boosted my energy levels. It's a game-changer for my daily routine. Thank you, Purefit!"
-                            </div>
+                        <div class="xb-item--holder">
+                            <h3 class="xb-item--name">Creatine</h3>
+                            <span class="xb-item--date">Essential for Strength</span>
                         </div>
                     </div>
-                    <div class="swiper-pagination"></div>
+                    <div class="xb-item--desc mt-35">
+                        "Creatine enhances your strength and power, which is crucial for high-intensity training. It helps increase muscle mass and improves recovery times."
+                    </div>
+                </div>
+                <div class="swiper-slide xb-testimonial">
+                    <div class="xb-item--author ul_li">
+                        <div class="xb-item--avatar">
+                            <img src="assets/img/avatar/protein.png" alt="" style="width: 100px; height: 100px; object-fit: cover;">
+                        </div>
+                        <div class="xb-item--holder">
+                            <h3 class="xb-item--name">Protein</h3>
+                            <span class="xb-item--date">Builds Muscle</span>
+                        </div>
+                    </div>
+                    <div class="xb-item--desc mt-35">
+                        "Protein is vital for muscle repair and growth. It ensures you recover from workouts and helps build lean muscle mass effectively."
+                    </div>
+                </div>
+                <div class="swiper-slide xb-testimonial">
+                    <div class="xb-item--author ul_li">
+                        <div class="xb-item--avatar">
+                            <img src="assets/img/avatar/EAA.png" alt="" style="width: 100px; height: 100px; object-fit: cover;">
+                        </div>
+                        <div class="xb-item--holder">
+                            <h3 class="xb-item--name">EAAs</h3>
+                            <span class="xb-item--date">Essential Amino Acids</span>
+                        </div>
+                    </div>
+                    <div class="xb-item--desc mt-35">
+                        "Essential Amino Acids (EAAs) are crucial for muscle repair and reducing exercise-induced muscle damage, aiding in faster recovery."
+                    </div>
+                </div>
+                <div class="swiper-slide xb-testimonial">
+                    <div class="xb-item--author ul_li">
+                        <div class="xb-item--avatar">
+                            <img src="assets/img/avatar/Preworkout.png" alt="" style="width: 100px; height: 100px; object-fit: cover;">
+                        </div>
+                        <div class="xb-item--holder">
+                            <h3 class="xb-item--name">Pre-Workout</h3>
+                            <span class="xb-item--date">Boosts Energy</span>
+                        </div>
+                    </div>
+                    <div class="xb-item--desc mt-35">
+                        "Pre-workout supplements boost energy, focus, and endurance, helping you maximize performance during intense training sessions."
+                    </div>
                 </div>
             </div>
-        </section>
-        <!-- testimonial end -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</section>
+<!-- testimonial end -->
 
         <!-- pricing start -->
-        <section id="pricing" class="pricing pt-120 pb-130" data-bg-color="#fff">
-            <div class="container">
-                <div class="sec-title text-center mb-55">
-                    <span class="sub-title">pricing</span>
-                    <h2 class="title">flexible pricing</h2>
+        @if(!$planes->isEmpty())
+            <section id="pricing" class="pricing pt-120 pb-130" data-bg-color="#fff">
+
+                <div class="container">
+                    <div class="sec-title text-center mb-55">
+                        <span class="sub-title">plans</span>
+                        <h2 class="title">flexible plans</h2>
+                    </div>
+                    {{--                <div class="swiper-wrapper">--}}
+                    <div class="row justify-content-center mt-none-30">
+
+                        @foreach($planes as $plane)
+                            @if($plane->id%2==1)
+                                <div class="col-lg-4 col-md-6 mt-30">
+
+
+                                    <div class="xb-pricing">
+                                        <div class="xb-item--head pos-rel">
+                                            <h4 class="xb-item--title">{{$plane->type}}</h4>
+                                            <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span>  </h2>
+                                            <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
+                                            <div class="xb-item--img" data-background="assets/img/pricing/img_01.png"></div>
+                                            <br>
+                                            <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape4.png"></div>
+                                        </div>
+                                        <div class="xb-item--body">
+                                            <ul class="xb-item--list list-unstyled">
+                                                @if($plane->point1)
+                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point1}}</li>
+                                                @endif
+
+                                                @if($plane->point2)
+                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point2}}</li>
+                                                @endif
+                                                @if($plane->point3)
+                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point3}}</li>
+                                                @endif
+                                                @if($plane->point4)
+                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point4}}</li>
+                                                @endif
+                                                @if($plane->point5)
+                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point5}}</li>
+                                                @endif
+                                            </ul>
+                                            <div class="xb-item--btn">
+                                                <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=81088266"><img src="assets/img/icon/bag.svg" alt="">LEARN MORE</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            @elseif($plane->id%2==0)
+
+
+
+                                <div class="col-lg-4 col-md-6 mt-30">
+                                    <div class="xb-pricing active">
+                                        <div class="xb-item--head pos-rel">
+                                            <h4 class="xb-item--title">{{$plane->type}}</h4>
+                                            <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span></h2>
+                                            <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
+                                            <div class="xb-item--img" data-background="assets/img/pricing/img_02.png"></div>
+                                            <br>
+                                            <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape2.png"></div>
+                                        </div>
+                                        <div class="xb-item--body">
+                                            <ul class="xb-item--list list-unstyled">
+                                                @if($plane->point1)
+                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point1}}</li>
+                                                @endif
+                                                @if($plane->point2)
+                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point2}}</li>
+                                                @endif
+                                                @if($plane->point3)
+                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point3}}</li>
+                                                @endif
+                                                @if($plane->point4)
+                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point4}}</li>
+                                                @endif
+                                                @if($plane->point5)
+                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point5}}</li>
+                                                @endif
+                                            </ul>
+                                            <div class="xb-item--btn">
+                                                <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=81088266"><img src="assets/img/icon/bag.svg" alt="">LEARN MORE</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                    {{--                </div>--}}
                 </div>
-                <div class="row justify-content-center mt-none-30">
-                    <div class="col-lg-4 col-md-6 mt-30">
-                        <div class="xb-pricing">
-                            <div class="xb-item--head pos-rel">
-                                <h4 class="xb-item--title">basic</h4>
-                                <h2 class="xb-item--price">$70<span>Per Bottle</span></h2>
-                                <h3 class="xb-item--price-sub">($70.00 total)</h3>
-                                <div class="xb-item--img" data-background="assets/img/pricing/img_01.png"></div>
-                                <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape.png"></div>
-                            </div>
-                            <div class="xb-item--body">
-                                <ul class="xb-item--list list-unstyled">
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">1 Person User purefit</li>
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">1 x 250 veggie caps bottle</li>
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">1 x 50 Capsules Per Bottle</li>
-                                    <li class="deactive"><img src="assets/img/icon/p_check_x.svg" alt="">Free Shipping</li>
-                                </ul>
-                                <div class="xb-item--btn">
-                                    <a class="thm-btn w-100 text-center mt-45" href="#!"><img src="assets/img/icon/bag.svg" alt="">BUY NOW</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mt-30">
-                        <div class="xb-pricing active">
-                            <div class="xb-item--head pos-rel">
-                                <h4 class="xb-item--title">Family</h4>
-                                <h2 class="xb-item--price">$64<span>Per Bottle</span></h2>
-                                <h3 class="xb-item--price-sub">($192.00 total)</h3>
-                                <div class="xb-item--img" data-background="assets/img/pricing/img_02.png"></div>
-                                <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape2.png"></div>
-                            </div>
-                            <div class="xb-item--body">
-                                <ul class="xb-item--list list-unstyled">
-                                    <li><img src="assets/img/icon/check_h.svg" alt="">3 Person User purefit</li>
-                                    <li><img src="assets/img/icon/check_h.svg" alt="">3 x 250 veggie caps bottle</li>
-                                    <li><img src="assets/img/icon/check_h.svg" alt="">3 x 50 Capsules Per Bottle</li>
-                                    <li><img src="assets/img/icon/check_h.svg" alt="">Free Shipping</li>
-                                </ul>
-                                <div class="xb-item--btn">
-                                    <a class="thm-btn w-100 text-center mt-45" href="#!"><img src="assets/img/icon/bag.svg" alt="">BUY NOW</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-8 mt-30">
-                        <div class="xb-pricing">
-                            <div class="xb-item--head pos-rel">
-                                <h4 class="xb-item--title">professional</h4>
-                                <h2 class="xb-item--price">$52<span>Per Bottle</span></h2>
-                                <h3 class="xb-item--price-sub">($312.00 total)</h3>
-                                <div class="xb-item--img" data-background="assets/img/pricing/img_03.png"></div>
-                                <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape.png"></div>
-                            </div>
-                            <div class="xb-item--body">
-                                <ul class="xb-item--list list-unstyled">
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">6 Person User purefit</li>
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">6 x 250 veggie caps bottle</li>
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">6 x 50 Capsules Per Bottle</li>
-                                    <li><img src="assets/img/icon/p_check.svg" alt="">Free Shipping</li>
-                                </ul>
-                                <div class="xb-item--btn">
-                                    <a class="thm-btn w-100 text-center mt-45" href="#!"><img src="assets/img/icon/bag.svg" alt="">BUY NOW</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+
+            </section>
+        @endif
         <!-- pricing end -->
 
         <!-- faq start -->
         <section class="faq" data-bg-color="#fff">
             <div class="container">
-                <div class="accordion-inner bg_img" data-background="assets/img/bg/faq_bg.jpg">
+                <div class="accordion-inner bg_img" data-background="assets/img/bg/faq_bg2.jpg">
                     <div class="sec-title sec-title--white text-center mb-60">
                         <span class="sub-title">faq</span>
-                        <h2 class="title">product information</h2>
+                        <h2 class="title">Frequently asked questions</h2>
                     </div>
                     <ul class="xb-accordion accordion_box clearfix">
-                        <li class="accordion block">
-                            <div class="acc-btn">
-                                Why should I take dietary supplements?
-                                <span class="arrow"></span>
-                            </div>
-                            <div class="acc_body">
-                                <div class="content">
-                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>
-                                    <ul>
-                                        <li>Vegan-Friendly Ingredients</li>
-                                        <li>No Animal-Derived Ingredients</li>
-                                        <li>Alternative Capsules</li>
-                                    </ul>
+                        @foreach($faqs as $faq)
+                            <li class="accordion block">
+                                <div class="acc-btn">
+                                    {{$faq->question}}
+                                    <span class="arrow"></span>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="accordion block active-block">
-                            <div class="acc-btn">
-                                Are your supplements suitable for vegans or vegetarians?
-                                <span class="arrow"></span>
-                            </div>
-                            <div class="acc_body current">
-                                <div class="content">
-                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>
-                                    <ul>
-                                        <li>Vegan-Friendly Ingredients</li>
-                                        <li>No Animal-Derived Ingredients</li>
-                                        <li>Alternative Capsules</li>
-                                    </ul>
+                                <div class="acc_body">
+                                    <div class="content">
+                                        <p>{{$faq->answer}}</p>
+
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="accordion block">
-                            <div class="acc-btn">
-                                Can I take multiple supplements together?
-                                <span class="arrow"></span>
-                            </div>
-                            <div class="acc_body">
-                                <div class="content">
-                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>
-                                    <ul>
-                                        <li>Vegan-Friendly Ingredients</li>
-                                        <li>No Animal-Derived Ingredients</li>
-                                        <li>Alternative Capsules</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="accordion block">
-                            <div class="acc-btn">
-                                Can I take supplements with medications or other dietary products?
-                                <span class="arrow"></span>
-                            </div>
-                            <div class="acc_body">
-                                <div class="content">
-                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>
-                                    <ul>
-                                        <li>Vegan-Friendly Ingredients</li>
-                                        <li>No Animal-Derived Ingredients</li>
-                                        <li>Alternative Capsules</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="accordion block">
-                            <div class="acc-btn">
-                                What is the recommended daily dosage for your supplements?
-                                <span class="arrow"></span>
-                            </div>
-                            <div class="acc_body">
-                                <div class="content">
-                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>
-                                    <ul>
-                                        <li>Vegan-Friendly Ingredients</li>
-                                        <li>No Animal-Derived Ingredients</li>
-                                        <li>Alternative Capsules</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="accordion block">
-                            <div class="acc-btn">
-                                Are your supplements tested for quality and purity?
-                                <span class="arrow"></span>
-                            </div>
-                            <div class="acc_body">
-                                <div class="content">
-                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>
-                                    <ul>
-                                        <li>Vegan-Friendly Ingredients</li>
-                                        <li>No Animal-Derived Ingredients</li>
-                                        <li>Alternative Capsules</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
+                            </li>
+                        @endforeach
+{{--                        <li class="accordion block active-block">--}}
+{{--                            <div class="acc-btn">--}}
+{{--                                Are your supplements suitable for vegans or vegetarians?--}}
+{{--                                <span class="arrow"></span>--}}
+{{--                            </div>--}}
+{{--                            <div class="acc_body current">--}}
+{{--                                <div class="content">--}}
+{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
+{{--                                    <ul>--}}
+{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
+{{--                                        <li>No Animal-Derived Ingredients</li>--}}
+{{--                                        <li>Alternative Capsules</li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
+{{--                        <li class="accordion block">--}}
+{{--                            <div class="acc-btn">--}}
+{{--                                Can I take multiple supplements together?--}}
+{{--                                <span class="arrow"></span>--}}
+{{--                            </div>--}}
+{{--                            <div class="acc_body">--}}
+{{--                                <div class="content">--}}
+{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
+{{--                                    <ul>--}}
+{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
+{{--                                        <li>No Animal-Derived Ingredients</li>--}}
+{{--                                        <li>Alternative Capsules</li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
+{{--                        <li class="accordion block">--}}
+{{--                            <div class="acc-btn">--}}
+{{--                                Can I take supplements with medications or other dietary products?--}}
+{{--                                <span class="arrow"></span>--}}
+{{--                            </div>--}}
+{{--                            <div class="acc_body">--}}
+{{--                                <div class="content">--}}
+{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
+{{--                                    <ul>--}}
+{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
+{{--                                        <li>No Animal-Derived Ingredients</li>--}}
+{{--                                        <li>Alternative Capsules</li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
+{{--                        <li class="accordion block">--}}
+{{--                            <div class="acc-btn">--}}
+{{--                                What is the recommended daily dosage for your supplements?--}}
+{{--                                <span class="arrow"></span>--}}
+{{--                            </div>--}}
+{{--                            <div class="acc_body">--}}
+{{--                                <div class="content">--}}
+{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
+{{--                                    <ul>--}}
+{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
+{{--                                        <li>No Animal-Derived Ingredients</li>--}}
+{{--                                        <li>Alternative Capsules</li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
+{{--                        <li class="accordion block">--}}
+{{--                            <div class="acc-btn">--}}
+{{--                                Are your supplements tested for quality and purity?--}}
+{{--                                <span class="arrow"></span>--}}
+{{--                            </div>--}}
+{{--                            <div class="acc_body">--}}
+{{--                                <div class="content">--}}
+{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
+{{--                                    <ul>--}}
+{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
+{{--                                        <li>No Animal-Derived Ingredients</li>--}}
+{{--                                        <li>Alternative Capsules</li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </li>--}}
                     </ul>
                 </div>
             </div>
@@ -815,32 +692,33 @@
         <section class="brand pt-110 md-pb-0 pb-90" data-bg-color="#fff">
             <div class="container">
                 <div class="sec-title text-center mb-35">
-                    <span class="sub-title">Perfect Brand is Featured on</span>
+                    <span class="sub-title">Explore Our Top Brands</span>
                 </div>
+
                 <div class="xb-swiper-sliders brand-slider">
                     <div class="xb-carousel-inner">
                         <div class="xb-swiper-container swiper-container">
                             <div class="xb-swiper-wrapper swiper-wrapper">
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_01.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/Muscletech.png" alt=""></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_02.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/KevinLevrone.png" alt=""></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_03.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/ON.png" alt=""></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_04.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/Dymatize.png" alt=""></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_05.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/BPI.png" alt=""></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_06.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/XTEND.png" alt=""></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/img_01.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/Challenger.png" alt=""></a>
                                 </div>
                             </div>
                         </div>
@@ -851,164 +729,75 @@
         <!-- brand end -->
 
         <!-- blog start -->
-        <section id="blog" class="blog position-top blog-pb bg_img pt-180" data-background="assets/img/bg/blog_bg.jpg">
-            <div class="container">
-                <div class="ul_li_between align-items-end mb-25">
-                    <div class="sec-title mb-30">
-                        <span class="sub-title">blog</span>
-                        <h2 class="title">latest blog</h2>
-                    </div>
-                    <a class="border-btn mb-30" href="blog.html">view all blog</a>
-                </div>
-                <div class="row mt-none-30 justify-content-center">
-                    <div class="col-lg-4 col-md-6 mt-30">
-                        <div class="xb-blog">
-                            <div class="xb-item--img">
-                                <a href="blog-single.html"><img src="assets/img/blog/img_01.jpg" alt=""></a>
-                                <div class="xb-item--date">28 <br><span>sep</span></div>
-                            </div>
-                            <div class="xb-item--holder">
-                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Steven Timothy</span>
-                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">The Power of Adaptogens Stress Relief and..</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mt-30">
-                        <div class="xb-blog">
-                            <div class="xb-item--img">
-                                <a href="blog-single.html"><img src="assets/img/blog/img_02.jpg" alt=""></a>
-                                <div class="xb-item--date">28 <br><span>sep</span></div>
-                            </div>
-                            <div class="xb-item--holder">
-                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Andrew Brian</span>
-                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">The Role of Supplements in Athletic Perf..</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-8 mt-30">
-                        <div class="xb-blog">
-                            <div class="xb-item--img">
-                                <a href="blog-single.html"><img src="assets/img/blog/img_03.jpg" alt=""></a>
-                                <div class="xb-item--date">28 <br><span>sep</span></div>
-                            </div>
-                            <div class="xb-item--holder">
-                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Andrew Brian</span>
-                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">Discover the Benefits of Essential Nutrients..</a></h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+{{--        <section id="blog" class="blog position-top blog-pb bg_img pt-180" data-background="assets/img/bg/blog_bg.jpg">--}}
+{{--            <div class="container">--}}
+{{--                <div class="ul_li_between align-items-end mb-25">--}}
+{{--                    <div class="sec-title mb-30">--}}
+{{--                        <span class="sub-title">blog</span>--}}
+{{--                        <h2 class="title">latest blog</h2>--}}
+{{--                    </div>--}}
+{{--                    <a class="border-btn mb-30" href="blog.html">view all blog</a>--}}
+{{--                </div>--}}
+{{--                <div class="row mt-none-30 justify-content-center">--}}
+{{--                    <div class="col-lg-4 col-md-6 mt-30">--}}
+{{--                        <div class="xb-blog">--}}
+{{--                            <div class="xb-item--img">--}}
+{{--                                <a href="blog-single.html"><img src="assets/img/blog/img_01.jpg" alt=""></a>--}}
+{{--                                <div class="xb-item--date">28 <br><span>sep</span></div>--}}
+{{--                            </div>--}}
+{{--                            <div class="xb-item--holder">--}}
+{{--                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Steven Timothy</span>--}}
+{{--                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">The Power of Adaptogens Stress Relief and..</a></h3>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="col-lg-4 col-md-6 mt-30">--}}
+{{--                        <div class="xb-blog">--}}
+{{--                            <div class="xb-item--img">--}}
+{{--                                <a href="blog-single.html"><img src="assets/img/blog/img_02.jpg" alt=""></a>--}}
+{{--                                <div class="xb-item--date">28 <br><span>sep</span></div>--}}
+{{--                            </div>--}}
+{{--                            <div class="xb-item--holder">--}}
+{{--                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Andrew Brian</span>--}}
+{{--                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">The Role of Supplements in Athletic Perf..</a></h3>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="col-lg-4 col-md-8 mt-30">--}}
+{{--                        <div class="xb-blog">--}}
+{{--                            <div class="xb-item--img">--}}
+{{--                                <a href="blog-single.html"><img src="assets/img/blog/img_03.jpg" alt=""></a>--}}
+{{--                                <div class="xb-item--date">28 <br><span>sep</span></div>--}}
+{{--                            </div>--}}
+{{--                            <div class="xb-item--holder">--}}
+{{--                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Andrew Brian</span>--}}
+{{--                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">Discover the Benefits of Essential Nutrients..</a></h3>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </section>--}}
         <!-- blog end -->
 
     </main>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
     <!-- main area end  -->
 
     <!-- footer strt -->
-    <footer class="position-top bg_img pb-70" data-background="assets/img/bg/footer_bg.png">
-        <div class="container">
-            <div id="contact" class="contact pb-100">
-                <div class="row">
-                    <div class="col-lg-7">
-                        <div class="xb-contact contact-mt--255">
-                            <div class="contact-title mb-35">
-                                <span><img src="assets/img/icon/directbox-notif.svg" alt="">Contact Us</span>
-                                <h3>Do you have questions or went more <br> information?</h3>
-                            </div>
-                            <form class="contact-from" action="#!">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_user.svg" alt=""></span>
-                                            <input type="text" placeholder="Steven Kevin">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_mail.svg" alt=""></span>
-                                            <input type="text" placeholder="purefit@gmail.com">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_call.svg" alt=""></span>
-                                            <input type="text" placeholder="+91 081 0256 023">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_message.svg" alt=""></span>
-                                            <textarea name="message" id="message" cols="30" rows="10"
-                                                      placeholder="Write Your Message..."></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="thm-btn thm-btn--black" type="submit">Send Message</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="contact-info contact-mt--255 mt-md-30">
-                            <div class="xb-item--head">
-                                <div class="xb-item--address">
-                                    <h3><img src="assets/img/icon/location.svg" alt="">our address</h3>
-                                    <p>100 Orchard st, New <br> York,NY 100025 USA</p>
-                                </div>
-                                <div class="xb-item--open">
-                                    <p>Monday - Friday <br>
-                                        08:00AM - 05:00PM</p>
-                                    <a href="mailto:purefit@gmail.com"><img src="assets/img/icon/sms-tracking.svg" alt="">purefit@gmail.com</a>
-                                </div>
-                                <ul class="xb-item--social ul_li mt-30">
-                                    <li><a href="#!"><i class="fab fa-telegram-plane"></i></a></li>
-                                    <li><a href="#!"><i class="fab fa-whatsapp"></i></a></li>
-                                    <li><a href="#!"><i class="fab fa-facebook-f"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="xb-item--cta" data-background="assets/img/bg/cta_bg.jpg">
-                                <p>Our help desk is a vailable for you <br> every day, 07:00AM - 10:00PM</p>
-                                <h3>+91 081 256 023</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-inner">
-                <div class="footer-logo mb-25 text-center">
-                    <img src="assets/img/logo/f_logo.png" alt="">
-                </div>
-                <div class="sec-title sec-title--white text-center mb-50">
-                    <h2 class="title">in a healthy body, healthy mind</h2>
-                </div>
-                <ul class="footer-nav ul_li_center">
-                    <li><a href="#!">all products</a></li>
-                    <li><a href="#!">track order</a></li>
-                    <li><a href="#!">my account</a></li>
-                    <li><a href="#!">gift cards</a></li>
-                    <li><a href="#!">our story</a></li>
-                    <li><a href="#!">careers</a></li>
-                    <li><a href="#!">contact</a></li>
-                </ul>
-                <div class="footer-bottom mt-50 ul_li_between">
-                    <div class="footer-copyright mt-30">
-                        Copyright © 2024 purefit All rights reserved.
-                    </div>
-                    <ul class="footer-links ul_li mt-30">
-                        <li><a href="#!">terms of conditions</a></li>
-                        <li><a href="#!">privacy pllicy</a></li>
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+        @include('partials/footer')
     <!-- footer end -->
 
 
-</div>
 <script src={{asset("assets/js/jquery.min.js")}}></script>
 <!-- jquery include -->
 <script src={{asset("assets/js/jquery-3.7.1.min.js")}}></script>
@@ -1026,5 +815,171 @@
 </body>
 
 
-<!-- Mirrored from html.xpressbuddy.com/purefit/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:03 GMT -->
+
 </html>
+
+<!--mini-cart script -->
+<script>
+    function fetchCart() {
+        $.ajax({
+            url: '{{ route('api.cart.get') }}',
+            method: 'GET',
+            success: function(response) {
+                console.log("response", response.items); // Check response structure
+
+                if (!response.items || !Array.isArray(response.items)) {
+                    console.error("Invalid response structure");
+                    return;
+                }
+
+                $('.header-mini-cart').empty(); // Clear previous items
+                let total = 0;
+                let itemCount = 0; // Initialize item count
+
+
+                if (response.items.length === 0) {
+                    $('.header-mini-cart').append('<p>Your cart is empty.</p>');
+                } else {
+                    response.items.forEach(item => {
+                        if (!item.product || !item.product.price || !item.product.name) {
+                            console.error("Invalid item structure");
+                            return;
+                        }
+
+                        const discount = item.product.discount || 0; // Get discount percentage
+                        const price = item.product.price;
+                        const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount
+                        const itemTotal = discountedPrice * item.quantity; // Calculate total for this item
+                        itemCount += item.quantity; // Sum the quantities for the cart count
+
+                        $('.header-mini-cart').append(`
+                            <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
+                                <div class="mini-cart-img" style="margin-right: 10px;">
+                                    <img src="${item.product_image || 'path/to/default/image.jpg'}" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
+                                </div>
+                                <div class="mini-cart-content" style="flex-grow: 1;">
+                                    <h4 class="product-title" style="margin: 0; font-size: 14px;">
+                                        <a href="shop-details.html" style="text-decoration: none; color: #000;">${item.product.name}</a>
+                                    </h4>
+                                    <div class="mini-cart-price" style="margin-top: 5px;">
+                                        ${item.quantity} ×
+                                        <span class="woocommerce-Price-amount amount" style="color: red;">$${discountedPrice.toFixed(2)}</span>
+
+                                    </div>
+                                </div>
+                                <div class="remove-button" style="margin-left: auto;">
+                                    <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
+                                </div>
+                            </div>
+                        `);
+
+                        total += itemTotal; // Sum the total amount
+                    });
+
+                    $('.header-mini-cart').append(`
+                        <p class="woocommerce-mini-cart__total">
+                            <strong>Subtotal:</strong>
+                            <span class="woocommerce-Price-amount">$${total.toFixed(2)}</span>
+                        </p>
+                        <p class="checkout-link">
+                            <a href="/viewCart" class="button wc-forward">View cart</a>
+                            <a href="/Checkout" class="button checkout wc-forward">Checkout</a>
+                        </p>
+                    `);
+                    $('.mini-cart-count').text(itemCount); // Update the cart count in the header
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', error);
+            }
+        });
+    }
+
+    // Fetch cart items on page load
+    $(document).ready(function() {
+        fetchCart();
+        $('.header-shop-cart a').on('click', function() {
+            $('.header-mini-cart').toggle(); // Toggle visibility on click
+        });
+        fetchCart(); // Fetch cart items
+    });
+
+    // Remove item from mini cart
+$(document).on('click', '.remove', function(event) {
+    event.preventDefault(); // Prevent the default link behavior
+
+    const productId = $(this).data('product_id');
+
+    $.ajax({
+        url: '{{ route('cart.remove') }}',
+        method: 'POST',
+        data: {
+            product_id: productId,
+            _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            if (response.success) {
+                // alert(response.message);
+                fetchCart(); // Refresh the cart items
+            } else {
+                alert('Failed to remove item from cart.'); // Handle unexpected response
+            }
+        },
+        error: function(xhr, status, error) {
+            // Check if the response contains a JSON message
+            try {
+                const errResponse = JSON.parse(xhr.responseText);
+                alert(errResponse.message || 'Failed to remove item from cart.');
+            } catch (e) {
+                alert('Failed to remove item from cart.');
+            }
+        }
+    });
+});
+</script>
+
+
+
+
+<!-- out of stock message-->
+<script>
+    function showOutOfStockMessage(event) {
+        event.preventDefault();
+        const cartButton = event.currentTarget;
+        cartButton.querySelector('.xb-item--cart').innerText = 'Out of Stock';
+        cartButton.classList.add('disabled');
+
+        setTimeout(() => {
+            cartButton.querySelector('.xb-item--cart').innerText = 'add to cart';
+            cartButton.classList.remove('disabled');
+        }, 4000);
+    }
+</script>
+
+
+
+
+
+<style>
+    .xb-item--cart-btn.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+        width: 300px
+    }
+    .xb-item--cart-btn.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .no-stock img {
+            pointer-events: none;
+        }
+        .no-stock-title {
+            color: gray;
+            cursor: default;
+        }
+</style>
+
+
+
+
+

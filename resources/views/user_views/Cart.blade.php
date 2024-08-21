@@ -1,8 +1,6 @@
 <!doctype html>
 <html lang="zxx">
 
-
-<!-- Mirrored from html.xpressbuddy.com/purefit/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:26 GMT -->
 <head>
 
     <!--========= Required meta tags =========-->
@@ -10,10 +8,11 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Purefit - Health Supplement Landing Page</title>
+    <title>Cart</title>
 
-    <link rel="shortcut icon" href="assets/img/favicon.png" type="images/x-icon"/>
+    <link rel="shortcut icon" href={{ asset('assets/img/logo/preloader2.png')}} type="images/x-icon"/>
 
     <!-- css include -->
     <link rel="stylesheet" href={{asset("assets/css/bootstrap.min.css")}}>
@@ -66,6 +65,42 @@
         .quantity button.quantity-plus {
             border-radius: 0 4px 4px 0;
         }
+        @media (max-width: 991px) {
+            .quantity button.quantity-plus {
+                background-color: transparent; /* Light grey background */
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                color: #333;
+                cursor: pointer;
+                font-size: 16px;
+                height: 40px;
+                line-height: 1;
+                padding: 10px;
+                width: 30px;
+                text-align: center;
+                transition: background-color 0.3s, border-color 0.3s; /* Smooth transition */
+            }
+            .quantity input {
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 16px;
+                height: 40px;
+                text-align: center;
+                width: 50px;
+            }
+            .quantity {
+                display: flex;
+                align-items: center;
+                position: relative;
+                left: -15px;
+        }
+            .quantity button:hover {
+                background-color:#A02334;
+                border-color: orange;
+                color: white; /* Optional: change text color to white for better contrast */
+            }
+
+        }
 
         .quantity input,
         .quantity button {
@@ -79,8 +114,8 @@
 
         /* Hover effect */
         .quantity button:hover {
-            background-color:#FF4D24;
-            border-color: orange;
+            background-color:#A02334;
+            border-color: #A02334;
             color: white; /* Optional: change text color to white for better contrast */
         }
 
@@ -115,226 +150,28 @@
 </div>
 <!-- backtotop - end -->
 
-<!-- preloader start -->
-<div id="xb-loadding" class="xb-loadding-container">
-    <div class="xb-loader">
-        <div class="xb-loadding-inner">
-            <img src="assets/img/logo/preloader.png" alt="">
-        </div>
-    </div>
-</div>
-
-<!-- preloader end -->
-
-
-<div class="body_wrap">
-
-    <!-- header start -->
-    <header id="home" class="header-area header-default is-sticky">
-        <div class="xb-header stricky">
-            <div class="container">
-                <div class="header__wrap ul_li_between">
-                    <div class="header-logo">
-                        <a href="index.html"><img src="assets/img/logo/logo.svg" alt=""></a>
-                    </div>
-                    <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
-                        <nav class="main-menu collapse navbar-collapse">
-                            <ul>
-                                <li class="menu-item-has-children">
-                                    <a href="index.html#home"><span>Home</span></a>
-                                    <ul class="submenu">
-                                        <li><a href="index.html"><span>Home Style 01</span></a></li>
-                                        <li><a href="home-2.html"><span>Home Style 02</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="index.html#features"><span>Features</span></a></li>
-                                <li class="menu-item-has-children active">
-                                    <a href="index.html#shop"><span>Shop</span></a>
-                                    <ul class="submenu">
-                                        <li><a href="shop.html"><span>Products</span></a></li>
-                                        <li><a href="shop-single.html"><span>Single Product</span></a></li>
-                                        <li class="active"><a href="cart.html"><span>Cart</span></a></li>
-                                        <li><a href="checkout.html"><span>Checkout</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="index.html#pricing"><span>Pricing</span></a></li>
-                                <li class="menu-item-has-children">
-                                    <a href="index.html#blog"><span>Blog</span></a>
-                                    <ul class="submenu">
-                                        <li><a href="blog.html"><span>Blog</span></a></li>
-                                        <li><a href="blog-single.html"><span>Blog Details</span></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="index.html#contact"><span>Contact</span></a></li>
-                            </ul>
-                        </nav>
-                        <div class="xb-header-wrap">
-                            <div class="xb-header-menu">
-                                <div class="xb-header-menu-scroll">
-                                    <div class="xb-menu-close xb-hide-xl xb-close"></div>
-                                    <div class="xb-logo-mobile xb-hide-xl">
-                                        <a href="index.html" rel="home"><img src="assets/img/logo/logo.svg" alt=""></a></div>
-                                    <div class="xb-header-mobile-search xb-hide-xl">
-                                        <form role="search" action="#">
-                                            <input type="text" placeholder="Search..." name="s" class="search-field">
-                                        </form>
-                                    </div>
-                                    <nav class="xb-header-nav">
-                                        <ul class="xb-menu-primary clearfix">
-                                            <li class="menu-item menu-item-has-children active">
-                                                <a href="index.html#home"><span>Home</span></a>
-                                                <ul class="sub-menu">
-                                                    <li class="active"><a href="index.html"><span>Home Style 01</span></a></li>
-                                                    <li><a href="home-2.html"><span>Home Style 02</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item"><a href="index.html#features"><span>Features</span></a></li>
-                                            <li class="menu-item menu-item-has-children">
-                                                <a href="index.html#shop"><span>Shop</span></a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="shop.html"><span>Products</span></a></li>
-                                                    <li><a href="shop-single.html"><span>Single Product</span></a></li>
-                                                    <li><a href="cart.html"><span>Cart</span></a></li>
-                                                    <li><a href="checkout.html"><span>Checkout</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item"><a href="index.html#pricing"><span>Pricing</span></a></li>
-                                            <li class="menu-item menu-item-has-children">
-                                                <a href="index.html#blog"><span>Blog</span></a>
-                                                <ul class="sub-menu">
-                                                    <li><a href="blog.html"><span>Blog</span></a></li>
-                                                    <li><a href="blog-single.html"><span>Blog Details</span></a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item"><a href="index.html#contact"><span>Contact</span></a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                            <div class="xb-header-menu-backdrop"></div>
-                        </div>
-                    </div>
-                    <div class="header__right d-none d-lg-block">
-                        <div class="ul_li">
-                            <div class="header-shop-cart">
-                                <a href="javascript:void(0);"><img src="assets/img/icon/bag.svg" alt=""><span class="mini-cart-count">2</span></a>
-                                <div class="header-mini-cart">
-                                    <ul class="woocommerce-mini-cart cart_list product_list_widget list-wrap">
-                                        <li class="woocommerce-mini-cart-item d-flex align-items-center">
-                                            <a href="#" class="remove remove_from_cart_button">×</a>
-                                            <div class="mini-cart-img">
-                                                <img src="assets/img/shop/product_02.png" alt="Product">
-                                            </div>
-                                            <div class="mini-cart-content">
-                                                <h4 class="product-title"><a href="shop-details.html">
-                                                        xplode powder</a></h4>
-                                                <div class="mini-cart-price">1 ×
-                                                    <span class="woocommerce-Price-amount amount">$49</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="woocommerce-mini-cart-item d-flex align-items-center">
-                                            <a href="#" class="remove remove_from_cart_button">×</a>
-                                            <div class="mini-cart-img">
-                                                <img src="assets/img/shop/product_03.png" alt="Product">
-                                            </div>
-                                            <div class="mini-cart-content">
-                                                <h4 class="product-title"><a href="shop-details.html">creatine powder</a></h4>
-                                                <div class="mini-cart-price">2 ×
-                                                    <span class="woocommerce-Price-amount amount">$69</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <p class="woocommerce-mini-cart__total">
-                                        <strong>Subtotal:</strong>
-                                        <span class="woocommerce-Price-amount">$149</span>
-                                    </p>
-                                    <p class="checkout-link">
-                                        <a href="shop-details.html" class="button wc-forward">View cart</a>
-                                        <a href="shop-details.html" class="button checkout wc-forward">Checkout</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <a class="header__bar offcanvas-sidebar-btn" href="javascript:void(0);">
-                                <div class="header__bar-icon">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="header-bar-mobile d-lg-none">
-                        <a class="header__bar xb-nav-mobile" href="javascript:void(0);">
-                            <div class="header__bar-icon">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+@include('partials/navBar',['categories'=>$categories])
     <!-- header end -->
 
-    <!-- sidebar-info start -->
-    <div class="offcanvas-sidebar">
-        <div class="sidebar-menu-close">
-            <a class="xb-close" href="javascript:void(0);"></a>
-        </div>
-        <div class="sidebar-top mb-65">
-            <div class="sidebar-logo mb-40">
-                <a href="index.html">
-                    <img src="assets/img/logo/logo_black.svg" alt="logo">
-                </a>
-            </div>
-            <div class="sidebar-content">
-                Achieving optimal nutrition is a complex endeavor without the inclusion of supplementary support
-            </div>
-        </div>
-
-        <div class="sidebar-contact-info mb-65">
-            <h4 class="sidebar-heading">Contact Information</h4>
-            <ul class="sidebar-info-list list-unstyled">
-                <li><span><img src="assets/img/icon/i_star.svg" alt=""></span>Wasington SY, UK, NY 12099</li>
-                <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>+81 800 123 06 78</a></li>
-                <li><a href="#!"><span><img src="assets/img/icon/i_star.svg" alt=""></span>contact@purefit.com</a></li>
-            </ul>
-        </div>
-        <div class="xb-content-wrap d-flex">
-            <div class="xb-title col-auto">Call us:</div>
-            <div class="xb-inf-content-wrap col">
-                <div class="xb-item-wrap row">
-                    <div class="xb-item col-auto ">
-                        <span class="item-content"><a href="tel:02456787535" class="tel">024 5678 7535</a></span>
-                    </div>
-                    <div class="xb-item col-auto "> <span class="item-content"><a href="mailto:support@gmail.com">contact@purefit.com</a></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="sidebar-socials-wrap mt-30"> <a class="social-item" href="https://facebook.com/" target="_blank">Facebook</a><a class="social-item" href="https://www.behance.net/" target="_blank">Behance</a><a class="social-item" href="#" target="_blank">Telegram</a><a class="social-item" href="https://dribbble.com/" target="_blank">Dribbble</a></div>
-
-    </div>
-    <!-- sidebar-info end -->
 
     <div class="body-overlay"></div>
 
     <!-- main area start  -->
     <main>
         <!-- breadcrumb start -->
-        <section class="breadcrumb position-bottom bg_img" data-background="assets/img/bg/page_title.png">
+        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner.png')}}">
             <div class="container">
                 <div class="breadcrumb__content text-center">
-                    <h2 class="breadcrumb__title">Cart</h2>
+                    <h2 class="breadcrumb__title" style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">Cart</h2>
                     <ul class="breadcrumb__list clearfix">
-                        <li class="breadcrumb-item"><a href="index.html">Purefit</a></li>
-                        <li class="breadcrumb-item">Cart</li>
+                        <li class="breadcrumb-item">
+                            <a href="{{route('home')}}" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); color: #fff;">
+                                Supplement Station
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); color: #fff;">
+                            Cart
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -356,6 +193,7 @@
                                         <th class="product-thumbnail">&nbsp;</th>
                                         <th class="product-name">Product</th>
                                         <th class="product-price">Price</th>
+                                        <th class="product-options">Options</th>
                                         <th class="product-quantity">Quantity</th>
                                         <th class="product-subtotal">Total</th>
                                     </tr>
@@ -382,23 +220,22 @@
                                     <table class="shop_table shop_table_responsive">
                                         <tr class="cart-subtotal">
                                             <th>Subtotal</th>
-                                            <td data-title="Subtotal">$
+                                            <td data-title="Subtotal">$<strong>
                                                 <span class="woocommerce-Price-amount amount" id="cart-subtotal">
                                                     <span
-                                                        class="woocommerce-Price-currencySymbol"></span>0</span>
+                                                        class="woocommerce-Price-currencySymbol"></span>0</span></strong>
                                             </td>
                                         </tr>
                                         <tr class="shipping">
                                             <th>Shipping</th>
                                             <td data-title="Shipping">
-                                                Free Shipping
                                                 <input type="hidden" name="shipping_method[0]" data-index="0"
                                                        id="shipping_method_0" value="free_shipping:1"
                                                        class="shipping_method" />
                                                 <form class="woocommerce-shipping-calculator"
                                                       action="http://localhost/wp/?page_id=5" method="post">
-                                                    <p><a href="#!" class="shipping-calculator-button">Calculate
-                                                            Shipping</a></p>
+                                                    <p><a href="#!" class="shipping-calculator-button">to be announced
+                                                            </a></p>
                                                     <section class="shipping-calculator-form" style="display:none;">
                                                         <h2 class="hidden">Cart total</h2>
                                                         <p class="form-row form-row-wide"
@@ -409,265 +246,7 @@
                                                                 <option value="">Select a country&hellip;</option>
                                                                 <option value="AX" selected='selected'>&#197;land
                                                                     Islands</option>
-                                                                <option value="AF">Afghanistan</option>
-                                                                <option value="AL">Albania</option>
-                                                                <option value="DZ">Algeria</option>
-                                                                <option value="AS">American Samoa</option>
-                                                                <option value="AD">Andorra</option>
-                                                                <option value="AO">Angola</option>
-                                                                <option value="AI">Anguilla</option>
-                                                                <option value="AQ">Antarctica</option>
-                                                                <option value="AG">Antigua and Barbuda</option>
-                                                                <option value="AR">Argentina</option>
-                                                                <option value="AM">Armenia</option>
-                                                                <option value="AW">Aruba</option>
-                                                                <option value="AU">Australia</option>
-                                                                <option value="AT">Austria</option>
-                                                                <option value="AZ">Azerbaijan</option>
-                                                                <option value="BS">Bahamas</option>
-                                                                <option value="BH">Bahrain</option>
-                                                                <option value="BD">Bangladesh</option>
-                                                                <option value="BB">Barbados</option>
-                                                                <option value="BY">Belarus</option>
-                                                                <option value="PW">Belau</option>
-                                                                <option value="BE">Belgium</option>
-                                                                <option value="BZ">Belize</option>
-                                                                <option value="BJ">Benin</option>
-                                                                <option value="BM">Bermuda</option>
-                                                                <option value="BT">Bhutan</option>
-                                                                <option value="BO">Bolivia</option>
-                                                                <option value="BQ">Bonaire, Saint Eustatius and Saba
-                                                                </option>
-                                                                <option value="BA">Bosnia and Herzegovina</option>
-                                                                <option value="BW">Botswana</option>
-                                                                <option value="BV">Bouvet Island</option>
-                                                                <option value="BR">Brazil</option>
-                                                                <option value="IO">British Indian Ocean Territory
-                                                                </option>
-                                                                <option value="VG">British Virgin Islands</option>
-                                                                <option value="BN">Brunei</option>
-                                                                <option value="BG">Bulgaria</option>
-                                                                <option value="BF">Burkina Faso</option>
-                                                                <option value="BI">Burundi</option>
-                                                                <option value="KH">Cambodia</option>
-                                                                <option value="CM">Cameroon</option>
-                                                                <option value="CA">Canada</option>
-                                                                <option value="CV">Cape Verde</option>
-                                                                <option value="KY">Cayman Islands</option>
-                                                                <option value="CF">Central African Republic</option>
-                                                                <option value="TD">Chad</option>
-                                                                <option value="CL">Chile</option>
-                                                                <option value="CN">China</option>
-                                                                <option value="CX">Christmas Island</option>
-                                                                <option value="CC">Cocos (Keeling) Islands</option>
-                                                                <option value="CO">Colombia</option>
-                                                                <option value="KM">Comoros</option>
-                                                                <option value="CG">Congo (Brazzaville)</option>
-                                                                <option value="CD">Congo (Kinshasa)</option>
-                                                                <option value="CK">Cook Islands</option>
-                                                                <option value="CR">Costa Rica</option>
-                                                                <option value="HR">Croatia</option>
-                                                                <option value="CU">Cuba</option>
-                                                                <option value="CW">Cura&ccedil;ao</option>
-                                                                <option value="CY">Cyprus</option>
-                                                                <option value="CZ">Czech Republic</option>
-                                                                <option value="DK">Denmark</option>
-                                                                <option value="DJ">Djibouti</option>
-                                                                <option value="DM">Dominica</option>
-                                                                <option value="DO">Dominican Republic</option>
-                                                                <option value="EC">Ecuador</option>
-                                                                <option value="EG">Egypt</option>
-                                                                <option value="SV">El Salvador</option>
-                                                                <option value="GQ">Equatorial Guinea</option>
-                                                                <option value="ER">Eritrea</option>
-                                                                <option value="EE">Estonia</option>
-                                                                <option value="ET">Ethiopia</option>
-                                                                <option value="FK">Falkland Islands</option>
-                                                                <option value="FO">Faroe Islands</option>
-                                                                <option value="FJ">Fiji</option>
-                                                                <option value="FI">Finland</option>
-                                                                <option value="FR">France</option>
-                                                                <option value="GF">French Guiana</option>
-                                                                <option value="PF">French Polynesia</option>
-                                                                <option value="TF">French Southern Territories
-                                                                </option>
-                                                                <option value="GA">Gabon</option>
-                                                                <option value="GM">Gambia</option>
-                                                                <option value="GE">Georgia</option>
-                                                                <option value="DE">Germany</option>
-                                                                <option value="GH">Ghana</option>
-                                                                <option value="GI">Gibraltar</option>
-                                                                <option value="GR">Greece</option>
-                                                                <option value="GL">Greenland</option>
-                                                                <option value="GD">Grenada</option>
-                                                                <option value="GP">Guadeloupe</option>
-                                                                <option value="GU">Guam</option>
-                                                                <option value="GT">Guatemala</option>
-                                                                <option value="GG">Guernsey</option>
-                                                                <option value="GN">Guinea</option>
-                                                                <option value="GW">Guinea-Bissau</option>
-                                                                <option value="GY">Guyana</option>
-                                                                <option value="HT">Haiti</option>
-                                                                <option value="HM">Heard Island and McDonald Islands
-                                                                </option>
-                                                                <option value="HN">Honduras</option>
-                                                                <option value="HK">Hong Kong</option>
-                                                                <option value="HU">Hungary</option>
-                                                                <option value="IS">Iceland</option>
-                                                                <option value="IN">India</option>
-                                                                <option value="ID">Indonesia</option>
-                                                                <option value="IR">Iran</option>
-                                                                <option value="IQ">Iraq</option>
-                                                                <option value="IM">Isle of Man</option>
-                                                                <option value="IT">Italy</option>
-                                                                <option value="CI">Ivory Coast</option>
-                                                                <option value="JM">Jamaica</option>
-                                                                <option value="JP">Japan</option>
-                                                                <option value="JE">Jersey</option>
-                                                                <option value="JO">Jordan</option>
-                                                                <option value="KZ">Kazakhstan</option>
-                                                                <option value="KE">Kenya</option>
-                                                                <option value="KI">Kiribati</option>
-                                                                <option value="KW">Kuwait</option>
-                                                                <option value="KG">Kyrgyzstan</option>
-                                                                <option value="LA">Laos</option>
-                                                                <option value="LV">Latvia</option>
-                                                                <option value="LB">Lebanon</option>
-                                                                <option value="LS">Lesotho</option>
-                                                                <option value="LR">Liberia</option>
-                                                                <option value="LY">Libya</option>
-                                                                <option value="LI">Liechtenstein</option>
-                                                                <option value="LT">Lithuania</option>
-                                                                <option value="LU">Luxembourg</option>
-                                                                <option value="MO">Macao S.A.R., China</option>
-                                                                <option value="MK">Macedonia</option>
-                                                                <option value="MG">Madagascar</option>
-                                                                <option value="MW">Malawi</option>
-                                                                <option value="MY">Malaysia</option>
-                                                                <option value="MV">Maldives</option>
-                                                                <option value="ML">Mali</option>
-                                                                <option value="MT">Malta</option>
-                                                                <option value="MH">Marshall Islands</option>
-                                                                <option value="MQ">Martinique</option>
-                                                                <option value="MR">Mauritania</option>
-                                                                <option value="MU">Mauritius</option>
-                                                                <option value="YT">Mayotte</option>
-                                                                <option value="MX">Mexico</option>
-                                                                <option value="FM">Micronesia</option>
-                                                                <option value="MD">Moldova</option>
-                                                                <option value="MC">Monaco</option>
-                                                                <option value="MN">Mongolia</option>
-                                                                <option value="ME">Montenegro</option>
-                                                                <option value="MS">Montserrat</option>
-                                                                <option value="MA">Morocco</option>
-                                                                <option value="MZ">Mozambique</option>
-                                                                <option value="MM">Myanmar</option>
-                                                                <option value="NA">Namibia</option>
-                                                                <option value="NR">Nauru</option>
-                                                                <option value="NP">Nepal</option>
-                                                                <option value="NL">Netherlands</option>
-                                                                <option value="NC">New Caledonia</option>
-                                                                <option value="NZ">New Zealand</option>
-                                                                <option value="NI">Nicaragua</option>
-                                                                <option value="NE">Niger</option>
-                                                                <option value="NG">Nigeria</option>
-                                                                <option value="NU">Niue</option>
-                                                                <option value="NF">Norfolk Island</option>
-                                                                <option value="KP">North Korea</option>
-                                                                <option value="MP">Northern Mariana Islands</option>
-                                                                <option value="NO">Norway</option>
-                                                                <option value="OM">Oman</option>
-                                                                <option value="PK">Pakistan</option>
-                                                                <option value="PS">Palestinian Territory</option>
-                                                                <option value="PA">Panama</option>
-                                                                <option value="PG">Papua New Guinea</option>
-                                                                <option value="PY">Paraguay</option>
-                                                                <option value="PE">Peru</option>
-                                                                <option value="PH">Philippines</option>
-                                                                <option value="PN">Pitcairn</option>
-                                                                <option value="PL">Poland</option>
-                                                                <option value="PT">Portugal</option>
-                                                                <option value="PR">Puerto Rico</option>
-                                                                <option value="QA">Qatar</option>
-                                                                <option value="IE">Republic of Ireland</option>
-                                                                <option value="RE">Reunion</option>
-                                                                <option value="RO">Romania</option>
-                                                                <option value="RU">Russia</option>
-                                                                <option value="RW">Rwanda</option>
-                                                                <option value="ST">S&atilde;o Tom&eacute; and
-                                                                    Pr&iacute;ncipe</option>
-                                                                <option value="BL">Saint Barth&eacute;lemy</option>
-                                                                <option value="SH">Saint Helena</option>
-                                                                <option value="KN">Saint Kitts and Nevis</option>
-                                                                <option value="LC">Saint Lucia</option>
-                                                                <option value="SX">Saint Martin (Dutch part)
-                                                                </option>
-                                                                <option value="MF">Saint Martin (French part)
-                                                                </option>
-                                                                <option value="PM">Saint Pierre and Miquelon
-                                                                </option>
-                                                                <option value="VC">Saint Vincent and the Grenadines
-                                                                </option>
-                                                                <option value="WS">Samoa</option>
-                                                                <option value="SM">San Marino</option>
-                                                                <option value="SA">Saudi Arabia</option>
-                                                                <option value="SN">Senegal</option>
-                                                                <option value="RS">Serbia</option>
-                                                                <option value="SC">Seychelles</option>
-                                                                <option value="SL">Sierra Leone</option>
-                                                                <option value="SG">Singapore</option>
-                                                                <option value="SK">Slovakia</option>
-                                                                <option value="SI">Slovenia</option>
-                                                                <option value="SB">Solomon Islands</option>
-                                                                <option value="SO">Somalia</option>
-                                                                <option value="ZA">South Africa</option>
-                                                                <option value="GS">South Georgia/Sandwich Islands
-                                                                </option>
-                                                                <option value="KR">South Korea</option>
-                                                                <option value="SS">South Sudan</option>
-                                                                <option value="ES">Spain</option>
-                                                                <option value="LK">Sri Lanka</option>
-                                                                <option value="SD">Sudan</option>
-                                                                <option value="SR">Suriname</option>
-                                                                <option value="SJ">Svalbard and Jan Mayen</option>
-                                                                <option value="SZ">Swaziland</option>
-                                                                <option value="SE">Sweden</option>
-                                                                <option value="CH">Switzerland</option>
-                                                                <option value="SY">Syria</option>
-                                                                <option value="TW">Taiwan</option>
-                                                                <option value="TJ">Tajikistan</option>
-                                                                <option value="TZ">Tanzania</option>
-                                                                <option value="TH">Thailand</option>
-                                                                <option value="TL">Timor-Leste</option>
-                                                                <option value="TG">Togo</option>
-                                                                <option value="TK">Tokelau</option>
-                                                                <option value="TO">Tonga</option>
-                                                                <option value="TT">Trinidad and Tobago</option>
-                                                                <option value="TN">Tunisia</option>
-                                                                <option value="TR">Turkey</option>
-                                                                <option value="TM">Turkmenistan</option>
-                                                                <option value="TC">Turks and Caicos Islands</option>
-                                                                <option value="TV">Tuvalu</option>
-                                                                <option value="UG">Uganda</option>
-                                                                <option value="UA">Ukraine</option>
-                                                                <option value="AE">United Arab Emirates</option>
-                                                                <option value="GB">United Kingdom (UK)</option>
-                                                                <option value="US">United States (US)</option>
-                                                                <option value="UM">United States (US) Minor Outlying
-                                                                    Islands</option>
-                                                                <option value="VI">United States (US) Virgin Islands
-                                                                </option>
-                                                                <option value="UY">Uruguay</option>
-                                                                <option value="UZ">Uzbekistan</option>
-                                                                <option value="VU">Vanuatu</option>
-                                                                <option value="VA">Vatican</option>
-                                                                <option value="VE">Venezuela</option>
-                                                                <option value="VN">Vietnam</option>
-                                                                <option value="WF">Wallis and Futuna</option>
-                                                                <option value="EH">Western Sahara</option>
-                                                                <option value="YE">Yemen</option>
-                                                                <option value="ZM">Zambia</option>
-                                                                <option value="ZW">Zimbabwe</option>
+
                                                             </select>
                                                         </p>
                                                         <p class="form-row form-row-wide"
@@ -695,17 +274,17 @@
                                             </td>
                                         </tr>
 
-                                        <tr class="order-total">
+                                        <tr class="cart-total">
                                             <th>Total</th>
-                                            <td data-title="Total"><strong><span
-                                                        class="woocommerce-Price-amount amount"><span
-                                                            class="woocommerce-Price-currencySymbol">$</span>430.00</span></strong>
+                                            <td data-title="Total">$<strong><span
+                                                        class="woocommerce-Price-amount amount" id="cart-total"><span
+                                                            class="woocommerce-Price-currencySymbol"></span>0</span></strong>
                                             </td>
                                         </tr>
                                     </table>
 
                                     <div class="wc-proceed-to-checkout">
-                                        <a href="checkout.html" class="checkout-button xb-btn">Proceed to Checkout</a>
+                                        <a  class="checkout-button xb-btn" href="{{ route('checkout')}} ">Proceed to Checkout </a>
                                     </div>
                                 </div>
                             </div>
@@ -720,108 +299,11 @@
     <!-- main area end  -->
 
     <!-- footer strt -->
-    <footer class="position-top bg_img pb-70" data-background="assets/img/bg/footer_bg.png">
-        <div class="container">
-            <div class="contact pb-100">
-                <div class="row">
-                    <div class="col-lg-7">
-                        <div class="xb-contact contact-mt--255">
-                            <div class="contact-title mb-35">
-                                <span><img src="assets/img/icon/directbox-notif.svg" alt="">Contact Us</span>
-                                <h3>Do you have questions or went more <br> information?</h3>
-                            </div>
-                            <form class="contact-from" action="#!">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_user.svg" alt=""></span>
-                                            <input type="text" placeholder="Steven Kevin">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_mail.svg" alt=""></span>
-                                            <input type="text" placeholder="purefit@gmail.com">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_call.svg" alt=""></span>
-                                            <input type="text" placeholder="+91 081 0256 023">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="xb-item--field">
-                                            <span><img src="assets/img/icon/c_message.svg" alt=""></span>
-                                            <textarea name="message" id="message" cols="30" rows="10"
-                                                      placeholder="Write Your Message..."></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="thm-btn thm-btn--black" type="submit">Send Message</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="contact-info contact-mt--255 mt-md-30">
-                            <div class="xb-item--head">
-                                <div class="xb-item--address">
-                                    <h3><img src="assets/img/icon/location.svg" alt="">our address</h3>
-                                    <p>100 Orchard st, New <br> York,NY 100025 USA</p>
-                                </div>
-                                <div class="xb-item--open">
-                                    <p>Monday - Friday <br>
-                                        08:00AM - 05:00PM</p>
-                                    <a href="mailto:purefit@gmail.com"><img src="assets/img/icon/sms-tracking.svg" alt="">purefit@gmail.com</a>
-                                </div>
-                                <ul class="xb-item--social ul_li mt-30">
-                                    <li><a href="#!"><i class="fab fa-telegram-plane"></i></a></li>
-                                    <li><a href="#!"><i class="fab fa-whatsapp"></i></a></li>
-                                    <li><a href="#!"><i class="fab fa-facebook-f"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="xb-item--cta" data-background="assets/img/bg/cta_bg.jpg">
-                                <p>Our help desk is a vailable for you <br> every day, 07:00AM - 10:00PM</p>
-                                <h3>+91 081 256 023</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-inner">
-                <div class="footer-logo mb-25 text-center">
-                    <img src="assets/img/logo/f_logo.png" alt="">
-                </div>
-                <div class="sec-title sec-title--white text-center mb-50">
-                    <h2 class="title">in a healthy body, healthy mind</h2>
-                </div>
-                <ul class="footer-nav ul_li_center">
-                    <li><a href="#!">all products</a></li>
-                    <li><a href="#!">track order</a></li>
-                    <li><a href="#!">my account</a></li>
-                    <li><a href="#!">gift cards</a></li>
-                    <li><a href="#!">our story</a></li>
-                    <li><a href="#!">careers</a></li>
-                    <li><a href="#!">contact</a></li>
-                </ul>
-                <div class="footer-bottom mt-50 ul_li_between">
-                    <div class="footer-copyright mt-30">
-                        Copyright © 2024 purefit All rights reserved.
-                    </div>
-                    <ul class="footer-links ul_li mt-30">
-                        <li><a href="#!">terms of conditions</a></li>
-                        <li><a href="#!">privacy pllicy</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+        @include('partials/footer')
     <!-- footer end -->
 
 
-</div>
+
 
 <!-- jquery include -->
 <script src={{asset("assets/js/jquery-3.7.1.min.js")}}></script>
@@ -836,19 +318,140 @@
 <script src={{asset("assets/js/scrollspy.js")}}></script>
 <script src={{asset("assets/js/main.js")}}></script>
 
+
 <script>
+    function fetchCart() {
+        $.ajax({
+            url: '{{ route('api.cart.get') }}',
+            method: 'GET',
+            success: function(response) {
+                console.log("response", response.items); // Check response structure
+
+                if (!response.items || !Array.isArray(response.items)) {
+                    console.error("Invalid response structure");
+                    return;
+                }
+
+                $('.header-mini-cart').empty(); // Clear previous items
+                let total = 0;
+                let itemCount = 0; // Initialize item count
+
+                if (response.items.length === 0) {
+                    $('.header-mini-cart').append('<p>Your cart is empty.</p>');
+                } else {
+                    response.items.forEach(item => {
+                        if (!item.product || !item.product.price || !item.product.name) {
+                            console.error("Invalid item structure");
+                            return;
+                        }
+
+                        const discount = item.product.discount || 0; // Get discount percentage
+                        const price = item.product.price;
+                        const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount
+                        const itemTotal = discountedPrice * item.quantity; // Calculate total for this item
+                        itemCount += item.quantity; // Sum the quantities for the cart count
+
+                        $('.header-mini-cart').append(`
+                            <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
+                                <div class="mini-cart-img" style="margin-right: 10px;">
+                                    <img src="${item.product_image || 'path/to/default/image.jpg'}" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
+                                </div>
+                                <div class="mini-cart-content" style="flex-grow: 1;">
+                                    <h4 class="product-title" style="margin: 0; font-size: 14px;">
+                                        <a href="shop-details.html" style="text-decoration: none; color: #000;">${item.product.name}</a>
+                                    </h4>
+                                    <div class="mini-cart-price" style="margin-top: 5px;">
+                                        ${item.quantity} ×
+                                        <span class="woocommerce-Price-amount amount" style="color: red;">$${discountedPrice.toFixed(2)}</span>
+
+                                    </div>
+                                </div>
+                                <div class="remove-button" style="margin-left: auto;">
+                                    <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
+                                </div>
+                            </div>
+                        `);
+
+                        total += itemTotal; // Sum the total amount
+                    });
+
+                    $('.header-mini-cart').append(`
+                        <p class="woocommerce-mini-cart__total">
+                            <strong>Subtotal:</strong>
+                            <span class="woocommerce-Price-amount">$${total.toFixed(2)}</span>
+                        </p>
+                        <p class="checkout-link">
+                            <a href="/viewCart" class="button wc-forward">View cart</a>
+                            <a href="/Checkout" class="button checkout wc-forward">Checkout</a>
+                        </p>
+                    `);
+                    $('.mini-cart-count').text(itemCount); // Update the cart count in the header
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', error);
+            }
+        });
+    }
+
+    // Fetch cart items on page load
+    $(document).ready(function() {
+        $('.header-shop-cart a').on('click', function() {
+            $('.header-mini-cart').toggle(); // Toggle visibility on click
+        });
+        fetchCart(); // Fetch cart items
+    });
+
+   // Remove item from mini cart
+$(document).on('click', '.remove', function(event) {
+    event.preventDefault(); // Prevent the default link behavior
+
+    const productId = $(this).data('product_id');
+
+    $.ajax({
+        url: '{{ route('cart.remove') }}',
+        method: 'POST',
+        data: {
+            product_id: productId,
+            _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            if (response.success) {
+                alert(response.message);
+                fetchCart(); // Refresh the cart items
+            } else {
+                alert('Failed to remove item from cart.'); // Handle unexpected response
+            }
+        },
+        error: function(xhr, status, error) {
+            // Check if the response contains a JSON message
+            try {
+                const errResponse = JSON.parse(xhr.responseText);
+                alert(errResponse.message || 'Failed to remove item from cart.');
+            } catch (e) {
+                alert('Failed to remove item from cart.');
+            }
+        }
+    });
+});
+
+</script>
+
+
+
+
+
+
+
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
     $(document).ready(function() {
-
-        function calculateSubtotal() {
-            let subtotal = 0;
-            $('.cart_single').each(function() {
-                const quantity = parseInt($(this).find('.product-count').val());
-                const price = parseFloat($(this).find('.product-price .woocommerce-Price-amount').text().replace(/[^0-9.-]+/g,""));
-                subtotal += quantity * price;
-            });
-            return subtotal;
-        }
 
         function displayMessage(message, type = 'success') {
             const messageContainer = $('#message-container');
@@ -861,82 +464,91 @@
         // Function to fetch cart items
         function fetchCart() {
             $.ajax({
-                url: '{{ route('api.cart.get') }}',
-                method: 'GET',
-                success: function(response) {
-                    $('#cart-items').empty(); // Clear previous items
-                    let total = 0;
+            url: '{{ route('api.cart.get') }}',
+            method: 'GET',
+            success: function(response) {
+    $('#cart-items').empty(); // Clear previous items
+    let total = 0;
 
-                    if (response.items.length === 0) {
-                        $('#cart-items').append('<tr><td colspan="6">Your cart is empty.</td></tr>');
-                    } else {
-                        response.items.forEach(item => {
-                            const itemTotal = item.product.price * item.quantity;
-                            $('#cart-items').append(`
-                                <tr class="cart_single">
-                                    <td class="product-remove">
-                                        <a href="#!" class="remove" title="Remove this item"
-                                           data-product_id="${item.product.id}">&times;</a>
-                                    </td>
-                                    <td class="product-thumbnail">
-                                        <a href="#!">
-                                            <img width="57" height="70" src="assets/img/shop/prd_01.jpg"
-                                                 class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
-                                                 alt="#!" />
-                                        </a>
-                                    </td>
-                                    <td class="product-name" data-title="Product">
-                                        <a href="#!">${item.product.name}</a>
-                                    </td>
-                                    <td class="product-price" data-title="Price">
-                                        <span class="woocommerce-Price-amount amount">
-                                            <span class="woocommerce-Price-currencySymbol">$</span>${item.product.price}
-                                        </span>
-                                    </td>
-                                    <td class="product-quantity" data-title="Quantity">
-                                        <div class="quantity">
-<button type="button" class="quantity-minus" data-product_id="${item.product.id}">-</button>
-                                            <input type="number" step="1" min="1" max="9999" value="${item.quantity}"
-                                             title="Qty"
-                                             class="product-count input-text qty text product-count form-control"
-                                             data-product_id="${item.product.id}" />
-<button type="button" class="quantity-plus" data-product_id="${item.product.id}">+</button>
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal" data-title="Total">
-                                        <span class="woocommerce-Price-amount amount">
-                                            <span class="woocommerce-Price-currencySymbol">$</span>${itemTotal.toFixed(2)}
-                                        </span>
-                                    </td>
+    if (response.items.length === 0) {
+        $('#cart-items').append('<tr><td colspan="6">Your cart is empty.</td></tr>');
+    } else {
+        response.items.forEach(item => {
+            const itemTotal = item.subtotal; // Use subtotal with discount
+            $('#cart-items').append(`
+                <tr class="cart_single">
+                    <td class="product-remove">
+                        <a href="#!" class="remove" title="Remove this item"
+                           data-product_id="${item.product.id}">&times;</a>
+                    </td>
+                    <td class="product-thumbnail">
+                        <a href="#!">
+                            <img width="57" height="70" src="${item.product_image}"
+                                 class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
+                                 alt="${item.product.name}" />
+                        </a>
+                    </td>
+                    <td class="product-name" data-title="Product">
+                        <a href="#!">${item.product.name}</a>
+                    </td>
+                    <td class="product-price" data-title="Price">
+                        <span class="woocommerce-Price-amount amount">
+                            <span class="woocommerce-Price-currencySymbol">$</span>${item.discounted_price.toFixed(2)} <!-- Display discounted price -->
+                        </span>
+                    </td>
+                    <td class="product-options" data-title="Options">
+                        <input type="hidden" class="selected-options" value='${item.selected_options}' />
+                        <span>${item.formatted_options}</span>
+                    </td>
+                    <td class="product-quantity" data-title="Quantity">
+                        <div class="quantity">
+                            <button type="button" class="quantity-minus" data-product_id="${item.product.id}">-</button>
+                            <input type="number" step="1" min="1" max="9999" value="${item.quantity}"
+                             title="Qty"
+                             class="product-count input-text qty text product-count form-control"
+                             data-product_id="${item.product.id}" />
+                            <button type="button" class="quantity-plus" data-product_id="${item.product.id}">+</button>
+                        </div>
+                    </td>
+                    <td class="product-subtotal" data-title="Total">
+                        <span class="woocommerce-Price-amount amount">
+                            <span class="woocommerce-Price-currencySymbol">$</span>${itemTotal.toFixed(2)} <!-- Display subtotal with discount -->
+                        </span>
+                    </td>
+                </tr>
+            `);
+            total += itemTotal; // Accumulate total for cart
+        });
 
-                                </tr>
-                            `);
-                            total += itemTotal;
-                        });
+        $('#cart-subtotal').text(total.toFixed(2));
+        $('#cart-total').text(total.toFixed(2));
+    }
+},
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', error);
+            }
+        });
+    }
 
-                        $('#cart-subtotal').text(total.toFixed(2));
-                        $('#cart-total').text(total.toFixed(2));
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX error:', error);
-                }
-            });
-        }
+    fetchCart();
 
-        fetchCart();
 
         // Update cart item quantity
         $(document).on('change', '.product-count', function() {
             const productId = $(this).data('product_id');
             const quantity = $(this).val();
+            const optionsInput = $(this).closest('tr').find('.selected-options'); // Hidden input for options
+            const selectedOptions = optionsInput.val(); // Get selected options as JSON string
+
+            console.log(selectedOptions); // Check if selectedOptions are retrieved correctly
 
             $.ajax({
-                url: '{{ route('cart.update') }}',
+                url: '{{ route('cart.update') }}', // Ensure this matches your route name in web.php
                 method: 'POST',
                 data: {
                     product_id: productId,
                     quantity: quantity,
+                    selected_options: selectedOptions, // Include selected options
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
@@ -971,16 +583,18 @@
         });
 
         // Remove item from cart
-        $(document).on('click', '.remove', function() {
-            const productId = $(this).data('product_id');
+        $(document).on('click', '.remove', function(event) {
+    event.preventDefault(); // Prevent the default link behavior
 
-            $.ajax({
-                url: '{{ route('cart.remove') }}',
-                method: 'POST',
-                data: {
-                    product_id: productId,
-                    _token: '{{ csrf_token() }}'
-                },
+    const productId = $(this).data('product_id');
+
+    $.ajax({
+        url: '{{ route('cart.remove') }}',
+        method: 'POST',
+        data: {
+            product_id: productId,
+            _token: '{{ csrf_token() }}'
+        },
                 success: function(response) {
                     displayMessage(response.message);
                     fetchCart();
@@ -997,7 +611,7 @@
 </body>
 
 
-<!-- Mirrored from html.xpressbuddy.com/purefit/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 27 Jul 2024 09:34:27 GMT -->
+
 </html>
 
 

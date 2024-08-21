@@ -2,11 +2,11 @@
 <html class="no-js" lang="en">
 
 
-<!-- Mirrored from demo.hasthemes.com/adomx-preview/dark/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 26 May 2024 12:18:03 GMT -->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Admin | Company Info </title>
+    <title>Manage Products</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -69,11 +69,10 @@
         <div class="add-edit-product-wrap col-12">
 
             <div class="add-edit-product-form">
-                <form id="productForm" method="post" action="{{route('manageProducts.update')}}">
+                <form id="productForm" method="post" action="{{route('manageProducts.update')}}" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
                     <input type="hidden" name="product_id" value="{{$product->id}}">
-                    <h4 class="title">Add Product</h4>
+                    <h4 class="title">Edit Product</h4>
 
                     <div class="row">
                         <div class="col-lg-6 col-12 mb-30">
@@ -101,7 +100,22 @@
                             <label for="">Description</label>
                             <textarea name="description" class="form-control">{{$product->description}}</textarea>
                         </div>
-                        <div class="col-lg-6 col-12 mb-30">
+
+                        <div class="col-12 mb-30">
+                            <label>Product Picture(s)</label>
+                            <input class="dropify" type="file" name="images[]" multiple>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: flex-start;">
+                            @foreach($product->images as $image)
+                                <div style="flex: 1 1 100px; box-sizing: border-box;">
+                                    <img src="{{ asset($image->url) }}" alt="img" style="width: 100px; height: 100px; object-fit: cover; display: block; margin-bottom: 10px;">
+                                    <a class="button button-danger"
+                                       href="{{route("productImage.destroy",['id'=>$image->id])}}"><span>Delete</span></a>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="col-12 mb-30">
                             <label>Stock</label>
                             <div class="adomx-checkbox-radio-group">
                                 <label class="adomx-radio"><input type="radio" name="stock" value="in-stock" {{ $product->stock ? 'checked' : '' }}> <i class="icon"></i> In Stock</label>
@@ -132,16 +146,11 @@
 
     </div><!-- Content Body End -->
 
-    <!-- Footer Section Start -->
-    <div class="footer-section">
-        <div class="container-fluid">
-
-            <div class="footer-copyright text-center">
-                <p class="text-body-light">2019 &copy; <a href="https://themeforest.net/user/codecarnival">Codecarnival</a></p>
-            </div>
-
-        </div>
-    </div><!-- Footer Section End -->
+     <!-- Footer Section Start -->
+   
+     @include('partials.adminFooter')
+     
+     <!-- Footer Section End -->
 
 </div>
 
@@ -168,30 +177,32 @@
 <script src={{asset("admin_assets/js/plugins/filepond/filepond.active.js")}}></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('#productForm').submit(function(e) {
+    $(document).ready(function () {
+        $('#productForm').submit(function (e) {
             e.preventDefault(); // Prevent default form submission
 
             // Serialize form data
-            var formData = $(this).serialize();
+            var formData = new FormData(this);
 
             // Send AJAX request
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                type: 'PUT',
+                type: 'POST',
                 url: $(this).attr('action'), // Use form's action attribute as URL
                 data: formData,
-                success: function(response) {
+                processData: false,
+                contentType: false,
+                success: function (response) {
                     $('#successAlert').fadeIn();
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $('#successAlert').fadeOut();
                     }, 3000);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     $('#errorAlert').fadeIn();
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $('#errorAlert').fadeOut();
                     }, 3000);
                 }
@@ -204,5 +215,5 @@
 </body>
 
 
-<!-- Mirrored from demo.hasthemes.com/adomx-preview/dark/edit-product.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 26 May 2024 12:19:55 GMT -->
+
 </html>

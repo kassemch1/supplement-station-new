@@ -2,11 +2,10 @@
 <html class="no-js" lang="en">
 
 
-<!-- Mirrored from demo.hasthemes.com/adomx-preview/dark/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 26 May 2024 12:18:03 GMT -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Admin | Company Info </title>
+    <title>Manage Category</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -58,7 +57,7 @@
             <!-- Page Heading Start -->
             <div class="col-12 col-lg-auto mb-20">
                 <div class="page-heading">
-                    <h3>Manage Products</h3>
+                    <h3>Manage Categories</h3>
                 </div>
             </div><!-- Page Heading End -->
 
@@ -99,16 +98,11 @@
 
     </div><!-- Content Body End -->
 
-    <!-- Footer Section Start -->
-    <div class="footer-section">
-        <div class="container-fluid">
+      <!-- Footer Section Start -->
 
-            <div class="footer-copyright text-center">
-                <p class="text-body-light">2019 &copy; <a href="https://themeforest.net/user/codecarnival">Codecarnival</a></p>
-            </div>
+      @include('partials.adminFooter')
 
-        </div>
-    </div><!-- Footer Section End -->
+      <!-- Footer Section End -->
 
 </div>
 
@@ -151,10 +145,18 @@
                 url: $(this).attr('action'), // Use form's action attribute as URL
                 data: formData,
                 success: function(response) {
-                    $('#successAlert').fadeIn();
-                    setTimeout(function() {
-                        $('#successAlert').fadeOut();
-                    }, 3000);
+                    if(response.status ==='success'){
+                        $('#successAlert').text(response.message).fadeIn();
+                        setTimeout(function() {
+                            $('#successAlert').fadeOut();
+                        }, 3000);
+                    }
+                    else if(response.status==='exists'){
+                        $('#errorAlert').text(response.message).fadeIn();
+                        setTimeout(function() {
+                            $('#errorAlert').fadeOut();
+                        }, 3000);
+                    }
                 },
                 error: function(xhr, status, error) {
                     $('#errorAlert').fadeIn();
@@ -171,5 +173,4 @@
 </body>
 
 
-<!-- Mirrored from demo.hasthemes.com/adomx-preview/dark/edit-product.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 26 May 2024 12:19:55 GMT -->
 </html>
