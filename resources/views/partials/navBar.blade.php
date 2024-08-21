@@ -57,7 +57,7 @@
                             <div class="xb-header-menu-scroll">
                                 <div class="xb-menu-close xb-hide-xl xb-close"></div>
                                 <div class="xb-logo-mobile xb-hide-xl">
-                                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/supplement-logo-nav.png')}}" alt="" style="max-height: 180px; max-width: 120px;" class="logo"></a>
+                                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/outlined-logo-nav.png')}}" alt="" style="height: 60px; width: 160px;" class="logo"></a>
                                 </div>
                                 <div class="xb-header-mobile-search xb-hide-xl">
                                     <form role="search" action="{{route('shop')}}" method="get">
