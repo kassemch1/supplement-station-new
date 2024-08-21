@@ -4,8 +4,8 @@ namespace App\Http\Controllers\user_controllers;
 
 use App\Models\Banner;
 use App\Models\Faq;
+use App\Models\Plan;
 use App\Models\Product;
-use App\Models\plane;
 use App\Models\OrderItem;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +16,7 @@ class HomeController extends Controller
 {
     public function index()
 {
-    $planes = Plane::all();
+    $planes = Plan::all();
     $banner = Banner::first();
     $faqs = Faq::all();
 
