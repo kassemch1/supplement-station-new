@@ -3,7 +3,7 @@
 use App\Http\Controllers\admin_controllers\FaqController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('manageFaq')->group(function () {
+Route::middleware('auth')->prefix('manageFaq')->group(function () {
     Route::get('/create',[FaqController::class,'create'])->name('manageFaq.create');
     //store a new faq
     Route::post('/store',[FaqController::class,'store'])->name('manageFaq.store');

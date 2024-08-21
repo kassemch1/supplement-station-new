@@ -3,7 +3,7 @@
 use App\Http\Controllers\admin_controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('manageProducts')->group(function () {
+Route::middleware('auth')->prefix('manageProducts')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('manageProducts.index');
     Route::get('/create', [ProductController::class, 'create'])->name('manageProducts.create');
     Route::post('/store', [ProductController::class, 'store'])->name('manageProducts.store');

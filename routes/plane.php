@@ -4,7 +4,7 @@
 use App\Http\Controllers\admin_controllers\PlaneController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('managePlan')->group(function () {
+Route::middleware('auth')->prefix('managePlan')->group(function () {
     Route::get('/', [PlaneController::class, 'index'])->name('managePlan.index');
     Route::get('/create', [PlaneController::class, 'create'])->name('managePlan.create');
     Route::post('/store', [PlaneController::class, 'store'])->name('managePlan.store');

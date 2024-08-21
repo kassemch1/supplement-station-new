@@ -3,7 +3,7 @@
 use App\Http\Controllers\admin_controllers\OptionController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('manageOptions')->group(function () {
+Route::middleware('auth')->prefix('manageOptions')->group(function () {
     Route::get('/', [OptionController::class, 'index'])->name('manageOptions.index');
     Route::get('/create', [OptionController::class, 'create'])->name('manageOptions.create');
     Route::post('/store', [OptionController::class, 'store'])->name('manageOptions.store');
