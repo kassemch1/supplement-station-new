@@ -1,0 +1,21 @@
+<IfModule mod_rewrite.c>
+# That was ONLY to protect you from 500 errors
+# if your server did not have mod_rewrite enabled
+
+RewriteEngine On
+# RewriteBase /
+# NOT needed unless you're using mod_alias to redirect
+
+# # Allow access to the public storage directory
+# RewriteCond %{REQUEST_URI} ^/storage/(.*)
+# RewriteRule ^storage/(.*) public/storage/$1 [L]
+
+# Redirect www to non-www
+RewriteCond %{HTTP_HOST} ^www\.supplement-station\.com [NC]
+RewriteRule ^(.*)$ https://supplement-station.com/$1 [R=301,L]
+
+RewriteCond %{REQUEST_URI} !/public
+RewriteRule ^(.*)$ public/$1 [L]
+# Direct all requests to /public folder
+
+</IfModule>

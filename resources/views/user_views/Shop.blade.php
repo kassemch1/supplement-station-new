@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zxx">
+<html lang="en">
 <head>
 
     <!--========= Required meta tags =========-->
@@ -9,9 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Shop</title>
+    <title>Shop | Supplement Station</title>
 
     <link rel="shortcut icon" href={{ asset('assets/img/logo/preloader2.png')}} type="images/x-icon"/>
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/logo/preloader2.png') }}">
 
     <!-- css include -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
@@ -22,7 +26,84 @@
     <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
 
+    <style>
+        /* Styling for the sale label */
+        .sale-label {
+            background-color: #A02334; /* Background color for the label */
+            color: white; /* Text color */
+            padding: 5px 10px; /* Padding around the text */
+            font-weight: bold; /* Bold text */
+            position: absolute; /* Absolute positioning */
+            top: 10px; /* Position it at the top */
+            left: 10px; /* Adjust as needed */
+            z-index: 10; /* Ensure it appears above the image */
+            border-radius: 3px; /* Rounded corners */
+            text-transform: uppercase; /* Uppercase text */
+            font-size: 14px; /* Font size */
+        }
 
+        .xb-item--img {
+            position: relative; /* Needed for absolute positioning of the label */
+            display: inline-block; /* Ensure the container fits around the image */
+        }
+
+        .xb-item--cart-btn.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .no-stock img {
+            pointer-events: none;
+        }
+
+        .no-stock-title {
+            color: gray;
+            cursor: default;
+        }
+
+        /* Customize the overall pagination container */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Style for pagination items */
+        .pagination .page-item {
+            margin: 0 2px; /* Spacing between buttons */
+        }
+
+        /* Style for pagination links */
+        .pagination .page-link {
+            color: #ffffff; /* Text color */
+            background-color: #A02334; /* Background color */
+            border: 1px solid #A02334; /* Border color */
+        }
+
+        /* Style for active pagination link */
+        .pagination .page-item.active .page-link {
+            background-color: #fff; /* Active background color */
+            color: #A02334;
+            border-color: #A02334; /* Active border color */
+        }
+
+        /* Style for disabled pagination link */
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d; /* Disabled text color */
+            background-color: #e9ecef; /* Disabled background color */
+            border-color: #e9ecef; /* Disabled border color */
+        }
+
+        /* Hover effect for pagination links */
+        .pagination .page-link:hover {
+            background-color: #fff; /* Hover background color */
+            border-color: #fff; /* Hover border color */
+            color: #A02334;
+        }
+
+
+    </style>
 </head>
 
 <body>
@@ -44,7 +125,7 @@
 <!-- main area start  -->
 <main>
     <!-- breadcrumb start -->
-    <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner.png')}}">
+    <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner.webp')}}">
         <div class="container">
             <div class="breadcrumb__content text-center">
                 <h2 class="breadcrumb__title" style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">Shop</h2>
@@ -125,9 +206,9 @@
                                                 <form action="{{route('shop')}}" method="GET" class="category-form-phone">
                                                     @csrf
                                                     <select name="category-phone" id="category-phone">
-                                                        <option value="all">Show All</option>
+                                                        <option value="all" >Show All</option>
                                                         @foreach($categories as $category)
-                                                            <option value="{{$category->name}}">{{$category->name}}</option>
+                                                            <option value="{{$category->name}}" {{ $currentCategoryId === $category->id ? 'selected' : '' }}>{{$category->name}}</option>
                                                         @endforeach
                                                     </select>
 
@@ -151,7 +232,7 @@
                                                 <div class="thumb">
                                                     <a href="{{ route('products.show', ['id' => $offer->id]) }}">
                                                         @if($offer->images->isNotEmpty())
-                                                            <img src="{{ asset($offer->images->first()->url) }}" alt="">
+                                                            <img src="{{ asset($offer->images->first()->url) }}" alt="" loading="lazy">
                                                         @else
                                                             No image available
                                                         @endif
@@ -197,7 +278,7 @@
                                     @csrf
                                     <input type="hidden" name="category" id="category-input" value="">
                                     <select name="orderby" class="orderby" id="sort-by-price">
-                                        <option value="default" selected="selected">Apply sorting</option>
+                                        <option value="sort" selected="selected">Apply sorting</option>
                                         <option value="default">Default</option>
                                         <option value="low-to-high">Sort by price: low to high</option>
                                         <option value="high-to-low">Sort by price: high to low</option>
@@ -217,6 +298,8 @@
 
 
                         </div>
+                        <br>
+                        <br>
                     </div>
                 </div>
 
@@ -235,7 +318,7 @@
                                             <div class="thumb">
                                                 <a href="{{ route('products.show', ['id' => $offer->id]) }}">
                                                     @if($offer->images->isNotEmpty())
-                                                        <img src="{{ asset($offer->images->first()->url) }}" alt="">
+                                                        <img src="{{ asset($offer->images->first()->url) }}" alt="" loading="lazy">
                                                     @else
                                                         No image available
                                                     @endif
@@ -314,6 +397,7 @@
                 data: formData,
                 success: function (response) {
                     // Ensure response keys match those sent from the server
+                    $('#sort-by-price').val('sort');
                     if (response.productList) {
                         $('#product-list').empty().html(response.productList);
                     } else {
@@ -422,6 +506,7 @@
             url: $(this).attr('action'), // Use form's action attribute as URL
             data: formData,
             success: function (response) {
+                $('#sort-by-price').val('sort');
                 if (response.productList) {
                     $('#product-list').empty().html(response.productList);
                 } else {
@@ -466,6 +551,7 @@
             url: $(this).attr('action'), // Use form's action attribute as URL
             data: formData,
             success: function (response) {
+                $('#sort-by-price').val('sort');
                 if (response.productList) {
                     $('#product-list').empty().html(response.productList);
                 } else {
@@ -544,87 +630,6 @@
     });
 
 </script>
-</body>
-<style>
-    /* Styling for the sale label */
-    .sale-label {
-        background-color: #A02334; /* Background color for the label */
-        color: white; /* Text color */
-        padding: 5px 10px; /* Padding around the text */
-        font-weight: bold; /* Bold text */
-        position: absolute; /* Absolute positioning */
-        top: 10px; /* Position it at the top */
-        left: 10px; /* Adjust as needed */
-        z-index: 10; /* Ensure it appears above the image */
-        border-radius: 3px; /* Rounded corners */
-        text-transform: uppercase; /* Uppercase text */
-        font-size: 14px; /* Font size */
-    }
-
-    .xb-item--img {
-        position: relative; /* Needed for absolute positioning of the label */
-        display: inline-block; /* Ensure the container fits around the image */
-    }
-
-    .xb-item--cart-btn.disabled {
-        pointer-events: none;
-        opacity: 0.5;
-    }
-
-    .no-stock img {
-        pointer-events: none;
-    }
-
-    .no-stock-title {
-        color: gray;
-        cursor: default;
-    }
-
-    /* Customize the overall pagination container */
-    .pagination {
-        display: flex;
-        justify-content: center;
-        padding: 0;
-        margin: 0;
-    }
-
-    /* Style for pagination items */
-    .pagination .page-item {
-        margin: 0 2px; /* Spacing between buttons */
-    }
-
-    /* Style for pagination links */
-    .pagination .page-link {
-        color: #ffffff; /* Text color */
-        background-color: #A02334; /* Background color */
-        border: 1px solid #A02334; /* Border color */
-    }
-
-    /* Style for active pagination link */
-    .pagination .page-item.active .page-link {
-        background-color: #fff; /* Active background color */
-        color: #A02334;
-        border-color: #A02334; /* Active border color */
-    }
-
-    /* Style for disabled pagination link */
-    .pagination .page-item.disabled .page-link {
-        color: #6c757d; /* Disabled text color */
-        background-color: #e9ecef; /* Disabled background color */
-        border-color: #e9ecef; /* Disabled border color */
-    }
-
-    /* Hover effect for pagination links */
-    .pagination .page-link:hover {
-        background-color: #fff; /* Hover background color */
-        border-color: #fff; /* Hover border color */
-        color: #A02334;
-    }
-
-
-</style>
-
-</html>
 
 
 <!--minicart-->
@@ -863,5 +868,9 @@
         });
     });
 </script>
+</body>
+
+
+</html>
 
 

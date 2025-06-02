@@ -19,7 +19,7 @@ class ContactController
 
         $data = $request->only('name', 'email', 'phone', 'message');
 
-        Mail::to('kassemshames836@gmail.com')->send(new ContactMail($data));
+        Mail::to('admin@supplement-station.com')->send(new ContactMail($data));
 
         return back()->with('success', 'Thank you for contacting us!');
     }

@@ -57,11 +57,10 @@
                         <div class="xb-item--head">
                             <div class="xb-item--address">
                                 <h3><img src={{ asset("assets/img/icon/location.svg") }} alt="">our address</h3>
-                                <p>Msharafieh Hadi Nasrallah Street Facing Garden State Behind Al Turki Restaurant<br> Beirut, Lebanon</p>
+                                <p>Msharafieh Facing Garden State<br> Beirut, Lebanon</p>
                             </div>
                             <div class="xb-item--open">
-                                <p>Monday - Friday <br>
-                                    09:00AM - 09:00PM</p>
+                                <p>Our customer support is available Monday to Saturday, 9:00 AM – 9:00 PM.<br>Our website is available 24/7 for your convenience.</p>
                                 <a href="mailto:admin@supplement-station.com"><img src="assets/img/icon/sms-tracking.svg" alt="">admin@supplement-station.com</a>
                             </div>
                             <ul class="xb-item--social ul_li mt-30">
@@ -71,7 +70,7 @@
                             </ul>
                         </div>
                         <div class="xb-item--cta" data-background="assets/img/bg/cta_bg2.jpg">
-                            <p>we are available for you <br> every day, 09:00AM - 9:00PM</p>
+                            <p>we are available for you <br> Monday to Saturday, 09:00AM - 9:00PM</p>
                             <h3>+961 81-823-038 / 81-088-266</h3>
 
                         </div>

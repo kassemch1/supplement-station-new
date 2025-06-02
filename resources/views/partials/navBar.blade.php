@@ -1,12 +1,12 @@
 
 <!-- preloader start -->
-<div id="xb-loadding" class="xb-loadding-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9999; background-color: #fff;">
-    <div class="xb-loader" style="display: flex; align-items: center; justify-content: center;">
-        <div class="xb-loadding-inner" style="text-align: center;">
-            <img src="{{ asset('assets/img/logo/preloader2.png')}}" alt="" style="max-height: 200px; max-width: 200px;">
-        </div>
-    </div>
-</div>
+<!--<div id="xb-loadding" class="xb-loadding-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; z-index: 9999; background-color: #fff;">-->
+<!--    <div class="xb-loader" style="display: flex; align-items: center; justify-content: center;">-->
+<!--        <div class="xb-loadding-inner" style="text-align: center;">-->
+<!--            <img src="{{ asset('assets/img/logo/preloader2.png')}}" alt="" style="max-height: 200px; max-width: 200px;">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <!-- preloader end -->
 
@@ -180,7 +180,7 @@
         </div>
         <div class="sidebar-socials-wrap" style="margin-top: 0; text-align: center; display: flex; align-items: center; margin-left: auto;">
             <a class="social-item" href="https://www.instagram.com/supplement_station_lb/" target="_blank" style="display: flex; align-items: center;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png"
+                <img src="https://static.vecteezy.com/system/resources/previews/017/743/718/non_2x/instagram-icon-logo-free-png.png"
                      alt="Instagram"
                      style="width: 24px; height: 24px; margin-right: 10px;">
                 Instagram

@@ -1,18 +1,26 @@
 
 <!doctype html>
-<html lang="zxx">
+<html lang="en">
 
 <head>
 
     <!--========= Required meta tags =========-->
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="">
+    <meta name="description" content="Welcome to Supplement Station! Discover a wide range of premium gym supplements designed to boost your energy, enhance performance, and support your fitness goals. Shop now for the best deals on protein powders, vitamins, and more. Elevate your energy levels and achieve your best with us.">    
+    <meta name="keywords" content="supplement station,gym supplements, protein powder, fitness nutrition, muscle gain, supplement store, Lebanon supplements,drugs, supplements lebanon">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Home</title>
-
+    <title>Buy Premium Supplements in Lebanon | Supplement Station</title>
+    
+<!--<link rel="preload" href="https://supplement-station.com/assets/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">-->
+<!--  <noscript><link rel="stylesheet" href="https://supplement-station.com/assets/css/bootstrap.min.css"></noscript>-->
+  
     <link rel="shortcut icon" href={{ asset('assets/img/logo/preloader2.png')}} type="images/x-icon"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/logo/preloader2.png') }}">
 
     <!-- css include -->
     <link rel="stylesheet" href={{asset("assets/css/bootstrap.min.css")}}>
@@ -22,6 +30,24 @@
     <link rel="stylesheet" href={{asset("assets/css/jquery-ui.min.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/magnific-popup.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/main.css")}}>
+    <style>
+        .xb-item--cart-btn.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+            width: 300px
+        }
+        .xb-item--cart-btn.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .no-stock img {
+            pointer-events: none;
+        }
+        .no-stock-title {
+            color: gray;
+            cursor: default;
+        }
+    </style>
 </head>
 
 <body>
@@ -44,7 +70,7 @@
     <!-- main area start  -->
     <main>
         <!-- hero start -->
-        <section class="hero hero-style-one bg_img hero-height d-flex align-items-center" data-background="{{asset("assets/img/bg/home-banner.jpg")}}">
+        <section class="hero hero-style-one bg_img hero-height d-flex align-items-center" data-background="{{asset("assets/img/bg/home-banner.webp")}}">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
@@ -78,9 +104,9 @@
                     <div class="col-lg-5">
                         <div class="hero__product text-md-end">
                             @if($banner && $banner->product_id)
-                                <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("$banner->image")}}" alt="" height="500" width="500">
+                                <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("$banner->image")}}" alt="" height="500" width="500" loading="lazy">
                             @else
-                                <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("assets/img/shop/hero_product.png")}}" alt="" height="500" width="500">
+                                <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("assets/img/shop/hero_product.png")}}" alt="" height="500" width="500" loading="lazy">
                             @endif
                         </div>
                     </div>
@@ -139,11 +165,11 @@
                             <div class="xb-item--img">
                                 @if($offer->stock > 0)
                                 <a href="{{ route('products.show', $offer->id) }}">
-                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" style="width: 100%; height: auto; object-fit: cover;">
+                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" style="width: 100%; height: auto; object-fit: cover;" loading="lazy">
                                 </a>
                                 @else
                                 <a >
-                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" style="width: 100%; height: auto; object-fit: cover;">
+                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" style="width: 100%; height: auto; object-fit: cover;" loading="lazy">
                                 </a>
                                 @endif
                             </div>
@@ -338,7 +364,7 @@
                         <a href="{{ route('products.show', $product->id) }}">
                             <!-- Add image here -->
                             @if($product->images->isNotEmpty())
-                                <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px">
+                                <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px" loading="lazy">
                             @else
                                 No image available
                             @endif
@@ -347,7 +373,7 @@
                         <div class="no-stock">
                             <!-- Add image here -->
                             @if($product->images->isNotEmpty())
-                                <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px">
+                                <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px" loading="lazy">
                             @else
                                 No image available
                             @endif
@@ -700,25 +726,25 @@
                         <div class="xb-swiper-container swiper-container">
                             <div class="xb-swiper-wrapper swiper-wrapper">
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/Muscletech.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/Muscletech.png" alt="" loading="lazy"></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/KevinLevrone.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/KevinLevrone.png" alt="" loading="lazy"></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/ON.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/ON.png" alt="" loading="lazy"></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/Dymatize.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/Dymatize.png" alt="" loading="lazy"></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/BPI.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/BPI.png" alt="" loading="lazy"></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/XTEND.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/XTEND.png" alt="" loading="lazy"></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/Challenger.png" alt=""></a>
+                                    <a href="#!"><img src="assets/img/brand/Challenger.png" alt="" loading="lazy"></a>
                                 </div>
                             </div>
                         </div>
@@ -798,7 +824,7 @@
     <!-- footer end -->
 
 
-<script src={{asset("assets/js/jquery.min.js")}}></script>
+<!--<script src={{asset("assets/js/jquery.min.js")}}></script>-->
 <!-- jquery include -->
 <script src={{asset("assets/js/jquery-3.7.1.min.js")}}></script>
 <script src={{asset("assets/js/bootstrap.bundle.min.js")}}></script>
@@ -811,12 +837,6 @@
 <script src={{asset("assets/js/jquery.easing.js")}}></script>
 <script src={{asset("assets/js/scrollspy.js")}}></script>
 <script src={{asset("assets/js/main.js")}}></script>
-
-</body>
-
-
-
-</html>
 
 <!--mini-cart script -->
 <script>
@@ -905,37 +925,37 @@
     });
 
     // Remove item from mini cart
-$(document).on('click', '.remove', function(event) {
-    event.preventDefault(); // Prevent the default link behavior
+    $(document).on('click', '.remove', function(event) {
+        event.preventDefault(); // Prevent the default link behavior
 
-    const productId = $(this).data('product_id');
+        const productId = $(this).data('product_id');
 
-    $.ajax({
-        url: '{{ route('cart.remove') }}',
-        method: 'POST',
-        data: {
-            product_id: productId,
-            _token: '{{ csrf_token() }}'
-        },
-        success: function(response) {
-            if (response.success) {
-                // alert(response.message);
-                fetchCart(); // Refresh the cart items
-            } else {
-                alert('Failed to remove item from cart.'); // Handle unexpected response
+        $.ajax({
+            url: '{{ route('cart.remove') }}',
+            method: 'POST',
+            data: {
+                product_id: productId,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success) {
+                    // alert(response.message);
+                    fetchCart(); // Refresh the cart items
+                } else {
+                    alert('Failed to remove item from cart.'); // Handle unexpected response
+                }
+            },
+            error: function(xhr, status, error) {
+                // Check if the response contains a JSON message
+                try {
+                    const errResponse = JSON.parse(xhr.responseText);
+                    alert(errResponse.message || 'Failed to remove item from cart.');
+                } catch (e) {
+                    alert('Failed to remove item from cart.');
+                }
             }
-        },
-        error: function(xhr, status, error) {
-            // Check if the response contains a JSON message
-            try {
-                const errResponse = JSON.parse(xhr.responseText);
-                alert(errResponse.message || 'Failed to remove item from cart.');
-            } catch (e) {
-                alert('Failed to remove item from cart.');
-            }
-        }
+        });
     });
-});
 </script>
 
 
@@ -957,27 +977,41 @@ $(document).on('click', '.remove', function(event) {
 </script>
 
 
+{{--test background lazy load --}}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const sections = document.querySelectorAll("[data-background]");
+
+        const lazyLoadBackground = (element) => {
+            const backgroundUrl = element.getAttribute("data-background");
+            if (backgroundUrl) {
+                element.style.backgroundImage = `url(${backgroundUrl})`;
+            }
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    lazyLoadBackground(entry.target);
+                    observer.unobserve(entry.target); // Stop observing after loading the background
+                }
+            });
+        });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    });
+</script>
+
+</body>
 
 
 
-<style>
-    .xb-item--cart-btn.disabled {
-        pointer-events: none;
-        opacity: 0.5;
-        width: 300px
-    }
-    .xb-item--cart-btn.disabled {
-            pointer-events: none;
-            opacity: 0.5;
-        }
-        .no-stock img {
-            pointer-events: none;
-        }
-        .no-stock-title {
-            color: gray;
-            cursor: default;
-        }
-</style>
+</html>
+
+
+
 
 
 

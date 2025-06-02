@@ -15,7 +15,7 @@ class OrderController extends Controller
         $sortOrder = $request->input('sort', 'desc'); // Default to descending order
         $pendingOrders = Order::where('status', 'pending')
             ->orderBy('created_at', $sortOrder)
-            ->paginate(4);
+            ->paginate(10);
     
         return view('admin_views/manage_orders/Pending_orderList', [
             'pendingOrders' => $pendingOrders,
@@ -28,7 +28,7 @@ class OrderController extends Controller
         $sortOrder = $request->input('sort', 'desc'); // Default to descending order
         $deliveredOrders = Order::where('status', 'delivered')
             ->orderBy('created_at', $sortOrder)
-            ->paginate(4);
+            ->paginate(10);
     
         return view('admin_views/manage_orders/Delivered_orderList', [
             'deliveredOrders' => $deliveredOrders,

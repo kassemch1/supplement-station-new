@@ -78,10 +78,16 @@
                         <div class="col-lg-6 col-12 mb-30">
                             <label for="">Name</label>
                             <input name="name" class="form-control" type="text"  placeholder="Product Name" value="{{$product->name}}">
+                            @if ($errors->has('name'))
+                                <span class="text-danger">{{ $errors->first('name') }}</span>
+                            @endif
                         </div>
                         <div class="col-lg-6 col-12 mb-30">
                             <label for="">Price</label>
                             <input name="price" class="form-control" type="text"  placeholder="Product Price" value="{{$product->price}}">
+                            @if ($errors->has('price'))
+                                <span class="text-danger">{{ $errors->first('price') }}</span>
+                            @endif
                         </div>
                         <div class="col-lg-6 col-12 mb-30">
                             <label for="">Category</label>
@@ -90,20 +96,32 @@
                                     <option value="{{$category->id}}" {{ $category->id == $product->category_id ? 'selected' : '' }}>{{$category->name}}</option>
                                 @endforeach
                             </select>
+                            @if ($errors->has('category_id'))
+                                <span class="text-danger">{{ $errors->first('category_id') }}</span>
+                            @endif
                         </div>
                         <div class="col-lg-6 col-12 mb-30">
                             <label for="">Discount</label>
                             <input name="discount" class="form-control" type="text"  placeholder="Product Discount" value="{{$product->discount}}">
+                            @if ($errors->has('discount'))
+                                <span class="text-danger">{{ $errors->first('discount') }}</span>
+                            @endif
                         </div>
 
                         <div class="col-12 mb-30">
                             <label for="">Description</label>
                             <textarea name="description" class="form-control">{{$product->description}}</textarea>
+                            @if ($errors->has('description'))
+                                <span class="text-danger">{{ $errors->first('description') }}</span>
+                            @endif
                         </div>
 
                         <div class="col-12 mb-30">
                             <label>Product Picture(s)</label>
                             <input class="dropify" type="file" name="images[]" multiple>
+                            @if ($errors->has('images'))
+                                <span class="text-danger">{{ $errors->first('images') }}</span>
+                            @endif
                         </div>
                         <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: flex-start;">
                             @foreach($product->images as $image)
@@ -121,6 +139,9 @@
                                 <label class="adomx-radio"><input type="radio" name="stock" value="in-stock" {{ $product->stock ? 'checked' : '' }}> <i class="icon"></i> In Stock</label>
                                 <label class="adomx-radio"><input type="radio" name="stock" value="out-of-stock" {{ !$product->stock ? 'checked' : '' }}> <i class="icon"></i> Out of Stock</label>
                             </div>
+                            @if ($errors->has('stock'))
+                                <span class="text-danger">{{ $errors->first('stock') }}</span>
+                            @endif
                         </div>
 
 
@@ -147,9 +168,9 @@
     </div><!-- Content Body End -->
 
      <!-- Footer Section Start -->
-   
+
      @include('partials.adminFooter')
-     
+
      <!-- Footer Section End -->
 
 </div>
@@ -199,12 +220,34 @@
                     setTimeout(function () {
                         $('#successAlert').fadeOut();
                     }, 3000);
+                    $('.text-danger').remove(); // Remove existing error messages
                 },
                 error: function (xhr, status, error) {
                     $('#errorAlert').fadeIn();
                     setTimeout(function () {
                         $('#errorAlert').fadeOut();
                     }, 3000);
+                    let errors = xhr.responseJSON.errors;
+                    $('.text-danger').remove(); // Remove existing error messages
+
+                    // Loop through the errors and display them
+                    $.each(errors, function(field, messages) {
+                        // Handle radio button errors
+                        if (field === 'stock') {
+                            let inputField = $('[name="stock"]').last(); // Select the last radio button for proper placement
+                            inputField.closest('.adomx-checkbox-radio-group').after('<span class="text-danger">' + messages[0] + '</span>');
+                        }
+                        // Handle image input errors
+                        else if (field.startsWith('images')) {
+                            let inputField = $('[name="images[]"]');
+                            inputField.after('<span class="text-danger">' + messages[0] + '</span>');
+                        }
+                        // Handle other fields
+                        else {
+                            let inputField = $('[name="' + field + '"]');
+                            inputField.after('<span class="text-danger">' + messages[0] + '</span>');
+                        }
+                    });
                 }
             });
         });

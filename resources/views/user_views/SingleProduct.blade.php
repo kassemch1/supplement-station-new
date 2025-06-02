@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zxx">
+<html lang="en">
 
 
 <head>
@@ -11,9 +11,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Shop</title>
+    <title>Single Product | Supplement Station</title>
 
     <link rel="shortcut icon" href={{ asset('assets/img/logo/preloader2.png')}} type="images/x-icon"/>
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/logo/preloader2.png') }}">
 
     <!-- css include -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
@@ -139,7 +143,7 @@
     <!-- main area start  -->
     <main>
         <!-- breadcrumb start -->
-        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner.png')}}">
+        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner.webp')}}">
             <div class="container">
                 <div class="breadcrumb__content text-center">
                     <h2 class="breadcrumb__title" style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">Product</h2>
@@ -183,7 +187,7 @@
                                                             object-fit: cover;
                                                             max-width: 100%; /* Ensure it doesn't exceed its container width */
                                                             max-height: 500px; /* Set maximum height */
-                                                            ">
+                                                            " loading="lazy">
                                             </div>
 
 
@@ -197,7 +201,7 @@
                                     @foreach($products->images as $index => $image)
                                         <li class="nav-item">
                                             <button class="nav-link {{ $index == 0 ? 'active' : '' }}" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab-{{ $index }}" type="button" role="tab" aria-controls="tab-{{ $index }}" aria-selected="{{ $index == 0 ? 'true' : 'false' }}" >
-                                                <img src="{{ asset($image->url) }}" alt="{{ $products->name }} thumbnail {{ $index + 1 }}" height="100" width="100">
+                                                <img src="{{ asset($image->url) }}" alt="{{ $products->name }} thumbnail {{ $index + 1 }}" height="100" width="100" loading="lazy">
                                             </button>
                                         </li>
                                     @endforeach
@@ -336,11 +340,11 @@
 
                                                         @if($agent->isMobile())
                                                         <div>
-                                                            <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="height: 60px;width:60px">
+                                                            <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="height: 60px;width:60px" loading="lazy">
                                                         </div>
                                                         @else
                                                         <div class="client-pic">
-                                                        <img src="{{ asset('assets/img/icon/profile.png')}}" alt="Client Avatar" style="width:100px;height:60px">
+                                                        <img src="{{ asset('assets/img/icon/profile.png')}}" alt="Client Avatar" style="width:100px;height:60px" loading="lazy">
                                                     </div>
                                                         @endif
 
@@ -453,7 +457,7 @@
                                                 <a href="{{ route('products.show', $item->id) }}">
                                                     <!-- Add image here -->
                                                     @if($item->images->isNotEmpty())
-                                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" style="max-height: 120px">
+                                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" style="max-height: 120px" loading="lazy">
                                                     @else
                                                         No image available
                                                     @endif
@@ -462,7 +466,7 @@
                                                 <div class="no-stock">
                                                     <!-- Add image here -->
                                                     @if($item->images->isNotEmpty())
-                                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" style="max-height: 120px">
+                                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" style="max-height: 120px" loading="lazy">
                                                     @else
                                                         No image available
                                                     @endif
@@ -501,12 +505,12 @@
                         </span>
                                             @if($item->stock > 0)
                                                 <a href="{{ route('products.show', $product->id) }}" class="xb-item--cart-btn">
-                                                    <span class="xb-item--cart-icon"><img src="{{asset('assets/img/icon/bag.svg')}}" alt=""></span>
+                                                    <span class="xb-item--cart-icon"><img src="{{asset('assets/img/icon/bag.svg')}}" alt="" loading="lazy"></span>
                                                     <span class="xb-item--cart">add to cart</span>
                                                 </a>
                                             @elseif($item->stock == 0)
                                                 <a href="#" class="xb-item--cart-btn disabled" style="color: lightgrey" >
-                                                    <span class="xb-item--cart-icon"><img src="{{asset('assets/img/icon/bag.svg')}}" alt=""></span>
+                                                    <span class="xb-item--cart-icon"><img src="{{asset('assets/img/icon/bag.svg')}}" alt="" loading="lazy"></span>
                                                     <span class="xb-item--cart">Out of Stock</span>
                                                 </a>
                                             @endif
@@ -903,7 +907,7 @@ $(document).on('click', '.remove', function(event) {
                         $('.header-mini-cart').append(`
                         <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
                             <div class="mini-cart-img" style="margin-right: 10px;">
-                                <img src="{{asset('${item.product_image}')}}" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
+                                <img src="{{asset('${item.product_image}')}}" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;" loading="lazy">
                             </div>
                             <div class="mini-cart-content" style="flex-grow: 1;">
                                 <h4 class="product-title" style="margin: 0; font-size: 14px;">
@@ -988,11 +992,11 @@ function addNewReview(review) {
 
             @if($agent->isMobile())
                                                         <div>
-                                                            <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="height: 60px;width:60px">
+                                                            <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="height: 60px;width:60px" loading="lazy">
                                                         </div>
                                                         @else
                                                         <div class="client-pic">
-                                                        <img src="{{ asset('assets/img/icon/profile.png')}}" alt="Client Avatar" style="width:100px;height:60px">
+                                                        <img src="{{ asset('assets/img/icon/profile.png')}}" alt="Client Avatar" style="width:100px;height:60px" loading="lazy">
                                                     </div>
                                                         @endif
 

@@ -38,7 +38,7 @@ class ProductController extends Controller
     }
 
 
-    $products = $query->paginate(3);
+    $products = $query->paginate(8);
     $categories = Category::all();
 
     return view('admin_views/manage_products/edit_product', [
@@ -67,6 +67,20 @@ class ProductController extends Controller
             'stock' => 'required', // Assumes stock should be an integer
             'images' => 'required|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ], [
+            'name.required' => 'The product name is required.',
+            'price.required' => 'The price is required.',
+            'price.min' => 'The price must be greater than zero.',
+            'category_id.required' => 'The category is required.',
+            'discount.required' => 'The discount is required.',
+            'discount.between' => 'The discount must be between 0 and 100.',
+            'description.required' => 'The description is required.',
+            'stock.required' => 'The stock status is required.',
+            'stock.in' => 'The stock status must be either "in-stock" or "out-of-stock".',
+            'images.required' => 'At least one image is required.',
+            'images.*.image' => 'Each file must be an image.',
+            'images.*.mimes' => 'Each image must be a file of type: jpeg, png, jpg, gif, svg.',
+            'images.*.max' => 'Each image must not exceed 2MB.'
         ]);
 
         // Create a new product using the validated data
@@ -117,6 +131,25 @@ class ProductController extends Controller
             'stock' => 'required', // Assumes stock should be an integer
             'images' => $hasImages ? 'array' : 'required|array', // Make images required if no existing images
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ], [
+            'name.required' => 'The product name is required.',
+            'name.string' => 'The product name must be a string.',
+            'price.required' => 'The price is required.',
+            'price.numeric' => 'The price must be a number.',
+            'category_id.required' => 'The category is required.',
+            'category_id.integer' => 'The category ID must be an integer.',
+            'discount.required' => 'The discount is required.',
+            'discount.numeric' => 'The discount must be a number.',
+            'discount.between' => 'The discount must be between 0 and 100.',
+            'description.required' => 'The description is required.',
+            'description.string' => 'The description must be a string.',
+            'stock.required' => 'The stock status is required.',
+            'stock.in' => 'The stock status must be either "in-stock" or "out-of-stock".',
+            'images.required' => 'At least one image is required.',
+            'images.array' => 'The images must be an array.',
+            'images.*.image' => 'Each file must be an image.',
+            'images.*.mimes' => 'The images must be of type jpeg, png, jpg, gif, or svg.',
+            'images.*.max' => 'Each image may not be larger than 2MB.'
         ]);
 
 

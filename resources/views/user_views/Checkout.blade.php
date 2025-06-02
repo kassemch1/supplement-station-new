@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zxx">
+<html lang="en">
 
 
 <head>
@@ -12,9 +12,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <title>Checkout</title>
+    <title>Checkout | Supplement Station</title>
 
     <link rel="shortcut icon" href={{ asset('assets/img/logo/preloader2.png')}} type="images/x-icon"/>
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/logo/preloader2.png') }}">
 
     <!-- css include -->
     <link rel="stylesheet" href={{asset("assets/css/bootstrap.min.css")}}>
@@ -42,7 +46,7 @@
     <!-- main area start  -->
     <main>
         <!-- breadcrumb start -->
-        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner.png')}}">
+        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner.webp')}}">
             <div class="container">
                 <div class="breadcrumb__content text-center">
                     <h2 class="breadcrumb__title" style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">Checkout</h2>
@@ -92,12 +96,13 @@
 {{--                                                @enderror--}}
                                             </p>
 
-                                            <p class="form-row">
+                           <p class="form-row">
                                                 <label for="billing_email">Email (<abbr class="required" title="required">optional</abbr>)</label>
                                                 <input type="email" name="billing_email" id="billing_email" placeholder="Email"  style="border: 1px solid #ccc; padding: 0.5rem; width: 100%; border-radius: 4px;" />
                                                 <small class="form-text text-muted " style="color: red !important;">Note:Providing your email is optional, but it's best to enter it to receive a receipt.</small>
                                                 <span class="error-message" id="billing_email_error" style="color: red; font-weight: bold" ></span>
                                             </p>
+                                             
 
                                             <p class="form-row">
                                                 <label for="billing_address_1">Address <abbr class="required" title="required">*</abbr></label>

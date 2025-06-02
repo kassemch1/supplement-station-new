@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zxx">
+<html lang="en">
 
 <head>
 
@@ -10,9 +10,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Cart</title>
+    <title>Cart | Supplement Station</title>
 
     <link rel="shortcut icon" href={{ asset('assets/img/logo/preloader2.png')}} type="images/x-icon"/>
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/logo/preloader2.png') }}">
 
     <!-- css include -->
     <link rel="stylesheet" href={{asset("assets/css/bootstrap.min.css")}}>
@@ -159,7 +163,7 @@
     <!-- main area start  -->
     <main>
         <!-- breadcrumb start -->
-        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner.png')}}">
+        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner.webp')}}">
             <div class="container">
                 <div class="breadcrumb__content text-center">
                     <h2 class="breadcrumb__title" style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">Cart</h2>
@@ -234,7 +238,7 @@
                                                        class="shipping_method" />
                                                 <form class="woocommerce-shipping-calculator"
                                                       action="http://localhost/wp/?page_id=5" method="post">
-                                                    <p><a href="#!" class="shipping-calculator-button">to be announced
+                                                    <p><a href="#!" class="shipping-calculator-button">To Be Announced
                                                             </a></p>
                                                     <section class="shipping-calculator-form" style="display:none;">
                                                         <h2 class="hidden">Cart total</h2>
@@ -320,7 +324,30 @@
 
 
 <script>
-    function fetchCart() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    function updateItemCount(itemCount) {
+        $('.mini-cart-count').text(itemCount); // Update the count in the header
+    }
+
+    $(document).ready(function() {
+
+        function displayMessage(message, type = 'success') {
+            const messageContainer = $('#message-container');
+            messageContainer.text(message).removeClass('success error').addClass(type).show();
+            setTimeout(() => {
+                messageContainer.fadeOut();
+            }, 3000); // Hide after 3 seconds
+        }
+    function refreshCarts() {
+        fetchminiCart();
+        fetchCart();
+    }
+
+    function fetchminiCart() {
         $.ajax({
             url: '{{ route('api.cart.get') }}',
             method: 'GET',
@@ -338,6 +365,8 @@
 
                 if (response.items.length === 0) {
                     $('.header-mini-cart').append('<p>Your cart is empty.</p>');
+                    updateItemCount(itemCount); // Update item count to 0 when cart is empty
+                    total = 0;
                 } else {
                     response.items.forEach(item => {
                         if (!item.product || !item.product.price || !item.product.name) {
@@ -349,12 +378,12 @@
                         const price = item.product.price;
                         const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount
                         const itemTotal = discountedPrice * item.quantity; // Calculate total for this item
-                        itemCount += item.quantity; // Sum the quantities for the cart count
+                        // itemCount= itemCount + item.quantity; // Sum the quantities for the cart count
 
                         $('.header-mini-cart').append(`
                             <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
                                 <div class="mini-cart-img" style="margin-right: 10px;">
-                                    <img src="${item.product_image || 'path/to/default/image.jpg'}" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <img src="${item.product_image || 'path/to/default/image.jpg'}" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;" loading="lazy">
                                 </div>
                                 <div class="mini-cart-content" style="flex-grow: 1;">
                                     <h4 class="product-title" style="margin: 0; font-size: 14px;">
@@ -367,12 +396,13 @@
                                     </div>
                                 </div>
                                 <div class="remove-button" style="margin-left: auto;">
-                                    <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
+                                    <a href="#" class="removemini remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
                                 </div>
                             </div>
                         `);
 
                         total += itemTotal; // Sum the total amount
+                        itemCount += item.quantity; // Update item count with each item quantity
                     });
 
                     $('.header-mini-cart').append(`
@@ -385,7 +415,9 @@
                             <a href="/Checkout" class="button checkout wc-forward">Checkout</a>
                         </p>
                     `);
-                    $('.mini-cart-count').text(itemCount); // Update the cart count in the header
+                    // $('.mini-cart-count').text(itemCount); // Update the cart count in the header
+                    // itemCount = response.items.reduce((count, item) => count + item.quantity, 0);
+                    updateItemCount(itemCount);
                 }
             },
             error: function(xhr, status, error) {
@@ -399,11 +431,11 @@
         $('.header-shop-cart a').on('click', function() {
             $('.header-mini-cart').toggle(); // Toggle visibility on click
         });
-        fetchCart(); // Fetch cart items
+        fetchminiCart(); // Fetch cart items
     });
 
    // Remove item from mini cart
-$(document).on('click', '.remove', function(event) {
+$(document).on('click', '.removemini', function(event) {
     event.preventDefault(); // Prevent the default link behavior
 
     const productId = $(this).data('product_id');
@@ -417,49 +449,26 @@ $(document).on('click', '.remove', function(event) {
         },
         success: function(response) {
             if (response.success) {
-                alert(response.message);
-                fetchCart(); // Refresh the cart items
+                displayMessage(response.message);
+                refreshCarts();
             } else {
-                alert('Failed to remove item from cart.'); // Handle unexpected response
+                displayMessage('Failed to remove item from cart.'); // Handle unexpected response
             }
         },
         error: function(xhr, status, error) {
             // Check if the response contains a JSON message
             try {
                 const errResponse = JSON.parse(xhr.responseText);
-                alert(errResponse.message || 'Failed to remove item from cart.');
+                displayMessage(errResponse.message || 'Failed to remove item from cart.');
             } catch (e) {
-                alert('Failed to remove item from cart.');
+                displayMessage('Failed to remove item from cart.');
             }
         }
     });
 });
 
-</script>
 
 
-
-
-
-
-
-
-<script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    $(document).ready(function() {
-
-        function displayMessage(message, type = 'success') {
-            const messageContainer = $('#message-container');
-            messageContainer.text(message).removeClass('success error').addClass(type).show();
-            setTimeout(() => {
-                messageContainer.fadeOut();
-            }, 3000); // Hide after 3 seconds
-        }
 
         // Function to fetch cart items
         function fetchCart() {
@@ -472,6 +481,9 @@ $(document).on('click', '.remove', function(event) {
 
     if (response.items.length === 0) {
         $('#cart-items').append('<tr><td colspan="6">Your cart is empty.</td></tr>');
+        total = 0;
+        $('#cart-total').text(total.toFixed(2)); // Set cart total to 0
+        $('#cart-subtotal').text(total.toFixed(2));
     } else {
         response.items.forEach(item => {
             const itemTotal = item.subtotal; // Use subtotal with discount
@@ -485,7 +497,7 @@ $(document).on('click', '.remove', function(event) {
                         <a href="#!">
                             <img width="57" height="70" src="${item.product_image}"
                                  class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image"
-                                 alt="${item.product.name}" />
+                                 alt="${item.product.name}" loading="lazy"/>
                         </a>
                     </td>
                     <td class="product-name" data-title="Product">
@@ -553,7 +565,8 @@ $(document).on('click', '.remove', function(event) {
                 },
                 success: function(response) {
                     displayMessage(response.message);
-                    fetchCart();
+                    // fetchCart();
+                    refreshCarts();
                 },
                 error: function(xhr, status, error) {
                     displayMessage('Failed to update cart.', 'error');
@@ -597,7 +610,7 @@ $(document).on('click', '.remove', function(event) {
         },
                 success: function(response) {
                     displayMessage(response.message);
-                    fetchCart();
+                    refreshCarts();
                 },
                 error: function(xhr, status, error) {
                     displayMessage('Failed to update cart.', 'error');

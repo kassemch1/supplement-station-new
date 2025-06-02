@@ -105,8 +105,11 @@ class ShopController extends Controller
             $query->where('category_id', $category_id);
 
         }
+
+        $currentCategoryIdSideBar=null;
         if($request->has('category-sidebar') && $request->input('category-sidebar') !== ''){
-            $category_id=$request->input('category-sidebar');
+            $category_id=(int)$request->input('category-sidebar');
+            $currentCategoryIdSideBar=$category_id;
             $query->where('category_id', $category_id);
 
         }
@@ -131,6 +134,7 @@ class ShopController extends Controller
                 $query->where('category_id', $category->id);
             }
         }
+
 
         if ($request->has('category-phone') && $request->input('category-phone') !== '') {
             $categoryName = $request->input('category-phone');
@@ -199,6 +203,7 @@ class ShopController extends Controller
             'totalProducts'=>$totalProducts,
             'startIndex'=>$startIndex,
             'endIndex'=>$endIndex,
+            'currentCategoryId'=>$currentCategoryIdSideBar
         ]);
     }
 
