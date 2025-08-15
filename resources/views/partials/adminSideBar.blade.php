@@ -50,6 +50,13 @@
                         <li><a href="{{route("admin.orders.delivered")}}"><span>Deliverd Orders List</span></a></li>
                     </ul>
                 </li>
+                
+                <li class="has-sub-menu"><a href="#"><i class="fa fa-ticket"></i> <span>Manage Coupons</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="{{route('admin.coupons.create')}}"><span>Add Coupon</span></a></li>
+                        <li><a href="{{route('admin.coupons.index')}}"><span>Edit Coupons</span></a></li>
+                    </ul>
+                </li>
 
 {{--                <li class="has-sub-menu"><a href="#"><i class="fa fa-commenting"></i> <span>Manage FAQs</span></a>--}}
 {{--                    <ul class="side-header-sub-menu">--}}

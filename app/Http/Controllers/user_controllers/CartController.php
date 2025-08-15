@@ -9,6 +9,7 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\CartItemOption;
 use App\Models\Category;
+use App\Models\Coupon; // ADD THIS LINE - This was missing!
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -19,7 +20,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-
 
 class CartController extends Controller
 {
@@ -61,7 +61,6 @@ class CartController extends Controller
 
         return response()->json(['items' => $items]);
     }
-
 
     public function addToCart(Request $request)
     {
@@ -206,8 +205,6 @@ class CartController extends Controller
         return response()->json(['success' => true, 'message' => 'Cart updated successfully!']);
     }
 
-
-
     public function removeItem(Request $request)
     {
         $request->validate([
@@ -234,59 +231,78 @@ class CartController extends Controller
         return response()->json(['success' => true, 'message' => 'Item removed from cart']);
     }
 
-
     public function placeOrder(Request $request)
     {
-//        dd($request->all());
         $request->validate([
             'billing_first_name' => 'required|string',
             'billing_phone' => 'required|phone:LB',
             'billing_address_1' => 'required|string',
             'billing_city' => 'required|string',
         ], [
-                'billing_phone.phone' => 'The phone number must be a valid Lebanese phone number.',
-            ]
-        );
-
+            'billing_phone.phone' => 'The phone number must be a valid Lebanese phone number.',
+        ]);
+    
         $sessionId = Session::get('session_id');
         $cart = Cart::where('session_id', $sessionId)->first();
         $client_data = $request->only('billing_first_name', 'billing_phone', 'billing_address_1', 'billing_city','billing_email');
-
-
+    
         if (!$cart || $cart->items->isEmpty()) {
             return redirect()->back()->with('error', 'Your cart is empty. Please add items to your cart before placing an order.');
         }
-
+    
         DB::beginTransaction();
-
+    
         try {
-
-            $totalAmount = $cart->items->sum(function ($item) {
+            $subtotalAmount = $cart->items->sum(function ($item) {
                 $discount = $item->product->discount;
                 $price = $item->product->price;
                 $discountedPrice = $discount ? $price * (1 - ($discount / 100)) : $price; // Apply discount
                 return $discountedPrice * $item->quantity;
             });
-
+    
+            // Handle coupon application
+            $appliedCoupon = Session::get('applied_coupon');
+            $couponDiscount = 0;
+            $couponUsed = null;
+    
+            if ($appliedCoupon) {
+                $coupon = Coupon::find($appliedCoupon['id']);
+                
+                if ($coupon && $coupon->isValid() && $coupon->canApplyToOrder($subtotalAmount)) {
+                    $couponDiscount = $coupon->calculateDiscount($subtotalAmount);
+                    $coupon->apply(); // This will increment usage and deactivate single-use coupons
+                    $couponUsed = $coupon;
+                }
+                
+                // Clear the applied coupon from session
+                Session::forget('applied_coupon');
+            }
+    
+            $finalAmount = $subtotalAmount - $couponDiscount;
+    
             $order = Order::create([
-                'total_amount' => $totalAmount,
+                'subtotal_amount' => $subtotalAmount,
+                'total_amount' => $finalAmount,
+                'coupon_id' => $couponUsed ? $couponUsed->id : null,
+                'coupon_code' => $couponUsed ? $couponUsed->code : null,
+                'coupon_discount_amount' => $couponDiscount,
                 'status' => 'pending',
             ]);
-
+    
             ShippingDetail::create([
                 'order_id' => $order->id,
                 'name' => $request->billing_first_name,
                 'phone' => $request->billing_phone,
-                'email'=>$request->billing_email,
+                'email' => $request->billing_email,
                 'address' => $request->billing_address_1,
                 'city' => $request->billing_city,
             ]);
-
+    
             foreach ($cart->items as $cartItem) {
                 $discount = $cartItem->product->discount;
                 $price = $cartItem->product->price;
                 $discountedPrice = $discount ? $price * (1 - ($discount / 100)) : $price;
-
+    
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $cartItem->product_id,
@@ -294,29 +310,28 @@ class CartController extends Controller
                     'price' => $discountedPrice,
                     'selected_options' => $cartItem->selected_options,
                 ]);
-
             }
-
+    
             $cart->items()->delete();
-
+    
             DB::commit();
-
-            if ($request->billing_email){
-                Mail::to($request->billing_email)->send(new CheckoutMail($client_data,$cart->items,$order));
+    
+            if ($request->billing_email) {
+                Mail::to($request->billing_email)->send(new CheckoutMail($client_data, $cart->items, $order));
             }
-
-            return response()->json(['success' => true,
-                'billing_email' => $request->billing_email,]);
+    
+            return response()->json([
+                'success' => true,
+                'billing_email' => $request->billing_email,
+                'order_id' => $order->id,
+            ]);
+            
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => 'Error message'], 400);
+            return response()->json(['success' => false, 'message' => 'Database error occurred'], 400);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => 'General error: ' . $e->getMessage()], 500);
         }
     }
-
-
-
-
 }

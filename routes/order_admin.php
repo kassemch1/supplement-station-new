@@ -11,4 +11,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/orders/{orderId}', [OrderController::class, 'orderDetails'])->name('admin.orders.details');
     Route::post('/admin/orders/{orderId}/update-status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
     Route::delete('/admin/orders/{orderId}', [OrderController::class, 'deleteOrder'])->name('admin.orders.delete');
+    Route::get('/admin/orders/{id}/details', [OrderController::class, 'details'])->name('admin.orders.details');
 });
