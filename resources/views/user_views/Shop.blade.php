@@ -269,6 +269,8 @@
                 </div>
                 <div class="col-lg-9 mt-60">
                     <div class="woocommerce-content-wrap">
+
+                    <!-- 8/17/2025 Update start-->
                         <div class="woocommerce-toolbar-top ul_li_between">
                             <div id="products_indexing">
                                 @include('partials/products_indexing')
@@ -277,7 +279,10 @@
                                 <form id="sort-form" class="woocommerce-ordering" method="get" action="{{route('shop')}}">
                                     @csrf
                                     <input type="hidden" name="category" id="category-input" value="">
-                                    <select name="orderby" class="orderby" id="sort-by-price">
+                                    <select name="orderby" class="orderby" id="sort-by-price" style="border: 1px solid #000000; 
+                                    border-radius: 20px; 
+                                    box-shadow: 0 0 8px #A02334; 
+                                    padding: 8px 12px;">
                                         <option value="sort" selected="selected">Apply sorting</option>
                                         <option value="default">Default</option>
                                         <option value="low-to-high">Sort by price: low to high</option>
@@ -287,7 +292,22 @@
                                 </form>
                             </div>
                         </div>
-                        <div class="woocommerce-content-inner">
+
+                        <!-- 8/17/2025 Update end-->
+                        <div class="woocommerce-content-inner" style="text-align: center;">
+
+                            <h3 id="selected-category" style="
+                            color: #A02334; 
+                            text-align: center; 
+                            display: inline-block; 
+                            border-bottom: 2px solid black; 
+                            padding-bottom: 5px;
+                            margin-bottom: 20px;
+                        "></h3>
+                        
+
+
+
                             <div class="products" id="product-list">
                                 @include('partials/product_list',['product'=>$product,'agent'=>$agent])
                             </div>
@@ -453,10 +473,15 @@
                         }
                     }
                 }
+                
+                
+          
+            
+            
 
         // Update the hidden input in the sort-form with the selected category
                 document.getElementById('category-input').value = selectedCategory;
-
+console.log(selectedCategory)
         var formData = $(this).serialize(); // Convert form data to a query string
 
         $.ajax({
@@ -615,6 +640,8 @@
                     } else {
                         $('#products_indexing').html('');
                     }
+
+                    
 
                     // Scroll to the top of the products
                     $('html, body').animate({
@@ -868,6 +895,41 @@
         });
     });
 </script>
+
+<script>
+    function updateSelectedCategory(categoryValue) {
+        // Convert "show-all" to "All Products"
+        let displayText = categoryValue === "show-all" ? "All Products" : categoryValue;
+        $('#selected-category').text(displayText);
+    
+        // Update hidden input in the sort form (optional)
+        $('#category-input').val(categoryValue);
+    }
+    
+    // Get the initial category on page load
+    var selectedCategory = document.getElementById('category-phone') 
+                           ? document.getElementById('category-phone').value
+                           : document.querySelector('.category-form input[name="category"]').value;
+    
+    updateSelectedCategory(selectedCategory);
+    
+    // ---- Listen for mobile select changes ----
+    $('#category-phone').on('change', function() {
+        updateSelectedCategory($(this).val());
+    });
+    
+    // ---- Listen for desktop category button clicks ----
+    $('.category-form button').on('click', function() {
+        // Mark this button as active
+        $('.category-form button').removeClass('active');
+        $(this).addClass('active');
+    
+        // Get the category from the hidden input in the same form
+        let categoryValue = $(this).closest('form').find('input[name="category"]').val();
+        updateSelectedCategory(categoryValue);
+    });
+    </script>
+    
 </body>
 
 

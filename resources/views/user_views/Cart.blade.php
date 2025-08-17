@@ -190,7 +190,11 @@
                     <div class="col col-xs-12">
                         <div class="woocommerce">
                             <form method="post">
-                                <table class="shop_table shop_table_responsive cart">
+                                <table class="shop_table shop_table_responsive cart"
+                                style="border: 1px solid #000000; 
+                                    border-radius: 20px; 
+                                    box-shadow: 0 0 8px #A02334; 
+                                    padding: 8px 12px;">
                                     <thead>
                                     <tr>
                                         <th class="product-remove">&nbsp;</th>
@@ -218,7 +222,11 @@
                                 </table>
                             </form>
 
-                            <div class="cart-collaterals">
+                            <div class="cart-collaterals" 
+                            style="border: 1px solid #000000; 
+                                    border-radius: 20px; 
+                                    box-shadow: 0 0 8px #A02334; 
+                                    padding: 8px 12px;">
                                 <div class="cart_totals calculated_shipping">
                                     <h2>Cart Totals</h2>
                                     <table class="shop_table shop_table_responsive">

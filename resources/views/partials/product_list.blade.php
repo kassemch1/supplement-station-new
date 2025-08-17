@@ -92,7 +92,9 @@
                     $truncatedName = \Illuminate\Support\Str::limit($item->name, 54);
                 @endphp
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                    <div class="product product-item text-center" style="position: relative; overflow: hidden; min-height:450px">
+                    <div class="product product-item text-center" style="position: relative; overflow: hidden; min-height:450px ;border: 1px solid #000000; 
+                    border-radius: 20px; 
+                    box-shadow: 0 0 8px #A02334;" >
                         @if($item->discount > 0)
                             <div class="ribbon" style="width: 150px; height: 150px; overflow: hidden; position: absolute; top: -10px; right: 0px; z-index: 2;">
                                 <span style="position: absolute; display: block; width: 225px; padding: 15px 0; background-color: #A02334; color: white; text-transform: uppercase; font-weight: bold; text-align: center; transform: rotate(45deg); top: 30px; right: -65px;">
