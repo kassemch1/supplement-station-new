@@ -130,6 +130,17 @@
                             @csrf
 
                             <div class="row">
+                                <!-- Coupon Code -->
+                                <div class="col-lg-6 col-12 mb-30">
+                                    <label for="code">Coupon Code *</label>
+                                    <input name="code" class="form-control @error('code') is-invalid @enderror"
+                                           type="text" placeholder="e.g., SAVE20 or MY-CUSTOM-CODE"
+                                           value="{{ old('code') }}" required>
+                                    <small class="form-text">Codes are stored uppercase; duplicates are not allowed.</small>
+                                    @error('code')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 <!-- Coupon Name -->
                                 <div class="col-lg-6 col-12 mb-30">
                                     <label for="name">Coupon Name *</label>

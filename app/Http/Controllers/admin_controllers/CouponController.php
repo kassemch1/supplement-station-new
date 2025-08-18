@@ -51,7 +51,13 @@ class CouponController extends Controller
 
     public function store(Request $request)
     {
+        // Normalize the provided code before validation to enforce case-insensitive uniqueness
+        if ($request->filled('code')) {
+            $request->merge(['code' => strtoupper(trim($request->input('code')))]);
+        }
+
         $validatedData = $request->validate([
+            'code' => 'required|string|max:255|unique:coupons,code',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
             'type' => 'required|in:reusable,single_use',
@@ -60,6 +66,8 @@ class CouponController extends Controller
             'max_uses' => 'nullable|integer|min:1',
             'expires_at' => 'nullable|date|after:now',
         ], [
+            'code.required' => 'The coupon code is required.',
+            'code.unique' => 'This coupon code is already in use.',
             'name.required' => 'The coupon name is required.',
             'type.required' => 'The coupon type is required.',
             'type.in' => 'The coupon type must be either reusable or single use.',
@@ -75,8 +83,8 @@ class CouponController extends Controller
             'expires_at.after' => 'The expiry date must be in the future.',
         ]);
 
-        // Generate unique coupon code
-        $code = $this->generateUniqueCode();
+        // Code already normalized above
+        $code = $validatedData['code'];
 
         // For single use coupons, ignore max_uses
         if ($validatedData['type'] === 'single_use') {
