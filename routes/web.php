@@ -17,6 +17,7 @@ require __DIR__. '/order_admin.php';
 require __DIR__. '/contact.php';
 require __DIR__. '/review_admin.php';
 require __DIR__. '/coupons.php';
+require __DIR__. '/subscribe.php';
 
 use App\Http\Controllers\user_controllers\HomeController;
 use App\Http\Controllers\user_controllers\UserProductController;

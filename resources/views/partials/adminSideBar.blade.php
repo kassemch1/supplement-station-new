@@ -10,6 +10,12 @@
                         <li><a href="{{route('admin')}}"><span>Dashboard</span></a></li>
                     </ul>
                 </li>
+                <li class="has-sub-menu"><a href="#"><i class="fa fa-tachometer"></i> <span> Manage Subscribers</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="{{route('admin.subscribers.create')}}"><span>Add Subscribers</span></a></li>
+                        <li><a href="{{route('admin.subscribers.index')}}"><span>Subscribers</span></a></li>
+                    </ul>
+                </li>
 
                 <li class="has-sub-menu"><a href="#"><i class="fa fa-tags"></i> <span>Manage Categories</span></a>
                     <ul class="side-header-sub-menu">

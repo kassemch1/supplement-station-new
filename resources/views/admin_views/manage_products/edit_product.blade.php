@@ -140,6 +140,10 @@
                                     <i class="zmdi zmdi-delete"></i><span>Delete</span>
                                 </button>
                                 <br>
+                                <button class="button button-success" onclick="sendProductEmail({{ $product->id }})" title="Send to subscribers">
+                                    <i class="zmdi zmdi-email"></i><span>Send Email</span>
+                                </button>
+                                <br>
                                 <a class="button button-info" href="{{ route('manageProductsOptions.create', ['product_id' => $product->id]) }}">
                                     <span>Add Option</span>
                                 </a>
@@ -225,6 +229,7 @@
 <script src="{{asset("admin_assets/js/plugins/dropify/dropify.active.js")}}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
     var product_id = 0;
     function getProductId(id)
     {
@@ -260,6 +265,49 @@
             });
         });
     });
+
+    // Add this JavaScript to your existing script section
+
+    function sendProductEmail(productId) {
+        if (confirm('Are you sure you want to send this product to all active subscribers?')) {
+            // Disable the button to prevent multiple clicks
+            const button = event.target.closest('button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="zmdi zmdi-hourglass-alt zmdi-hc-spin"></i><span>Sending...</span>';
+            button.disabled = true;
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: '/admin/products/send-email',
+                data: {
+                    product_id: productId
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert(`Success! ${response.message}`);
+                    } else {
+                        alert(`Error: ${response.message}`);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    let errorMessage = 'Failed to send emails. Please try again.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    alert('Error: ' + errorMessage);
+                    console.error('Error sending product email:', error);
+                },
+                complete: function() {
+                    // Re-enable the button
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }
+            });
+        }
+    }
 </script>
 
 
