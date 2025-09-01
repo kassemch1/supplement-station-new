@@ -10,7 +10,7 @@ Route::post('/subscribe', [SubscriptionController::class, 'subscribe'])->name('s
 Route::post('/subscription/cancel', [SubscriptionController::class, 'cancel'])->name('subscription.cancel');
 Route::get('/subscription/check-modal', [SubscriptionController::class, 'shouldShowModal'])->name('subscription.check.modal');
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     // List all subscribers
     Route::get('/subscribers', [AdminSubscriptionController::class, 'index'])->name('subscribers.index');
 
