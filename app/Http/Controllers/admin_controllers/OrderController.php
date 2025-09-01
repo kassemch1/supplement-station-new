@@ -66,4 +66,12 @@ class OrderController extends Controller
         return Redirect::back()->with('success', 'Order deleted successfully');
     }
 
+
+public function details($id)
+{
+    $order = Order::with(['orderItems.product', 'shippingDetail', 'coupon'])->findOrFail($id);
+    
+    return view('admin_views.manage_orders.shippingdetails_orderitems', compact('order'));
+}
+
 }

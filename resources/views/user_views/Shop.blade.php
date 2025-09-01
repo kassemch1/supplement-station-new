@@ -101,7 +101,160 @@
             border-color: #fff; /* Hover border color */
             color: #A02334;
         }
+        .subscription-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+        }
 
+        .subscription-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .subscription-modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 0;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subscription-modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #A02334;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .subscription-modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            opacity: 0.7;
+        }
+
+        .subscription-modal-body {
+            padding: 20px;
+        }
+
+        .subscription-modal-body p {
+            margin-bottom: 20px;
+            color: #666;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #A02334;
+            box-shadow: 0 0 5px rgba(160, 35, 52, 0.3);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-subscribe, .btn-cancel {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-subscribe {
+            background-color: #A02334;
+            color: white;
+        }
+
+        .btn-subscribe:hover {
+            background-color: #8a1e2c;
+        }
+
+        .btn-cancel {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #5a6268;
+        }
+
+        @media (max-width: 768px) {
+            .subscription-modal-content {
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-subscribe, .btn-cancel {
+                width: 100%;
+            }
+        }
 
     </style>
 </head>
@@ -121,7 +274,30 @@
 <!-- sidebar-info end -->
 
 <div class="body-overlay"></div>
-
+<!-- Subscription Modal -->
+<div id="subscriptionModal" class="subscription-modal" style="display: none;">
+    <div class="subscription-modal-overlay">
+        <div class="subscription-modal-content">
+            <div class="subscription-modal-header">
+                <h3>Stay updated! &#10084;</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="subscription-modal-body">
+                <p>Stay updated on the latest deals, exclusive offers, new product alerts, and free shipping opportunities delivered to your inbox!</p>
+                <form id="subscriptionForm">
+                    <div class="form-group">
+                        <input type="email" id="subscriptionEmail" name="email" placeholder="Enter your email address" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-subscribe">Subscribe</button>
+                        <button type="button" class="btn-cancel" id="cancelSubscription">No, Thanks</button>
+                    </div>
+                </form>
+                <div id="subscriptionMessage" style="display: none; margin-top: 10px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- main area start  -->
 <main>
     <!-- breadcrumb start -->
@@ -379,6 +555,111 @@
 <script src="{{ asset('assets/js/scrollspy.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Subscription Modal Logic
+    $(document).ready(function() {
+        // Show subscription modal on page load with delay
+        setTimeout(function() {
+            checkAndShowSubscriptionModal();
+        }, 3000); // Show modal after 3 seconds
+
+        // Function to check if subscription modal should be shown
+        function checkAndShowSubscriptionModal() {
+            $.ajax({
+                url: '{{ route('subscription.check.modal') }}',
+                method: 'GET',
+                success: function(response) {
+                    if (response.show_modal) {
+                        showSubscriptionModal();
+                    }
+                },
+                error: function() {
+                    console.log('Failed to check subscription modal status');
+                }
+            });
+        }
+
+        // Function to show subscription modal
+        function showSubscriptionModal() {
+            $('#subscriptionModal').fadeIn();
+
+            // Handle modal close events
+            const closeEvents = ['#closeModal', '#cancelSubscription'];
+            closeEvents.forEach(selector => {
+                $(selector).off('click').on('click', function() {
+                    handleSubscriptionCancel();
+                });
+            });
+
+            // Handle subscription form submission
+            $('#subscriptionForm').off('submit').on('submit', function(e) {
+                e.preventDefault();
+                handleSubscriptionSubmit();
+            });
+
+            // Close modal when clicking outside
+            $('.subscription-modal-overlay').off('click').on('click', function(e) {
+                if (e.target === this) {
+                    handleSubscriptionCancel();
+                }
+            });
+        }
+
+        // Handle subscription form submission
+        function handleSubscriptionSubmit() {
+            const email = $('#subscriptionEmail').val();
+            const submitButton = $('.btn-subscribe');
+            const originalText = submitButton.text();
+
+            submitButton.text('Processing...').prop('disabled', true);
+
+            $.ajax({
+                url: '{{ route('subscription.subscribe') }}',
+                method: 'POST',
+                data: {
+                    email: email,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    const messageDiv = $('#subscriptionMessage');
+
+                    if (response.success) {
+                        messageDiv.html('<div style="color: green;">' + response.message + '</div>').show();
+                        setTimeout(() => {
+                            $('#subscriptionModal').fadeOut();
+                        }, 2000);
+                    } else {
+                        // Show error message but keep the form open
+                        messageDiv.html('<div style="color: red;">' + response.message + '</div>').show();
+                        // Clear the email input for the user to try a different email
+                        $('#subscriptionEmail').val('').attr('placeholder', 'Try a different email address').focus();
+                    }
+                },
+                error: function(xhr) {
+                    const errorMessage = xhr.responseJSON?.message || 'An error occurred. Please try again.';
+                    $('#subscriptionMessage').html('<div style="color: red;">' + errorMessage + '</div>').show();
+                },
+                complete: function() {
+                    submitButton.text(originalText).prop('disabled', false);
+                }
+            });
+        }
+
+        // Handle subscription cancellation
+        function handleSubscriptionCancel() {
+            $.ajax({
+                url: '{{ route('subscription.cancel') }}',
+                method: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                complete: function() {
+                    $('#subscriptionModal').fadeOut();
+                }
+            });
+        }
+    });
+</script>
 <script>
     $(document).ready(function () {
         $('#search-form').submit(function (e) {

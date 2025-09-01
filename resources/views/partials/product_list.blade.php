@@ -1,3 +1,4 @@
+
 @if($product->isEmpty())
     <div class="no-products-found">
         <p>No products were found.</p>

@@ -141,6 +141,58 @@
             background-color: #f44336; /* Red background */
             border: 1px solid #c62828; /* Darker red border */
         }
+
+        /* Coupon styles (aligned with Checkout page) */
+        .coupon-section {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        .coupon-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .coupon-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .coupon-input:focus {
+            outline: none;
+            border-color: #A02334;
+            box-shadow: 0 0 0 0.2rem rgba(160, 35, 52, 0.25);
+        }
+        .coupon-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .coupon-btn.apply { background: #A02334; color: #fff; }
+        .coupon-btn.apply:hover { background: #8a1e2b; }
+        .coupon-btn.remove { background: #6c757d; color: #fff; }
+
+        .applied-coupon-card {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .discount-row { background: #e8f5e8; border-left: 4px solid #28a745; }
+        .discount-row th, .discount-row td { color: #155724 !important; font-weight: 600; }
     </style>
 </head>
 
@@ -276,6 +328,38 @@
                                                     </section>
                                                 </form>
                                             </td>
+                                        </tr>
+
+                                        <!-- Coupon Code Section -->
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="coupon-section">
+                                                    <h6 style="margin-bottom: 15px; color: #A02334;">
+                                                        <i class="fa fa-ticket" style="margin-right: 8px;"></i>
+                                                        Have a Coupon Code?
+                                                    </h6>
+                                                    <div class="coupon-input-group">
+                                                        <input type="text" id="coupon-code" placeholder="Enter your coupon code..." class="coupon-input">
+                                                        <button type="button" id="apply-coupon" class="coupon-btn apply">Apply</button>
+                                                        <button type="button" id="remove-coupon" class="coupon-btn remove" style="display: none;">Remove</button>
+                                                    </div>
+                                                    <div id="coupon-message" class="message-container"></div>
+                                                    <div id="applied-coupon" style="display: none;">
+                                                        <div class="applied-coupon-card">
+                                                            <h6><i class="fa fa-check-circle"></i> Coupon Applied!</h6>
+                                                            <p><strong id="coupon-name"></strong> - <span id="coupon-discount"></span> discount</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="discount-row" style="display: none;">
+                                            <th>
+                                                <i class="fa fa-tag" style="margin-right: 5px;"></i>
+                                                Coupon Discount
+                                            </th>
+                                            <td>-$<span id="discount-amount">0.00</span></td>
                                         </tr>
 
                                         <tr class="cart-total">
@@ -477,13 +561,13 @@ $(document).on('click', '.removemini', function(event) {
             method: 'GET',
             success: function(response) {
     $('#cart-items').empty(); // Clear previous items
-    let total = 0;
+    let subtotal = 0;
 
     if (response.items.length === 0) {
         $('#cart-items').append('<tr><td colspan="6">Your cart is empty.</td></tr>');
-        total = 0;
-        $('#cart-total').text(total.toFixed(2)); // Set cart total to 0
-        $('#cart-subtotal').text(total.toFixed(2));
+        subtotal = 0;
+        $('#cart-subtotal').text(subtotal.toFixed(2));
+        updateCartTotal(subtotal);
     } else {
         response.items.forEach(item => {
             const itemTotal = item.subtotal; // Use subtotal with discount
@@ -529,11 +613,10 @@ $(document).on('click', '.removemini', function(event) {
                     </td>
                 </tr>
             `);
-            total += itemTotal; // Accumulate total for cart
+            subtotal += itemTotal; // Accumulate subtotal for cart
         });
-
-        $('#cart-subtotal').text(total.toFixed(2));
-        $('#cart-total').text(total.toFixed(2));
+        $('#cart-subtotal').text(subtotal.toFixed(2));
+        checkAppliedCouponAndUpdateTotals(subtotal);
     }
 },
             error: function(xhr, status, error) {
@@ -614,6 +697,106 @@ $(document).on('click', '.removemini', function(event) {
                 },
                 error: function(xhr, status, error) {
                     displayMessage('Failed to update cart.', 'error');
+                }
+            });
+        });
+
+        // Coupon helpers (align with Checkout behavior)
+        function displayCouponMessage(message, type = 'success') {
+            const messageContainer = $('#coupon-message');
+            messageContainer.text(message).removeClass('success error').addClass(type).show();
+            setTimeout(() => { messageContainer.fadeOut(); }, 5000);
+        }
+
+        function updateCartTotal(finalTotal) {
+            $('#cart-total').text(parseFloat(finalTotal).toFixed(2));
+        }
+
+        function displayCouponAppliedCart(response, subtotal) {
+            const discountAmount = response.coupon.discount_amount ?? (subtotal * (response.coupon.discount_percentage / 100));
+            $('#coupon-name').text(response.coupon.name);
+            $('#coupon-discount').text(response.coupon.discount_percentage + '%');
+            $('#discount-amount').text(parseFloat(discountAmount).toFixed(2));
+            $('#applied-coupon').show();
+            $('.discount-row').show();
+            const finalTotal = subtotal - discountAmount;
+            updateCartTotal(finalTotal);
+        }
+
+        function hideCouponAppliedCart(subtotal) {
+            $('#applied-coupon').hide();
+            $('.discount-row').hide();
+            $('#discount-amount').text('0.00');
+            updateCartTotal(subtotal);
+        }
+
+        function checkAppliedCouponAndUpdateTotals(subtotal) {
+            $.ajax({
+                url: '{{ route("coupon.applied") }}',
+                method: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        $('#coupon-code').val(response.coupon.code).prop('disabled', true);
+                        $('#apply-coupon').hide();
+                        $('#remove-coupon').show();
+                        displayCouponAppliedCart(response, subtotal);
+                    } else {
+                        hideCouponAppliedCart(subtotal);
+                    }
+                },
+                error: function() {
+                    hideCouponAppliedCart(subtotal);
+                }
+            });
+        }
+
+        // Apply coupon from Cart page
+        $(document).on('click', '#apply-coupon', function() {
+            const couponCode = $('#coupon-code').val().trim();
+            if (!couponCode) {
+                displayCouponMessage('Please enter a coupon code.', 'error');
+                return;
+            }
+            const $btn = $(this);
+            $btn.prop('disabled', true).text('Applying...');
+            $.ajax({
+                url: '{{ route("coupon.apply") }}',
+                method: 'POST',
+                data: { coupon_code: couponCode, _token: '{{ csrf_token() }}' },
+                success: function(response) {
+                    if (response.success) {
+                        displayCouponMessage(response.message, 'success');
+                        $('#coupon-code').val('').prop('disabled', true);
+                        $('#apply-coupon').hide();
+                        $('#remove-coupon').show();
+                        // Recompute totals using current subtotal
+                        const subtotal = parseFloat($('#cart-subtotal').text()) || 0;
+                        displayCouponAppliedCart(response, subtotal);
+                    }
+                },
+                error: function(xhr) {
+                    const res = xhr.responseJSON || {};
+                    displayCouponMessage(res.message || 'Failed to apply coupon.', 'error');
+                },
+                complete: function() { $btn.prop('disabled', false).text('Apply'); }
+            });
+        });
+
+        // Remove coupon from Cart page
+        $(document).on('click', '#remove-coupon', function() {
+            $.ajax({
+                url: '{{ route("coupon.remove") }}',
+                method: 'POST',
+                data: { _token: '{{ csrf_token() }}' },
+                success: function(response) {
+                    if (response.success) {
+                        displayCouponMessage(response.message, 'success');
+                        $('#coupon-code').val('').prop('disabled', false);
+                        $('#apply-coupon').show();
+                        $('#remove-coupon').hide();
+                        const subtotal = parseFloat($('#cart-subtotal').text()) || 0;
+                        hideCouponAppliedCart(subtotal);
+                    }
                 }
             });
         });

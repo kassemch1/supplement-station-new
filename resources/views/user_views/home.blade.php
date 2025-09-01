@@ -7,15 +7,15 @@
     <!--========= Required meta tags =========-->
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="Welcome to Supplement Station! Discover a wide range of premium gym supplements designed to boost your energy, enhance performance, and support your fitness goals. Shop now for the best deals on protein powders, vitamins, and more. Elevate your energy levels and achieve your best with us.">    
+    <meta name="description" content="Welcome to Supplement Station! Discover a wide range of premium gym supplements designed to boost your energy, enhance performance, and support your fitness goals. Shop now for the best deals on protein powders, vitamins, and more. Elevate your energy levels and achieve your best with us.">
     <meta name="keywords" content="supplement station,gym supplements, protein powder, fitness nutrition, muscle gain, supplement store, Lebanon supplements,drugs, supplements lebanon">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Buy Premium Supplements in Lebanon | Supplement Station</title>
-    
+
 <!--<link rel="preload" href="https://supplement-station.com/assets/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">-->
 <!--  <noscript><link rel="stylesheet" href="https://supplement-station.com/assets/css/bootstrap.min.css"></noscript>-->
-  
+
     <link rel="shortcut icon" href={{ asset('assets/img/logo/preloader2.png')}} type="images/x-icon"/>
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/logo/preloader2.png') }}">
     <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('assets/img/logo/preloader2.png') }}">
@@ -47,6 +47,31 @@
             color: gray;
             cursor: default;
         }
+        .whatsapp-popup {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background-color: #25D366; /* WhatsApp green */
+            color: white;
+            padding: 20px;             /* bigger padding */
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;           /* bigger icon/text */
+            transition: transform 0.2s;
+            z-index: 9999;
+            width: 70px;               /* make it square */
+            height: 70px;
+        }
+
+        .whatsapp-popup:hover {
+            transform: scale(1.2);     /* slightly larger on hover */
+            color: darkgreen;
+        }
     </style>
 </head>
 
@@ -58,6 +83,9 @@
         <i class="far fa-arrow-up"></i>
     </a>
 </div>
+<a href="https://wa.me/96181823038" target="_blank" class="whatsapp-popup">
+    <i class="fab fa-whatsapp"></i>
+</a>
 <!-- backtotop - end -->
 
 @include('partials/navBar',['categories'=>$categories])

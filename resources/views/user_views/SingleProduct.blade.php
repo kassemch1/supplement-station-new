@@ -118,6 +118,162 @@
         .disabled .xb-item--cart-icon img {
             opacity: 0.6; /* Make the icon look disabled too */
         }
+
+        .subscription-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+        }
+
+        .subscription-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .subscription-modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 0;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subscription-modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #A02334;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .subscription-modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            opacity: 0.7;
+        }
+
+        .subscription-modal-body {
+            padding: 20px;
+        }
+
+        .subscription-modal-body p {
+            margin-bottom: 20px;
+            color: #666;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #A02334;
+            box-shadow: 0 0 5px rgba(160, 35, 52, 0.3);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-subscribe, .btn-cancel {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-subscribe {
+            background-color: #A02334;
+            color: white;
+        }
+
+        .btn-subscribe:hover {
+            background-color: #8a1e2c;
+        }
+
+        .btn-cancel {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #5a6268;
+        }
+
+        @media (max-width: 768px) {
+            .subscription-modal-content {
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn-subscribe, .btn-cancel {
+                width: 100%;
+            }
+        }
+
     </style>
 </head>
 
@@ -165,6 +321,30 @@
 
         <!-- shop single start -->
         <section class="shop-single-section pt-115 pb-385">
+            <!-- Subscription Modal -->
+            <div id="subscriptionModal" class="subscription-modal" style="display: none;">
+                <div class="subscription-modal-overlay">
+                    <div class="subscription-modal-content">
+                        <div class="subscription-modal-header">
+                            <h3>Stay updated! &#10084;</h3>
+                            <button class="close-modal" id="closeModal">&times;</button>
+                        </div>
+                        <div class="subscription-modal-body">
+                            <p>Stay updated on the latest deals, exclusive offers, new product alerts, and free shipping opportunities tips delivered to your inbox!</p>
+                            <form id="subscriptionForm">
+                                <div class="form-group">
+                                    <input type="email" id="subscriptionEmail" name="email" placeholder="Enter your email address" required>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn-subscribe">Subscribe</button>
+                                    <button type="button" class="btn-cancel" id="cancelSubscription">No, Thanks</button>
+                                </div>
+                            </form>
+                            <div id="subscriptionMessage" style="display: none; margin-top: 10px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 {{--            <div id="message-container" style="display: none;"></div>--}}
 
 
@@ -401,6 +581,10 @@
                                                 <div id="successMessage" style="color: green; margin-top: 10px; display: none;"></div>
                                             </div>
                                         </div>
+
+
+
+
 
 
                                     </div>
@@ -674,104 +858,6 @@ $(document).on('click', '.remove', function(event) {
 
 <!--add to cart-->
 <script>
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const optionLinks = document.querySelectorAll('.option-value');
-    //     const selectedOptionsInput = document.getElementById('selected_options');
-    //     const quantityInput = document.getElementById('quantity');
-    //     const form = document.getElementById('add-to-cart-form');
-    //     const addToCartButton = form.querySelector('.add-to-cart');
-    //     let selectedOptions = {};
-    //     let totalOptions = new Set();
-    //
-    //     optionLinks.forEach(link => {
-    //         totalOptions.add(link.dataset.optionName);
-    //
-    //         link.addEventListener('click', function(event) {
-    //             event.preventDefault();
-    //             const optionName = this.dataset.optionName;
-    //             const optionValue = this.dataset.optionValue;
-    //
-    //             // Toggle selection
-    //             if (selectedOptions[optionName] === optionValue) {
-    //                 // Option is already selected, remove it
-    //                 delete selectedOptions[optionName];
-    //                 this.classList.remove('selected');
-    //                 this.style.color = ''; // Reset text color
-    //             } else {
-    //                 // Option is not selected, add it and remove any existing selection for the same option name
-    //                 optionLinks.forEach(otherLink => {
-    //                     if (otherLink.dataset.optionName === optionName) {
-    //                         otherLink.classList.remove('selected');
-    //                         otherLink.style.color = ''; // Reset text color
-    //                     }
-    //                 });
-    //                 selectedOptions[optionName] = optionValue;
-    //                 this.classList.add('selected');
-    //                 this.style.color = 'white'; // Change text color to white
-    //             }
-    //
-    //             // Update the hidden input value
-    //             selectedOptionsInput.value = JSON.stringify(selectedOptions);
-    //
-    //             // Enable the add to cart button
-    //             addToCartButton.disabled = false;
-    //         });
-    //     });
-    //
-    //     // Handle form submission with AJAX
-    //     $('#add-to-cart-form').submit(function (e) {
-    //         e.preventDefault(); // Prevent default form submission
-    //
-    //         // Check if there are selected options
-    //         if (Object.keys(selectedOptions).length === 0) {
-    //             selectedOptionsInput.value = JSON.stringify({});
-    //         } else {
-    //             selectedOptionsInput.value = JSON.stringify(selectedOptions);
-    //         }
-    //
-    //         // Debugging logs
-    //         console.log('Selected Options:', selectedOptions);
-    //         console.log('Selected Options Input Value:', selectedOptionsInput.value);
-    //
-    //         // Serialize form data
-    //         var formData = new FormData(this);
-    //
-    //         // Send AJAX request
-    //         $.ajax({
-    //             headers: {
-    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //             },
-    //             type: 'POST',
-    //             url: $(this).attr('action'), // Use form's action attribute as URL
-    //             data: formData,
-    //             processData: false,
-    //             contentType: false,
-    //             success: function (response) {
-    //                 // Show success alert
-    //                 $('#successAlert').text(response.message).fadeIn();
-    //                 setTimeout(function () {
-    //                     $('#successAlert').fadeOut();
-    //                 }, 3000);
-    //             },
-    //             error: function (xhr) {
-    //                 // Show error alert
-    //                 var errorMessage = xhr.responseJSON.message || 'There was an error adding the item to the cart.';
-    //                 $('#errorAlert').text(errorMessage).fadeIn();
-    //                 setTimeout(function () {
-    //                     $('#errorAlert').fadeOut();
-    //                 }, 3000);
-    //             }
-    //         });
-    //     });
-    //
-    //     // Optional: Validate or update quantity based on specific rules
-    //     quantityInput.addEventListener('change', function() {
-    //         const quantity = parseInt(this.value, 10);
-    //         if (isNaN(quantity) || quantity < 1) {
-    //             this.value = 1; // Default to 1 if invalid
-    //         }
-    //     });
-    // });
 
     document.addEventListener('DOMContentLoaded', function() {
         const optionLinks = document.querySelectorAll('.option-value');
@@ -781,6 +867,12 @@ $(document).on('click', '.remove', function(event) {
         const addToCartButton = form.querySelector('.add-to-cart');
         let selectedOptions = {};
         let totalOptions = new Set();
+
+        // Show subscription modal on page load with delay
+        setTimeout(function() {
+            checkAndShowSubscriptionModal();
+        }, 2000); // Show modal after 2 seconds
+
 
         optionLinks.forEach(link => {
             totalOptions.add(link.dataset.optionName);
@@ -813,20 +905,118 @@ $(document).on('click', '.remove', function(event) {
             });
         });
 
-        // Handle form submission with AJAX
+        // Handle add to cart form submission (simplified)
         $('#add-to-cart-form').submit(function (e) {
-            e.preventDefault(); // Prevent default form submission
+            e.preventDefault();
+            processAddToCart();
+        });
 
-            // Serialize form data
-            var formData = new FormData(this);
+        // Function to check if subscription modal should be shown (for page load)
+        function checkAndShowSubscriptionModal() {
+            $.ajax({
+                url: '{{ route('subscription.check.modal') }}',
+                method: 'GET',
+                success: function(response) {
+                    if (response.show_modal) {
+                        showSubscriptionModal();
+                    }
+                },
+                error: function() {
+                    console.log('Failed to check subscription modal status');
+                }
+            });
+        }
 
-            // Send AJAX request
+        // Function to show subscription modal (simplified for page load)
+        function showSubscriptionModal() {
+            $('#subscriptionModal').fadeIn();
+
+            // Handle modal close events
+            const closeEvents = ['#closeModal', '#cancelSubscription'];
+            closeEvents.forEach(selector => {
+                $(selector).off('click').on('click', function() {
+                    handleSubscriptionCancel();
+                });
+            });
+
+            // Handle subscription form submission
+            $('#subscriptionForm').off('submit').on('submit', function(e) {
+                e.preventDefault();
+                handleSubscriptionSubmit();
+            });
+
+            // Close modal when clicking outside
+            $('.subscription-modal-overlay').off('click').on('click', function(e) {
+                if (e.target === this) {
+                    handleSubscriptionCancel();
+                }
+            });
+        }
+
+        // Handle subscription form submission (simplified)
+        function handleSubscriptionSubmit() {
+            const email = $('#subscriptionEmail').val();
+            const submitButton = $('.btn-subscribe');
+            const originalText = submitButton.text();
+
+            submitButton.text('Processing...').prop('disabled', true);
+
+            $.ajax({
+                url: '{{ route('subscription.subscribe') }}',
+                method: 'POST',
+                data: {
+                    email: email,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    const messageDiv = $('#subscriptionMessage');
+
+                    if (response.success) {
+                        messageDiv.html('<div style="color: green;">' + response.message + '</div>').show();
+                        setTimeout(() => {
+                            $('#subscriptionModal').fadeOut();
+                        }, 2000);
+                    } else {
+                        // Show error message but keep the form open
+                        messageDiv.html('<div style="color: red;">' + response.message + '</div>').show();
+                        // Clear the email input for the user to try a different email
+                        $('#subscriptionEmail').val('').focus();
+                    }
+                },
+                error: function(xhr) {
+                    const errorMessage = xhr.responseJSON?.message || 'An error occurred. Please try again.';
+                    $('#subscriptionMessage').html('<div style="color: red;">' + errorMessage + '</div>').show();
+                },
+                complete: function() {
+                    submitButton.text(originalText).prop('disabled', false);
+                }
+            });
+        }
+
+        // Handle subscription cancellation (simplified)
+        function handleSubscriptionCancel() {
+            $.ajax({
+                url: '{{ route('subscription.cancel') }}',
+                method: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                complete: function() {
+                    $('#subscriptionModal').fadeOut();
+                }
+            });
+        }
+
+        // Function to process add to cart (simplified, no subscription check needed)
+        function processAddToCart() {
+            var formData = new FormData(document.getElementById('add-to-cart-form'));
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'POST',
-                url: $(this).attr('action'), // Use form's action attribute as URL
+                url: $('#add-to-cart-form').attr('action'),
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -836,15 +1026,11 @@ $(document).on('click', '.remove', function(event) {
                         $('#successAlert').fadeOut();
                     }, 3000);
 
-                    fetchCart(); // Refresh cart content
-
-                    // Open the mini cart
-                    $('.header-mini-cart').addClass('visible'); // Add the class to show the mini cart
-
-                    // Optionally, remove the class after some time to close it
+                    fetchCart();
+                    $('.header-mini-cart').addClass('visible');
                     setTimeout(function () {
                         $('.header-mini-cart').removeClass('visible');
-                    }, 5000); // Close after 3 seconds
+                    }, 5000);
                 },
                 error: function (xhr) {
                     var errorMessage = xhr.responseJSON.message || 'Please select an option before adding item to cart.';
@@ -854,23 +1040,23 @@ $(document).on('click', '.remove', function(event) {
                     }, 3000);
                 }
             });
-        });
+        }
 
-        // Optional: Validate or update quantity based on specific rules
+        // Quantity validation
         quantityInput.addEventListener('change', function() {
             const quantity = parseInt(this.value, 10);
             if (isNaN(quantity) || quantity < 1) {
-                this.value = 1; // Default to 1 if invalid
+                this.value = 1;
             }
         });
     });
 
-    // Fetch cart items on page load
+    // Cart management functions remain the same
     $(document).ready(function() {
         $('.header-shop-cart a').on('click', function() {
-            $('.header-mini-cart').toggle(); // Toggle visibility on click
+            $('.header-mini-cart').toggle();
         });
-        fetchCart(); // Fetch cart items
+        fetchCart();
     });
 
     function fetchCart() {
