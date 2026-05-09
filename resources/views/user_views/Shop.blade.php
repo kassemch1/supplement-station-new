@@ -101,159 +101,149 @@
             border-color: #fff; /* Hover border color */
             color: #A02334;
         }
-        .subscription-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-        }
-
+        /* Subscribe modal — refreshed */
+        .subscription-modal { position: fixed; inset: 0; z-index: 9999; }
         .subscription-modal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: absolute; inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: flex; justify-content: center; align-items: center;
+            padding: 20px;
         }
-
         .subscription-modal-content {
-            background: white;
-            border-radius: 10px;
+            background: #fff;
+            border-radius: 18px;
             padding: 0;
-            max-width: 500px;
-            width: 90%;
+            max-width: 440px;
+            width: 100%;
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
-            animation: modalSlideIn 0.3s ease-out;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .subscription-modal-header {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #A02334;
-            color: white;
-            border-radius: 10px 10px 0 0;
-        }
-
-        .subscription-modal-header h3 {
-            margin: 0;
-            font-size: 18px;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: white;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .close-modal:hover {
-            opacity: 0.7;
-        }
-
-        .subscription-modal-body {
-            padding: 20px;
-        }
-
-        .subscription-modal-body p {
-            margin-bottom: 20px;
-            color: #666;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+            animation: modalSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             text-align: center;
         }
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.96); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .subscription-modal-header {
+            position: relative;
+            padding: 36px 28px 0;
+            background: transparent;
+            color: inherit;
+            border: none;
+            display: block;
+        }
+        .subscription-modal-icon {
+            display: inline-flex;
+            align-items: center; justify-content: center;
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #A02334 0%, #d63b50 100%);
+            color: #fff;
+            font-size: 26px;
+            box-shadow: 0 10px 24px rgba(160, 35, 52, 0.35);
+            margin-bottom: 18px;
+        }
+        .subscription-modal-header h3 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: -0.2px;
+        }
+        .close-modal {
+            position: absolute;
+            top: 14px; right: 14px;
+            background: rgba(15, 23, 42, 0.06);
+            border: none;
+            color: #64748b;
+            font-size: 18px; line-height: 1;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: background .2s ease, color .2s ease;
+        }
+        .close-modal:hover { background: rgba(15, 23, 42, 0.12); color: #0f172a; opacity: 1; }
 
-        .form-group {
-            margin-bottom: 15px;
+        .subscription-modal-body {
+            padding: 18px 32px 32px;
+        }
+        .subscription-modal-body p {
+            margin: 0 0 22px;
+            color: #475569;
+            text-align: center;
+            font-size: 14.5px;
+            line-height: 1.55;
         }
 
+        .form-group { margin-bottom: 14px; position: relative; }
+        .form-group .input-icon {
+            position: absolute;
+            top: 50%; left: 16px;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 14px;
+            pointer-events: none;
+        }
         .form-group input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
+            padding: 14px 16px 14px 44px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14.5px;
+            color: #0f172a;
+            background: #f8fafc;
             box-sizing: border-box;
+            transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
         }
-
+        .form-group input::placeholder { color: #94a3b8; }
         .form-group input:focus {
             outline: none;
             border-color: #A02334;
-            box-shadow: 0 0 5px rgba(160, 35, 52, 0.3);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(160, 35, 52, 0.12);
         }
 
         .form-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
+            display: flex; flex-direction: column; gap: 8px;
+            margin-top: 4px;
         }
-
         .btn-subscribe, .btn-cancel {
-            padding: 12px 20px;
+            padding: 13px 18px;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s;
+            font-size: 14.5px;
+            font-weight: 600;
+            transition: transform .15s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+            width: 100%;
+            font-family: inherit;
         }
-
         .btn-subscribe {
-            background-color: #A02334;
-            color: white;
+            background: linear-gradient(135deg, #A02334 0%, #d63b50 100%);
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(160, 35, 52, 0.28);
         }
-
-        .btn-subscribe:hover {
-            background-color: #8a1e2c;
-        }
-
+        .btn-subscribe:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(160, 35, 52, 0.38); }
+        .btn-subscribe:active { transform: translateY(0); }
         .btn-cancel {
-            background-color: #6c757d;
-            color: white;
+            background: transparent;
+            color: #64748b;
+            box-shadow: none;
+            padding: 10px 18px;
+            font-weight: 500;
         }
+        .btn-cancel:hover { color: #0f172a; background: #f1f5f9; }
 
-        .btn-cancel:hover {
-            background-color: #5a6268;
-        }
-
-        @media (max-width: 768px) {
-            .subscription-modal-content {
-                margin: 20px;
-                width: calc(100% - 40px);
-            }
-
-            .form-actions {
-                flex-direction: column;
-            }
-
-            .btn-subscribe, .btn-cancel {
-                width: 100%;
-            }
+        @media (max-width: 480px) {
+            .subscription-modal-content { border-radius: 16px; }
+            .subscription-modal-header { padding: 28px 22px 0; }
+            .subscription-modal-body { padding: 16px 22px 24px; }
+            .subscription-modal-header h3 { font-size: 20px; }
         }
 
     </style>
@@ -279,13 +269,15 @@
     <div class="subscription-modal-overlay">
         <div class="subscription-modal-content">
             <div class="subscription-modal-header">
-                <h3>Stay updated! &#10084;</h3>
+                <span class="subscription-modal-icon"><i class="fas fa-dumbbell"></i></span>
+                <h3>Stay Strong, Stay Updated!</h3>
                 <button class="close-modal" id="closeModal">&times;</button>
             </div>
             <div class="subscription-modal-body">
-                <p>Stay updated on the latest deals, exclusive offers, new product alerts, and free shipping opportunities delivered to your inbox!</p>
+                <p>Get the latest deals, exclusive offers, new product drops, and free shipping perks delivered straight to your inbox.</p>
                 <form id="subscriptionForm">
                     <div class="form-group">
+                        <i class="fas fa-envelope input-icon"></i>
                         <input type="email" id="subscriptionEmail" name="email" placeholder="Enter your email address" required>
                     </div>
                     <div class="form-actions">

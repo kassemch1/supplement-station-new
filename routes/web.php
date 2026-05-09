@@ -21,6 +21,7 @@ require __DIR__. '/subscribe.php';
 require __DIR__. '/special_offers.php';
 
 use App\Http\Controllers\user_controllers\HomeController;
+use App\Http\Controllers\user_controllers\RecentPurchaseController;
 use App\Http\Controllers\user_controllers\UserProductController;
 use App\Http\Controllers\user_controllers\CartController;
 use App\Http\Controllers\user_controllers\CheckoutController;
@@ -57,3 +58,4 @@ Route::get('/shop/{categoryName?}', [ShopController::class, 'Shop'])->name('shop
 Route::post('/product/{id}/review', [UserProductController::class, 'createReview'])->name('product.createReview');
 
 Route::get('/Shop/search',[ShopController::class,'homeSearchToShop'])->name('home.search');
+Route::get('/api/recent-purchases', [RecentPurchaseController::class, 'index'])->name('api.recentPurchases');

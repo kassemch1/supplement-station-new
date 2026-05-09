@@ -39,7 +39,10 @@ class OrderController extends Controller
     public function orderDetails($orderId)
     {
         $order = Order::findOrFail($orderId);
-        $orderItems = OrderItem::where('order_id', $orderId)->with('product.images')->get();
+        $orderItems = OrderItem::where('order_id', $orderId)
+            ->with('product.images')
+            ->orderBy('created_at', 'desc')
+            ->get();
         $shippingDetail = ShippingDetail::where('order_id', $orderId)->first();
 
         return view('admin_views/manage_orders/shippingdetails_orderitems', [
