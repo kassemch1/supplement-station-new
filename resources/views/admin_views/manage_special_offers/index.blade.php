@@ -67,12 +67,13 @@
         }
         .so-card:hover { transform: translateY(-2px); border-color: rgba(96,165,250,0.5); }
         .so-card-image {
-            width:100%; height:120px;
-            background:#0f172a;
+            width:100%; height:140px;
+            background:#fff;
             display:flex; align-items:center; justify-content:center;
             overflow:hidden;
+            padding: 8px;
         }
-        .so-card-image img { width:100%; height:100%; object-fit:cover; }
+        .so-card-image img { max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; }
         .so-card-image .placeholder { color:#475569; font-size: 24px; }
         .so-card-body { padding: 10px 12px; flex:1; display:flex; flex-direction:column; gap:4px; }
         .so-card-name { font-weight:600; color:#f1f5f9; font-size:13px; line-height:1.3; }
