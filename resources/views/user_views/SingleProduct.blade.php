@@ -321,7 +321,7 @@
                             <button class="close-modal" id="closeModal">&times;</button>
                         </div>
                         <div class="subscription-modal-body">
-                            <p>Get the latest deals, exclusive offers, new product drops, and free shipping perks delivered straight to your inbox.</p>
+                            <p>Stay updated on the latest deals, exclusive offers, and new product alerts delivered to your house!</p>
                             <form id="subscriptionForm">
                                 <div class="form-group">
                                     <i class="fas fa-envelope input-icon"></i>
