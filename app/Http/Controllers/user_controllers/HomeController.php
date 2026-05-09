@@ -8,6 +8,7 @@ use App\Models\Plan;
 use App\Models\Product;
 use App\Models\OrderItem;
 use App\Models\Category;
+use App\Models\SpecialOffer;
 use Illuminate\Support\Facades\DB;
 use Jenssegers\Agent\Agent;
 
@@ -46,20 +47,23 @@ class HomeController extends Controller
     // Get the products for the ids collected
     $product = Product::whereIn('id', $bestSellingProductIds)->with('images')->get();
 
-    // Get offers products
-    $offersCategory = Category::where('name', 'Offers')->first();
-    $offersProducts = [];
+    // Get special offers (admin-managed)
+    $offerProductIds = SpecialOffer::orderBy('position')->orderBy('id')
+        ->limit(6)
+        ->pluck('product_id')
+        ->toArray();
 
-    if ($offersCategory) {
-        $offersProducts = Product::where('category_id', $offersCategory->id)
-                                 ->take(6)
-                                 ->with('images')
-                                 ->get();
-
-        // If no products found in offers category, fall back to best-selling products
-        if ($offersProducts->isEmpty()) {
-            $offersProducts = $product; // Use best-selling products as a fallback
-        }
+    if (!empty($offerProductIds)) {
+        $offersProducts = Product::whereIn('id', $offerProductIds)
+            ->with('images')
+            ->get()
+            ->sortBy(function ($p) use ($offerProductIds) {
+                return array_search($p->id, $offerProductIds);
+            })
+            ->values();
+    } else {
+        // Fallback: best-selling products so the section is never empty
+        $offersProducts = $product;
     }
 
     $categories=Category::all();

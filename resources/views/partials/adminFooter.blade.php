@@ -3,7 +3,7 @@
     <div class="container-fluid">
 
         <div class="footer-copyright text-center">
-            <p class="text-body-light">2024 &copy; <a href="">Supplement Station</a></p>
+            <p class="text-body-light">{{ date('Y') }} &copy; <a href="">Supplement Station</a></p>
         </div>
 
     </div>

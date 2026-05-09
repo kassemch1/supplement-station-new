@@ -62,6 +62,12 @@
                     </ul>
                 </li>
 
+                <li class="has-sub-menu"><a href="#"><i class="fa fa-star"></i> <span>Special Offers</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="{{route('admin.specialOffers.index')}}"><span>Manage Special Offers</span></a></li>
+                    </ul>
+                </li>
+
                 <li class="has-sub-menu"><a href="#"><i class="fa fa-ticket"></i> <span>Manage Coupons</span></a>
                     <ul class="side-header-sub-menu">
                         <li><a href="{{route('admin.coupons.create')}}"><span>Add Coupon</span></a></li>
