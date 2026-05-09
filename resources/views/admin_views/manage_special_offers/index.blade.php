@@ -206,7 +206,7 @@
                         <div class="so-card">
                             <div class="so-card-image">
                                 @if($offer->product && $offer->product->images->first())
-                                    <img src="{{ asset($offer->product->images->first()->image) }}" alt="">
+                                    <img src="{{ asset($offer->product->images->first()->url) }}" alt="">
                                 @else
                                     <span class="placeholder"><i class="fa fa-image"></i></span>
                                 @endif
