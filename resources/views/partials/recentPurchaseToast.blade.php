@@ -19,7 +19,7 @@
         transition: opacity .35s ease, transform .35s ease;
         font-family: inherit;
     }
-    .rp-toast.rp-toast-visible { display: flex; opacity: 1; transform: translateY(0); }
+    .rp-toast.rp-toast-visible { display: flex; opacity: 1; transform: translateY(0) !important; }
     .rp-toast:hover { box-shadow: 0 16px 40px rgba(0,0,0,0.22), 0 4px 8px rgba(0,0,0,0.1); }
     .rp-toast-img {
         flex: 0 0 56px;
@@ -49,8 +49,13 @@
     }
     .rp-toast-close:hover { color: #475569; }
 
-    @media (max-width: 480px) {
-        .rp-toast { left: 12px; right: 12px; bottom: 12px; min-width: 0; max-width: none; }
+    @media (max-width: 768px) {
+        .rp-toast {
+            left: 12px; right: 12px;
+            top: 12px; bottom: auto;
+            min-width: 0; max-width: none;
+            transform: translateY(-20px);
+        }
     }
 </style>
 
@@ -82,7 +87,7 @@
     var nextTimer = null;
     var dismissed = false;
 
-    var SHOW_MS = 7000;
+    var SHOW_MS = 15000;
     var GAP_MS = 15000;
     var FIRST_DELAY_MS = 4000;
 
