@@ -87,7 +87,7 @@
     var nextTimer = null;
     var dismissed = false;
 
-    var SHOW_MS = 15000;
+    var SHOW_MS = 10000;
     var GAP_MS = 15000;
     var FIRST_DELAY_MS = 4000;
 
