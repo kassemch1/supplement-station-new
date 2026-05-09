@@ -54,8 +54,8 @@
 
         .so-grid {
             display:grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 14px;
         }
         .so-card {
             background: rgba(255,255,255,0.03);
@@ -67,40 +67,40 @@
         }
         .so-card:hover { transform: translateY(-2px); border-color: rgba(96,165,250,0.5); }
         .so-card-image {
-            width:100%; height:160px;
+            width:100%; height:120px;
             background:#0f172a;
             display:flex; align-items:center; justify-content:center;
             overflow:hidden;
         }
         .so-card-image img { width:100%; height:100%; object-fit:cover; }
-        .so-card-image .placeholder { color:#475569; font-size: 32px; }
-        .so-card-body { padding: 14px 16px; flex:1; display:flex; flex-direction:column; gap:8px; }
-        .so-card-name { font-weight:600; color:#f1f5f9; font-size:15px; line-height:1.3; }
-        .so-card-price { color:#60a5fa; font-weight:600; font-size:14px; }
-        .so-card-meta { color:#94a3b8; font-size:12px; margin-top:auto; }
+        .so-card-image .placeholder { color:#475569; font-size: 24px; }
+        .so-card-body { padding: 10px 12px; flex:1; display:flex; flex-direction:column; gap:4px; }
+        .so-card-name { font-weight:600; color:#f1f5f9; font-size:13px; line-height:1.3; }
+        .so-card-price { color:#60a5fa; font-weight:600; font-size:13px; }
+        .so-card-meta { color:#94a3b8; font-size:11px; margin-top:auto; }
         .so-card-actions {
-            display:flex; align-items:center; gap:8px;
-            padding: 10px 12px;
+            display:flex; align-items:center; gap:6px;
+            padding: 8px 10px;
             border-top: 1px solid rgba(255,255,255,0.06);
             background: rgba(0,0,0,0.15);
         }
-        .so-card-actions .position-form { display:flex; align-items:center; gap:6px; flex:1; }
-        .so-card-actions .position-form label { color:#94a3b8; font-size: 11px; margin:0; text-transform:uppercase; letter-spacing:0.5px; }
+        .so-card-actions .position-form { display:flex; align-items:center; gap:5px; flex:1; }
+        .so-card-actions .position-form label { color:#94a3b8; font-size: 10px; margin:0; text-transform:uppercase; letter-spacing:0.5px; }
         .so-card-actions input[type=number] {
-            width: 60px; height: 32px;
+            width: 44px; height: 28px;
             background:#0f172a; color:#fff;
-            border:1px solid rgba(255,255,255,0.1); border-radius:6px;
-            padding: 4px 8px; font-size:13px;
+            border:1px solid rgba(255,255,255,0.1); border-radius:5px;
+            padding: 2px 6px; font-size:12px;
         }
         .so-btn {
-            border:none; border-radius:6px; height:32px;
+            border:none; border-radius:5px; height:28px;
             display:inline-flex; align-items:center; justify-content:center;
-            cursor:pointer; font-size:12px; padding:0 10px;
+            cursor:pointer; font-size:11px; padding:0 8px;
             transition: filter .15s ease;
         }
         .so-btn:hover { filter: brightness(1.15); }
         .so-btn-save { background:#2563eb; color:#fff; }
-        .so-btn-delete { background:#dc2626; color:#fff; width:32px; padding:0; }
+        .so-btn-delete { background:#dc2626; color:#fff; width:28px; padding:0; }
 
         .so-empty {
             text-align:center;
