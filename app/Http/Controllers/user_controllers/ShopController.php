@@ -178,8 +178,23 @@ class ShopController extends Controller
 
 
         $categories = Category::all();
-        $offersCategory = Category::where('name', 'Offers')->first();
-        $offers = Product::where('category_id', $offersCategory->id)->take(4)->get();
+
+        $offerProductIds = \App\Models\SpecialOffer::orderBy('position')->orderBy('id')
+            ->limit(4)
+            ->pluck('product_id')
+            ->toArray();
+
+        if (!empty($offerProductIds)) {
+            $offers = Product::whereIn('id', $offerProductIds)
+                ->with('images')
+                ->get()
+                ->sortBy(function ($p) use ($offerProductIds) {
+                    return array_search($p->id, $offerProductIds);
+                })
+                ->values();
+        } else {
+            $offers = Product::inRandomOrder()->with('images')->take(4)->get();
+        }
         $agent=new Agent();
         if ($request->ajax()) {
             $productList = view('partials.product_list', ['product' => $products,'agent'=>$agent,])->render();

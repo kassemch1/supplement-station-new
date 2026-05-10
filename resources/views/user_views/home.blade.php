@@ -634,6 +634,22 @@
         <!-- pricing end -->
 
         <!-- faq start -->
+        <style>
+            @media (max-width: 767px) {
+                .xb-accordion .block .acc-btn { padding-right: 70px !important; }
+                .xb-accordion .block .acc-btn .arrow { top: 50% !important; transform: translateY(-50%); }
+            }
+            @media (max-width: 480px) {
+                .xb-accordion .block .acc-btn { padding-right: 60px !important; font-size: 13px !important; }
+                .xb-accordion .block .acc-btn .arrow {
+                    width: 32px !important; height: 32px !important;
+                    right: 12px !important;
+                }
+                .xb-accordion .block .acc-btn .arrow::before {
+                    top: 3px !important; left: 9px !important; font-size: 13px !important;
+                }
+            }
+        </style>
         <section class="faq" data-bg-color="#fff">
             <div class="container">
                 <div class="accordion-inner bg_img" data-background="assets/img/bg/faq_bg2.jpg">
