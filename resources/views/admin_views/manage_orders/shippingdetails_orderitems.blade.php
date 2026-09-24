@@ -218,6 +218,56 @@
         .quick-actions .mt-4.pt-3 {
             border-top: 1px solid var(--border) !important;
         }
+        /* Product thumbnail in table */
+        .product-thumb {
+            width: 52px;
+            height: 52px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            cursor: zoom-in;
+            transition: transform .15s ease, box-shadow .15s ease;
+            display: block;
+        }
+        .product-thumb:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 16px rgba(0,0,0,.35);
+        }
+        .thumb-placeholder {
+            width: 52px; height: 52px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--panel-2);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--muted); font-size: 20px;
+        }
+
+        /* Lightbox */
+        #img-lightbox {
+            display: none;
+            position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,.82);
+            backdrop-filter: blur(6px);
+            align-items: center; justify-content: center;
+            cursor: zoom-out;
+        }
+        #img-lightbox.open { display: flex; }
+        #img-lightbox img {
+            max-width: 88vw; max-height: 88vh;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.6);
+            animation: lb-in .2s ease;
+        }
+        #img-lightbox .lb-close {
+            position: absolute; top: 20px; right: 24px;
+            font-size: 32px; color: #fff; cursor: pointer;
+            line-height: 1; opacity: .75; transition: opacity .15s;
+        }
+        #img-lightbox .lb-close:hover { opacity: 1; }
+        @keyframes lb-in {
+            from { transform: scale(.88); opacity: 0; }
+            to   { transform: scale(1);   opacity: 1; }
+        }
     </style>
 </head>
 
@@ -303,25 +353,23 @@
                 <div class="info-card">
                     <h4 class="mb-3"><i class="zmdi zmdi-shopping-cart mr-2"></i>Order Items</h4>
                     <div class="d-flex justify-content-center">
-                        <div class="info-card d-flex justify-content-center align-items-center" style="width: 250px; height:250px;">
-                            @if($order->orderItems->count() > 0)
 
-                                @foreach($order->orderItems as $item)
-                                    @if ($item->product->images->isNotEmpty())
-                                        <img src="{{ asset($item->product->images->first()->url) }}"
-                                             alt="Product Image"
-                                             loading="lazy"
-                                             style="max-width: 100%; max-height: 100%; object-fit: cover;">
-                                    @else
-                                        <span>No Image</span>
-                                    @endif
-                        </div>
+
+{{--                                    @if ($item->product->images->isNotEmpty())--}}
+{{--                                        <img src="{{ asset($item->product->images->first()->url) }}"--}}
+{{--                                             alt="Product Image"--}}
+{{--                                             loading="lazy"--}}
+{{--                                             style="max-width: 100%; max-height: 100%; object-fit: cover;">--}}
+{{--                                    @else--}}
+{{--                                        <span>No Image</span>--}}
+{{--                                    @endif--}}
+
                     </div>
                     <div class="order-items-table">
                         <table class="table mb-0">
                             <thead>
                             <tr>
-                                {{--                                    <th>image</th>--}}
+                                <th>image</th>
                                 <th>Product</th>
                                 <th>Options</th>
                                 <th>Price</th>
@@ -330,7 +378,9 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @if($order->orderItems->count() > 0)
 
+                                @foreach($order->orderItems as $item)
                             <tr>
                                 {{--                                    <td>--}}
                                 {{--                                        @if ($item->product->images->isNotEmpty())--}}
@@ -340,6 +390,18 @@
                                 {{--                                        @endif--}}
                                 {{--                                    </td>--}}
 
+
+                                {{-- ↓ ADD THIS TD --}}
+                                <td>
+                                    @if ($item->product->images->isNotEmpty())
+                                        <img src="{{ asset($item->product->images->first()->url) }}"
+                                             alt="Product Image"
+                                             class="product-thumb"
+                                             onclick="openLightbox(this.src)">
+                                    @else
+                                        <div class="thumb-placeholder"><i class="zmdi zmdi-image"></i></div>
+                                    @endif
+                                </td>
                                 <td><strong>{{ $item->product->name ?? 'Product not found' }}</strong></td>
                                 <td>
                                     @if($item->selected_options)
@@ -360,6 +422,14 @@
                                 <td class="text-right"><strong>${{ number_format($item->price * $item->quantity, 2) }}</strong></td>
                             </tr>
                             @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-5">
+                                        <i class="zmdi zmdi-shopping-cart-plus" style="font-size: 48px; display:block; margin-bottom: 10px;"></i>
+                                        No items found for this order
+                                    </td>
+                                </tr>
+                            @endif
                             </tbody>
                         </table>
                     </div>
@@ -405,12 +475,7 @@
                             <span>${{ number_format($order->total_amount, 2) }}</span>
                         </div>
                     </div>
-                    @else
-                        <div class="text-center text-muted py-4">
-                            <i class="zmdi zmdi-shopping-cart-plus" style="font-size: 48px;"></i>
-                            <p class="mb-0">No items found for this order</p>
-                        </div>
-                    @endif
+
                 </div>
             </div>
 
@@ -508,6 +573,24 @@
         console.log('Update status function exists:', typeof updateStatus);
     });
 </script>
+<!-- Lightbox -->
+<div id="img-lightbox" onclick="closeLightbox()">
+    <span class="lb-close" onclick="closeLightbox()">&times;</span>
+    <img id="lb-img" src="" alt="Product">
+</div>
 
+<script>
+    function openLightbox(src) {
+        document.getElementById('lb-img').src = src;
+        document.getElementById('img-lightbox').classList.add('open');
+    }
+    function closeLightbox() {
+        document.getElementById('img-lightbox').classList.remove('open');
+    }
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeLightbox();
+    });
+</script>
 </body>
 </html>
