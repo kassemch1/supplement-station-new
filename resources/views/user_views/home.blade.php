@@ -23,11 +23,13 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/logo/preloader2.png') }}">
 
     <!-- css include -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href={{asset("assets/css/bootstrap.min.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/fontawesome.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/animate.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/swiper.min.css")}}>
-    <link rel="stylesheet" href={{asset("assets/css/jquery-ui.min.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/magnific-popup.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/main.css")}}>
     <style>
@@ -101,15 +103,13 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="hero__content sec-title">
-                            <span class="sub-title wow fadeInUp" data-wow-duration=".6s">100% PREMIUM QUALITY</span>
-                            <h1 class="title mb-25 wow fadeInUp"
-                            data-wow-delay="150ms"
-                            data-wow-duration=".6s"
+                            <span class="sub-title">100% PREMIUM QUALITY</span>
+                            <h1 class="title mb-25"
                             style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">
                             Today Elevate Your Energy Levels at Supplement Station
                         </h1>
 
-                            <div class="hero__action ul_li wow fadeInUp" data-wow-delay="300ms" data-wow-duration=".6s">
+                            <div class="hero__action ul_li">
                                 @if($banner && $banner->product_id)
                                     <a class="thm-btn mr-45 mt-30" href="{{ route('products.show', ['id'=>$banner->product_id]) }}">BUY NOW</a>
                                 @else
@@ -130,9 +130,9 @@
                     <div class="col-lg-5">
                         <div class="hero__product text-md-end">
                             @if($banner && $banner->product_id)
-                                <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("$banner->image")}}" alt="" height="500" width="500" fetchpriority="high">
+                                <img src="{{asset("$banner->image")}}" alt="" height="500" width="500" fetchpriority="high">
                             @else
-                                <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("assets/img/shop/hero_product.png")}}" alt="" height="500" width="500" fetchpriority="high">
+                                <img src="{{asset("assets/img/shop/hero_product.webp")}}" alt="" height="500" width="500" fetchpriority="high">
                             @endif
                         </div>
                     </div>
@@ -158,8 +158,8 @@
                 <div class="row g-20">
                     @forelse ($offersProducts as $offer)
                         @php
-                            $ratingCount = $offer->reviews()->count();
-                            $averageRating = $ratingCount > 0 ? $offer->reviews()->avg('rating') : 5; // Default to 0 if no ratings
+                            $ratingCount = $offer->reviews_count;
+                            $averageRating = $ratingCount > 0 ? $offer->reviews_avg_rating : 5; // Default to 0 if no ratings
                         @endphp
                     <div class="col-lg-6 col-md-6 mt-20" >
 
@@ -246,7 +246,7 @@
             <div class="col-lg-4 pb-col-4">
                 <div class="popular-product__img mt-20">
                     <br><br>
-                    <img src="{{asset("assets/img/bg/products-image3.jpg")}} " alt="" style="margin-top: -53px;">
+                    <img src="{{asset("assets/img/bg/products-image3.webp")}}" alt="" loading="lazy" style="margin-top: -53px;">
                 </div>
             </div>
         </div>
@@ -416,8 +416,8 @@
                         @endif
                         </h3>
                         @php
-                            $ratingCount = $product->reviews()->count();
-                            $averageRating = $ratingCount > 0 ? $product->reviews()->avg('rating') : 5;
+                            $ratingCount = $product->reviews_count;
+                            $averageRating = $ratingCount > 0 ? $product->reviews_avg_rating : 5;
                         @endphp
                         <div class="xb-item--rating-inner ul_li_center">
                             <ul class="xb-item--rating ul_li">
@@ -874,7 +874,6 @@
 <script src="{{asset("assets/js/wow.min.js")}}"></script>
 <script src={{asset("assets/js/jquery.magnific-popup.min.js")}}></script>
 <script src={{asset("assets/js/touchspin.js")}}></script>
-<script src={{asset("assets/js/jquery-ui.min.js")}}></script>
 <script src={{asset("assets/js/jquery.inview.min.js")}}></script>
 <script src={{asset("assets/js/jquery.easing.js")}}></script>
 <script src={{asset("assets/js/scrollspy.js")}}></script>
@@ -959,7 +958,6 @@
 
     // Fetch cart items on page load
     $(document).ready(function() {
-        fetchCart();
         $('.header-shop-cart a').on('click', function() {
             $('.header-mini-cart').toggle(); // Toggle visibility on click
         });

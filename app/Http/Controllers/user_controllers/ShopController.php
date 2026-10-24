@@ -159,7 +159,7 @@ class ShopController extends Controller
         // Paginate the results
         $totalProducts = $query->count();
         $perPage = 12;
-        $products = $query->with('images')->paginate($perPage);
+        $products = $query->with('images')->withCount('reviews')->withAvg('reviews', 'rating')->paginate($perPage);
 
 
 

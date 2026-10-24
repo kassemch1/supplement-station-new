@@ -9,8 +9,8 @@
         <div class="row">
             @foreach($product as $item)
                 @php
-                    $ratingCount = $item->reviews()->count();
-                    $averageRating = $ratingCount > 0 ? $item->reviews()->avg('rating') : 5;
+                    $ratingCount = $item->reviews_count;
+                    $averageRating = $ratingCount > 0 ? $item->reviews_avg_rating : 5;
                     $truncatedName = \Illuminate\Support\Str::limit($item->name, 54,'...');
 
                 @endphp
@@ -88,8 +88,8 @@
         <div class="row">
             @foreach($product as $item)
                 @php
-                    $ratingCount = $item->reviews()->count();
-                    $averageRating = $ratingCount > 0 ? $item->reviews()->avg('rating') : 5;
+                    $ratingCount = $item->reviews_count;
+                    $averageRating = $ratingCount > 0 ? $item->reviews_avg_rating : 5;
                     $truncatedName = \Illuminate\Support\Str::limit($item->name, 54);
                 @endphp
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12">

@@ -43,7 +43,7 @@
     29. preloader
 
 -----------------------------------------------------------------------------------*/
-@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&amp;family=Poppins:wght@300;400;500;600;700&amp;display=swap");
+/* Chakra Petch is loaded by a <link> in each page head (an @import here waited for this whole file first) */
 :root {
   --font-body: 'Poppins', sans-serif;
   --font-heading: 'Chakra Petch', sans-serif;

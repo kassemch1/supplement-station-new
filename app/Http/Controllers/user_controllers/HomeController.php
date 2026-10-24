@@ -10,7 +10,6 @@ use App\Models\OrderItem;
 use App\Models\Category;
 use App\Models\SpecialOffer;
 use Illuminate\Support\Facades\DB;
-use Jenssegers\Agent\Agent;
 
 
 class HomeController extends Controller
@@ -46,7 +45,7 @@ class HomeController extends Controller
     }
 
     // Get the products for the ids collected
-    $product = Product::whereIn('id', $bestSellingProductIds)->with('images')->get();
+    $product = Product::whereIn('id', $bestSellingProductIds)->with('images')->withCount('reviews')->withAvg('reviews', 'rating')->get();
 
     // Get special offers (admin-managed)
     $offerProductIds = SpecialOffer::orderBy('position')->orderBy('id')
@@ -56,7 +55,7 @@ class HomeController extends Controller
 
     if (!empty($offerProductIds)) {
         $offersProducts = Product::whereIn('id', $offerProductIds)
-            ->with('images')
+            ->with('images')->withCount('reviews')->withAvg('reviews', 'rating')
             ->get()
             ->sortBy(function ($p) use ($offerProductIds) {
                 return array_search($p->id, $offerProductIds);
@@ -68,7 +67,6 @@ class HomeController extends Controller
     }
 
     $categories=Category::all();
-    $agent=new Agent();
     return view('user_views.home', [
         'product' => $product,
         'offersProducts' => $offersProducts,
@@ -76,7 +74,6 @@ class HomeController extends Controller
         'planes' => $planes,
         'faqs' => $faqs,
         'categories'=>$categories,
-        'agent'=>$agent
     ]);
 }
 

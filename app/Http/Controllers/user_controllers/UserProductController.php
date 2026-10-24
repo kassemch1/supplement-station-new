@@ -32,7 +32,7 @@ class UserProductController extends Controller
 
     $relatedProducts = Product::where('category_id', $product->category_id)
                                   ->where('id', '!=', $id)
-                                  ->with('images')
+                                  ->with('images')->withCount('reviews')->withAvg('reviews', 'rating')
                                   ->get();
 
 

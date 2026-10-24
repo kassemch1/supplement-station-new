@@ -61,7 +61,7 @@
                             </div>
                             <div class="xb-item--open">
                                 <p>Our customer support is available Monday to Saturday, 9:00 AM – 9:00 PM.<br>Our website is available 24/7 for your convenience.</p>
-                                <a href="mailto:admin@supplement-station.com"><img src="assets/img/icon/sms-tracking.svg" alt="">admin@supplement-station.com</a>
+                                <a href="mailto:admin@supplement-station.com"><img src="{{ asset('assets/img/icon/sms-tracking.svg') }}" alt="">admin@supplement-station.com</a>
                             </div>
                             <ul class="xb-item--social ul_li mt-30">
 
@@ -69,7 +69,7 @@
                                 <li><a href="https://www.instagram.com/supplement_station_lb" target="_blank"><i class="fab fa-instagram"></i></a></li>
                             </ul>
                         </div>
-                        <div class="xb-item--cta" data-background="assets/img/bg/cta_bg2.jpg">
+                        <div class="xb-item--cta" data-background="{{ asset('assets/img/bg/cta_bg2.jpg') }}">
                             <p>we are available for you <br> Monday to Saturday, 09:00AM - 9:00PM</p>
                             <h3>+961 81-823-038 / 81-088-266</h3>
 
@@ -80,7 +80,7 @@
         </div>
         <div class="footer-inner">
             <div class="footer-logo mb-25 text-center">
-                <img src="assets/img/logo/supLogo.png" alt="" style="max-height: 120px; max-width: 120px;" class="logo"></a>
+                <img src="{{ asset('assets/img/logo/supLogo.png') }}" alt="" style="max-height: 120px; max-width: 120px;" class="logo"></a>
             </div>
             <div class="sec-title sec-title--white text-center mb-50">
                 <h2 class="title">BREAK YOUR LIMITS AT SUPPLEMENT STATION</h2>
@@ -106,9 +106,9 @@
 
 @include('partials/recentPurchaseToast')
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
+    // Each page loads jQuery after this footer, so wait until it is there
+    document.addEventListener('DOMContentLoaded', function() {
         $('#contact_form').submit(function(e) {
             e.preventDefault(); // Prevent default form submission
 

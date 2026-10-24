@@ -19,11 +19,13 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/logo/preloader2.png') }}">
 
     <!-- css include -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href={{asset("assets/css/bootstrap.min.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/fontawesome.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/animate.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/swiper.min.css")}}>
-    <link rel="stylesheet" href={{asset("assets/css/jquery-ui.min.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/magnific-popup.css")}}>
     <link rel="stylesheet" href={{asset("assets/css/main.css")}}>
 
@@ -400,7 +402,6 @@
 <script src="{{asset("assets/js/wow.min.js")}}"></script>
 <script src={{asset("assets/js/jquery.magnific-popup.min.js")}}></script>
 <script src={{asset("assets/js/touchspin.js")}}></script>
-<script src={{asset("assets/js/jquery-ui.min.js")}}></script>
 <script src={{asset("assets/js/jquery.inview.min.js")}}></script>
 <script src={{asset("assets/js/jquery.easing.js")}}></script>
 <script src={{asset("assets/js/scrollspy.js")}}></script>
