@@ -23,6 +23,8 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/logo/preloader2.png') }}">
 
     <!-- css include -->
+    <!-- hero background: the biggest thing on a phone screen, so fetch it before the scripts that used to set it -->
+    <link rel="preload" as="image" href="{{ asset('assets/img/bg/home-banner.webp') }}" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap">
@@ -98,7 +100,7 @@
     <!-- main area start  -->
     <main>
         <!-- hero start -->
-        <section class="hero hero-style-one bg_img hero-height d-flex align-items-center" data-background="{{asset("assets/img/bg/home-banner.webp")}}">
+        <section class="hero hero-style-one bg_img hero-height d-flex align-items-center" data-background="{{asset("assets/img/bg/home-banner.webp")}}" style="background-image: url({{asset("assets/img/bg/home-banner.webp")}})">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
