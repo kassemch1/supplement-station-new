@@ -71,6 +71,17 @@ return new class extends Migration
 
     public function down(): void
     {
-        // Restored lines are real order history; they are intentionally not removed on rollback.
+        // Rolling back means going back to the old code, which can't display order lines whose product
+        // no longer exists. Remove exactly the lines this migration inserted.
+        foreach ($this->lines as $line) {
+            DB::table('order_items')
+                ->where('order_id', $line['order_id'])
+                ->whereNull('product_id')
+                ->where('product_name', $line['product_name'])
+                ->where('quantity', $line['quantity'])
+                ->where('price', $line['price'])
+                ->where('created_at', $line['created_at'])
+                ->delete();
+        }
     }
 };
