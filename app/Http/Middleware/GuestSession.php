@@ -24,22 +24,12 @@ class GuestSession
 
         $sessionId = Session::get('session_id');
 
-        // Calculate expiry time (2 days from now)
-        $expiryTime = now()->addDays(2);
-//        dd($expiryTime);
-        // First, attempt to find an existing cart
-        $cart = Cart::where('session_id', $sessionId)->first();
-
-        if (!$cart) {
-            // If cart doesn't exist, create it with expiry time
-            Cart::create([
-                'session_id' => $sessionId,
-                'expires_at' => $expiryTime,
-            ]);
-        } else {
-            // Optionally, update the expiry time if you want to extend it
-            $cart->update(['expires_at' => $expiryTime]);
-        }
+        // Create the session's cart or extend its expiry (2 days from now). session_id is unique,
+        // so two simultaneous requests can't create duplicate carts for the same session.
+        Cart::updateOrCreate(
+            ['session_id' => $sessionId],
+            ['expires_at' => now()->addDays(2)]
+        );
 
         return $next($request);
     }
