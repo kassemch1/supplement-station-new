@@ -6,7 +6,7 @@ use App\Http\Controllers\admin_controllers\ProductEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\user_controllers\SubscriptionController;
 
-Route::post('/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscription.subscribe');
+Route::post('/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscription.subscribe')->middleware('throttle:5,1,subscribe');
 Route::post('/subscription/cancel', [SubscriptionController::class, 'cancel'])->name('subscription.cancel');
 Route::get('/subscription/check-modal', [SubscriptionController::class, 'shouldShowModal'])->name('subscription.check.modal');
 

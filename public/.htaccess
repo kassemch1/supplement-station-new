@@ -1,3 +1,8 @@
+# Never serve PHP error logs or server config files
+<FilesMatch "^(error_log|\.user\.ini|php\.ini)$">
+    Require all denied
+</FilesMatch>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes

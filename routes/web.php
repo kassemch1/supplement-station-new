@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/products.php';
@@ -30,32 +29,18 @@ use App\Http\Middleware\GuestSession;
 
 
 
-Route::get('/foo', function () {
-    Artisan::call('storage:link');
-    return "success";
-});
-Route::get('/test',[HomeController::class,'test']);
-Route::middleware([GuestSession::class])->group(function () {
+Route::middleware([GuestSession::class, 'throttle:60,1,cart'])->group(function () {
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-//    Route::get('/', [HomeController::class, 'index'])->name('home');
-//    Route::get('/viewCart', [CartController::class, 'Cart'])->name('cart');
-//    Route::get('/Checkout', [CheckoutController::class, 'Checkout'])->name('checkout');
-//    Route::get('/Shop',[ShopController::class,'index'])->name('shop');
-//    Route::get('/products/{id}', [UserProductController::class, 'show'])->name('products.show');
-//    Route::get('/shop/{categoryName?}', [ShopController::class, 'Shop'])->name('shop.category');
-//    Route::post('/product/{id}/review', [UserProductController::class, 'createReview'])->name('product.createReview');
-//
-//    Route::get('/Shop/search',[ShopController::class,'homeSearchToShop'])->name('home.search');
-
-
 });
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/viewCart', [CartController::class, 'Cart'])->name('cart');
 Route::get('/Checkout', [CheckoutController::class, 'Checkout'])->name('checkout');
 Route::get('/Shop',[ShopController::class,'index'])->name('shop');
 Route::get('/products/{id}', [UserProductController::class, 'show'])->name('products.show');
-Route::get('/shop/{categoryName?}', [ShopController::class, 'Shop'])->name('shop.category');
-Route::post('/product/{id}/review', [UserProductController::class, 'createReview'])->name('product.createReview');
-
-Route::get('/Shop/search',[ShopController::class,'homeSearchToShop'])->name('home.search');
+Route::post('/product/{id}/review', [UserProductController::class, 'createReview'])->name('product.createReview')->middleware('throttle:5,1,review');
 Route::get('/api/recent-purchases', [RecentPurchaseController::class, 'index'])->name('api.recentPurchases');
+
+// These two URLs pointed at controller methods that no longer exist and returned a server error.
+// Send anyone following an old link to the working shop page instead.
+Route::get('/shop/{categoryName?}', fn (?string $categoryName = null) => redirect()->route('shop', array_filter(['category' => $categoryName]), 301))->name('shop.category');
+Route::get('/Shop/search', fn (Illuminate\Http\Request $request) => redirect()->route('shop', array_filter(['shop-search' => $request->query('search')]), 301))->name('home.search');

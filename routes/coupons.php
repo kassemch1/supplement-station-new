@@ -6,7 +6,7 @@ use App\Http\Controllers\admin_controllers\CouponController as AdminCouponContro
 
 // User routes for coupon application
 
-    Route::post('/coupon/apply', [UserCouponController::class, 'apply'])->name('coupon.apply');
+    Route::post('/coupon/apply', [UserCouponController::class, 'apply'])->name('coupon.apply')->middleware('throttle:10,1,coupon');
     Route::post('/coupon/remove', [UserCouponController::class, 'remove'])->name('coupon.remove');
     Route::get('/coupon/applied', [UserCouponController::class, 'getAppliedCoupon'])->name('coupon.applied');
 

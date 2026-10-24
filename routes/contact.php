@@ -9,4 +9,4 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::post('/contact/send',[ContactController::class,'sendEmailContact'])->name('contact.send');
+Route::post('/contact/send',[ContactController::class,'sendEmailContact'])->name('contact.send')->middleware('throttle:3,1,contact');

@@ -127,8 +127,8 @@
                             @foreach($product->images as $image)
                                 <div style="flex: 1 1 100px; box-sizing: border-box;">
                                     <img src="{{ asset($image->url) }}" alt="img" style="width: 100px; height: 100px; object-fit: cover; display: block; margin-bottom: 10px;">
-                                    <a class="button button-danger"
-                                       href="{{route("productImage.destroy",['id'=>$image->id])}}"><span>Delete</span></a>
+                                    <button type="button" class="button button-danger"
+                                            onclick="deleteProductImage('{{ route('productImage.destroy', ['id' => $image->id]) }}')"><span>Delete</span></button>
                                 </div>
                             @endforeach
                         </div>
@@ -252,6 +252,21 @@
             });
         });
     });
+</script>
+<script>
+    // Image delete sits inside the product form, so it submits its own DELETE form built outside it
+    function deleteProductImage(url) {
+        if (!confirm('Delete this image?')) {
+            return;
+        }
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = url;
+        form.innerHTML = '<input type="hidden" name="_token" value="{{ csrf_token() }}">'
+            + '<input type="hidden" name="_method" value="DELETE">';
+        document.body.appendChild(form);
+        form.submit();
+    }
 </script>
 
 
