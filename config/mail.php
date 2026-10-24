@@ -113,4 +113,15 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Store Admin Address
+    |--------------------------------------------------------------------------
+    |
+    | Receives new order notifications (and contact form messages).
+    |
+    */
+
+    'admin_address' => env('MAIL_ADMIN_ADDRESS', 'admin@supplement-station.com'),
+
 ];

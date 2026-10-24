@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user_controllers;
 use App\Http\Controllers\user_controllers\Controller;
 use App\Mail\CheckoutMail;
 use App\Mail\ContactMail;
+use App\Mail\NewOrderMail;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\CartItemOption;
@@ -15,11 +16,14 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductOption;
 use App\Models\ShippingDetail;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+use function Illuminate\Support\defer;
 
 class CartController extends Controller
 {
@@ -238,18 +242,30 @@ class CartController extends Controller
             'billing_phone' => 'required|phone:LB',
             'billing_address_1' => 'required|string',
             'billing_city' => 'required|string',
+            'billing_email' => 'nullable|email',
+            'checkout_token' => 'nullable|string|max:64',
         ], [
             'billing_phone.phone' => 'The phone number must be a valid Lebanese phone number.',
         ]);
-    
+
+        // Each checkout page load carries its own token. A double-click or a retry sends the same token
+        // again, and gets the order that was already placed instead of creating a duplicate.
+        $checkoutToken = $request->input('checkout_token') ?: (string) Str::uuid();
+        if ($existing = Order::where('checkout_token', $checkoutToken)->first()) {
+            return $this->orderPlacedResponse($existing, $request->billing_email);
+        }
+
         $sessionId = Session::get('session_id');
         $cart = Cart::where('session_id', $sessionId)->first();
         $client_data = $request->only('billing_first_name', 'billing_phone', 'billing_address_1', 'billing_city','billing_email');
-    
+
         if (!$cart || $cart->items->isEmpty()) {
-            return redirect()->back()->with('error', 'Your cart is empty. Please add items to your cart before placing an order.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Your cart is empty. Please add items to your cart before placing an order.',
+            ], 422);
         }
-    
+
         DB::beginTransaction();
     
         try {
@@ -287,6 +303,7 @@ class CartController extends Controller
                 'coupon_code' => $couponUsed ? $couponUsed->code : null,
                 'coupon_discount_amount' => $couponDiscount,
                 'status' => 'pending',
+                'checkout_token' => $checkoutToken,
             ]);
     
             ShippingDetail::create([
@@ -315,25 +332,51 @@ class CartController extends Controller
             }
     
             $cart->items()->delete();
-    
+
             DB::commit();
-    
-            if ($request->billing_email) {
-                Mail::to($request->billing_email)->send(new CheckoutMail($client_data, $cart->items, $order));
+        } catch (UniqueConstraintViolationException $e) {
+            // The same checkout was submitted twice at the same moment and the other request won
+            DB::rollBack();
+            $existing = Order::where('checkout_token', $checkoutToken)->first();
+            if ($existing) {
+                return $this->orderPlacedResponse($existing, $request->billing_email);
             }
-    
-            return response()->json([
-                'success' => true,
-                'billing_email' => $request->billing_email,
-                'order_id' => $order->id,
-            ]);
-            
-        } catch (\Illuminate\Database\QueryException $e) {
+            Log::error('Place order failed', ['error' => $e->getMessage()]);
+            return response()->json(['success' => false, 'message' => 'We could not place your order. Please try again.'], 500);
+        } catch (\Throwable $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => 'Database error occurred'], 400);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['error' => 'General error: ' . $e->getMessage()], 500);
+            Log::error('Place order failed', ['error' => $e->getMessage()]);
+            return response()->json(['success' => false, 'message' => 'We could not place your order. Please try again.'], 500);
         }
+
+        // The order is saved at this point. Emails go out after the response is sent, so a slow or
+        // failing mail server can never make a placed order look like it failed.
+        $items = $cart->items;
+        $billingEmail = $request->billing_email;
+        defer(function () use ($billingEmail, $client_data, $items, $order) {
+            if ($billingEmail) {
+                try {
+                    Mail::to($billingEmail)->send(new CheckoutMail($client_data, $items, $order));
+                } catch (\Throwable $e) {
+                    Log::error("Order #{$order->id}: customer receipt email failed", ['error' => $e->getMessage()]);
+                }
+            }
+            try {
+                Mail::to(config('mail.admin_address'))->send(new NewOrderMail($order->load('orderItems', 'shippingDetail')));
+            } catch (\Throwable $e) {
+                Log::error("Order #{$order->id}: admin notification email failed", ['error' => $e->getMessage()]);
+            }
+        });
+
+        return $this->orderPlacedResponse($order, $request->billing_email);
+    }
+
+    private function orderPlacedResponse(Order $order, ?string $billingEmail)
+    {
+        return response()->json([
+            'success' => true,
+            'billing_email' => $billingEmail,
+            'order_id' => $order->id,
+        ]);
     }
 }

@@ -172,6 +172,8 @@
                     <div class="woocommerce">
                         <form id="checkout_form" name="checkout" method="post" class="checkout woocommerce-checkout" action="{{ route('place.order') }}" enctype="multipart/form-data">
                             @csrf
+                            {{-- Same token on every submit of this page, so a double-click or retry can't create a second order --}}
+                            <input type="hidden" name="checkout_token" value="{{ \Illuminate\Support\Str::uuid() }}">
 
                             <div class="col2-set" id="customer_details">
                                 <div class="coll-1">
@@ -585,16 +587,26 @@
     // Form submission
     $('#checkout_form').on('submit', function(e) {
         e.preventDefault();
+        const $button = $('#place_order_btn');
+        if ($button.data('submitting')) {
+            return; // already placing this order
+        }
+        $button.data('submitting', true).prop('disabled', true).text('Placing your order...');
         let formData = $(this).serialize();
 
         $.ajax({
             url: '{{ route('place.order') }}',
             method: 'POST',
             data: formData,
+            complete: function(xhr) {
+                if (!(xhr.responseJSON && xhr.responseJSON.success)) {
+                    $button.data('submitting', false).prop('disabled', false).text('Place Order');
+                }
+            },
             success: function(response) {
                 if (response.success) {
                     $('#place_order_btn').hide();
-                    $('#success_message').show();
+                    $('#success_message').text('Your order #' + response.order_id + ' has been placed successfully!').show();
                     $('.mini-cart-count').text('0');
                     $('.header-mini-cart').empty();
                     
@@ -606,7 +618,9 @@
             error: function(xhr) {
                 $('.error-message').empty();
 
-                if (xhr.status === 422) {
+                if (xhr.status === 422 && !(xhr.responseJSON && xhr.responseJSON.errors)) {
+                    alert((xhr.responseJSON && xhr.responseJSON.message) || 'Please check your details and try again.');
+                } else if (xhr.status === 422) {
                     let errors = xhr.responseJSON.errors;
                     $.each(errors, function(key, value) {
                         let errorField = $('#' + key + '_error');
