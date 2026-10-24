@@ -53,17 +53,22 @@ return new class extends Migration
 
     public function down(): void
     {
-        // Lines whose product no longer exists can't satisfy NOT NULL + CASCADE again, so they keep
-        // product_id = NULL and the old constraint is restored as nullable. The snapshot columns stay
-        // dropped only if every line still has its product.
+        // Restores the original schema exactly when every order line still has its product (the normal
+        // case right after a deploy). If some product row was removed meanwhile, those lines keep
+        // product_id = NULL and their saved name/image columns instead of being lost.
+        $allLinesHaveProducts = DB::table('order_items')->whereNull('product_id')->doesntExist();
+
         Schema::table('order_items', function (Blueprint $table) {
             $table->dropForeign(['product_id']);
         });
-        Schema::table('order_items', function (Blueprint $table) {
+        Schema::table('order_items', function (Blueprint $table) use ($allLinesHaveProducts) {
+            if ($allLinesHaveProducts) {
+                $table->unsignedBigInteger('product_id')->nullable(false)->change();
+            }
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
         });
 
-        if (DB::table('order_items')->whereNull('product_id')->doesntExist()) {
+        if ($allLinesHaveProducts) {
             Schema::table('order_items', function (Blueprint $table) {
                 $table->dropColumn(['product_name', 'product_image']);
             });
