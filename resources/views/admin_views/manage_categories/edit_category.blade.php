@@ -184,7 +184,7 @@
                     location.reload();
                 },
                 error: function (xhr, status, error) {
-                    alert(JSON.stringify(error));
+                    alert(xhr.responseJSON?.message || JSON.stringify(error));
                     console.error('Error deleting Category:', error);
                     // Handle errors or display error message
                 }

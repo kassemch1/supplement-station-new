@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
-    use HasFactory;
+    // Deleting a product archives it: it disappears from the shop but past orders keep pointing at it
+    use HasFactory, SoftDeletes;
 
 
     protected $fillable = ['name', 'description', 'price', 'category_id', 'stock', 'discount'];

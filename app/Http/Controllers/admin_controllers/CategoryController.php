@@ -84,6 +84,15 @@ class CategoryController extends Controller
     public function destroy(Request $request)
     {
         $category=Category::findOrFail($request->id);
+
+        // The database removes a category's products with it, bypassing product archiving
+        $activeProducts = $category->getProducts()->count();
+        if ($activeProducts > 0) {
+            return response()->json([
+                'message' => "This category still has {$activeProducts} product(s). Move them to another category or delete them first.",
+            ], 422);
+        }
+
         $category->delete();
         return response()->json(['success' => 'Category deleted successfully']);
     }

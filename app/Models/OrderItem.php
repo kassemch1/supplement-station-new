@@ -9,11 +9,23 @@ class OrderItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['order_id', 'product_id', 'quantity', 'price', 'selected_options'];
+    protected $fillable = ['order_id', 'product_id', 'product_name', 'product_image', 'quantity', 'price', 'selected_options'];
 
+    // Includes archived products, so past orders still show what was bought
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->withTrashed();
+    }
+
+    // Name and image as they were when ordered, falling back to the product for older lines
+    public function getDisplayNameAttribute(): string
+    {
+        return $this->product_name ?? $this->product?->name ?? 'Deleted product';
+    }
+
+    public function getDisplayImageAttribute(): ?string
+    {
+        return $this->product_image ?? $this->product?->images->first()?->url;
     }
 
     public function options()

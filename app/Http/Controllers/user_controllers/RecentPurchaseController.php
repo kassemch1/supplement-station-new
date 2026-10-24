@@ -12,7 +12,7 @@ class RecentPurchaseController extends Controller
     {
         $items = OrderItem::with(['product.images', 'order.shippingDetail'])
             ->whereHas('product', function ($q) {
-                $q->where('stock', '>', 0);
+                $q->where('stock', '>', 0)->whereNull('products.deleted_at');
             })
             ->whereHas('order', function ($q) {
                 $q->where('created_at', '>=', now()->subDays(7));

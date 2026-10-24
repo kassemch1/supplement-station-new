@@ -26,6 +26,7 @@ class HomeController extends Controller
         ->whereHas('order', function ($query) {
             $query->where('status', 'delivered');
         })
+        ->whereIn('product_id', Product::select('id')) // only products still in the shop
         ->groupBy('product_id')
         ->orderBy('total_quantity', 'desc')
         ->limit(6)

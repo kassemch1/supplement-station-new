@@ -307,8 +307,8 @@
                             @if($order->orderItems->count() > 0)
 
                                 @foreach($order->orderItems as $item)
-                                    @if ($item->product->images->isNotEmpty())
-                                        <img src="{{ asset($item->product->images->first()->url) }}"
+                                    @if ($item->display_image)
+                                        <img src="{{ asset($item->display_image) }}"
                                              alt="Product Image"
                                              loading="lazy"
                                              style="max-width: 100%; max-height: 100%; object-fit: cover;">
@@ -340,7 +340,7 @@
                                 {{--                                        @endif--}}
                                 {{--                                    </td>--}}
 
-                                <td><strong>{{ $item->product->name ?? 'Product not found' }}</strong></td>
+                                <td><strong>{{ $item->display_name }}</strong></td>
                                 <td>
                                     @if($item->selected_options)
                                         @php

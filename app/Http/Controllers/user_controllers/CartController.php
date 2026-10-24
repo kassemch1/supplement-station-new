@@ -306,6 +306,8 @@ class CartController extends Controller
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $cartItem->product_id,
+                    'product_name' => $cartItem->product->name,
+                    'product_image' => $cartItem->product->images->first()?->url,
                     'quantity' => $cartItem->quantity,
                     'price' => $discountedPrice,
                     'selected_options' => $cartItem->selected_options,

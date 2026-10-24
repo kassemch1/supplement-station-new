@@ -4,11 +4,15 @@ namespace App\Http\Controllers\admin_controllers;
 
 
 use App\Http\Controllers\user_controllers\Controller;
+use App\Models\Banner;
+use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Review;
+use App\Models\SpecialOffer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -178,7 +182,16 @@ class ProductController extends Controller
     public function destroy(Request $request)
     {
         $product=Product::findOrFail($request->id);
-        $product->delete();
+
+        // Archive (soft delete) so past orders keep the product. Take it out of carts, special offers
+        // and the home banner so nothing on the shop links to it anymore.
+        DB::transaction(function () use ($product) {
+            CartItem::where('product_id', $product->id)->delete();
+            SpecialOffer::where('product_id', $product->id)->delete();
+            Banner::where('product_id', $product->id)->update(['product_id' => null]);
+            $product->delete();
+        });
+
         return response()->json(['success' => 'product deleted successfully']);
     }
 
