@@ -16,6 +16,8 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductOption;
 use App\Models\ShippingDetail;
+use App\Services\CurrentCart;
+use App\Services\ProductAvailability;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -36,8 +38,7 @@ class CartController extends Controller
     }
 
     public function getCart() {
-        $sessionId = Session::get('session_id');
-        $cart = Cart::where('session_id', $sessionId)->first();
+        $cart = CurrentCart::get();
 
         if (!$cart) {
             return response()->json(['items' => []]);
@@ -46,7 +47,7 @@ class CartController extends Controller
         $items = $cart->items()->with('product.images')->get();
 
         foreach ($items as $item) {
-            $selectedOptions = json_decode($item->selected_options, true);
+            $selectedOptions = json_decode($item->selected_options, true) ?: [];
             $formattedOptions = [];
 
             foreach ($selectedOptions as $optionName => $optionValue) {
@@ -61,6 +62,9 @@ class CartController extends Controller
             $price = $item->product->price;
             $item->discounted_price = $discount ? $price * (1 - ($discount / 100)) : $price; // Apply discount
             $item->subtotal = $item->discounted_price * $item->quantity; // Calculate subtotal with discount
+
+            // Tells the page if this line can't be ordered anymore (sold out since it was added)
+            $item->unavailable_reason = ProductAvailability::check($item->product, $selectedOptions)['error'];
         }
 
         return response()->json(['items' => $items]);
@@ -71,82 +75,49 @@ class CartController extends Controller
         try{
         // Validate the request inputs
         $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
+            'product_id' => 'required|integer',
+            'quantity' => 'required|integer|min:1|max:100',
             'selected_options' => 'nullable|string', // Accept as string initially
         ]);
 
-        // Decode the JSON string
-        $selectedOptions = json_decode($request->input('selected_options'), true)?? [];
+        $selectedOptions = json_decode($request->input('selected_options') ?: '{}', true);
+        $product = Product::find($request->product_id);
 
-        // Check if the decoded value is an array
-        if (!is_array($selectedOptions)) {
-            return response()->json(['error' => 'Selected options must be an array.'], 400);
+        // Sold-out products and options used to be hidden only by the page; the server now refuses them
+        $availability = ProductAvailability::check($product, $selectedOptions);
+        if ($availability['error']) {
+            return response()->json(['success' => false, 'message' => $availability['error']], 422);
         }
 
-        // Ensure both options are selected
-        $product = Product::findOrFail($request->product_id);
-        $requiredOptions = ProductOption::where('product_id', $product->id)->pluck('option_id')->unique();
+        $cart = CurrentCart::getOrCreate();
 
-            if (count($selectedOptions) !== $requiredOptions->count() && $requiredOptions->count() > 0) {
-                return response()->json(['error' => 'All required options must be selected.'], 400);
-            }
-
-        $sessionId = Session::get('session_id');
-        $cart = Cart::firstOrCreate(['session_id' => $sessionId]);
-
-        // Convert selectedOptions to a JSON string for storage
-        $optionsJson = json_encode($selectedOptions);
-
-        // Find existing cart items with the same product
-        $cartItems = CartItem::where('cart_id', $cart->id)
-            ->where('product_id', $request->product_id)
-            ->get();
-
-        $cartItem = null;
-
-        foreach ($cartItems as $item) {
-            // Get the selected options for the current cart item
-            $itemOptions = json_decode($item->selected_options, true) ?? [];
-
-            // Compare the options arrays
-            if ($itemOptions == $selectedOptions) {
-                $cartItem = $item;
-                break;
-            }
-        }
+        // Same product with the same options goes on the same line
+        $cartItem = CartItem::where('cart_id', $cart->id)
+            ->where('product_id', $product->id)
+            ->get()
+            ->first(fn ($item) => (json_decode($item->selected_options, true) ?? []) == $selectedOptions);
 
         if ($cartItem) {
-            // Update quantity if item exists
-            $cartItem->increment('quantity', $request->quantity);
+            $cartItem->update(['quantity' => min(100, $cartItem->quantity + $request->quantity)]);
         } else {
-            // Create new cart item
             $cartItem = CartItem::create([
                 'cart_id' => $cart->id,
-                'product_id' => $request->product_id,
+                'product_id' => $product->id,
                 'quantity' => $request->quantity,
-                'selected_options' => $optionsJson,
+                'selected_options' => json_encode($selectedOptions),
             ]);
 
-            // Attach options to the cart item
-            foreach ($selectedOptions as $optionName => $optionValue) {
-                $productOption = ProductOption::where('product_id', $request->product_id)
-                    ->where('option_value', $optionValue)
-                    ->first();
-
-                if ($productOption) {
-                    CartItemOption::create([
-                        'cart_item_id' => $cartItem->id,
-                        'product_option_id' => $productOption->id,
-                    ]);
-                }
+            foreach ($availability['productOptions'] as $productOption) {
+                CartItemOption::create([
+                    'cart_item_id' => $cartItem->id,
+                    'product_option_id' => $productOption->id,
+                ]);
             }
         }
 
             return response()->json(['success' => true, 'message' => 'Product added to cart!']);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // Return validation errors
-            return response()->json(['success' => false, 'message' => $e->errors()], 422);
+            return response()->json(['success' => false, 'message' => collect($e->errors())->flatten()->first()], 422);
         } catch (\Exception $e) {
             // Log the error
             Log::error('Error adding item to cart: ' . $e->getMessage());
@@ -159,52 +130,19 @@ class CartController extends Controller
     public function updateCart(Request $request)
     {
         $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
+            'cart_item_id' => 'nullable|integer',
+            'product_id' => 'required_without:cart_item_id|integer',
+            'quantity' => 'required|integer|min:1|max:100',
             'selected_options' => 'nullable|string',
         ]);
 
-        $sessionId = Session::get('session_id');
-        $cart = Cart::where('session_id', $sessionId)->first();
+        $cartItem = $this->findCartLine($request);
 
-        if (!$cart) {
-            return response()->json(['error' => 'Cart not found'], 404);
+        if (!$cartItem) {
+            return response()->json(['success' => false, 'message' => 'This item is no longer in your cart.'], 404);
         }
 
-        // Decode the JSON string
-        $selectedOptions = json_decode($request->input('selected_options'), true) ?? [];
-
-        // Find existing cart items with the same product
-        $cartItems = CartItem::where('cart_id', $cart->id)
-            ->where('product_id', $request->product_id)
-            ->get();
-
-        $cartItem = null;
-
-        foreach ($cartItems as $item) {
-            // Get the selected options for the current cart item
-            $itemOptions = json_decode($item->selected_options, true) ?? [];
-
-            // Compare the options arrays
-            if ($itemOptions == $selectedOptions) {
-                $cartItem = $item;
-                break;
-            }
-        }
-
-        if ($cartItem) {
-            // Update quantity if item exists
-            $cartItem->quantity = $request->quantity;
-            $cartItem->save();
-        } else {
-            // Create new cart item if not found
-            $cartItem = CartItem::create([
-                'cart_id' => $cart->id,
-                'product_id' => $request->product_id,
-                'quantity' => $request->quantity,
-                'selected_options' => $request->input('selected_options'),
-            ]);
-        }
+        $cartItem->update(['quantity' => $request->quantity]);
 
         return response()->json(['success' => true, 'message' => 'Cart updated successfully!']);
     }
@@ -212,19 +150,11 @@ class CartController extends Controller
     public function removeItem(Request $request)
     {
         $request->validate([
-            'product_id' => 'required|exists:products,id',
+            'cart_item_id' => 'nullable|integer',
+            'product_id' => 'required_without:cart_item_id|integer',
         ]);
 
-        $sessionId = Session::get('session_id');
-        $cart = Cart::where('session_id', $sessionId)->first();
-
-        if (!$cart) {
-            return response()->json(['success' => false, 'message' => 'Cart not found'], 404);
-        }
-
-        $cartItem = CartItem::where('cart_id', $cart->id)
-            ->where('product_id', $request->product_id)
-            ->first();
+        $cartItem = $this->findCartLine($request);
 
         if (!$cartItem) {
             return response()->json(['success' => false, 'message' => 'Cart item not found'], 404);
@@ -233,6 +163,28 @@ class CartController extends Controller
         $cartItem->delete();
 
         return response()->json(['success' => true, 'message' => 'Item removed from cart']);
+    }
+
+    // The exact cart line the customer clicked. Pages now send cart_item_id; pages still cached in a
+    // browser send product_id (+ options), which is matched as precisely as the request allows.
+    private function findCartLine(Request $request): ?CartItem
+    {
+        $cart = CurrentCart::get();
+        if (!$cart) {
+            return null;
+        }
+
+        if ($request->filled('cart_item_id')) {
+            return $cart->items()->whereKey($request->cart_item_id)->first();
+        }
+
+        $lines = $cart->items()->where('product_id', $request->product_id)->get();
+        if ($request->filled('selected_options')) {
+            $options = json_decode($request->selected_options, true) ?? [];
+            return $lines->first(fn ($item) => (json_decode($item->selected_options, true) ?? []) == $options);
+        }
+
+        return $lines->first();
     }
 
     public function placeOrder(Request $request)
@@ -255,14 +207,24 @@ class CartController extends Controller
             return $this->orderPlacedResponse($existing, $request->billing_email);
         }
 
-        $sessionId = Session::get('session_id');
-        $cart = Cart::where('session_id', $sessionId)->first();
+        $cart = CurrentCart::get();
         $client_data = $request->only('billing_first_name', 'billing_phone', 'billing_address_1', 'billing_city','billing_email');
 
         if (!$cart || $cart->items->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Your cart is empty. Please add items to your cart before placing an order.',
+            ], 422);
+        }
+
+        // Something may have sold out since it was added to the cart
+        $problems = $cart->items
+            ->map(fn ($item) => ProductAvailability::check($item->product, json_decode($item->selected_options, true) ?? [])['error'])
+            ->filter();
+        if ($problems->isNotEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => $problems->implode(' ').' Please remove it from your cart and try again.',
             ], 422);
         }
 
@@ -282,16 +244,21 @@ class CartController extends Controller
             $couponUsed = null;
     
             if ($appliedCoupon) {
-                $coupon = Coupon::find($appliedCoupon['id']);
-                
-                if ($coupon && $coupon->isValid() && $coupon->canApplyToOrder($subtotalAmount)) {
-                    $couponDiscount = $coupon->calculateDiscount($subtotalAmount);
-                    $coupon->apply(); // This will increment usage and deactivate single-use coupons
-                    $couponUsed = $coupon;
+                // Locked until this order is saved, so two orders can't both use a single-use coupon
+                $coupon = Coupon::lockForUpdate()->find($appliedCoupon['id']);
+
+                if (!$coupon || !$coupon->isValid() || !$coupon->canApplyToOrder($subtotalAmount)) {
+                    DB::rollBack();
+                    Session::forget('applied_coupon');
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'The coupon '.$appliedCoupon['code'].' can no longer be used for this order and was removed. Please review your total and place the order again.',
+                    ], 422);
                 }
-                
-                // Clear the applied coupon from session
-                Session::forget('applied_coupon');
+
+                $couponDiscount = $coupon->calculateDiscount($subtotalAmount);
+                $coupon->apply(); // This will increment usage and deactivate single-use coupons
+                $couponUsed = $coupon;
             }
     
             $finalAmount = $subtotalAmount - $couponDiscount;
@@ -334,6 +301,7 @@ class CartController extends Controller
             $cart->items()->delete();
 
             DB::commit();
+            Session::forget('applied_coupon');
         } catch (UniqueConstraintViolationException $e) {
             // The same checkout was submitted twice at the same moment and the other request won
             DB::rollBack();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user_controllers;
 use App\Http\Controllers\user_controllers\Controller;
 use App\Models\Coupon;
 use App\Models\Cart;
+use App\Services\CurrentCart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
@@ -137,8 +138,7 @@ class CouponController extends Controller
      */
     private function getCartTotal(): float
     {
-        $sessionId = Session::get('session_id');
-        $cart = Cart::where('session_id', $sessionId)->first();
+        $cart = CurrentCart::get();
 
         if (!$cart) {
             return 0;

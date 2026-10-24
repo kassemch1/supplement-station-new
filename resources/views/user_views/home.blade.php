@@ -932,7 +932,7 @@
                                     </div>
                                 </div>
                                 <div class="remove-button" style="margin-left: auto;">
-                                    <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
+                                    <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" data-cart_item_id="${item.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
                                 </div>
                             </div>
                         `);
@@ -973,12 +973,14 @@
         event.preventDefault(); // Prevent the default link behavior
 
         const productId = $(this).data('product_id');
+        const cartItemId = $(this).data('cart_item_id');
 
         $.ajax({
             url: '{{ route('cart.remove') }}',
             method: 'POST',
             data: {
                 product_id: productId,
+                cart_item_id: cartItemId,
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {

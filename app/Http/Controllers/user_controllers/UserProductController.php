@@ -25,10 +25,7 @@ class UserProductController extends Controller
         $ratingCount = $product->reviews()->count();
         $averageRating = $ratingCount > 0 ? $product->reviews()->avg('rating') : 5;
 
-        if (!$product->stock) { // Assuming 'stock' is a boolean indicating availability
-            // Redirect to a specific route or show an error message
-            return redirect()->route('home')->with('Error!');
-        }
+        // Sold-out products used to redirect to the home page; the page now shows them as sold out
 
 //    $product = Product::findOrFail($id);
     $category = Category::find($product->category_id);

@@ -419,9 +419,15 @@
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     <input type="hidden" name="selected_options" id="selected_options" value="{}">
-                                    <button type="submit" class="xb-btn add-to-cart" data-product-id="{{ $product->id }}">
-                                        <i class="far fa-shopping-bag"></i> Add to cart
-                                    </button>
+                                    @if($product->stock)
+                                        <button type="submit" class="xb-btn add-to-cart" data-product-id="{{ $product->id }}">
+                                            <i class="far fa-shopping-bag"></i> Add to cart
+                                        </button>
+                                    @else
+                                        <button type="button" class="xb-btn add-to-cart" disabled style="opacity: .6; cursor: not-allowed;">
+                                            Sold out
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                             <div id="successAlert" class="alert alert-success mt-3" style="display: none;">
@@ -775,7 +781,7 @@
     {{--                                </div>--}}
     {{--                            </div>--}}
     {{--                            <div class="remove-button" style="margin-left: auto;">--}}
-    {{--                                <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>--}}
+    {{--                                <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" data-cart_item_id="${item.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>--}}
     {{--                            </div>--}}
     {{--                        </div>--}}
     {{--                    `);--}}
@@ -815,12 +821,14 @@ $(document).on('click', '.remove', function(event) {
     event.preventDefault(); // Prevent the default link behavior
 
     const productId = $(this).data('product_id');
+    const cartItemId = $(this).data('cart_item_id');
 
     $.ajax({
         url: '{{ route('cart.remove') }}',
         method: 'POST',
         data: {
             product_id: productId,
+            cart_item_id: cartItemId,
             _token: '{{ csrf_token() }}'
         },
         success: function(response) {
@@ -1043,13 +1051,6 @@ $(document).on('click', '.remove', function(event) {
         });
     });
 
-    // Cart management functions remain the same
-    $(document).ready(function() {
-        $('.header-shop-cart a').on('click', function() {
-            $('.header-mini-cart').toggle();
-        });
-        fetchCart();
-    });
 
     function fetchCart() {
         $.ajax({
@@ -1098,7 +1099,7 @@ $(document).on('click', '.remove', function(event) {
                                 </div>
                             </div>
                             <div class="remove-button" style="margin-left: auto;">
-                                <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
+                                <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" data-cart_item_id="${item.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
                             </div>
                         </div>
                     `);

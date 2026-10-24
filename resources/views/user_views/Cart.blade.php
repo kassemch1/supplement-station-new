@@ -480,7 +480,7 @@
                                     </div>
                                 </div>
                                 <div class="remove-button" style="margin-left: auto;">
-                                    <a href="#" class="removemini remove_from_cart_button" data-product_id="${item.product.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
+                                    <a href="#" class="removemini remove_from_cart_button" data-product_id="${item.product.id}" data-cart_item_id="${item.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
                                 </div>
                             </div>
                         `);
@@ -523,12 +523,14 @@ $(document).on('click', '.removemini', function(event) {
     event.preventDefault(); // Prevent the default link behavior
 
     const productId = $(this).data('product_id');
+    const cartItemId = $(this).data('cart_item_id');
 
     $.ajax({
         url: '{{ route('cart.remove') }}',
         method: 'POST',
         data: {
             product_id: productId,
+            cart_item_id: cartItemId,
             _token: '{{ csrf_token() }}'
         },
         success: function(response) {
@@ -575,7 +577,7 @@ $(document).on('click', '.removemini', function(event) {
                 <tr class="cart_single">
                     <td class="product-remove">
                         <a href="#!" class="remove" title="Remove this item"
-                           data-product_id="${item.product.id}">&times;</a>
+                           data-product_id="${item.product.id}" data-cart_item_id="${item.id}">&times;</a>
                     </td>
                     <td class="product-thumbnail">
                         <a href="#!">
@@ -598,12 +600,12 @@ $(document).on('click', '.removemini', function(event) {
                     </td>
                     <td class="product-quantity" data-title="Quantity">
                         <div class="quantity">
-                            <button type="button" class="quantity-minus" data-product_id="${item.product.id}">-</button>
+                            <button type="button" class="quantity-minus" data-product_id="${item.product.id}" data-cart_item_id="${item.id}">-</button>
                             <input type="number" step="1" min="1" max="9999" value="${item.quantity}"
                              title="Qty"
                              class="product-count input-text qty text product-count form-control"
-                             data-product_id="${item.product.id}" />
-                            <button type="button" class="quantity-plus" data-product_id="${item.product.id}">+</button>
+                             data-product_id="${item.product.id}" data-cart_item_id="${item.id}" />
+                            <button type="button" class="quantity-plus" data-product_id="${item.product.id}" data-cart_item_id="${item.id}">+</button>
                         </div>
                     </td>
                     <td class="product-subtotal" data-title="Total">
@@ -631,6 +633,7 @@ $(document).on('click', '.removemini', function(event) {
         // Update cart item quantity
         $(document).on('change', '.product-count', function() {
             const productId = $(this).data('product_id');
+            const cartItemId = $(this).data('cart_item_id');
             const quantity = $(this).val();
             const optionsInput = $(this).closest('tr').find('.selected-options'); // Hidden input for options
             const selectedOptions = optionsInput.val(); // Get selected options as JSON string
@@ -642,6 +645,7 @@ $(document).on('click', '.removemini', function(event) {
                 method: 'POST',
                 data: {
                     product_id: productId,
+                    cart_item_id: cartItemId,
                     quantity: quantity,
                     selected_options: selectedOptions, // Include selected options
                     _token: '{{ csrf_token() }}'
@@ -683,12 +687,14 @@ $(document).on('click', '.removemini', function(event) {
     event.preventDefault(); // Prevent the default link behavior
 
     const productId = $(this).data('product_id');
+    const cartItemId = $(this).data('cart_item_id');
 
     $.ajax({
         url: '{{ route('cart.remove') }}',
         method: 'POST',
         data: {
             product_id: productId,
+            cart_item_id: cartItemId,
             _token: '{{ csrf_token() }}'
         },
                 success: function(response) {
