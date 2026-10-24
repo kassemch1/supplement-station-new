@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin_controllers;
 
 use App\Http\Controllers\admin_controllers\Controller;
-use App\Models\plane;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -29,7 +29,7 @@ class PlaneController extends Controller
 
         ]);
 
-        $plane = new plane();
+        $plane = new Plan();
 
         $plane->type = $validatedData['type'];
         $plane->price = $validatedData['price'];
@@ -46,7 +46,7 @@ class PlaneController extends Controller
 
     public function index()
     {
-        $planes = plane::all();
+        $planes = Plan::all();
         return view('admin_views/manage_planes/edit_planes', [
             'planes' => $planes
         ]);
@@ -54,14 +54,14 @@ class PlaneController extends Controller
 
     public function destroy(Request $request)
     {
-        $plane = plane::findOrFail($request->id);
+        $plane = Plan::findOrFail($request->id);
         $plane->delete();
         return response()->json(['success' => 'Point deleted successfully']);
     }
 
     public function edit($id)
     {
-        $plane = plane::find($id);
+        $plane = Plan::find($id);
         return view('admin_views/manage_planes/edit_planes_form', [
             'plane' => $plane
         ]);
@@ -81,7 +81,7 @@ class PlaneController extends Controller
 
         ]);
 
-        $plane = plane::findOrFail($request->input('planId'));
+        $plane = Plan::findOrFail($request->input('planId'));
 
         $plane->type = $validatedData['type'];
         $plane->price = $validatedData['price'];
