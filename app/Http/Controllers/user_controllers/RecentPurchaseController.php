@@ -33,7 +33,7 @@ class RecentPurchaseController extends Controller
                 'image' => $img ? asset($img->url) : null,
                 'city' => $shipping?->city,
                 'time_ago' => $item->created_at->diffForHumans(),
-                'product_url' => $product ? route('products.show', $product->id) : '#',
+                'product_url' => $product ? $product->url() : '#',
             ];
         })
         ->filter(fn($p) => $p['product_id'] && $p['product_name'])

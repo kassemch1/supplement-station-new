@@ -1,7 +1,12 @@
 {{--
     Layout of the store pages (home, shop, product, cart, checkout). A page sets:
       @section('title')        text before " | Supplement Station"
-      @section('description')  optional meta description
+      @section('full_title')   optional: the whole title instead (home page)
+      @section('description')  meta description (a default is used without one)
+      @section('canonical')    optional: the address search engines should index (default: this one, no query)
+      @section('robots')       optional: e.g. "noindex, follow" for the cart
+      @section('og_type'), @section('og_image')  optional: link previews (WhatsApp, Facebook...)
+      @push('schema')          optional: JSON-LD structured data (<script type="application/ld+json">)
       @section('page')         home, shop, product, cart or checkout: loads that page's CSS/JS bundle
       @section('body_wrap', 1) optional: wrap the page in .body_wrap (clips sideways overflow)
       @push('head')            optional extra tags (preloads, meta)
@@ -10,6 +15,13 @@
 @php
     $page = trim($__env->yieldContent('page'));
     $bundles = config('assets.bundles');
+    // Section values come back HTML-escaped already, so they are printed with {!! !!}
+    $seoTitle = trim($__env->yieldContent('full_title')) ?: trim($__env->yieldContent('title')) . ' | Supplement Station';
+    $seoDescription = trim($__env->yieldContent('description'))
+        ?: e('Supplement Station, Beirut: protein, creatine, mass gainers, pre-workouts, vitamins and gym gear from trusted brands. Order online in Lebanon.');
+    $seoCanonical = trim($__env->yieldContent('canonical')) ?: e(url()->current());
+    $seoRobots = trim($__env->yieldContent('robots')) ?: 'index, follow, max-image-preview:large';
+    $seoImage = trim($__env->yieldContent('og_image')) ?: e(asset('assets/img/logo/preloader2.png'));
 @endphp
 <!doctype html>
 <html lang="en">
@@ -17,15 +29,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @hasSection('description')
-    <meta name="description" content="@yield('description')">
-    @endif
-    <title>@yield('title') | Supplement Station</title>
+    <title>{!! $seoTitle !!}</title>
+    <meta name="description" content="{!! $seoDescription !!}">
+    <meta name="robots" content="{!! $seoRobots !!}">
+    <link rel="canonical" href="{!! $seoCanonical !!}">
+    <meta name="theme-color" content="#A02334">
+
+    <meta property="og:site_name" content="Supplement Station">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="{!! trim($__env->yieldContent('og_type')) ?: 'website' !!}">
+    <meta property="og:title" content="{!! $seoTitle !!}">
+    <meta property="og:description" content="{!! $seoDescription !!}">
+    <meta property="og:url" content="{!! $seoCanonical !!}">
+    <meta property="og:image" content="{!! $seoImage !!}">
+    <meta name="twitter:card" content="summary_large_image">
 
     <link rel="icon" href="{{ asset('assets/img/logo/preloader2.png') }}" type="image/png">
     <link rel="apple-touch-icon" href="{{ asset('assets/img/logo/preloader2.png') }}">
 
     @stack('head')
+    @stack('schema')
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

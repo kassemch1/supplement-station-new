@@ -30,10 +30,10 @@ $(function () {
                 $rows.append(
                     '<tr class="cart_single">' +
                         '<td class="product-remove"><a href="#!" class="remove cart-line-remove" title="Remove this item" ' + ids + '>&times;</a></td>' +
-                        '<td class="product-thumbnail"><a href="' + SS.url('products/' + item.product.id) + '">' +
+                        '<td class="product-thumbnail"><a href="' + SS.url('products/' + encodeURIComponent(item.product.slug || item.product.id)) + '">' +
                             (item.product_image ? '<img width="57" height="70" src="' + SS.esc(SS.url(item.product_image)) + '" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt="' + SS.esc(item.product.name) + '" loading="lazy"/>' : '') +
                         '</a></td>' +
-                        '<td class="product-name" data-title="Product"><a href="' + SS.url('products/' + item.product.id) + '">' + SS.esc(item.product.name) + '</a></td>' +
+                        '<td class="product-name" data-title="Product"><a href="' + SS.url('products/' + encodeURIComponent(item.product.slug || item.product.id)) + '">' + SS.esc(item.product.name) + '</a></td>' +
                         '<td class="product-price" data-title="Price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>' + item.discounted_price.toFixed(2) + '</span></td>' +
                         '<td class="product-options" data-title="Options">' +
                             '<input type="hidden" class="selected-options" value="' + SS.esc(item.selected_options) + '" />' +

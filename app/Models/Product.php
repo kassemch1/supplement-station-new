@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSlug;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,6 +12,8 @@ class Product extends Model
 {
     // Deleting a product archives it: it disappears from the shop but past orders keep pointing at it
     use HasFactory, SoftDeletes;
+    // The page URL is /products/{slug}, made from the name (see HasSlug)
+    use HasSlug;
 
 
     protected $fillable = ['name', 'description', 'price', 'category_id', 'stock', 'discount'];
@@ -38,6 +41,11 @@ class Product extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function url(): string
+    {
+        return route('products.show', $this->slug ?: $this->id);
     }
 
     public function getPriceAfterDiscountAttribute()

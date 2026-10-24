@@ -1,6 +1,35 @@
 @extends('layouts.store')
 
-@section('title', 'Single Product')
+@php
+    $seoPrice = '$' . number_format($product->price_after_discount, 2);
+    $seoImage = $product->images->first() ? asset($product->images->first()->url) : null;
+@endphp
+@section('title', $product->name . ' Price in Lebanon')
+@section('description', \App\Support\Seo::text(
+    'Buy ' . $product->name . ' in Lebanon at Supplement Station'
+    . ($product->stock > 0 ? ' for ' . $seoPrice . '.' : '.') . ' ' . $product->description
+))
+@section('canonical', $product->url())
+@section('og_type', 'product')
+@if($seoImage)
+    @section('og_image', $seoImage)
+@endif
+@push('head')
+    <meta property="product:price:amount" content="{{ number_format($product->price_after_discount, 2, '.', '') }}">
+    <meta property="product:price:currency" content="USD">
+    <meta property="product:availability" content="{{ $product->stock > 0 ? 'in stock' : 'out of stock' }}">
+@endpush
+@push('schema')
+    {{ \App\Support\Seo::script([
+        \App\Support\Seo::product($product, $category?->name, $reviews),
+        \App\Support\Seo::breadcrumbs(array_filter([
+            ['Home', route('home')],
+            ['Shop', route('shop')],
+            $category ? [$category->name, $category->url()] : null,
+            [$product->name, $product->url()],
+        ])),
+    ]) }}
+@endpush
 @section('page', 'product')
 @section('body_wrap', 1)
 
@@ -11,15 +40,20 @@
         <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner.webp')}}">
             <div class="container">
                 <div class="breadcrumb__content text-center">
-                    <h2 class="breadcrumb__title" style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">Product</h2>
+                    <h2 class="breadcrumb__title" style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">{{ $category?->name ?? 'Product' }}</h2>
                     <ul class="breadcrumb__list clearfix">
                         <li class="breadcrumb-item">
                             <a href="{{route('home')}}" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); color: #fff;">
                                 Supplement Station
                             </a>
                         </li>
-                        <li class="breadcrumb-item" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); color: #fff;">
-                            Product
+                        @if($category)
+                        <li class="breadcrumb-item">
+                            <a href="{{ $category->url() }}" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); color: #fff;">{{ $category->name }}</a>
+                        </li>
+                        @endif
+                        <li class="breadcrumb-item" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); color: #fff;" aria-current="page">
+                            {{ $product->name }}
                         </li>
                     </ul>
                 </div>
@@ -80,7 +114,7 @@
 
             <div class="col-md-6 product-details-col">
                 <div class="product-details mb-20">
-                    <h2>{{ $product->name ?? 'Product Name' }}</h2>
+                    <h1>{{ $product->name }}</h1>
                     <div class="rating">
                         @for ($i = 0; $i < 5; $i++)
                             <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
@@ -137,8 +171,8 @@
                     <div class="thb-product-meta-after mt-20">
                         <div class="product_meta">
             <span class="posted_in">Categories:
-            @if($product->category_id)
-                <span>{{ $category?->name }}</span>
+            @if($category)
+                <a href="{{ $category->url() }}">{{ $category->name }}</a>
             @else
                 <span>No categories</span>
             @endif
@@ -192,11 +226,7 @@
 
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="tb-01">
-                                    <p>{{ $product->description ?? 'Product description' }}</p>
-                                </div>
-                                <div class="tab-pane fade" id="tb-02">
-                                    <p>Travelling salesman and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer</p>
-                                    <p> waved about helplessly as he looked. "What's happened to me?" he thought. It wasn't a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar wallstrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer. Gregor then turned to look out the window at the dull weather</p>
+                                    <p>{{ $product->description ?: $product->name }}</p>
                                 </div>
                                 <div class="tab-pane fade" id="tb-03">
                                     <div class="row">
@@ -326,19 +356,19 @@
                                                 </div>
                                             @endif
                                             @if($item->stock > 0)
-                                                <a href="{{ route('products.show', $item->id) }}">
+                                                <a href="{{ $item->url() }}">
                                                     <!-- Add image here -->
                                                     @if($item->images->isNotEmpty())
-                                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" style="max-height: 120px" loading="lazy">
+                                                        <img src="{{ asset($item->images->first()->url) }}" alt="{{ $item->name }}" style="max-height: 120px" loading="lazy">
                                                     @else
                                                         No image available
                                                     @endif
                                                 </a>
                                             @else
-                                                <a href="{{ route('products.show', $item->id) }}" class="no-stock">
+                                                <a href="{{ $item->url() }}" class="no-stock">
                                                     <!-- Add image here -->
                                                     @if($item->images->isNotEmpty())
-                                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" style="max-height: 120px" loading="lazy">
+                                                        <img src="{{ asset($item->images->first()->url) }}" alt="{{ $item->name }}" style="max-height: 120px" loading="lazy">
                                                     @else
                                                         No image available
                                                     @endif
@@ -348,9 +378,9 @@
                                         <div class="xb-item--holder">
                                             <h3 class="xb-item--title">
                                                 @if($item->stock > 0)
-                                                    <a href="{{ route('products.show', $item->id) }}">{{ $item->name }}</a>
+                                                    <a href="{{ $item->url() }}">{{ $item->name }}</a>
                                                 @else
-                                                    <a href="{{ route('products.show', $item->id) }}"><span>{{ $item->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
+                                                    <a href="{{ $item->url() }}"><span>{{ $item->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
 
                                                 @endif
                                             </h3>
@@ -376,12 +406,12 @@
                             @endif
                         </span>
                                             @if($item->stock > 0)
-                                                <a href="{{ route('products.show', $item->id) }}" class="xb-item--cart-btn">
+                                                <a href="{{ $item->url() }}" class="xb-item--cart-btn">
                                                     <span class="xb-item--cart-icon"><img src="{{asset('assets/img/icon/bag.svg')}}" alt="" loading="lazy"></span>
                                                     <span class="xb-item--cart">add to cart</span>
                                                 </a>
                                             @elseif($item->stock == 0)
-                                                <a href="{{ route('products.show', $item->id) }}" class="xb-item--cart-btn disabled" style="color: lightgrey" >
+                                                <a href="{{ $item->url() }}" class="xb-item--cart-btn disabled" style="color: lightgrey" >
                                                     <span class="xb-item--cart-icon"><img src="{{asset('assets/img/icon/bag.svg')}}" alt="" loading="lazy"></span>
                                                     <span class="xb-item--cart">Out of Stock</span>
                                                 </a>

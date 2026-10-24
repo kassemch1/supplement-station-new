@@ -18,7 +18,7 @@
         <div class="container" >
             <div class="header__wrap ul_li_between">
                 <div class="header-logo">
-                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/outlined-logo-nav.png')}}" alt="" style="width: 190px;height: auto" class="logo"></a>
+                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/outlined-logo-nav.png')}}" alt="Supplement Station" style="width: 190px;height: auto" class="logo"></a>
                 </div>
                 <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
                     <nav class="main-menu collapse navbar-collapse">
@@ -39,12 +39,7 @@
                                 <a class="section-link" href="#"><span>Categories</span></a>
                             <ul class="submenu"  >
                                     @foreach($categories as $category)
-                                        <form action="{{route('shop')}}" >
-                                            @csrf
-                                            <input type="hidden" name="category-nav" value="{{$category->id}}">
-                                            <li><a href="#" onclick="this.closest('form').submit(); return false;"><span >{{$category->name}}</span></a></li>
-
-                                        </form>
+                                        <li><a href="{{ $category->url() }}"><span>{{ $category->name }}</span></a></li>
                                     @endforeach
                                 </ul>
                             </li>
@@ -57,7 +52,7 @@
                             <div class="xb-header-menu-scroll">
                                 <div class="xb-menu-close xb-hide-xl xb-close"></div>
                                 <div class="xb-logo-mobile xb-hide-xl">
-                                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/outlined-logo-nav.png')}}" alt="" style="height: 50px; width: 160px;" class="logo"></a>
+                                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/outlined-logo-nav.png')}}" alt="Supplement Station" style="height: 50px; width: 160px;" class="logo"></a>
                                 </div>
                                 <div class="xb-header-mobile-search xb-hide-xl">
                                     <form role="search" action="{{route('shop')}}" method="get">
@@ -79,12 +74,7 @@
                                             <a class="menu-item menu-item-has-children" href="" onclick="toggleDropdown(event, 'categories-dropdown'); return false;"><span>Categories</span></a>
                                             <ul class="sub-menu" id="categories-dropdown">
                                                 @foreach($categories as $category)
-                                                    <form action="{{route('shop')}}">
-                                                        @csrf
-                                                        <input type="hidden" name="category-sidebar" value="{{$category->id}}">
-                                                        <li><button type="submit" class="btn btn-link" style="text-decoration: none;color: inherit"><span>{{$category->name}}</span></button></li>
-
-                                                    </form>
+                                                    <li><a href="{{ $category->url() }}"><span>{{ $category->name }}</span></a></li>
                                                 @endforeach
                                             </ul>
                                         </li>
@@ -150,8 +140,8 @@
     <div class="sidebar-top mb-65">
         <div class="sidebar-logo mb-40">
             <br><br><br>
-            <a href="index.html">
-                <img src="{{ asset('assets/img/logo/preloader2.png')}}" alt="logo" style="max-height: 150px;max-width: 150px">
+            <a href="{{ route('home') }}">
+                <img src="{{ asset('assets/img/logo/preloader2.png')}}" alt="Supplement Station" style="max-height: 150px;max-width: 150px">
             </a>
         </div>
         <div class="sidebar-content">
@@ -163,7 +153,7 @@
         <h4 class="sidebar-heading">Contact Information</h4>
         <ul class="sidebar-info-list list-unstyled">
             <li><span><img src="{{ asset("assets/img/icon/i_star.svg")}}" alt=""></span>Msharafieh,Facing Garden State.</li>
-            <li><a href="#!"><span><img src="{{ asset("assets/img/icon/i_star.svg")}}" alt=""></span>+961 81-823-038 / 81-088-266</a></li>
+            <li><span><img src="{{ asset("assets/img/icon/i_star.svg")}}" alt=""></span><a href="tel:+96181823038">+961 81-823-038</a> / <a href="tel:+96181088266">81-088-266</a></li>
 
         </ul>
     </div>
@@ -173,16 +163,14 @@
             <div class="xb-item-wrap row">
                 <div class="xb-item col-auto">
                     <span class="item-content">
-                        <a href="tel:02456787535" class="tel">+961 81-823-038</a>
+                        <a href="tel:+96181823038" class="tel">+961 81-823-038</a>
                     </span>
                 </div>
             </div>
         </div>
         <div class="sidebar-socials-wrap" style="margin-top: 0; text-align: center; display: flex; align-items: center; margin-left: auto;">
             <a class="social-item" href="https://www.instagram.com/supplement_station_lb/" target="_blank" style="display: flex; align-items: center;">
-                <img src="https://static.vecteezy.com/system/resources/previews/017/743/718/non_2x/instagram-icon-logo-free-png.png"
-                     alt="Instagram"
-                     style="width: 24px; height: 24px; margin-right: 10px;">
+                <i class="fab fa-instagram" style="font-size: 24px; margin-right: 10px;" aria-hidden="true"></i>
                 Instagram
             </a>
         </div>

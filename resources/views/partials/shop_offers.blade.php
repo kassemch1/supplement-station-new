@@ -6,9 +6,9 @@
             @foreach($offersProducts as $offer)
                 <li class="widget-product__item">
                     <div class="thumb">
-                        <a href="{{ route('products.show', ['id' => $offer->id]) }}">
+                        <a href="{{ $offer->url() }}">
                             @if($offer->images->isNotEmpty())
-                                <img src="{{ asset($offer->images->first()->url) }}" alt="" loading="lazy">
+                                <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" loading="lazy">
                             @else
                                 No image available
                             @endif
@@ -16,7 +16,7 @@
                     </div>
                     <div class="content">
                         <h3>
-                            <a href="{{ route('products.show', ['id' => $offer->id]) }}">{{ $offer->name }}</a>
+                            <a href="{{ $offer->url() }}">{{ $offer->name }}</a>
                         </h3>
                         <span class="price">
                             @if($offer->discount > 0)

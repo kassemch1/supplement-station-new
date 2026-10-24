@@ -1,6 +1,7 @@
 @extends('layouts.store')
 
 @section('title', 'Cart')
+@section('robots', 'noindex, follow')
 @section('page', 'cart')
 
 @section('content')

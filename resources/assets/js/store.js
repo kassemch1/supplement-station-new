@@ -64,7 +64,7 @@
                         '</div>' +
                         '<div class="mini-cart-content" style="flex-grow: 1;">' +
                             '<h4 class="product-title" style="margin: 0; font-size: 14px;">' +
-                                '<a href="' + SS.url('products/' + item.product.id) + '" style="text-decoration: none; color: #000;">' + SS.esc(item.product.name) + '</a>' +
+                                '<a href="' + SS.url('products/' + encodeURIComponent(item.product.slug || item.product.id)) + '" style="text-decoration: none; color: #000;">' + SS.esc(item.product.name) + '</a>' +
                             '</h4>' +
                             '<div class="mini-cart-price" style="margin-top: 5px;">' +
                                 item.quantity + ' × <span class="woocommerce-Price-amount amount" style="color: red;">$' + price.toFixed(2) + '</span>' +

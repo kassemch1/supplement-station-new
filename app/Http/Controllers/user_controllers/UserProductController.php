@@ -11,10 +11,30 @@ use Illuminate\Http\Request;
 class UserProductController extends Controller
 {
 
-    public function show($id)
+    // /products/{slug}. Older links (/products/2, a slug from before a rename, different letter case)
+    // redirect permanently to the current address; an archived product sends visitors to its category.
+    public function show(Request $request, string $key)
     {
-        // Sold-out products used to redirect to the home page; the page now shows them as sold out
-        $product = Product::with('images', 'reviews', 'productOptions.option')->findOrFail($id);
+        $product = Product::with('images', 'reviews', 'productOptions.option')->where('slug', $key)->first();
+
+        if (!$product || $product->slug !== $key) {
+            $id = $product?->id
+                ?? (ctype_digit($key) ? (int) $key : null)
+                ?? Product::idForOldSlug(strtolower($key))
+                ?? Product::withTrashed()->where('slug', $key)->value('id');
+            $found = $id ? Product::withTrashed()->find($id) : null;
+            abort_unless($found, 404);
+
+            if ($found->trashed()) {
+                $category = Category::cachedAll()->firstWhere('id', $found->category_id);
+                // Not permanent: the admin can restore the product
+                return redirect($category ? $category->url() : route('shop'), 302);
+            }
+
+            $query = $request->getQueryString();
+            return redirect($found->url() . ($query ? '?' . $query : ''), 301);
+        }
+
         $reviews = $product->reviews;
         $ratingCount = $reviews->count();
         $averageRating = $ratingCount > 0 ? $reviews->avg('rating') : 5;

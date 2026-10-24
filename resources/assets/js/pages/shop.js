@@ -1,4 +1,5 @@
-// Shop page: searching, category filters, sorting and paging reload only the product list
+// Shop page: searching, sorting and paging reload only the product list.
+// Categories are links to their own pages (/shop/{category}), so they load normally.
 $(function () {
     'use strict';
 
@@ -22,37 +23,23 @@ $(function () {
             });
     }
 
-    $('#search-form, .category-form, .category-form-phone').on('submit', function (e) {
+    $('#search-form').on('submit', function (e) {
         e.preventDefault();
         loadProducts($(this).attr('action'), $(this).serialize(), {resetSort: true});
     });
 
+    // Phones: the dropdown holds the category page addresses
     $('#category-phone').on('change', function () {
-        $('.category-form-phone').trigger('submit');
-    });
-
-    $('.category-button').on('click', function () {
-        $('.category-button').removeClass('active');
-        $(this).addClass('active');
+        window.location.href = $(this).val();
     });
 
     $('#sort-by-price').on('change', function () {
         $('#sort-form').trigger('submit');
     });
 
-    // Sorting keeps the category that is chosen: the dropdown on phones, the active button otherwise
-    // (both are on the page; the screen width decides which one is visible)
+    // The sort form posts to the page it is on, so the category stays chosen
     $('#sort-form').on('submit', function (e) {
         e.preventDefault();
-        var $phone = $('#category-phone');
-        var category;
-        if ($phone.is(':visible')) {
-            category = $phone.val();
-        } else {
-            var $active = $('.category-form button.active');
-            category = ($active.length ? $active.closest('form') : $('.category-form').first()).find('input[name="category"]').val();
-        }
-        $('#category-input').val(category);
         loadProducts($(this).attr('action'), $(this).serialize());
     });
 

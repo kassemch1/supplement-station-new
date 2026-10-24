@@ -16,7 +16,7 @@
                 @endphp
                 <div class="col-6">
                     @if((int)$item->stock === 1)
-                        <a href="{{ route('products.show', $item->id) }}" class="product-link" style="text-decoration: none; color: inherit;">
+                        <a href="{{ $item->url() }}" class="product-link" style="text-decoration: none; color: inherit;">
                         @endif
                     <div class="product-cart">
                         <!-- Sale Label -->
@@ -27,9 +27,9 @@
                         </div>
 
                         <!-- Product Image -->
-                        <a href="{{ route('products.show', $item->id) }}" class="product-image">
+                        <a href="{{ $item->url() }}" class="product-image">
                             @if($item->images->isNotEmpty())
-                                <img src="{{ asset($item->images->first()->url) }}" alt="Product Image" width="300" height="300" style="width: 100%; height: auto; max-width: 100%; object-fit: contain; border-radius: 8px;" loading="lazy">
+                                <img src="{{ asset($item->images->first()->url) }}" alt="{{ $item->name }}" width="300" height="300" style="width: 100%; height: auto; max-width: 100%; object-fit: contain; border-radius: 8px;" loading="lazy">
                             @else
                                 <span style="display: block; width: 100%; height: 100%; background-color: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #888;">No image available</span>
                             @endif
@@ -37,11 +37,11 @@
 
                         <!-- Product Name -->
                         @if($item->stock > 0)
-                            <a href="{{ route('products.show', $item->id) }}" class="product-name">
+                            <a href="{{ $item->url() }}" class="product-name">
                                 {{ $truncatedName }}
                             </a>
                         @else
-                            <a href="{{ route('products.show', $item->id) }}" class="product-name">
+                            <a href="{{ $item->url() }}" class="product-name">
                                 {{ $truncatedName }}<br/>
                                 <span class="out-of-stock">(out of stock)</span>
                             </a>
@@ -68,14 +68,14 @@
 
                         <!-- Add to Cart Button -->
                         @if($item->stock > 0)
-                            <a class="add-to-cart-button" href="{{ route('products.show', $item->id) }}" style="display: flex; align-items: center;">
+                            <a class="add-to-cart-button" href="{{ $item->url() }}" style="display: flex; align-items: center;">
                                 <span class="xb-item--cart-icon" style="display: flex; justify-content: center; align-items: center; margin-right: 5px;">
                                     <img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart" style="height: 15px; width: 15px;">
                                 </span>
                                 Add to Cart
                             </a>
                         @else
-                            <a class="add-to-cart-button-disabled" href="{{ route('products.show', $item->id) }}">
+                            <a class="add-to-cart-button-disabled" href="{{ $item->url() }}">
                                 <span class="xb-item--cart">Out of Stock</span>
                             </a>
                         @endif
@@ -101,20 +101,20 @@
                             </div>
                         @endif
                         @if($item->stock > 0)
-                            <a href="{{ route('products.show', $item->id) }}">
+                            <a href="{{ $item->url() }}">
                                 <div class="xb-item--img">
                                     @if($item->images->isNotEmpty())
-                                    <img src="{{ asset($item->images->first()->url) }}" alt="img" width="155" height="170" style="width: 155px; height: 170px; object-fit: contain;" loading="lazy">
+                                    <img src="{{ asset($item->images->first()->url) }}" alt="{{ $item->name }}" width="155" height="170" style="width: 155px; height: 170px; object-fit: contain;" loading="lazy">
                                 @else
                                         No image available
                                     @endif
                                 </div>
                             </a>
                         @else
-                            <a href="{{ route('products.show', $item->id) }}">
+                            <a href="{{ $item->url() }}">
                                 <div class="xb-item--img no-stock">
                                     @if($item->images->isNotEmpty())
-                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" width="155" height="170" style="width: 155px; height: 170px; object-fit: cover;" loading="lazy">
+                                        <img src="{{ asset($item->images->first()->url) }}" alt="{{ $item->name }}" width="155" height="170" style="width: 155px; height: 170px; object-fit: cover;" loading="lazy">
                                     @else
                                         No image available
                                     @endif
@@ -124,9 +124,9 @@
                         <div class="xb-item--holder">
                             <h3 class="xb-item--title">
                                 @if($item->stock > 0)
-                                    <a href="{{ route('products.show', $item->id) }}">{{ $truncatedName }}</a>
+                                    <a href="{{ $item->url() }}">{{ $truncatedName }}</a>
                                 @else
-                                    <a href="{{ route('products.show', $item->id) }}"><span class="no-stock-title">{{ $truncatedName }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
+                                    <a href="{{ $item->url() }}"><span class="no-stock-title">{{ $truncatedName }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
                                 @endif
                             </h3>
                             <div class="xb-item--rating-inner ul_li_center" style="margin-top: 10px;margin-bottom: 5px">
@@ -147,12 +147,12 @@
                                 @endif
                             </span>
                             @if($item->stock > 0)
-                                <a href="{{ route('products.show', $item->id) }}" class="xb-item--cart-btn">
+                                <a href="{{ $item->url() }}" class="xb-item--cart-btn">
                                     <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart"></span>
                                     <span class="xb-item--cart">Add to Cart</span>
                                 </a>
                             @else
-                                <a href="{{ route('products.show', $item->id) }}" class="xb-item--cart-btn disabled">
+                                <a href="{{ $item->url() }}" class="xb-item--cart-btn disabled">
                                     <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart"></span>
                                     <span class="xb-item--cart">Out of Stock</span>
                                 </a>

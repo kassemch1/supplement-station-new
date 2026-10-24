@@ -6,7 +6,7 @@
                 <div class="col-lg-7">
                     <div class="xb-contact contact-mt--255">
                         <div class="contact-title mb-35">
-                            <span><img src={{ asset("assets/img/icon/directbox-notif.svg")}} alt="">Contact Us</span>
+                            <span><img src="{{ asset('assets/img/icon/directbox-notif.svg') }}" alt="">Contact Us</span>
                             <h3>Do you have questions or want more <br> information?</h3>
                         </div>
                         <form id="contact_form" class="contact-from" action="{{route('contact.send')}}" method="post">
@@ -56,7 +56,7 @@
                     <div class="contact-info contact-mt--255 mt-md-30">
                         <div class="xb-item--head">
                             <div class="xb-item--address">
-                                <h3><img src={{ asset("assets/img/icon/location.svg") }} alt="">our address</h3>
+                                <h3><img src="{{ asset('assets/img/icon/location.svg') }}" alt="">our address</h3>
                                 <p>Msharafieh Facing Garden State<br> Beirut, Lebanon</p>
                             </div>
                             <div class="xb-item--open">
@@ -65,13 +65,13 @@
                             </div>
                             <ul class="xb-item--social ul_li mt-30">
 
-                                <li><a href="https://api.whatsapp.com/send?phone=96181823038" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
-                                <li><a href="https://www.instagram.com/supplement_station_lb" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="https://api.whatsapp.com/send?phone=96181823038" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a></li>
+                                <li><a href="https://www.instagram.com/supplement_station_lb" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
                             </ul>
                         </div>
                         <div class="xb-item--cta" data-background="{{ asset('assets/img/bg/cta_bg2.jpg') }}">
                             <p>we are available for you <br> Monday to Saturday, 09:00AM - 9:00PM</p>
-                            <h3>+961 81-823-038 / 81-088-266</h3>
+                            <h3><a href="tel:+96181823038" style="color: inherit">+961 81-823-038</a> / <a href="tel:+96181088266" style="color: inherit">81-088-266</a></h3>
 
                         </div>
                     </div>
@@ -80,7 +80,7 @@
         </div>
         <div class="footer-inner">
             <div class="footer-logo mb-25 text-center">
-                <img src="{{ asset('assets/img/logo/supLogo.png') }}" alt="" style="max-height: 120px; max-width: 120px;" class="logo"></a>
+                <img src="{{ asset('assets/img/logo/supLogo.png') }}" alt="Supplement Station" style="max-height: 120px; max-width: 120px;" class="logo" loading="lazy">
             </div>
             <div class="sec-title sec-title--white text-center mb-50">
                 <h2 class="title">BREAK YOUR LIMITS AT SUPPLEMENT STATION</h2>

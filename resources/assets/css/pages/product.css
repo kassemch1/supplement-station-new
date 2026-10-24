@@ -89,3 +89,15 @@
     opacity: 0.6; /* Make the icon look disabled too */
 }
 
+
+/* The product name is the page's main heading (h1); same look as the h2 it replaced */
+.product-details h1 {
+    font-size: 36px;
+    margin-bottom: 14px;
+    font-weight: 600;
+}
+@media (max-width: 767px) {
+    .product-details h1 {
+        font-size: 24px;
+    }
+}

@@ -164,7 +164,7 @@
 <body>
 <div class="container">
     <div class="header">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSijUmd9kCFK0FrrXppEx7Y1lrwTIzxAcJKA&s" alt="Company Logo">
+        <img src="{{ asset('assets/img/logo/preloader2.png') }}" alt="Supplement Station" width="150" height="150">
         <h1>Thank You for Your Order!</h1>
         <p>Hi {{$client_data['billing_first_name']}},</p>
     </div>

@@ -146,6 +146,7 @@
 <div class="email-container">
     <!-- Header -->
     <div class="header">
+        <img src="{{ asset('assets/img/logo/preloader2.png') }}" alt="Supplement Station" width="90" height="90" style="border-radius: 8px; margin-bottom: 12px;">
         <h1>New Product Alert!</h1>
         <p>Check out this amazing new addition to our supplement collection</p>
     </div>
@@ -190,7 +191,7 @@
                 </div>
 
                 <!-- CTA Button -->
-                <a href="{{ route('products.show', $product->id) }}" class="cta-button">
+                <a href="{{ $product->url() }}" class="cta-button">
                     Shop Now
                 </a>
             </div>

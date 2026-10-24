@@ -28,8 +28,13 @@ use function Illuminate\Support\defer;
 
 class CartController extends Controller
 {
-    public function Cart()
+    public function Cart(Request $request)
     {
+        // /cart used to answer the mini-cart script with JSON; a page cached before the move may still ask
+        if ($request->ajax() || $request->wantsJson()) {
+            return $this->getCart();
+        }
+
         return view('user_views.Cart');
     }
 

@@ -2,10 +2,15 @@
 
 @section('title', 'Buy Premium Supplements in Lebanon')
 @section('page', 'home')
-@section('description', 'Welcome to Supplement Station! Discover a wide range of premium gym supplements designed to boost your energy, enhance performance, and support your fitness goals. Shop now for the best deals on protein powders, vitamins, and more. Elevate your energy levels and achieve your best with us.')
+@section('full_title', 'Supplement Station Lebanon | Protein, Creatine & Gym Supplements')
+@section('description', 'Supplement Station in Beirut, Lebanon: whey protein, creatine, mass gainers, pre-workouts, vitamins and gym gear from Optimum Nutrition, MuscleTech, BPI and more. Order online.')
+
+@section('canonical', url('/') . '/')
+@push('schema')
+    {{ \App\Support\Seo::script([\App\Support\Seo::store(), \App\Support\Seo::website(), \App\Support\Seo::faq($faqs)]) }}
+@endpush
 
 @push('head')
-    <meta name="keywords" content="supplement station,gym supplements, protein powder, fitness nutrition, muscle gain, supplement store, Lebanon supplements,drugs, supplements lebanon">
     <!-- hero background: the biggest thing on a phone screen, so fetch it before anything else -->
     <link rel="preload" as="image" href="{{ asset('assets/img/bg/home-banner.webp') }}" fetchpriority="high">
 @endpush
@@ -30,13 +35,13 @@
 
                             <div class="hero__action ul_li">
                                 @if($banner && $banner->product_id)
-                                    <a class="thm-btn mr-45 mt-30" href="{{ route('products.show', ['id'=>$banner->product_id]) }}">BUY NOW</a>
+                                    <a class="thm-btn mr-45 mt-30" href="{{ $banner->getProduct?->url() ?? route('shop') }}">BUY NOW</a>
                                 @else
                                     <a class="thm-btn mr-45 mt-30" href="#">BUY NOW</a>
                                 @endif
                                 <div class="hero__cta ul_li mt-30">
                                     <span class="icon">
-                                        <img src="assets/img/icon/call.svg" alt="">
+                                        <img src="{{ asset('assets/img/icon/call.svg') }}" alt="">
                                     </span>
                                     <div class="info">
                                             <span style="color: #FFFFFF !important;">CONTACT US DAILY</span>
@@ -49,9 +54,9 @@
                     <div class="col-lg-5">
                         <div class="hero__product text-md-end">
                             @if($banner && $banner->product_id)
-                                <img src="{{asset("$banner->image")}}" alt="" height="500" width="500" fetchpriority="high">
+                                <img src="{{asset("$banner->image")}}" alt="{{ $banner->getProduct?->name ?? 'Featured supplement' }}" height="500" width="500" fetchpriority="high">
                             @else
-                                <img src="{{asset("assets/img/shop/hero_product.webp")}}" alt="" height="500" width="500" fetchpriority="high">
+                                <img src="{{asset("assets/img/shop/hero_product.webp")}}" alt="Featured supplement" height="500" width="500" fetchpriority="high">
                             @endif
                         </div>
                     </div>
@@ -63,7 +68,7 @@
         </section>
         <!-- hero end -->
 
-        <div class="bg_img position-botttom bottom--105 pb-70" data-background="assets/img/bg/pp_bg2.png">
+        <div class="bg_img position-botttom bottom--105 pb-70" data-background="{{ asset('assets/img/bg/pp_bg2.png') }}">
       <!-- offers product start -->
 <section class="offers-product pt-120 pb-120">
     <div class="container">
@@ -108,11 +113,11 @@
         </div>
                             <div class="xb-item--img">
                                 @if($offer->stock > 0)
-                                <a href="{{ route('products.show', $offer->id) }}">
+                                <a href="{{ $offer->url() }}">
                                     <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" width="300" height="300" style="width: 100%; height: auto; object-fit: cover;" loading="lazy">
                                 </a>
                                 @else
-                                <a href="{{ route('products.show', $offer->id) }}" class="no-stock">
+                                <a href="{{ $offer->url() }}" class="no-stock">
                                     <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" width="300" height="300" style="width: 100%; height: auto; object-fit: cover;" loading="lazy">
                                 </a>
                                 @endif
@@ -120,9 +125,9 @@
 
                             <div class="xb-item--holder">
                                 <h3 class="xb-item--title"> @if($offer->stock > 0)
-                                    <a href="{{ route('products.show', $offer->id) }}">{{ $offer->name }}</a>
+                                    <a href="{{ $offer->url() }}">{{ $offer->name }}</a>
                                 @else
-                                <a href="{{ route('products.show', $offer->id) }}"><span class="no-stock-title">{{ $offer->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
+                                <a href="{{ $offer->url() }}"><span class="no-stock-title">{{ $offer->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
                                 @endif</h3>
                                 <div class="xb-item--rating-inner ul_li">
                                     <ul class="xb-item--rating ul_li">
@@ -135,12 +140,12 @@
                                 <div class="xb-item--action ul_li_between" style="position: absolute; bottom:40px;width:55%">
                                     <h4 class="xb-item--price">${{ number_format($offer->price, 2) }}</h4>
                                     @if($offer->stock > 0)
-                                    <a class="xb-item--cart" href="{{ route('products.show', $offer->id) }}">
-                                        <img src="assets/img/icon/bag.svg" alt="">
+                                    <a class="xb-item--cart" href="{{ $offer->url() }}">
+                                        <img src="{{ asset('assets/img/icon/bag.svg') }}" alt="">
                                     </a>
                                     @else
-                                    <a class="xb-item--cart" href="{{ route('products.show', $offer->id) }}" style="opacity: .5">
-                                        <img src="assets/img/icon/bag.svg" alt="">
+                                    <a class="xb-item--cart" href="{{ $offer->url() }}" style="opacity: .5">
+                                        <img src="{{ asset('assets/img/icon/bag.svg') }}" alt="">
                                     </a>
                                     @endif
                                 </div>
@@ -154,7 +159,7 @@
                     @endforelse
                 </div>
                 <div class="text-center mt-30">
-                    <a href="{{ url('/Shop') }}" class="btn-orange" style="background-color: #A02334; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                    <a href="{{ route('shop') }}" class="btn-orange" style="background-color: #A02334; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
                         View More <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
                     </a>
                 </div>
@@ -164,7 +169,7 @@
             <div class="col-lg-4 pb-col-4">
                 <div class="popular-product__img mt-20">
                     <br><br>
-                    <img src="{{asset("assets/img/bg/products-image3.webp")}}" alt="" loading="lazy" style="margin-top: -53px;">
+                    <img src="{{asset("assets/img/bg/products-image3.webp")}}" alt="Supplements at Supplement Station" loading="lazy" style="margin-top: -53px;">
                 </div>
             </div>
         </div>
@@ -191,12 +196,12 @@
                             <div class="about-content">
                                 <p>At Supplement Station, we're dedicated to helping you  on a transformative health journey. Our mission is to provide you with the highest quality supplements, backed by science and crafted with care. Here's what you can expect from us.</p>
                                 <ul class="about-list ul_li mt-10">
-                                    <li><img src="assets/img/icon/check.svg" alt="">Premium Quality Products</li>
-                                    <li><img src="assets/img/icon/check.svg" alt="">Clear Information</li>
-                                    <li><img src="assets/img/icon/check.svg" alt="">Customized Training Plans</li>
-                                    <li><img src="assets/img/icon/check.svg" alt="">Expert Guidance</li>
-                                    <li><img src="assets/img/icon/check.svg" alt="">Increased Energy</li>
-                                    <li><img src="assets/img/icon/check.svg" alt="">Friendly Service</li>
+                                    <li><img src="{{ asset('assets/img/icon/check.svg') }}" alt="">Premium Quality Products</li>
+                                    <li><img src="{{ asset('assets/img/icon/check.svg') }}" alt="">Clear Information</li>
+                                    <li><img src="{{ asset('assets/img/icon/check.svg') }}" alt="">Customized Training Plans</li>
+                                    <li><img src="{{ asset('assets/img/icon/check.svg') }}" alt="">Expert Guidance</li>
+                                    <li><img src="{{ asset('assets/img/icon/check.svg') }}" alt="">Increased Energy</li>
+                                    <li><img src="{{ asset('assets/img/icon/check.svg') }}" alt="">Friendly Service</li>
                                 </ul>
                             </div>
                         </div>
@@ -208,14 +213,14 @@
         </div>
 
         <!-- feature start -->
-        <section id="features" class="feature bg_img pt-200 pb-120" data-background="assets/img/bg/feature_bg2.jpg">
+        <section id="features" class="feature bg_img pt-200 pb-120" data-background="{{ asset('assets/img/bg/feature_bg2.jpg') }}">
             <div class="container">
                 <div class="row align-items-center mt-none-30">
                     <div class="col-lg-4 col-md-6 mt-30">
                         <ul class="feature-list list-unstyled">
                             <li>
                                 <span class="xb-item--icon">
-                                    <img src="assets/img/icon/ft_01.svg" alt="">
+                                    <img src="{{ asset('assets/img/icon/ft_01.svg') }}" alt="">
                                 </span>
                                 <div class="xb-item--holder">
                                     <h3 class="xb-item--title">Supports Optimal Performance</h3>
@@ -224,7 +229,7 @@
                             </li>
                             <li>
                                 <span class="xb-item--icon">
-                                    <img src="assets/img/icon/ft_02.svg" alt="">
+                                    <img src="{{ asset('assets/img/icon/ft_02.svg') }}" alt="">
                                 </span>
                                 <div class="xb-item--holder">
                                     <h3 class="xb-item--title">Boosts Recovery <br> Time</h3>
@@ -233,7 +238,7 @@
                             </li>
                             <li>
                                 <span class="xb-item--icon">
-                                    <img src="assets/img/icon/ft_03.svg" alt="">
+                                    <img src="{{ asset('assets/img/icon/ft_03.svg') }}" alt="">
                                 </span>
                                 <div class="xb-item--holder">
                                     <h3 class="xb-item--title">Promotes Muscle <br> Growth</h3>
@@ -242,7 +247,7 @@
                             </li>
                             <li>
                                 <span class="xb-item--icon">
-                                    <img src="assets/img/icon/ft_04.svg" alt="">
+                                    <img src="{{ asset('assets/img/icon/ft_04.svg') }}" alt="">
                                 </span>
                                 <div class="xb-item--holder">
                                     <h3 class="xb-item--title">Enhances Energy <br> Levels</h3>
@@ -257,7 +262,7 @@
                                 <span class="sub-title">100% PREMIUM QUALITY</span>
                                 <h2 class="title mb-25">Maximize Your Fitness Potential</h2>
                                 <p>At Supplement Station, we're dedicated to helping you  on a health journey. Our mission is to provide 100% high-quality supplements, personalized support, and expert guidance to ensure you achieve your wellness goals..</p>
-                                <a class="thm-btn mt-45" href="{{ url('/Shop') }}">LEARN MORE</a>
+                                <a class="thm-btn mt-45" href="{{ route('shop') }}">LEARN MORE</a>
                             </div>
                         </div>
                     </div>
@@ -267,7 +272,7 @@
         <!-- feature end -->
 
   <!-- product start -->
-<section id="shop" class="product bg_img pt-120 pb-130" data-background="assets/img/bg/shop_bg.jpg">
+<section id="shop" class="product bg_img pt-120 pb-130" data-background="{{ asset('assets/img/bg/shop_bg.jpg') }}">
     <div class="container">
         <div class="sec-title text-center mb-55">
             <span class="sub-title">products</span>
@@ -305,19 +310,19 @@
                         </div>
                         @endif
                         @if($product->stock > 0)
-                        <a href="{{ route('products.show', $product->id) }}">
+                        <a href="{{ $product->url() }}">
                             <!-- Add image here -->
                             @if($product->images->isNotEmpty())
-                                <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px" loading="lazy">
+                                <img src="{{ asset($product->images->first()->url) }}" alt="{{ $product->name }}" style="max-height: 120px" loading="lazy">
                             @else
                                 No image available
                             @endif
                         </a>
                     @else
-                        <a href="{{ route('products.show', $product->id) }}" class="no-stock">
+                        <a href="{{ $product->url() }}" class="no-stock">
                             <!-- Add image here -->
                             @if($product->images->isNotEmpty())
-                                <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px" loading="lazy">
+                                <img src="{{ asset($product->images->first()->url) }}" alt="{{ $product->name }}" style="max-height: 120px" loading="lazy">
                             @else
                                 No image available
                             @endif
@@ -327,9 +332,9 @@
                     <div class="xb-item--holder">
                         <h3 class="xb-item--title">
                             @if($product->stock > 0)
-                            <a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a>
+                            <a href="{{ $product->url() }}">{{ $product->name }}</a>
                         @else
-                        <a href="{{ route('products.show', $product->id) }}"><span>{{ $product->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
+                        <a href="{{ $product->url() }}"><span>{{ $product->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
 
                         @endif
                         </h3>
@@ -355,13 +360,13 @@
                             @endif
                         </span>
                         @if($product->stock > 0)
-                            <a href="{{ route('products.show', $product->id) }}" class="xb-item--cart-btn">
-                                <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
+                            <a href="{{ $product->url() }}" class="xb-item--cart-btn">
+                                <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt=""></span>
                                 <span class="xb-item--cart">add to cart</span>
                             </a>
                         @else
-                            <a href="{{ route('products.show', $product->id) }}" class="xb-item--cart-btn disabled" >
-                                <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
+                            <a href="{{ $product->url() }}" class="xb-item--cart-btn disabled" >
+                                <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt=""></span>
                                 <span class="xb-item--cart">Out of Stock</span>
                             </a>
                         @endif
@@ -377,7 +382,7 @@
 <!-- product end -->
 
     <!-- testimonial start -->
-<section class="testimonial bg_img pt-120 pb-115" data-background="assets/img/bg/tm_bg2.jpg">
+<section class="testimonial bg_img pt-120 pb-115" data-background="{{ asset('assets/img/bg/tm_bg2.jpg') }}">
     <div class="container">
         <div class="sec-title sec-title--white text-center mb-60">
             <span class="sub-title">SUPPLEMENT GUIDE</span>
@@ -388,7 +393,7 @@
                 <div class="swiper-slide xb-testimonial">
                     <div class="xb-item--author ul_li">
                         <div class="xb-item--avatar">
-                            <img src="assets/img/avatar/creatine.png" alt="" style="width: 100px; height: 100px; object-fit: cover;">
+                            <img src="{{ asset('assets/img/avatar/creatine.png') }}" alt="" style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <div class="xb-item--holder">
                             <h3 class="xb-item--name">Creatine</h3>
@@ -402,7 +407,7 @@
                 <div class="swiper-slide xb-testimonial">
                     <div class="xb-item--author ul_li">
                         <div class="xb-item--avatar">
-                            <img src="assets/img/avatar/protein.png" alt="" style="width: 100px; height: 100px; object-fit: cover;">
+                            <img src="{{ asset('assets/img/avatar/protein.png') }}" alt="" style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <div class="xb-item--holder">
                             <h3 class="xb-item--name">Protein</h3>
@@ -416,7 +421,7 @@
                 <div class="swiper-slide xb-testimonial">
                     <div class="xb-item--author ul_li">
                         <div class="xb-item--avatar">
-                            <img src="assets/img/avatar/EAA.png" alt="" style="width: 100px; height: 100px; object-fit: cover;">
+                            <img src="{{ asset('assets/img/avatar/EAA.png') }}" alt="" style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <div class="xb-item--holder">
                             <h3 class="xb-item--name">EAAs</h3>
@@ -430,7 +435,7 @@
                 <div class="swiper-slide xb-testimonial">
                     <div class="xb-item--author ul_li">
                         <div class="xb-item--avatar">
-                            <img src="assets/img/avatar/Preworkout.png" alt="" style="width: 100px; height: 100px; object-fit: cover;">
+                            <img src="{{ asset('assets/img/avatar/Preworkout.png') }}" alt="" style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <div class="xb-item--holder">
                             <h3 class="xb-item--name">Pre-Workout</h3>
@@ -470,31 +475,31 @@
                                             <h4 class="xb-item--title">{{$plane->type}}</h4>
                                             <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span>  </h2>
                                             <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
-                                            <div class="xb-item--img" data-background="assets/img/pricing/img_01.png"></div>
+                                            <div class="xb-item--img" data-background="{{ asset('assets/img/pricing/img_01.png') }}"></div>
                                             <br>
-                                            <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape4.png"></div>
+                                            <div class="xb-item--shape" data-background="{{ asset('assets/img/shape/pricing_shape4.png') }}"></div>
                                         </div>
                                         <div class="xb-item--body">
                                             <ul class="xb-item--list list-unstyled">
                                                 @if($plane->point1)
-                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point1}}</li>
+                                                    <li><img src="{{ asset('assets/img/icon/p_check.svg') }}" alt="">{{$plane->point1}}</li>
                                                 @endif
 
                                                 @if($plane->point2)
-                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point2}}</li>
+                                                    <li><img src="{{ asset('assets/img/icon/p_check.svg') }}" alt="">{{$plane->point2}}</li>
                                                 @endif
                                                 @if($plane->point3)
-                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point3}}</li>
+                                                    <li><img src="{{ asset('assets/img/icon/p_check.svg') }}" alt="">{{$plane->point3}}</li>
                                                 @endif
                                                 @if($plane->point4)
-                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point4}}</li>
+                                                    <li><img src="{{ asset('assets/img/icon/p_check.svg') }}" alt="">{{$plane->point4}}</li>
                                                 @endif
                                                 @if($plane->point5)
-                                                    <li><img src="assets/img/icon/p_check.svg" alt="">{{$plane->point5}}</li>
+                                                    <li><img src="{{ asset('assets/img/icon/p_check.svg') }}" alt="">{{$plane->point5}}</li>
                                                 @endif
                                             </ul>
                                             <div class="xb-item--btn">
-                                                <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=81088266"><img src="assets/img/icon/bag.svg" alt="">LEARN MORE</a>
+                                                <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=96181088266"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="">LEARN MORE</a>
                                             </div>
                                         </div>
                                     </div>
@@ -511,30 +516,30 @@
                                             <h4 class="xb-item--title">{{$plane->type}}</h4>
                                             <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span></h2>
                                             <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
-                                            <div class="xb-item--img" data-background="assets/img/pricing/img_02.png"></div>
+                                            <div class="xb-item--img" data-background="{{ asset('assets/img/pricing/img_02.png') }}"></div>
                                             <br>
-                                            <div class="xb-item--shape" data-background="assets/img/shape/pricing_shape2.png"></div>
+                                            <div class="xb-item--shape" data-background="{{ asset('assets/img/shape/pricing_shape2.png') }}"></div>
                                         </div>
                                         <div class="xb-item--body">
                                             <ul class="xb-item--list list-unstyled">
                                                 @if($plane->point1)
-                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point1}}</li>
+                                                    <li><img src="{{ asset('assets/img/icon/check_h.svg') }}" alt="">{{$plane->point1}}</li>
                                                 @endif
                                                 @if($plane->point2)
-                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point2}}</li>
+                                                    <li><img src="{{ asset('assets/img/icon/check_h.svg') }}" alt="">{{$plane->point2}}</li>
                                                 @endif
                                                 @if($plane->point3)
-                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point3}}</li>
+                                                    <li><img src="{{ asset('assets/img/icon/check_h.svg') }}" alt="">{{$plane->point3}}</li>
                                                 @endif
                                                 @if($plane->point4)
-                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point4}}</li>
+                                                    <li><img src="{{ asset('assets/img/icon/check_h.svg') }}" alt="">{{$plane->point4}}</li>
                                                 @endif
                                                 @if($plane->point5)
-                                                    <li><img src="assets/img/icon/check_h.svg" alt="">{{$plane->point5}}</li>
+                                                    <li><img src="{{ asset('assets/img/icon/check_h.svg') }}" alt="">{{$plane->point5}}</li>
                                                 @endif
                                             </ul>
                                             <div class="xb-item--btn">
-                                                <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=81088266"><img src="assets/img/icon/bag.svg" alt="">LEARN MORE</a>
+                                                <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=96181088266"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="">LEARN MORE</a>
                                             </div>
                                         </div>
                                     </div>
@@ -552,7 +557,7 @@
         <!-- faq start -->
         <section class="faq" data-bg-color="#fff">
             <div class="container">
-                <div class="accordion-inner bg_img" data-background="assets/img/bg/faq_bg2.jpg">
+                <div class="accordion-inner bg_img" data-background="{{ asset('assets/img/bg/faq_bg2.jpg') }}">
                     <div class="sec-title sec-title--white text-center mb-60">
                         <span class="sub-title">faq</span>
                         <h2 class="title">Frequently asked questions</h2>
@@ -670,25 +675,25 @@
                         <div class="xb-swiper-container swiper-container">
                             <div class="xb-swiper-wrapper swiper-wrapper">
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/Muscletech.png" alt="" loading="lazy"></a>
+                                    <a href="#!"><img src="{{ asset('assets/img/brand/Muscletech.png') }}" alt="MuscleTech" loading="lazy"></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/KevinLevrone.png" alt="" loading="lazy"></a>
+                                    <a href="#!"><img src="{{ asset('assets/img/brand/KevinLevrone.png') }}" alt="Kevin Levrone" loading="lazy"></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/ON.png" alt="" loading="lazy"></a>
+                                    <a href="#!"><img src="{{ asset('assets/img/brand/ON.png') }}" alt="Optimum Nutrition" loading="lazy"></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/Dymatize.png" alt="" loading="lazy"></a>
+                                    <a href="#!"><img src="{{ asset('assets/img/brand/Dymatize.png') }}" alt="Dymatize" loading="lazy"></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/BPI.png" alt="" loading="lazy"></a>
+                                    <a href="#!"><img src="{{ asset('assets/img/brand/BPI.png') }}" alt="BPI Sports" loading="lazy"></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/XTEND.png" alt="" loading="lazy"></a>
+                                    <a href="#!"><img src="{{ asset('assets/img/brand/XTEND.png') }}" alt="XTEND" loading="lazy"></a>
                                 </div>
                                 <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="assets/img/brand/Challenger.png" alt="" loading="lazy"></a>
+                                    <a href="#!"><img src="{{ asset('assets/img/brand/Challenger.png') }}" alt="Challenger Nutrition" loading="lazy"></a>
                                 </div>
                             </div>
                         </div>
@@ -699,7 +704,7 @@
         <!-- brand end -->
 
         <!-- blog start -->
-{{--        <section id="blog" class="blog position-top blog-pb bg_img pt-180" data-background="assets/img/bg/blog_bg.jpg">--}}
+{{--        <section id="blog" class="blog position-top blog-pb bg_img pt-180" data-background="{{ asset('assets/img/bg/blog_bg.jpg') }}">--}}
 {{--            <div class="container">--}}
 {{--                <div class="ul_li_between align-items-end mb-25">--}}
 {{--                    <div class="sec-title mb-30">--}}
@@ -712,11 +717,11 @@
 {{--                    <div class="col-lg-4 col-md-6 mt-30">--}}
 {{--                        <div class="xb-blog">--}}
 {{--                            <div class="xb-item--img">--}}
-{{--                                <a href="blog-single.html"><img src="assets/img/blog/img_01.jpg" alt=""></a>--}}
+{{--                                <a href="blog-single.html"><img src="{{ asset('assets/img/blog/img_01.jpg') }}" alt=""></a>--}}
 {{--                                <div class="xb-item--date">28 <br><span>sep</span></div>--}}
 {{--                            </div>--}}
 {{--                            <div class="xb-item--holder">--}}
-{{--                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Steven Timothy</span>--}}
+{{--                                <span class="xb-item--author"><img src="{{ asset('assets/img/icon/user.svg') }}" alt="">Steven Timothy</span>--}}
 {{--                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">The Power of Adaptogens Stress Relief and..</a></h3>--}}
 {{--                            </div>--}}
 {{--                        </div>--}}
@@ -724,11 +729,11 @@
 {{--                    <div class="col-lg-4 col-md-6 mt-30">--}}
 {{--                        <div class="xb-blog">--}}
 {{--                            <div class="xb-item--img">--}}
-{{--                                <a href="blog-single.html"><img src="assets/img/blog/img_02.jpg" alt=""></a>--}}
+{{--                                <a href="blog-single.html"><img src="{{ asset('assets/img/blog/img_02.jpg') }}" alt=""></a>--}}
 {{--                                <div class="xb-item--date">28 <br><span>sep</span></div>--}}
 {{--                            </div>--}}
 {{--                            <div class="xb-item--holder">--}}
-{{--                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Andrew Brian</span>--}}
+{{--                                <span class="xb-item--author"><img src="{{ asset('assets/img/icon/user.svg') }}" alt="">Andrew Brian</span>--}}
 {{--                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">The Role of Supplements in Athletic Perf..</a></h3>--}}
 {{--                            </div>--}}
 {{--                        </div>--}}
@@ -736,11 +741,11 @@
 {{--                    <div class="col-lg-4 col-md-8 mt-30">--}}
 {{--                        <div class="xb-blog">--}}
 {{--                            <div class="xb-item--img">--}}
-{{--                                <a href="blog-single.html"><img src="assets/img/blog/img_03.jpg" alt=""></a>--}}
+{{--                                <a href="blog-single.html"><img src="{{ asset('assets/img/blog/img_03.jpg') }}" alt=""></a>--}}
 {{--                                <div class="xb-item--date">28 <br><span>sep</span></div>--}}
 {{--                            </div>--}}
 {{--                            <div class="xb-item--holder">--}}
-{{--                                <span class="xb-item--author"><img src="assets/img/icon/user.svg" alt="">Andrew Brian</span>--}}
+{{--                                <span class="xb-item--author"><img src="{{ asset('assets/img/icon/user.svg') }}" alt="">Andrew Brian</span>--}}
 {{--                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">Discover the Benefits of Essential Nutrients..</a></h3>--}}
 {{--                            </div>--}}
 {{--                        </div>--}}

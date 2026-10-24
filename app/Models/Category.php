@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSlug;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,8 @@ use Illuminate\Support\Facades\Cache;
 
 class Category extends Model
 {
-    use HasFactory;
+    // The category page is /shop/{slug}, made from the name (see HasSlug)
+    use HasFactory, HasSlug;
 
     private const CACHE_KEY = 'store.categories';
 
@@ -24,6 +26,11 @@ class Category extends Model
     public static function cachedAll(): Collection
     {
         return Cache::rememberForever(self::CACHE_KEY, fn () => static::all());
+    }
+
+    public function url(): string
+    {
+        return route('shop.category', $this->slug ?: $this->id);
     }
 
     public function getProducts()
