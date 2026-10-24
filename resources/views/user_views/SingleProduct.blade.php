@@ -359,7 +359,7 @@
                                                             object-fit: cover;
                                                             max-width: 100%; /* Ensure it doesn't exceed its container width */
                                                             max-height: 500px; /* Set maximum height */
-                                                            " loading="lazy">
+                                                            " width="500" height="500" @if($index === 0) fetchpriority="high" @else loading="lazy" @endif>
                                             </div>
 
 

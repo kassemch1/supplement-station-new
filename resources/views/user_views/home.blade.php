@@ -130,9 +130,9 @@
                     <div class="col-lg-5">
                         <div class="hero__product text-md-end">
                             @if($banner && $banner->product_id)
-                                <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("$banner->image")}}" alt="" height="500" width="500" loading="lazy">
+                                <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("$banner->image")}}" alt="" height="500" width="500" fetchpriority="high">
                             @else
-                                <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("assets/img/shop/hero_product.png")}}" alt="" height="500" width="500" loading="lazy">
+                                <img class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration=".6s" src="{{asset("assets/img/shop/hero_product.png")}}" alt="" height="500" width="500" fetchpriority="high">
                             @endif
                         </div>
                     </div>
@@ -191,11 +191,11 @@
                             <div class="xb-item--img">
                                 @if($offer->stock > 0)
                                 <a href="{{ route('products.show', $offer->id) }}">
-                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" style="width: 100%; height: auto; object-fit: cover;" loading="lazy">
+                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" width="300" height="300" style="width: 100%; height: auto; object-fit: cover;" loading="lazy">
                                 </a>
                                 @else
                                 <a href="{{ route('products.show', $offer->id) }}" class="no-stock">
-                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" style="width: 100%; height: auto; object-fit: cover;" loading="lazy">
+                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" width="300" height="300" style="width: 100%; height: auto; object-fit: cover;" loading="lazy">
                                 </a>
                                 @endif
                             </div>

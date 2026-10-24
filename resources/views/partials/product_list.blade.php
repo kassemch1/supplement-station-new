@@ -29,7 +29,7 @@
                         <!-- Product Image -->
                         <a href="{{ route('products.show', $item->id) }}" class="product-image">
                             @if($item->images->isNotEmpty())
-                                <img src="{{ asset($item->images->first()->url) }}" alt="Product Image" style="width: 100%; height: auto; max-width: 100%; object-fit: contain; border-radius: 8px;" loading="lazy">
+                                <img src="{{ asset($item->images->first()->url) }}" alt="Product Image" width="300" height="300" style="width: 100%; height: auto; max-width: 100%; object-fit: contain; border-radius: 8px;" loading="lazy">
                             @else
                                 <span style="display: block; width: 100%; height: 100%; background-color: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #888;">No image available</span>
                             @endif
@@ -105,7 +105,7 @@
                             <a href="{{ route('products.show', $item->id) }}">
                                 <div class="xb-item--img">
                                     @if($item->images->isNotEmpty())
-                                    <img src="{{ asset($item->images->first()->url) }}" alt="img" style="width: 155px; height: 170px; object-fit: contain;" loading="lazy">
+                                    <img src="{{ asset($item->images->first()->url) }}" alt="img" width="155" height="170" style="width: 155px; height: 170px; object-fit: contain;" loading="lazy">
                                 @else
                                         No image available
                                     @endif
@@ -115,7 +115,7 @@
                             <a href="{{ route('products.show', $item->id) }}">
                                 <div class="xb-item--img no-stock">
                                     @if($item->images->isNotEmpty())
-                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" style="width: 155px; height: 170px; object-fit: cover;" loading="lazy">
+                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" width="155" height="170" style="width: 155px; height: 170px; object-fit: cover;" loading="lazy">
                                     @else
                                         No image available
                                     @endif
