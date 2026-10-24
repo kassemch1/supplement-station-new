@@ -106,40 +106,4 @@
 
 @include('partials/recentPurchaseToast')
 
-<script>
-    // Each page loads jQuery after this footer, so wait until it is there
-    document.addEventListener('DOMContentLoaded', function() {
-        $('#contact_form').submit(function(e) {
-            e.preventDefault(); // Prevent default form submission
-
-            // Serialize form data
-            var formData = $(this).serialize();
-
-            // Send AJAX request
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'POST',
-                url: $(this).attr('action'), // Use form's action attribute as URL
-                data: formData,
-                success: function(response) {
-                    $('#successAlert').fadeIn();
-                    setTimeout(function() {
-                        $('#successAlert').fadeOut();
-                    }, 3000);
-                    // alert('email sent!');
-                },
-                error: function(xhr, status, error) {
-                    $('#errorAlert').fadeIn();
-                    alert(error);
-                    setTimeout(function() {
-                        $('#errorAlert').fadeOut();
-                    }, 3000);
-                    // alert('error');
-                }
-            });
-        });
-    });
-</script>
 <!-- footer end -->

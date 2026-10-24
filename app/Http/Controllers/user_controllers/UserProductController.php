@@ -5,55 +5,39 @@ namespace App\Http\Controllers\user_controllers;
 use App\Http\Controllers\user_controllers;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductImage;
 use App\Models\Review;
 use Illuminate\Http\Request;
-use Jenssegers\Agent\Agent;
 
 class UserProductController extends Controller
 {
 
     public function show($id)
-{
-//    $productImage=ProductImage::with('images')->find($id);
-        $agent=new Agent();
-    $products = Product::with('images','reviews')->find($id);
-//     $product = Product::findOrFail($id);
-
-    $product = Product::with('productOptions.option')->findOrFail($id);
-//     $products = Product::with('images')->find($id);
-        $ratingCount = $product->reviews()->count();
-        $averageRating = $ratingCount > 0 ? $product->reviews()->avg('rating') : 5;
-
+    {
         // Sold-out products used to redirect to the home page; the page now shows them as sold out
+        $product = Product::with('images', 'reviews', 'productOptions.option')->findOrFail($id);
+        $reviews = $product->reviews;
+        $ratingCount = $reviews->count();
+        $averageRating = $ratingCount > 0 ? $reviews->avg('rating') : 5;
 
-//    $product = Product::findOrFail($id);
-    $category = Category::find($product->category_id);
-
-    $relatedProducts = Product::where('category_id', $product->category_id)
-                                  ->where('id', '!=', $id)
-                                  ->with('images')->withCount('reviews')->withAvg('reviews', 'rating')
-                                  ->get();
-
-
-    $reviews = $product->reviews;
-
-    $categories=Category::all();
+        // The slider shows a few products of the same category (it used to load the whole category),
+        // products in stock first
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->with('images')->withCount('reviews')->withAvg('reviews', 'rating')
+            ->orderByDesc('stock')->latest('id')
+            ->limit(8)
+            ->get();
 
         return view('user_views/SingleProduct', [
-        'product' => $product,
-        'category' => $category,
-        'products'=>$products,
-        'relatedProducts' => $relatedProducts,
-        'reviews' => $reviews,
-        'ratingCount' => $ratingCount,
-        'averageRating' => $averageRating,
-            'categories'=>$categories,
-            'agent'=>$agent,
-    ]);
-}
-
-
+            'product' => $product,
+            'products' => $product,
+            'category' => Category::cachedAll()->firstWhere('id', $product->category_id),
+            'relatedProducts' => $relatedProducts,
+            'reviews' => $reviews,
+            'ratingCount' => $ratingCount,
+            'averageRating' => $averageRating,
+        ]);
+    }
 
 public function createReview(Request $request, $productId)
 {

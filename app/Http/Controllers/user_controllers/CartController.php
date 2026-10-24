@@ -9,7 +9,6 @@ use App\Mail\NewOrderMail;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\CartItemOption;
-use App\Models\Category;
 use App\Models\Coupon; // ADD THIS LINE - This was missing!
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -31,10 +30,7 @@ class CartController extends Controller
 {
     public function Cart()
     {
-        $categories=Category::all();
-        return view('user_views.Cart',[
-            'categories'=>$categories
-        ]);
+        return view('user_views.Cart');
     }
 
     public function getCart() {

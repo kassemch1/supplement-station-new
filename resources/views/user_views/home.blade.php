@@ -1,102 +1,19 @@
+@extends('layouts.store')
 
-<!doctype html>
-<html lang="en">
+@section('title', 'Buy Premium Supplements in Lebanon')
+@section('page', 'home')
+@section('description', 'Welcome to Supplement Station! Discover a wide range of premium gym supplements designed to boost your energy, enhance performance, and support your fitness goals. Shop now for the best deals on protein powders, vitamins, and more. Elevate your energy levels and achieve your best with us.')
 
-<head>
-
-    <!--========= Required meta tags =========-->
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="Welcome to Supplement Station! Discover a wide range of premium gym supplements designed to boost your energy, enhance performance, and support your fitness goals. Shop now for the best deals on protein powders, vitamins, and more. Elevate your energy levels and achieve your best with us.">
+@push('head')
     <meta name="keywords" content="supplement station,gym supplements, protein powder, fitness nutrition, muscle gain, supplement store, Lebanon supplements,drugs, supplements lebanon">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Buy Premium Supplements in Lebanon | Supplement Station</title>
-
-<!--<link rel="preload" href="https://supplement-station.com/assets/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">-->
-<!--  <noscript><link rel="stylesheet" href="https://supplement-station.com/assets/css/bootstrap.min.css"></noscript>-->
-
-    <link rel="shortcut icon" href={{ asset('assets/img/logo/preloader2.png')}} type="images/x-icon"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/logo/preloader2.png') }}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('assets/img/logo/preloader2.png') }}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('assets/img/logo/preloader2.png') }}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/logo/preloader2.png') }}">
-
-    <!-- css include -->
-    <!-- hero background: the biggest thing on a phone screen, so fetch it before the scripts that used to set it -->
+    <!-- hero background: the biggest thing on a phone screen, so fetch it before anything else -->
     <link rel="preload" as="image" href="{{ asset('assets/img/bg/home-banner.webp') }}" fetchpriority="high">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap">
-    <link rel="stylesheet" href={{asset("assets/css/bootstrap.min.css")}}>
-    <link rel="stylesheet" href={{asset("assets/css/fontawesome.css")}}>
-    <link rel="stylesheet" href={{asset("assets/css/animate.css")}}>
-    <link rel="stylesheet" href={{asset("assets/css/swiper.min.css")}}>
-    <link rel="stylesheet" href={{asset("assets/css/magnific-popup.css")}}>
-    <link rel="stylesheet" href={{asset("assets/css/main.css")}}>
-    <style>
-        .xb-item--cart-btn.disabled {
-            opacity: 0.5;
-            width: 300px
-        }
-        .xb-item--cart-btn.disabled {
-            opacity: 0.5;
-        }
-        .no-stock img {
-            opacity: 0.6;
-        }
-        .no-stock-title {
-            color: gray;
-            cursor: pointer;
-        }
-        .whatsapp-popup {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            background-color: #25D366; /* WhatsApp green */
-            color: white;
-            padding: 20px;             /* bigger padding */
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;           /* bigger icon/text */
-            transition: transform 0.2s;
-            z-index: 9999;
-            width: 70px;               /* make it square */
-            height: 70px;
-        }
+@endpush
 
-        .whatsapp-popup:hover {
-            transform: scale(1.2);     /* slightly larger on hover */
-            color: darkgreen;
-        }
-    </style>
-</head>
-
-<body>
-
-<!-- backtotop - start -->
-<div class="xb-backtotop">
-    <a href="#" class="scroll">
-        <i class="far fa-arrow-up"></i>
-    </a>
-</div>
+@section('content')
 <a href="https://wa.me/96181823038" target="_blank" class="whatsapp-popup">
     <i class="fab fa-whatsapp"></i>
 </a>
-<!-- backtotop - end -->
-
-@include('partials/navBar',['categories'=>$categories])
-    <!-- header end -->
-
-
-
-    <div class="body-overlay"></div>
-
     <!-- main area start  -->
     <main>
         <!-- hero start -->
@@ -142,7 +59,6 @@
                 </div>
             </div>
 {{--            <div class="hero-shape">--}}
-{{--                <img src="{{asset("assets/img/bg/home-banner.jpg")}}" alt="">--}}
 {{--            </div>--}}
         </section>
         <!-- hero end -->
@@ -634,22 +550,6 @@
         <!-- pricing end -->
 
         <!-- faq start -->
-        <style>
-            @media (max-width: 767px) {
-                .xb-accordion .block .acc-btn { padding-right: 70px !important; }
-                .xb-accordion .block .acc-btn .arrow { top: 50% !important; transform: translateY(-50%); }
-            }
-            @media (max-width: 480px) {
-                .xb-accordion .block .acc-btn { padding-right: 60px !important; font-size: 13px !important; }
-                .xb-accordion .block .acc-btn .arrow {
-                    width: 32px !important; height: 32px !important;
-                    right: 12px !important;
-                }
-                .xb-accordion .block .acc-btn .arrow::before {
-                    top: 3px !important; left: 9px !important; font-size: 13px !important;
-                }
-            }
-        </style>
         <section class="faq" data-bg-color="#fff">
             <div class="container">
                 <div class="accordion-inner bg_img" data-background="assets/img/bg/faq_bg2.jpg">
@@ -862,202 +762,4 @@
 <br>
 
     <!-- main area end  -->
-
-    <!-- footer strt -->
-        @include('partials/footer')
-    <!-- footer end -->
-
-
-<!--<script src={{asset("assets/js/jquery.min.js")}}></script>-->
-<!-- jquery include -->
-<script src={{asset("assets/js/jquery-3.7.1.min.js")}}></script>
-<script src={{asset("assets/js/bootstrap.bundle.min.js")}}></script>
-<script src={{asset("assets/js/swiper.min.js")}}></script>
-<script src="{{asset("assets/js/wow.min.js")}}"></script>
-<script src={{asset("assets/js/jquery.magnific-popup.min.js")}}></script>
-<script src={{asset("assets/js/touchspin.js")}}></script>
-<script src={{asset("assets/js/jquery.inview.min.js")}}></script>
-<script src={{asset("assets/js/jquery.easing.js")}}></script>
-<script src={{asset("assets/js/scrollspy.js")}}></script>
-<script src={{asset("assets/js/main.js")}}></script>
-
-<!--mini-cart script -->
-<script>
-    function fetchCart() {
-        $.ajax({
-            url: '{{ route('api.cart.get') }}',
-            method: 'GET',
-            success: function(response) {
-                console.log("response", response.items); // Check response structure
-
-                if (!response.items || !Array.isArray(response.items)) {
-                    console.error("Invalid response structure");
-                    return;
-                }
-
-                $('.header-mini-cart').empty(); // Clear previous items
-                let total = 0;
-                let itemCount = 0; // Initialize item count
-
-
-                if (response.items.length === 0) {
-                    $('.header-mini-cart').append('<p>Your cart is empty.</p>');
-                } else {
-                    response.items.forEach(item => {
-                        if (!item.product || !item.product.price || !item.product.name) {
-                            console.error("Invalid item structure");
-                            return;
-                        }
-
-                        const discount = item.product.discount || 0; // Get discount percentage
-                        const price = item.product.price;
-                        const discountedPrice = discount ? price * (1 - (discount / 100)) : price; // Apply discount
-                        const itemTotal = discountedPrice * item.quantity; // Calculate total for this item
-                        itemCount += item.quantity; // Sum the quantities for the cart count
-
-                        $('.header-mini-cart').append(`
-                            <div class="woocommerce-mini-cart-item d-flex align-items-center" style="padding: 10px;">
-                                <div class="mini-cart-img" style="margin-right: 10px;">
-                                    <img src="${item.product_image || 'path/to/default/image.jpg'}" alt="${item.product.name}" style="width: 50px; height: 50px; object-fit: cover;">
-                                </div>
-                                <div class="mini-cart-content" style="flex-grow: 1;">
-                                    <h4 class="product-title" style="margin: 0; font-size: 14px;">
-                                        <a href="shop-details.html" style="text-decoration: none; color: #000;">${item.product.name}</a>
-                                    </h4>
-                                    <div class="mini-cart-price" style="margin-top: 5px;">
-                                        ${item.quantity} ×
-                                        <span class="woocommerce-Price-amount amount" style="color: red;">$${discountedPrice.toFixed(2)}</span>
-
-                                    </div>
-                                </div>
-                                <div class="remove-button" style="margin-left: auto;">
-                                    <a href="#" class="remove remove_from_cart_button" data-product_id="${item.product.id}" data-cart_item_id="${item.id}" style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; background-color: lightgrey; text-align: center; line-height: 20px; color: red; font-size: 14px;">×</a>
-                                </div>
-                            </div>
-                        `);
-
-                        total += itemTotal; // Sum the total amount
-                    });
-
-                    $('.header-mini-cart').append(`
-                        <p class="woocommerce-mini-cart__total">
-                            <strong>Subtotal:</strong>
-                            <span class="woocommerce-Price-amount">$${total.toFixed(2)}</span>
-                        </p>
-                        <p class="checkout-link">
-                            <a href="/viewCart" class="button wc-forward">View cart</a>
-                            <a href="/Checkout" class="button checkout wc-forward">Checkout</a>
-                        </p>
-                    `);
-                    $('.mini-cart-count').text(itemCount); // Update the cart count in the header
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX error:', error);
-            }
-        });
-    }
-
-    // Fetch cart items on page load
-    $(document).ready(function() {
-        $('.header-shop-cart a').on('click', function() {
-            $('.header-mini-cart').toggle(); // Toggle visibility on click
-        });
-        fetchCart(); // Fetch cart items
-    });
-
-    // Remove item from mini cart
-    $(document).on('click', '.remove', function(event) {
-        event.preventDefault(); // Prevent the default link behavior
-
-        const productId = $(this).data('product_id');
-        const cartItemId = $(this).data('cart_item_id');
-
-        $.ajax({
-            url: '{{ route('cart.remove') }}',
-            method: 'POST',
-            data: {
-                product_id: productId,
-                cart_item_id: cartItemId,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                if (response.success) {
-                    // alert(response.message);
-                    fetchCart(); // Refresh the cart items
-                } else {
-                    alert('Failed to remove item from cart.'); // Handle unexpected response
-                }
-            },
-            error: function(xhr, status, error) {
-                // Check if the response contains a JSON message
-                try {
-                    const errResponse = JSON.parse(xhr.responseText);
-                    alert(errResponse.message || 'Failed to remove item from cart.');
-                } catch (e) {
-                    alert('Failed to remove item from cart.');
-                }
-            }
-        });
-    });
-</script>
-
-
-
-
-<!-- out of stock message-->
-<script>
-    function showOutOfStockMessage(event) {
-        event.preventDefault();
-        const cartButton = event.currentTarget;
-        cartButton.querySelector('.xb-item--cart').innerText = 'Out of Stock';
-        cartButton.classList.add('disabled');
-
-        setTimeout(() => {
-            cartButton.querySelector('.xb-item--cart').innerText = 'add to cart';
-            cartButton.classList.remove('disabled');
-        }, 4000);
-    }
-</script>
-
-
-{{--test background lazy load --}}
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const sections = document.querySelectorAll("[data-background]");
-
-        const lazyLoadBackground = (element) => {
-            const backgroundUrl = element.getAttribute("data-background");
-            if (backgroundUrl) {
-                element.style.backgroundImage = `url(${backgroundUrl})`;
-            }
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    lazyLoadBackground(entry.target);
-                    observer.unobserve(entry.target); // Stop observing after loading the background
-                }
-            });
-        });
-
-        sections.forEach(section => {
-            observer.observe(section);
-        });
-    });
-</script>
-
-</body>
-
-
-
-</html>
-
-
-
-
-
-
-
-
+@endsection

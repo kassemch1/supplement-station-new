@@ -1,0 +1,176 @@
+// Cart page: the cart table, quantity changes, removing lines and the coupon box
+$(function () {
+    'use strict';
+
+    function displayMessage(message, type) {
+        var $box = $('#message-container');
+        $box.text(message).removeClass('success error').addClass(type || 'success').show();
+        setTimeout(function () { $box.fadeOut(); }, 3000);
+    }
+
+    // Problems removing a line (here or in the header mini cart) show in the page's message box
+    SS.notify = function (message) {
+        displayMessage(message, 'error');
+    };
+
+    function loadCart() {
+        $.get(SS.routes.cart).done(function (response) {
+            var $rows = $('#cart-items').empty();
+            var subtotal = 0;
+
+            if (!response.items.length) {
+                $rows.append('<tr><td colspan="6">Your cart is empty.</td></tr>');
+                $('#cart-subtotal').text('0.00');
+                updateCartTotal(0);
+                return;
+            }
+
+            response.items.forEach(function (item) {
+                var ids = 'data-product_id="' + item.product.id + '" data-cart_item_id="' + item.id + '"';
+                $rows.append(
+                    '<tr class="cart_single">' +
+                        '<td class="product-remove"><a href="#!" class="remove cart-line-remove" title="Remove this item" ' + ids + '>&times;</a></td>' +
+                        '<td class="product-thumbnail"><a href="' + SS.url('products/' + item.product.id) + '">' +
+                            (item.product_image ? '<img width="57" height="70" src="' + SS.esc(SS.url(item.product_image)) + '" class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image" alt="' + SS.esc(item.product.name) + '" loading="lazy"/>' : '') +
+                        '</a></td>' +
+                        '<td class="product-name" data-title="Product"><a href="' + SS.url('products/' + item.product.id) + '">' + SS.esc(item.product.name) + '</a></td>' +
+                        '<td class="product-price" data-title="Price"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>' + item.discounted_price.toFixed(2) + '</span></td>' +
+                        '<td class="product-options" data-title="Options">' +
+                            '<input type="hidden" class="selected-options" value="' + SS.esc(item.selected_options) + '" />' +
+                            '<span>' + SS.esc(item.formatted_options) + '</span>' +
+                        '</td>' +
+                        '<td class="product-quantity" data-title="Quantity"><div class="quantity">' +
+                            '<button type="button" class="quantity-minus" ' + ids + '>-</button>' +
+                            '<input type="number" step="1" min="1" max="9999" value="' + item.quantity + '" title="Qty" class="product-count input-text qty text form-control" ' + ids + ' />' +
+                            '<button type="button" class="quantity-plus" ' + ids + '>+</button>' +
+                        '</div></td>' +
+                        '<td class="product-subtotal" data-title="Total"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>' + item.subtotal.toFixed(2) + '</span></td>' +
+                    '</tr>'
+                );
+                subtotal += item.subtotal;
+            });
+            $('#cart-subtotal').text(subtotal.toFixed(2));
+            checkAppliedCouponAndUpdateTotals(subtotal);
+        });
+    }
+
+    // Any change to the cart (this table or the header mini cart) redraws the table
+    $(document).on('cart:changed', function (e, message) {
+        if (message) {
+            displayMessage(message);
+        }
+        loadCart();
+    });
+
+    $(document).on('change', '#cart-items .product-count', function () {
+        var $input = $(this);
+        $.post(SS.routes.cartUpdate, {
+            product_id: $input.data('product_id'),
+            cart_item_id: $input.data('cart_item_id'),
+            quantity: $input.val(),
+            selected_options: $input.closest('tr').find('.selected-options').val()
+        })
+            .done(function (response) { SS.cartChanged(response.message); })
+            .fail(function () { displayMessage('Failed to update cart.', 'error'); });
+    });
+
+    $(document).on('click', '#cart-items .quantity-plus, #cart-items .quantity-minus', function () {
+        var $input = $(this).siblings('.product-count');
+        var value = parseInt($input.val(), 10);
+        if ($(this).hasClass('quantity-plus') && value < parseInt($input.attr('max'), 10)) {
+            $input.val(value + 1).trigger('change');
+        } else if ($(this).hasClass('quantity-minus') && value > parseInt($input.attr('min'), 10)) {
+            $input.val(value - 1).trigger('change');
+        }
+    });
+
+    $(document).on('click', '.cart-line-remove', function (event) {
+        event.preventDefault();
+        SS.removeCartItem($(this).data('product_id'), $(this).data('cart_item_id'));
+    });
+
+    /* ---------- coupon ---------- */
+
+    function displayCouponMessage(message, type) {
+        var $box = $('#coupon-message');
+        $box.text(message).removeClass('success error').addClass(type || 'success').show();
+        setTimeout(function () { $box.fadeOut(); }, 5000);
+    }
+
+    function updateCartTotal(finalTotal) {
+        $('#cart-total').text(parseFloat(finalTotal).toFixed(2));
+    }
+
+    function displayCouponAppliedCart(response, subtotal) {
+        var discountAmount = response.coupon.discount_amount ?? (subtotal * (response.coupon.discount_percentage / 100));
+        $('#coupon-name').text(response.coupon.name);
+        $('#coupon-discount').text(response.coupon.discount_percentage + '%');
+        $('#discount-amount').text(parseFloat(discountAmount).toFixed(2));
+        $('#applied-coupon').show();
+        $('.discount-row').show();
+        updateCartTotal(subtotal - discountAmount);
+    }
+
+    function hideCouponAppliedCart(subtotal) {
+        $('#applied-coupon').hide();
+        $('.discount-row').hide();
+        $('#discount-amount').text('0.00');
+        updateCartTotal(subtotal);
+    }
+
+    function currentSubtotal() {
+        return parseFloat($('#cart-subtotal').text()) || 0;
+    }
+
+    function checkAppliedCouponAndUpdateTotals(subtotal) {
+        $.get(SS.routes.couponApplied)
+            .done(function (response) {
+                if (response.success) {
+                    $('#coupon-code').val(response.coupon.code).prop('disabled', true);
+                    $('#apply-coupon').hide();
+                    $('#remove-coupon').show();
+                    displayCouponAppliedCart(response, subtotal);
+                } else {
+                    hideCouponAppliedCart(subtotal);
+                }
+            })
+            .fail(function () { hideCouponAppliedCart(subtotal); });
+    }
+
+    $(document).on('click', '#apply-coupon', function () {
+        var code = $('#coupon-code').val().trim();
+        if (!code) {
+            displayCouponMessage('Please enter a coupon code.', 'error');
+            return;
+        }
+        var $button = $(this).prop('disabled', true).text('Applying...');
+        $.post(SS.routes.couponApply, {coupon_code: code})
+            .done(function (response) {
+                if (response.success) {
+                    displayCouponMessage(response.message, 'success');
+                    $('#coupon-code').val('').prop('disabled', true);
+                    $('#apply-coupon').hide();
+                    $('#remove-coupon').show();
+                    displayCouponAppliedCart(response, currentSubtotal());
+                }
+            })
+            .fail(function (xhr) {
+                displayCouponMessage((xhr.responseJSON || {}).message || 'Failed to apply coupon.', 'error');
+            })
+            .always(function () { $button.prop('disabled', false).text('Apply'); });
+    });
+
+    $(document).on('click', '#remove-coupon', function () {
+        $.post(SS.routes.couponRemove).done(function (response) {
+            if (response.success) {
+                displayCouponMessage(response.message, 'success');
+                $('#coupon-code').val('').prop('disabled', false);
+                $('#apply-coupon').show();
+                $('#remove-coupon').hide();
+                hideCouponAppliedCart(currentSubtotal());
+            }
+        });
+    });
+
+    loadCart();
+});

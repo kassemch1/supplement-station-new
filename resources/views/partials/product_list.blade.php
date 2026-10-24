@@ -4,9 +4,9 @@
         <p>No products were found.</p>
     </div>
 @else
-    @if($agent->isMobile())
+    {{-- Both layouts are sent; the screen width picks one (a phone sees the 2-column one) --}}
         <!-- Mobile Layout -->
-        <div class="row">
+        <div class="row d-md-none">
             @foreach($product as $item)
                 @php
                     $ratingCount = $item->reviews_count;
@@ -83,9 +83,8 @@
                 </div>
             @endforeach
         </div>
-    @else
         <!-- Desktop Layout -->
-        <div class="row">
+        <div class="row d-none d-md-flex">
             @foreach($product as $item)
                 @php
                     $ratingCount = $item->reviews_count;
@@ -163,149 +162,4 @@
                 </div>
             @endforeach
         </div>
-    @endif
 @endif
-
-<style>
-    .no-products-found {
-        text-align: center;
-        padding: 20px;
-        background-color: #f8f8f8;
-        /*border: 1px solid #ddd;*/
-        margin-top: 20px;
-        font-size: 18px;
-        color: #555;
-    }
-    .mobile-layout .product-item {
-        padding: 10px;
-        background-color: var(--color-white);
-        box-sizing: border-box;
-        min-height: auto;
-    }
-
-    .mobile-layout .xb-item--img img {
-        width: 100%;
-        height: auto;
-    }
-
-
-
-
-
-
-
-    .product-cart {
-            border: 1px solid #ddd;
-            /*border-radius: 0px;*/
-            padding: 20px;
-            max-width: 340px;
-            height: 380px;
-            margin: 16px auto;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            position: relative;
-            background-color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .product-image {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            /*overflow: hidden;*/
-            /*border-radius: 0px;*/
-            /*margin-top: 20px;*/
-            margin: 25px auto 12px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            /*border-radius: 8px;*/
-        }
-
-        .sale-labels {
-            position: absolute;
-    top: 8px;
-    right: 8px;
-            display: block;
-    background-color: #A02334;
-    color: #fff;
-    padding: 2px 6px;
-    border-radius: 0px;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 8px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    letter-spacing: 0.3px;
-            text-align: center;
-}
-
-        .product-name {
-            text-align: center;
-            margin: 12px 0;
-            font-size: 14px;
-            color: #333;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: normal;
-            font-weight: bold
-        }
-
-        .out-of-stock {
-            opacity: 0.8;
-            color: #ff0000;
-        }
-
-        .add-to-cart-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #A02334;
-    color: #fff;
-    border: none;
-    border-radius: 0px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: auto;
-    text-align: center;
-    justify-content: center;
-    align-self: center;
-    display: flex;
-    align-items: center;
-    white-space: nowrap; /* Prevent text from wrapping */
-}
-    .add-to-cart-button:hover {
-        background-color: #6C0311; /* Transparent background on hover */
-        color: #FFFFFF; /* Change text color to the original button color */
-
-    }
-
-.add-to-cart-button-disabled {
-    /* Sold out: still opens the product page, which shows it as sold out */
-    width: 100%;
-    padding: 12px;
-    background-color: grey;
-    color: #fff;
-    border: none;
-    /*border-radius: 4px;*/
-    font-size: 14px; /* Ensure consistent font size */
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: auto;
-    align-items: center;
-    justify-content: center;
-    align-self: center;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    white-space: nowrap; /* Prevent text from wrapping */
-}
-
-</style>
-

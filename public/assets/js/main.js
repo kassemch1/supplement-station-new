@@ -173,9 +173,25 @@
 	/*------------------------------------------
 	= data background and bg color
 	-------------------------------------------*/
-	$("[data-background]").each(function () {
-		$(this).css("background-image", "url(" + $(this).attr("data-background") + ") ")
-	})
+	// Background pictures load when their section comes near the screen, not all at once
+	var setBackground = function (el) {
+		el.style.backgroundImage = "url(" + el.getAttribute("data-background") + ")";
+	};
+	if ("IntersectionObserver" in window) {
+		var bgObserver = new IntersectionObserver(function (entries) {
+			entries.forEach(function (entry) {
+				if (entry.isIntersecting) {
+					setBackground(entry.target);
+					bgObserver.unobserve(entry.target);
+				}
+			});
+		}, { rootMargin: "300px 0px" });
+		$("[data-background]").each(function () {
+			if (!this.style.backgroundImage) bgObserver.observe(this);
+		});
+	} else {
+		$("[data-background]").each(function () { setBackground(this); });
+	}
 	$("[data-bg-color]").each(function () {
 		$(this).css("background-color", $(this).attr("data-bg-color"));
 
@@ -415,20 +431,6 @@
 
 
 	/*------------------------------------------
-	= magnificPopup
-	-------------------------------------------*/
-	$('.popup-image').magnificPopup({
-		type: 'image',
-		gallery: {
-			enabled: true
-		}
-	});
-	$('.popup-video').magnificPopup({
-		type: 'iframe',
-		mainClass: 'mfp-zoom-in',
-	});
-
-	/*------------------------------------------
 	= Accordion Box
 	-------------------------------------------*/
 	if ($(".accordion_box").length) {
@@ -452,22 +454,6 @@
 	}
 
 	
-	/*----------------------------
-	= SHOP PRICE SLIDER
-	------------------------------ */
-	if ($("#slider-range").length) {
-		$("#slider-range").slider({
-			range: true,
-			min: 12,
-			max: 200,
-			values: [0, 100],
-			slide: function (event, ui) {
-				$("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-			}
-		});
-
-		$("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
-	}
 	
 	/*------------------------------------------
 	= TOUCHSPIN FOR PRODUCT SINGLE PAGE

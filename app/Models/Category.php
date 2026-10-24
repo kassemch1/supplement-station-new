@@ -2,12 +2,29 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Category extends Model
 {
     use HasFactory;
+
+    private const CACHE_KEY = 'store.categories';
+
+    protected static function booted(): void
+    {
+        // The admin adds, renames and deletes categories through these models, so the menu updates at once
+        static::saved(fn () => Cache::forget(self::CACHE_KEY));
+        static::deleted(fn () => Cache::forget(self::CACHE_KEY));
+    }
+
+    // Every store page shows the category menu; it is read from the database only after a change
+    public static function cachedAll(): Collection
+    {
+        return Cache::rememberForever(self::CACHE_KEY, fn () => static::all());
+    }
 
     public function getProducts()
     {

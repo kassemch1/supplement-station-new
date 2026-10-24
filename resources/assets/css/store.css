@@ -1,0 +1,234 @@
+/* Shared by every store page. Page-only styles live in resources/assets/css/pages. */
+
+/* WhatsApp button */
+.whatsapp-popup {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    background-color: #25D366; /* WhatsApp green */
+    color: white;
+    padding: 20px;             /* bigger padding */
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;           /* bigger icon/text */
+    transition: transform 0.2s;
+    z-index: 9999;
+    width: 70px;               /* make it square */
+    height: 70px;
+}
+
+.whatsapp-popup:hover {
+    transform: scale(1.2);     /* slightly larger on hover */
+    color: darkgreen;
+}
+
+
+/* Newsletter popup (partials/subscription-modal) */
+.subscription-modal { position: fixed; inset: 0; z-index: 9999; }
+.subscription-modal-overlay {
+    position: absolute; inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex; justify-content: center; align-items: center;
+    padding: 20px;
+}
+.subscription-modal-content {
+    background: #fff;
+    border-radius: 18px;
+    padding: 0;
+    max-width: 440px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    animation: modalSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    text-align: center;
+}
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.subscription-modal-header {
+    position: relative;
+    padding: 36px 28px 0;
+    background: transparent;
+    color: inherit;
+    border: none;
+    display: block;
+}
+.subscription-modal-icon {
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #A02334 0%, #d63b50 100%);
+    color: #fff;
+    font-size: 26px;
+    box-shadow: 0 10px 24px rgba(160, 35, 52, 0.35);
+    margin-bottom: 18px;
+}
+.subscription-modal-header h3 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.2px;
+}
+.subscription-modal .close-modal {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: rgba(15, 23, 42, 0.06);
+    border: none;
+    color: #64748b;
+    font-size: 18px; line-height: 1;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+}
+.subscription-modal .close-modal:hover { background: rgba(15, 23, 42, 0.12); color: #0f172a; opacity: 1; }
+
+.subscription-modal-body {
+    padding: 18px 32px 32px;
+}
+.subscription-modal-body p {
+    margin: 0 0 22px;
+    color: #475569;
+    text-align: center;
+    font-size: 14.5px;
+    line-height: 1.55;
+}
+
+.subscription-modal .form-group { margin-bottom: 14px; position: relative; }
+.subscription-modal .form-group .input-icon {
+    position: absolute;
+    top: 50%; left: 16px;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 14px;
+    pointer-events: none;
+}
+.subscription-modal .form-group input {
+    width: 100%;
+    padding: 14px 16px 14px 44px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14.5px;
+    color: #0f172a;
+    background: #f8fafc;
+    box-sizing: border-box;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.subscription-modal .form-group input::placeholder { color: #94a3b8; }
+.subscription-modal .form-group input:focus {
+    outline: none;
+    border-color: #A02334;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(160, 35, 52, 0.12);
+}
+
+.subscription-modal .form-actions {
+    display: flex; flex-direction: column; gap: 8px;
+    margin-top: 4px;
+}
+.subscription-modal .btn-subscribe, .subscription-modal .btn-cancel {
+    padding: 13px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14.5px;
+    font-weight: 600;
+    transition: transform .15s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+    width: 100%;
+    font-family: inherit;
+}
+.subscription-modal .btn-subscribe {
+    background: linear-gradient(135deg, #A02334 0%, #d63b50 100%);
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(160, 35, 52, 0.28);
+}
+.subscription-modal .btn-subscribe:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(160, 35, 52, 0.38); }
+.subscription-modal .btn-subscribe:active { transform: translateY(0); }
+.subscription-modal .btn-cancel {
+    background: transparent;
+    color: #64748b;
+    box-shadow: none;
+    padding: 10px 18px;
+    font-weight: 500;
+}
+.subscription-modal .btn-cancel:hover { color: #0f172a; background: #f1f5f9; }
+
+@media (max-width: 480px) {
+    .subscription-modal-content { border-radius: 16px; }
+    .subscription-modal-header { padding: 28px 22px 0; }
+    .subscription-modal-body { padding: 16px 22px 24px; }
+    .subscription-modal-header h3 { font-size: 20px; }
+}
+
+/* "Someone in ... purchased" toast (partials/recentPurchaseToast) */
+.rp-toast {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 9998;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.08);
+    padding: 12px 14px 12px 12px;
+    display: none;
+    align-items: center;
+    gap: 12px;
+    min-width: 280px;
+    max-width: 360px;
+    cursor: pointer;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: opacity .35s ease, transform .35s ease;
+    font-family: inherit;
+}
+.rp-toast.rp-toast-visible { display: flex; opacity: 1; transform: translateY(0) !important; }
+.rp-toast:hover { box-shadow: 0 16px 40px rgba(0,0,0,0.22), 0 4px 8px rgba(0,0,0,0.1); }
+.rp-toast-img {
+    flex: 0 0 56px;
+    width: 56px; height: 56px;
+    border-radius: 8px;
+    background: #f1f5f9;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+}
+.rp-toast-img img { width: 100%; height: 100%; object-fit: cover; }
+.rp-toast-body { flex: 1; min-width: 0; }
+.rp-toast-line1 { font-size: 13px; color: #334155; line-height: 1.3; }
+.rp-toast-line2 {
+    font-size: 14px; font-weight: 600; color: #0f172a;
+    line-height: 1.3; margin: 2px 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.rp-toast-line3 { font-size: 11px; color: #94a3b8; }
+.rp-toast-close {
+    flex: 0 0 auto;
+    width: 22px; height: 22px;
+    background: transparent; border: none;
+    color: #94a3b8; cursor: pointer;
+    font-size: 16px; line-height: 1;
+    padding: 0;
+    align-self: flex-start;
+}
+.rp-toast-close:hover { color: #475569; }
+
+@media (max-width: 768px) {
+    .rp-toast {
+        left: 12px; right: 12px;
+        top: 12px; bottom: auto;
+        min-width: 0; max-width: none;
+        transform: translateY(-20px);
+    }
+}

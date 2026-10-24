@@ -7,7 +7,6 @@ use App\Models\Faq;
 use App\Models\Plan;
 use App\Models\Product;
 use App\Models\OrderItem;
-use App\Models\Category;
 use App\Models\SpecialOffer;
 use Illuminate\Support\Facades\DB;
 
@@ -66,14 +65,12 @@ class HomeController extends Controller
         $offersProducts = $product;
     }
 
-    $categories=Category::all();
     return view('user_views.home', [
         'product' => $product,
         'offersProducts' => $offersProducts,
         'banner' => $banner,
         'planes' => $planes,
         'faqs' => $faqs,
-        'categories'=>$categories,
     ]);
 }
 

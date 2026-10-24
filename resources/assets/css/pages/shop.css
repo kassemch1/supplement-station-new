@@ -1,0 +1,214 @@
+/* Styling for the sale label */
+.sale-label {
+    background-color: #A02334; /* Background color for the label */
+    color: white; /* Text color */
+    padding: 5px 10px; /* Padding around the text */
+    font-weight: bold; /* Bold text */
+    position: absolute; /* Absolute positioning */
+    top: 10px; /* Position it at the top */
+    left: 10px; /* Adjust as needed */
+    z-index: 10; /* Ensure it appears above the image */
+    border-radius: 3px; /* Rounded corners */
+    text-transform: uppercase; /* Uppercase text */
+    font-size: 14px; /* Font size */
+}
+
+.xb-item--img {
+    position: relative; /* Needed for absolute positioning of the label */
+    display: inline-block; /* Ensure the container fits around the image */
+}
+
+.xb-item--cart-btn.disabled {
+    opacity: 0.5;
+}
+
+.no-stock img {
+    opacity: 0.6;
+}
+
+.no-stock-title {
+    color: gray;
+    cursor: pointer;
+}
+
+/* Customize the overall pagination container */
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style for pagination items */
+.pagination .page-item {
+    margin: 0 2px; /* Spacing between buttons */
+}
+
+/* Style for pagination links */
+.pagination .page-link {
+    color: #ffffff; /* Text color */
+    background-color: #A02334; /* Background color */
+    border: 1px solid #A02334; /* Border color */
+}
+
+/* Style for active pagination link */
+.pagination .page-item.active .page-link {
+    background-color: #fff; /* Active background color */
+    color: #A02334;
+    border-color: #A02334; /* Active border color */
+}
+
+/* Style for disabled pagination link */
+.pagination .page-item.disabled .page-link {
+    color: #6c757d; /* Disabled text color */
+    background-color: #e9ecef; /* Disabled background color */
+    border-color: #e9ecef; /* Disabled border color */
+}
+
+/* Hover effect for pagination links */
+.pagination .page-link:hover {
+    background-color: #fff; /* Hover background color */
+    border-color: #fff; /* Hover border color */
+    color: #A02334;
+}
+
+/* Product grid (partials/product_list, also reloaded by AJAX) */
+.no-products-found {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+    /*border: 1px solid #ddd;*/
+    margin-top: 20px;
+    font-size: 18px;
+    color: #555;
+}
+.mobile-layout .product-item {
+    padding: 10px;
+    background-color: var(--color-white);
+    box-sizing: border-box;
+    min-height: auto;
+}
+
+.mobile-layout .xb-item--img img {
+    width: 100%;
+    height: auto;
+}
+
+
+
+
+
+
+
+.product-cart {
+        border: 1px solid #ddd;
+        /*border-radius: 0px;*/
+        padding: 20px;
+        max-width: 340px;
+        height: 380px;
+        margin: 16px auto;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        position: relative;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .product-image {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        /*overflow: hidden;*/
+        /*border-radius: 0px;*/
+        /*margin-top: 20px;*/
+        margin: 25px auto 12px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /*border-radius: 8px;*/
+    }
+
+    .sale-labels {
+        position: absolute;
+top: 8px;
+right: 8px;
+        display: block;
+background-color: #A02334;
+color: #fff;
+padding: 2px 6px;
+border-radius: 0px;
+font-weight: bold;
+text-transform: uppercase;
+font-size: 8px;
+box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+letter-spacing: 0.3px;
+        text-align: center;
+}
+
+    .product-name {
+        text-align: center;
+        margin: 12px 0;
+        font-size: 14px;
+        color: #333;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        font-weight: bold
+    }
+
+    .out-of-stock {
+        opacity: 0.8;
+        color: #ff0000;
+    }
+
+    .add-to-cart-button {
+width: 100%;
+padding: 12px;
+background-color: #A02334;
+color: #fff;
+border: none;
+border-radius: 0px;
+font-size: 14px;
+cursor: pointer;
+transition: background-color 0.3s;
+margin-top: auto;
+text-align: center;
+justify-content: center;
+align-self: center;
+display: flex;
+align-items: center;
+white-space: nowrap; /* Prevent text from wrapping */
+}
+.add-to-cart-button:hover {
+    background-color: #6C0311; /* Transparent background on hover */
+    color: #FFFFFF; /* Change text color to the original button color */
+
+}
+
+.add-to-cart-button-disabled {
+/* Sold out: still opens the product page, which shows it as sold out */
+width: 100%;
+padding: 12px;
+background-color: grey;
+color: #fff;
+border: none;
+/*border-radius: 4px;*/
+font-size: 14px; /* Ensure consistent font size */
+cursor: pointer;
+transition: background-color 0.3s;
+margin-top: auto;
+align-items: center;
+justify-content: center;
+align-self: center;
+text-align: center;
+display: flex;
+align-items: center;
+white-space: nowrap; /* Prevent text from wrapping */
+}
