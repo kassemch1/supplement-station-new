@@ -82,6 +82,7 @@
         <option value="">Select Stock Status</option>
         <option value="in-stock" {{ request('stock') == 'in-stock' ? 'selected' : '' }}>In Stock</option>
         <option value="out-of-stock" {{ request('stock') == 'out-of-stock' ? 'selected' : '' }}>Out of Stock</option>
+        <option value="archived" {{ request('stock') == 'archived' ? 'selected' : '' }}>Deleted (archived)</option>
     </select>
 
     <button type="submit" style="padding: 5px 10px; border: none; background-color: #17A2B8; color: white; border-radius: 4px; cursor: pointer;">Filter</button>
@@ -124,7 +125,9 @@
                             <td style="max-width: 250px" class="text-truncate">{{ $product->description }}</td>
                             <td>{{ $product->getCategory->name }}</td>
                             <td>
-                                @if((int)$product->stock === 1)
+                                @if($product->trashed())
+                                    <span class="badge badge-secondary">Deleted</span>
+                                @elseif((int)$product->stock === 1)
                                     <span class="badge badge-success">In Stock</span>
                                 @else
                                     <span class="badge badge-danger">Out of Stock</span>
@@ -132,6 +135,12 @@
                             </td>
                             <td>{{ $product->discount }} %</td>
                             <td>
+                                @if($product->trashed())
+                                <form method="POST" action="{{ route('manageProducts.restore', ['id' => $product->id]) }}" onsubmit="return confirm('Restore this product to the shop?')">
+                                    @csrf
+                                    <button type="submit" class="button button-success"><i class="zmdi zmdi-undo"></i><span>Restore</span></button>
+                                </form>
+                                @else
                                 <a class="button button-info" href="{{ route('manageProducts.edit', ['id' => $product->id]) }}">
                                     <i class="zmdi zmdi-edit"></i><span>Edit</span>
                                 </a>
@@ -155,6 +164,7 @@
                                 <a class="button button-info" href="{{ route('manageProductReview.show', ['product_id' => $product->id]) }}">
                                     <span>Product Review</span>
                                 </a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

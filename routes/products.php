@@ -10,6 +10,7 @@ Route::middleware('auth')->prefix('manageProducts')->group(function () {
     Route::get('/{id}/edit', [ProductController::class, 'edit'])->name('manageProducts.edit');
     Route::post('/update', [ProductController::class, 'update'])->name('manageProducts.update');
     Route::delete('/destroy', [ProductController::class, 'destroy'])->name('manageProducts.destroy');
+    Route::post('/{id}/restore', [ProductController::class, 'restore'])->name('manageProducts.restore');
 });
 
 

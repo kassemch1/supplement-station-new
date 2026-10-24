@@ -36,13 +36,15 @@ class ProductController extends Controller
     if ($request->has('stock') && $request->input('stock') != '') {
         if ($request->input('stock') === 'in-stock') {
             $query->where('stock', 1);
+        } elseif ($request->input('stock') === 'archived') {
+            $query->onlyTrashed();
         } else {
             $query->where('stock', 0);
         }
     }
 
 
-    $products = $query->paginate(8);
+    $products = $query->with('images', 'getCategory')->paginate(8)->withQueryString();
     $categories = Category::all();
 
     return view('admin_views/manage_products/edit_product', [
@@ -193,6 +195,14 @@ class ProductController extends Controller
         });
 
         return response()->json(['success' => 'product deleted successfully']);
+    }
+
+    // Brings a deleted (archived) product back to the shop
+    public function restore($id)
+    {
+        Product::onlyTrashed()->findOrFail($id)->restore();
+
+        return redirect()->route('manageProducts.index', ['stock' => 'archived'])->with('success', 'Product restored to the shop.');
     }
 
 
