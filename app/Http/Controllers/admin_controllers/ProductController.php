@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Review;
 use App\Models\SpecialOffer;
+use App\Services\ImageOptimizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -72,7 +73,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'stock' => 'required', // Assumes stock should be an integer
             'images' => 'required|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048'
         ], [
             'name.required' => 'The product name is required.',
             'price.required' => 'The price is required.',
@@ -85,7 +86,7 @@ class ProductController extends Controller
             'stock.in' => 'The stock status must be either "in-stock" or "out-of-stock".',
             'images.required' => 'At least one image is required.',
             'images.*.image' => 'Each file must be an image.',
-            'images.*.mimes' => 'Each image must be a file of type: jpeg, png, jpg, gif, svg.',
+            'images.*.mimes' => 'Each image must be a file of type: jpeg, png, jpg, gif, webp.',
             'images.*.max' => 'Each image must not exceed 2MB.'
         ]);
 
@@ -101,8 +102,7 @@ class ProductController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $imagePath = $image->store('public/products_images');
-                $imagePath = str_replace('public/', 'storage/', $imagePath);
+                $imagePath = ImageOptimizer::storeUpload($image, 'products_images', ImageOptimizer::PRODUCT_MAX_SIZE);
 
                 // Save the image path to the database (assumes you have a ProductImage model and images table)
                 $productImage = new ProductImage();
@@ -136,7 +136,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'stock' => 'required', // Assumes stock should be an integer
             'images' => $hasImages ? 'array' : 'required|array', // Make images required if no existing images
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048'
         ], [
             'name.required' => 'The product name is required.',
             'name.string' => 'The product name must be a string.',
@@ -154,7 +154,7 @@ class ProductController extends Controller
             'images.required' => 'At least one image is required.',
             'images.array' => 'The images must be an array.',
             'images.*.image' => 'Each file must be an image.',
-            'images.*.mimes' => 'The images must be of type jpeg, png, jpg, gif, or svg.',
+            'images.*.mimes' => 'The images must be of type jpeg, png, jpg, gif, or webp.',
             'images.*.max' => 'Each image may not be larger than 2MB.'
         ]);
 
@@ -169,8 +169,7 @@ class ProductController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $imagePath = $image->store('public/products_images');
-                $imagePath = str_replace('public/', 'storage/', $imagePath);
+                $imagePath = ImageOptimizer::storeUpload($image, 'products_images', ImageOptimizer::PRODUCT_MAX_SIZE);
 
                 // Save the image path to the database (assumes you have a ProductImage model and images table)
                 $productImage = new ProductImage();

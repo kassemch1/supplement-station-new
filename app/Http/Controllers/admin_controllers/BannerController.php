@@ -5,9 +5,10 @@ namespace App\Http\Controllers\admin_controllers;
 use App\Http\Controllers\admin_controllers\Controller;
 use App\Models\Banner;
 use App\Models\Product;
+use App\Services\ImageFiles;
+use App\Services\ImageOptimizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
@@ -32,7 +33,7 @@ class BannerController extends Controller
 //        dd($request->all());
         // Validate the incoming request data
         $validatedData = $request->validate([
-            'image'=>'image:allow_svg|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image'=>'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'product_id' => 'required|integer', // Assumes product_id should be an integer
         ]);
 
@@ -44,16 +45,18 @@ class BannerController extends Controller
 //        $banner->image="ssss";
         $banner->product_id = $validatedData['product_id'];
 
+        $oldImage = null;
         if($request->hasFile('image')){
-            if ($banner->image) {
-                // Use Storage facade to delete the old image
-                Storage::delete(str_replace('storage/', 'public/', $banner->image));
-            }
-            $bannerPic = $request->file('image')->store('public/banner_picture');
-            $banner->image = str_replace('public/', 'storage/', $bannerPic);
+            $oldImage = $banner->image;
+            $banner->image = ImageOptimizer::storeUpload($request->file('image'), 'banner_picture', ImageOptimizer::BANNER_MAX_SIZE);
         }
 
         $banner->save();
+
+        // The old picture is removed only after the new one is saved, and only if nothing else uses it
+        if ($oldImage && $oldImage !== $banner->image) {
+            ImageFiles::forget('banners', $banner->id, $oldImage);
+        }
     }
 //    public function edit($id)
 //    {
