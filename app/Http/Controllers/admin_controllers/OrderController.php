@@ -12,7 +12,7 @@ class OrderController extends Controller
 {
     public function pendingOrders(Request $request)
     {
-        $sortOrder = $request->input('sort', 'desc'); // Default to descending order
+        $sortOrder = $request->input('sort') === 'asc' ? 'asc' : 'desc';
         $pendingOrders = Order::where('status', 'pending')
             ->orderBy('created_at', $sortOrder)
             ->paginate(10);
@@ -25,7 +25,7 @@ class OrderController extends Controller
 
     public function deliveredOrders(Request $request)
     {
-        $sortOrder = $request->input('sort', 'desc'); // Default to descending order
+        $sortOrder = $request->input('sort') === 'asc' ? 'asc' : 'desc';
         $deliveredOrders = Order::where('status', 'delivered')
             ->orderBy('created_at', $sortOrder)
             ->paginate(10);
@@ -34,7 +34,20 @@ class OrderController extends Controller
             'deliveredOrders' => $deliveredOrders,
         ]);
     }
-    
+
+    public function cancelledOrders(Request $request)
+    {
+        $sortOrder = $request->input('sort') === 'asc' ? 'asc' : 'desc';
+        $cancelledOrders = Order::where('status', 'cancelled')
+            ->orderBy('created_at', $sortOrder)
+            ->paginate(10);
+
+        return view('admin_views/manage_orders/Delivered_orderList', [
+            'deliveredOrders' => $cancelledOrders,
+            'heading' => 'Cancelled Orders',
+        ]);
+    }
+
 
     public function orderDetails($orderId)
     {
@@ -54,6 +67,8 @@ class OrderController extends Controller
         
     public function updateStatus(Request $request, $orderId)
     {
+        $request->validate(['status' => 'required|in:'.implode(',', Order::STATUSES)]);
+
         $order = Order::findOrFail($orderId);
         $order->status = $request->input('status');
         $order->save();

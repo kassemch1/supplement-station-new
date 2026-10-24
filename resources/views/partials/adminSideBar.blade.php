@@ -59,6 +59,7 @@
                     <ul class="side-header-sub-menu">
                         <li><a href="{{route("admin.orders.pending")}}"><span>Pending Orders List</span></a></li>
                         <li><a href="{{route("admin.orders.delivered")}}"><span>Deliverd Orders List</span></a></li>
+                        <li><a href="{{route("admin.orders.cancelled")}}"><span>Cancelled Orders List</span></a></li>
                     </ul>
                 </li>
 

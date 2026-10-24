@@ -69,6 +69,9 @@ return [
 
     'timezone' => env('APP_TIMEZONE', 'UTC'),
 
+    // Dates are stored in UTC (above); the admin shows them, and counts "today" / "this week", in store time
+    'display_timezone' => env('APP_DISPLAY_TIMEZONE', 'Asia/Beirut'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

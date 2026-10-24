@@ -290,10 +290,10 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <h2 class="mb-2">Order #{{ $order->id }}</h2>
-                    <p class="mb-0 text-muted">{{ $order->created_at->format('M d, Y \a\t h:i A')  }}</p>
+                    <p class="mb-0 text-muted">{{ $order->created_at->timezone(config('app.display_timezone'))->format('M d, Y \a\t h:i A')  }}</p>
                 </div>
                 <div class="col-md-6 text-md-right">
-                    <span class="status-badge badge badge-{{ $order->status == 'pending' ? 'warning' : 'success' }}">
+                    <span class="status-badge badge badge-{{ ['pending' => 'warning', 'delivered' => 'success', 'cancelled' => 'secondary'][$order->status] ?? 'info' }}">
                         {{ ucfirst($order->status) }}
                     </span>
                     <div class="mt-2">
@@ -487,7 +487,7 @@
                     <div class="mb-3">
                         <div class="info-label">Current Status</div>
                         <div class="info-value">
-                            <span class="badge badge-{{ $order->status == 'pending' ? 'warning' : 'success' }}" style="font-size: 14px;">
+                            <span class="badge badge-{{ ['pending' => 'warning', 'delivered' => 'success', 'cancelled' => 'secondary'][$order->status] ?? 'info' }}" style="font-size: 14px;">
                                 {{ ucfirst($order->status) }}
                             </span>
                         </div>
@@ -497,6 +497,9 @@
                         @if($order->status === 'pending')
                             <button class="btn btn-success btn-lg mb-2" onclick="updateStatus('delivered')">
                                 <i class="zmdi zmdi-check mr-2"></i>Mark as Delivered
+                            </button>
+                            <button class="btn btn-outline-secondary btn-lg mb-2" onclick="updateStatus('cancelled')">
+                                <i class="zmdi zmdi-close mr-2"></i>Cancel Order
                             </button>
                         @else
                             <button class="btn btn-warning btn-lg mb-2" onclick="updateStatus('pending')">

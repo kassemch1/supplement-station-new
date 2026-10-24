@@ -36,7 +36,7 @@
         <div class="row justify-content-between align-items-center mb-10">
             <div class="col-12 col-lg-auto mb-20">
                 <div class="page-heading">
-                    <h3>Delivered Orders</h3>
+                    <h3>{{ $heading ?? 'Delivered Orders' }}</h3>
                     <div>
                         <form action="{{ route('admin.orders.delivered') }}" method="GET" class="form-inline">
                             <label for="sort" class="mr-2">Sort By:</label>
@@ -69,7 +69,7 @@
                             <tr>
                                 <td>#{{ $order->id }}</td>
                                 <td>${{ number_format($order->total_amount, 2) }}</td>
-                                <td><span class="badge badge-success">{{ ucfirst($order->status) }}</span></td>
+                                <td><span class="badge badge-{{ $order->status === 'cancelled' ? 'secondary' : 'success' }}">{{ ucfirst($order->status) }}</span></td>
                                 <td>
                                     @if($order->coupon_code)
                                         <span class="badge badge-info">{{ $order->coupon_code }}</span>
@@ -84,7 +84,7 @@
                                         <span class="text-muted">—</span>
                                     @endif
                                 </td>
-                                <td>{{ $order->created_at->format('M d, Y - H:i') }}</td>
+                                <td>{{ $order->created_at->timezone(config('app.display_timezone'))->format('M d, Y - H:i') }}</td>
                                 <td class="action h4">
                                     <div class="table-action-buttons">
                                         <a class="view button button-box button-xs button-primary" href="{{ route('admin.orders.details', $order->id) }}"><i class="zmdi zmdi-more"></i></a>

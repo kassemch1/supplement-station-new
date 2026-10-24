@@ -22,8 +22,14 @@ class AdminController extends Controller
     public function admin_dashboard()
     {
         try {
+            // Sales exclude cancelled orders. Dates are stored in UTC, while "today", "this week" and
+            // "this month" are store-time (Beirut) periods converted to UTC for the query.
+            $sales = fn () => DB::table('orders')->where('status', '!=', 'cancelled');
+            $now = Carbon::now(config('app.display_timezone'));
+            $period = fn (Carbon $from, Carbon $to) => [$from->copy()->utc(), $to->copy()->utc()];
+
             // Get monthly totals using Carbon for database compatibility
-            $monthlyTotals = DB::table('orders')
+            $monthlyTotals = $sales()
                 ->selectRaw('SUM(total_amount) as total_amount, EXTRACT(MONTH FROM created_at) as month, EXTRACT(YEAR FROM created_at) as year')
                 ->whereNotNull('created_at')
                 ->whereNotNull('total_amount')
@@ -44,22 +50,17 @@ class AdminController extends Controller
             }
 
             // Get total amount for all time
-            $totalAmount = DB::table('orders')->sum('total_amount') ?? 0;
+            $totalAmount = $sales()->sum('total_amount') ?? 0;
 
             // Get THIS MONTH's income
-            $thisMonthTotal = DB::table('orders')
-                ->whereBetween('created_at', [
-                    Carbon::now()->startOfMonth(),
-                    Carbon::now()->endOfMonth()
-                ])
+            $thisMonthTotal = $sales()
+                ->whereBetween('created_at', $period($now->copy()->startOfMonth(), $now->copy()->endOfMonth()))
                 ->sum('total_amount') ?? 0;
 
             // Get LAST MONTH's income
-            $lastMonthTotal = DB::table('orders')
-                ->whereBetween('created_at', [
-                    Carbon::now()->subMonth()->startOfMonth(),
-                    Carbon::now()->subMonth()->endOfMonth()
-                ])
+            $lastMonth = $now->copy()->subMonthNoOverflow();
+            $lastMonthTotal = $sales()
+                ->whereBetween('created_at', $period($lastMonth->copy()->startOfMonth(), $lastMonth->copy()->endOfMonth()))
                 ->sum('total_amount') ?? 0;
 
             // Calculate month-to-month comparison
@@ -85,28 +86,24 @@ class AdminController extends Controller
             $pendingPercentage = $totalCount > 0 ? round(($pendingCount / $totalCount) * 100, 2) : 0;
             $deliveredPercentage = $totalCount > 0 ? round(($deliveredCount / $totalCount) * 100, 2) : 0;
 
+            $today = $period($now->copy()->startOfDay(), $now->copy()->endOfDay());
 
-            $todayOrders = DB::table('orders')
-                ->whereDate('created_at', Carbon::today())
+            $todayOrders = $sales()
+                ->whereBetween('created_at', $today)
                 ->count();
 
-            $todayRevenue = DB::table('orders')
-                ->whereDate('created_at', Carbon::today())
+            $todayRevenue = $sales()
+                ->whereBetween('created_at', $today)
                 ->sum('total_amount') ?? 0;
 
             // This week vs last week
-            $thisWeekRevenue = DB::table('orders')
-                ->whereBetween('created_at', [
-                    Carbon::now()->startOfWeek(),
-                    Carbon::now()->endOfWeek()
-                ])
+            $thisWeekRevenue = $sales()
+                ->whereBetween('created_at', $period($now->copy()->startOfWeek(), $now->copy()->endOfWeek()))
                 ->sum('total_amount') ?? 0;
 
-            $lastWeekRevenue = DB::table('orders')
-                ->whereBetween('created_at', [
-                    Carbon::now()->subWeek()->startOfWeek(),
-                    Carbon::now()->subWeek()->endOfWeek()
-                ])
+            $lastWeek = $now->copy()->subWeek();
+            $lastWeekRevenue = $sales()
+                ->whereBetween('created_at', $period($lastWeek->copy()->startOfWeek(), $lastWeek->copy()->endOfWeek()))
                 ->sum('total_amount') ?? 0;
 
             // Weekly growth calculation

@@ -84,7 +84,7 @@
                                         <span class="text-muted">—</span>
                                     @endif
                                 </td>
-                                <td>{{ $order->created_at->format('M d, Y - H:i') }}</td>
+                                <td>{{ $order->created_at->timezone(config('app.display_timezone'))->format('M d, Y - H:i') }}</td>
                                 <td class="action h4">
                                     <div class="table-action-buttons">
                                         <a class="view button button-box button-xs button-primary" href="{{ route('admin.orders.details', $order->id) }}"><i class="zmdi zmdi-more"></i></a>

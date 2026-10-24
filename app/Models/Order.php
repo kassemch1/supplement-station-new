@@ -9,6 +9,14 @@ class Order extends Model
 {
     use HasFactory;
 
+    // Cancelled orders are kept (not deleted) but don't count as sales
+    public const STATUSES = ['pending', 'delivered', 'cancelled'];
+
+    public function scopeCountsAsSale($query)
+    {
+        return $query->where('status', '!=', 'cancelled');
+    }
+
     protected $fillable = [
         'total_amount',
         'subtotal_amount',
