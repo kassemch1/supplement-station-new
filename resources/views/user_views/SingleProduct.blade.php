@@ -108,10 +108,10 @@
             white-space: nowrap; /* Prevent text from wrapping */
         }
         .disabled {
-            pointer-events: none; /* Disable the link */
+            /* Sold-out cards stay clickable and open the product page, which shows it as sold out */
             color: lightgrey !important; /* Ensure the color changes */
             background-color: #f5f5f5; /* Optionally change the background */
-            cursor: not-allowed; /* Show a "not allowed" cursor */
+            cursor: pointer;
             opacity: 0.6; /* Reduce opacity for a more 'disabled' look */
         }
 
@@ -645,14 +645,14 @@
                                                     @endif
                                                 </a>
                                             @else
-                                                <div class="no-stock">
+                                                <a href="{{ route('products.show', $item->id) }}" class="no-stock">
                                                     <!-- Add image here -->
                                                     @if($item->images->isNotEmpty())
                                                         <img src="{{ asset($item->images->first()->url) }}" alt="img" style="max-height: 120px" loading="lazy">
                                                     @else
                                                         No image available
                                                     @endif
-                                                </div>
+                                                </a>
                                             @endif
                                         </div>
                                         <div class="xb-item--holder">
@@ -660,7 +660,7 @@
                                                 @if($item->stock > 0)
                                                     <a href="{{ route('products.show', $item->id) }}">{{ $item->name }}</a>
                                                 @else
-                                                    <span>{{ $item->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
+                                                    <a href="{{ route('products.show', $item->id) }}"><span>{{ $item->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
 
                                                 @endif
                                             </h3>
@@ -686,12 +686,12 @@
                             @endif
                         </span>
                                             @if($item->stock > 0)
-                                                <a href="{{ route('products.show', $product->id) }}" class="xb-item--cart-btn">
+                                                <a href="{{ route('products.show', $item->id) }}" class="xb-item--cart-btn">
                                                     <span class="xb-item--cart-icon"><img src="{{asset('assets/img/icon/bag.svg')}}" alt="" loading="lazy"></span>
                                                     <span class="xb-item--cart">add to cart</span>
                                                 </a>
                                             @elseif($item->stock == 0)
-                                                <a href="#" class="xb-item--cart-btn disabled" style="color: lightgrey" >
+                                                <a href="{{ route('products.show', $item->id) }}" class="xb-item--cart-btn disabled" style="color: lightgrey" >
                                                     <span class="xb-item--cart-icon"><img src="{{asset('assets/img/icon/bag.svg')}}" alt="" loading="lazy"></span>
                                                     <span class="xb-item--cart">Out of Stock</span>
                                                 </a>

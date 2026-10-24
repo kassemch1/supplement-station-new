@@ -32,20 +32,18 @@
     <link rel="stylesheet" href={{asset("assets/css/main.css")}}>
     <style>
         .xb-item--cart-btn.disabled {
-            pointer-events: none;
             opacity: 0.5;
             width: 300px
         }
         .xb-item--cart-btn.disabled {
-            pointer-events: none;
             opacity: 0.5;
         }
         .no-stock img {
-            pointer-events: none;
+            opacity: 0.6;
         }
         .no-stock-title {
             color: gray;
-            cursor: default;
+            cursor: pointer;
         }
         .whatsapp-popup {
             position: fixed;
@@ -196,7 +194,7 @@
                                     <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" style="width: 100%; height: auto; object-fit: cover;" loading="lazy">
                                 </a>
                                 @else
-                                <a >
+                                <a href="{{ route('products.show', $offer->id) }}" class="no-stock">
                                     <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" style="width: 100%; height: auto; object-fit: cover;" loading="lazy">
                                 </a>
                                 @endif
@@ -206,7 +204,7 @@
                                 <h3 class="xb-item--title"> @if($offer->stock > 0)
                                     <a href="{{ route('products.show', $offer->id) }}">{{ $offer->name }}</a>
                                 @else
-                                <span class="no-stock-title">{{ $offer->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
+                                <a href="{{ route('products.show', $offer->id) }}"><span class="no-stock-title">{{ $offer->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
                                 @endif</h3>
                                 <div class="xb-item--rating-inner ul_li">
                                     <ul class="xb-item--rating ul_li">
@@ -223,7 +221,7 @@
                                         <img src="assets/img/icon/bag.svg" alt="">
                                     </a>
                                     @else
-                                    <a class="xb-item--cart" >
+                                    <a class="xb-item--cart" href="{{ route('products.show', $offer->id) }}" style="opacity: .5">
                                         <img src="assets/img/icon/bag.svg" alt="">
                                     </a>
                                     @endif
@@ -398,14 +396,14 @@
                             @endif
                         </a>
                     @else
-                        <div class="no-stock">
+                        <a href="{{ route('products.show', $product->id) }}" class="no-stock">
                             <!-- Add image here -->
                             @if($product->images->isNotEmpty())
                                 <img src="{{ asset($product->images->first()->url) }}" alt="img" style="max-height: 120px" loading="lazy">
                             @else
                                 No image available
                             @endif
-                        </div>
+                        </a>
                     @endif
                     </div>
                     <div class="xb-item--holder">
@@ -413,7 +411,7 @@
                             @if($product->stock > 0)
                             <a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a>
                         @else
-                        <span>{{ $product->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
+                        <a href="{{ route('products.show', $product->id) }}"><span>{{ $product->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
 
                         @endif
                         </h3>
@@ -444,7 +442,7 @@
                                 <span class="xb-item--cart">add to cart</span>
                             </a>
                         @else
-                            <a href="#" class="xb-item--cart-btn disabled" >
+                            <a href="{{ route('products.show', $product->id) }}" class="xb-item--cart-btn disabled" >
                                 <span class="xb-item--cart-icon"><img src="assets/img/icon/bag.svg" alt=""></span>
                                 <span class="xb-item--cart">Out of Stock</span>
                             </a>

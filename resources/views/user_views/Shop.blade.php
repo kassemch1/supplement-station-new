@@ -48,17 +48,16 @@
         }
 
         .xb-item--cart-btn.disabled {
-            pointer-events: none;
             opacity: 0.5;
         }
 
         .no-stock img {
-            pointer-events: none;
+            opacity: 0.6;
         }
 
         .no-stock-title {
             color: gray;
-            cursor: default;
+            cursor: pointer;
         }
 
         /* Customize the overall pagination container */

@@ -41,10 +41,10 @@
                                 {{ $truncatedName }}
                             </a>
                         @else
-                            <span class="product-name">
+                            <a href="{{ route('products.show', $item->id) }}" class="product-name">
                                 {{ $truncatedName }}<br/>
                                 <span class="out-of-stock">(out of stock)</span>
-                            </span>
+                            </a>
                         @endif
 
                         <!-- Rating -->
@@ -75,7 +75,7 @@
                                 Add to Cart
                             </a>
                         @else
-                            <a class="add-to-cart-button-disabled">
+                            <a class="add-to-cart-button-disabled" href="{{ route('products.show', $item->id) }}">
                                 <span class="xb-item--cart">Out of Stock</span>
                             </a>
                         @endif
@@ -112,20 +112,22 @@
                                 </div>
                             </a>
                         @else
-                            <div class="xb-item--img no-stock">
-                                @if($item->images->isNotEmpty())
-                                    <img src="{{ asset($item->images->first()->url) }}" alt="img" style="width: 155px; height: 170px; object-fit: cover;" loading="lazy">
-                                @else
-                                    No image available
-                                @endif
-                            </div>
+                            <a href="{{ route('products.show', $item->id) }}">
+                                <div class="xb-item--img no-stock">
+                                    @if($item->images->isNotEmpty())
+                                        <img src="{{ asset($item->images->first()->url) }}" alt="img" style="width: 155px; height: 170px; object-fit: cover;" loading="lazy">
+                                    @else
+                                        No image available
+                                    @endif
+                                </div>
+                            </a>
                         @endif
                         <div class="xb-item--holder">
                             <h3 class="xb-item--title">
                                 @if($item->stock > 0)
                                     <a href="{{ route('products.show', $item->id) }}">{{ $truncatedName }}</a>
                                 @else
-                                    <span class="no-stock-title">{{ $truncatedName }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span>
+                                    <a href="{{ route('products.show', $item->id) }}"><span class="no-stock-title">{{ $truncatedName }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
                                 @endif
                             </h3>
                             <div class="xb-item--rating-inner ul_li_center" style="margin-top: 10px;margin-bottom: 5px">
@@ -151,7 +153,7 @@
                                     <span class="xb-item--cart">Add to Cart</span>
                                 </a>
                             @else
-                                <a href="#" class="xb-item--cart-btn disabled" onclick="showOutOfStockMessage(event)">
+                                <a href="{{ route('products.show', $item->id) }}" class="xb-item--cart-btn disabled">
                                     <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="Cart"></span>
                                     <span class="xb-item--cart">Out of Stock</span>
                                 </a>
@@ -285,7 +287,7 @@
     }
 
 .add-to-cart-button-disabled {
-    pointer-events: none; /* Disable the link */
+    /* Sold out: still opens the product page, which shows it as sold out */
     width: 100%;
     padding: 12px;
     background-color: grey;
@@ -293,7 +295,7 @@
     border: none;
     /*border-radius: 4px;*/
     font-size: 14px; /* Ensure consistent font size */
-    cursor: not-allowed;
+    cursor: pointer;
     transition: background-color 0.3s;
     margin-top: auto;
     align-items: center;
