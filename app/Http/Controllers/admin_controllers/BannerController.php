@@ -32,7 +32,7 @@ class BannerController extends Controller
 //        dd($request->all());
         // Validate the incoming request data
         $validatedData = $request->validate([
-            'image'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image'=>'image:allow_svg|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'product_id' => 'required|integer', // Assumes product_id should be an integer
         ]);
 
@@ -68,7 +68,7 @@ class BannerController extends Controller
 //    {
 ////        dd($request);
 //        $validatedData = $request->validate([
-//            'image'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+//            'image'=>'image:allow_svg|mimes:jpeg,png,jpg,gif,svg|max:2048',
 //            'product_id' => 'required|integer', // Assumes product_id should be an integer
 //        ]);
 //
