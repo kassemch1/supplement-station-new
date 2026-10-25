@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Review;
+use App\Services\Catalog;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class ProductController extends Controller
     {
         // Slugs are lowercase; /products/Some-Name finds the product and redirects to the real address
         $slug = strtolower($key);
-        $product = Product::with('images', 'reviews', 'productOptions.option')->where('slug', $slug)->first();
+        $product = Product::with('images', 'reviews', 'brand', 'productOptions.option')->where('slug', $slug)->first();
 
         if (!$product || $product->slug !== $key) {
             $id = $product?->id
@@ -57,6 +58,12 @@ class ProductController extends Controller
             'ratingCount' => $reviews->count(),
             'averageRating' => $reviews->isNotEmpty() ? $reviews->avg('rating') : 5,
         ]);
+    }
+
+    // The quick view the shop opens from a product card (+ button): pictures, price, options
+    public function quick(int $id): JsonResponse
+    {
+        return response()->json(Catalog::quickView(Product::findOrFail($id)));
     }
 
     public function createReview(Request $request, int $productId): JsonResponse

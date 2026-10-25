@@ -37,6 +37,19 @@ class CartItem extends Model
         return $this->selectedOptions() == $options;
     }
 
+    // The picture of the chosen flavour/colour when the admin added one, else the product's first picture.
+    // Load product.images and product.productOptions.option first to keep it query-free.
+    public function image(): ?string
+    {
+        $options = $this->selectedOptions();
+        $optionImage = $this->product->productOptions
+            ->first(fn ($productOption) => $productOption->image && $productOption->option
+                && (string) ($options[$productOption->option->option_name] ?? '') === (string) $productOption->option_value)
+            ?->image;
+
+        return $optionImage ?? $this->product->images->first()?->url;
+    }
+
     public function lineTotal(): float
     {
         return $this->product->price_after_discount * $this->quantity;

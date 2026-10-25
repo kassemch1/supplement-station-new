@@ -40,17 +40,7 @@
                                 <span class="text-danger">{{ $errors->first('price') }}</span>
                             @endif
                         </div>
-                        <div class="col-lg-6 col-12 mb-30">
-                            <label for="">Category</label>
-                            <select name="category_id" class="form-control select2">
-                                @foreach($categories as $category)
-                                    <option value="{{$category->id}}" {{ $category->id == $product->category_id ? 'selected' : '' }}>{{$category->name}}</option>
-                                @endforeach
-                            </select>
-                            @if ($errors->has('category_id'))
-                                <span class="text-danger">{{ $errors->first('category_id') }}</span>
-                            @endif
-                        </div>
+                        @include('admin_views.manage_products._category_brand', ['product' => $product ?? null])
                         <div class="col-lg-6 col-12 mb-30">
                             <label for="">Discount</label>
                             <input name="discount" class="form-control" type="text"  placeholder="Product Discount" value="{{$product->discount}}">

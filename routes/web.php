@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 // Each feature has its own route file
 require __DIR__ . '/products.php';
 require __DIR__ . '/categories.php';
+require __DIR__ . '/brands.php';
 require __DIR__ . '/admin.php';
 require __DIR__ . '/cart.php';
 require __DIR__ . '/banner.php';
@@ -32,6 +33,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/shop/{category}', [ShopController::class, 'category'])->name('shop.category');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/products/{id}/quick', [ProductController::class, 'quick'])->whereNumber('id')->name('products.quick');
 Route::post('/product/{id}/review', [ProductController::class, 'createReview'])->whereNumber('id')
     ->name('product.createReview')->middleware('throttle:5,1,review');
 Route::get('/api/recent-purchases', [RecentPurchaseController::class, 'index'])->name('api.recentPurchases');

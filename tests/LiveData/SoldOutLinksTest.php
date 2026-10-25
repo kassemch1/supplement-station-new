@@ -18,18 +18,18 @@ class SoldOutLinksTest extends TestCase
         $search = urlencode(substr($sold->name, 0, 20));
 
         $desktop = $this->get('/shop?shop-search='.$search)->assertOk()->getContent();
-        $this->assertGreaterThanOrEqual(3, $this->linksTo($desktop, $sold->id), 'desktop card: image, title and button link');
+        $this->assertGreaterThanOrEqual(2, $this->linksTo($desktop, $sold->id), 'shop card: picture and name link');
         $this->assertStringNotContainsString('showOutOfStockMessage(event)', $desktop);
 
         $mobile = $this->withHeader('User-Agent', 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) Mobile/15E148')
             ->get('/shop?shop-search='.$search)->assertOk()->getContent();
-        $this->assertGreaterThanOrEqual(3, $this->linksTo($mobile, $sold->id), 'mobile card: image, title and button link');
+        $this->assertSame($this->linksTo($desktop, $sold->id), $this->linksTo($mobile, $sold->id), 'phones get the same card');
 
         // Home: make the sold-out product a special offer so it shows there
         DB::table('special_offers')->delete();
         DB::table('special_offers')->insert(['product_id' => $sold->id, 'position' => 1, 'created_at' => now(), 'updated_at' => now()]);
         $home = $this->get('/')->assertOk()->getContent();
-        $this->assertGreaterThanOrEqual(3, $this->linksTo($home, $sold->id), 'home special offer card links');
+        $this->assertGreaterThanOrEqual(2, $this->linksTo($home, $sold->id), 'home special offer card links');
 
         // Related products (up to 8, in stock first): a sold-out product of a small category is among them
         $small = DB::table('products')->whereNull('deleted_at')->select('category_id')->groupBy('category_id')
@@ -37,7 +37,7 @@ class SoldOutLinksTest extends TestCase
         $soldRelated = DB::table('products')->whereNull('deleted_at')->where('category_id', $small)->where('stock', 0)->value('id');
         $sibling = DB::table('products')->whereNull('deleted_at')->where('category_id', $small)->where('id', '!=', $soldRelated)->value('id');
         $page = $this->get($this->productUrl($sibling))->assertOk()->getContent();
-        $this->assertGreaterThanOrEqual(3, $this->linksTo($page, $soldRelated), 'related products card links');
+        $this->assertGreaterThanOrEqual(2, $this->linksTo($page, $soldRelated), 'related products card links');
 
         $this->get($this->productUrl($sold->id))->assertOk()->assertSee('Sold out');
     }
@@ -49,6 +49,7 @@ class SoldOutLinksTest extends TestCase
         $response = $this->get($this->productUrl($item->page));
         // the slider shows up to 8 related products; check one that is shown and in stock
         $related = $response->viewData('relatedProducts')->firstWhere('stock', 1);
-        $this->assertMatchesRegularExpression('#href="'.preg_quote($related->url(), '#').'" class="xb-item--cart-btn"#', $response->getContent());
+        $this->assertMatchesRegularExpression('#href="'.preg_quote($related->url(), '#').'" class="ss-card__media"#', $response->getContent());
+        $this->assertStringContainsString('data-quick="'.$related->id.'"', $response->getContent());
     }
 }

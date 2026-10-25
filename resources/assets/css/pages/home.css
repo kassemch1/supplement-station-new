@@ -1,28 +1,136 @@
-.xb-item--cart-btn.disabled {
-    opacity: 0.5;
-    width: 300px
+/* Home page (user_views/home): banner, categories, rows of product cards, brands, about, questions */
+
+.ss-home { background: var(--ss-bg); padding-bottom: 56px; font-family: var(--ss-font); color: var(--ss-ink); }
+.ss-hsec { margin-top: 40px; }
+@media (min-width: 992px) { .ss-hsec { margin-top: 64px; } }
+
+
+/* ---------- banner: the original design; the whey jar sits a little lower ---------- */
+.ss-banner .hero__product img { position: relative; top: 40px; }
+@media (max-width: 991.98px) {
+    .ss-banner .hero__product { text-align: center; }
+    .ss-banner .hero__product img { top: 0; width: 260px; height: auto; margin-top: 10px; }
 }
-.xb-item--cart-btn.disabled {
-    opacity: 0.5;
+
+/* ---------- section headings ---------- */
+.ss-sechead { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.ss-sechead--center { justify-content: center; text-align: center; }
+.ss-sechead h2, .ss-home .ss-rail__head h2 { margin: 0; font: 700 clamp(21px, 2.4vw, 28px)/1.15 var(--ss-display); color: var(--ss-ink); text-transform: none; }
+.ss-sechead__kicker { display: block; margin-bottom: 4px; font: 700 12px/1 var(--ss-font); letter-spacing: .08em; text-transform: uppercase; color: var(--ss-red); }
+.ss-sechead__link { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; color: var(--ss-ink); font: 600 14px/1 var(--ss-font); text-decoration: none; }
+.ss-sechead__link .ss-ui { width: 16px; height: 16px; transition: transform .15s; }
+.ss-sechead__link:hover { color: var(--ss-red); }
+.ss-sechead__link:hover .ss-ui { transform: translateX(3px); }
+.ss-home .ss-rail { margin-top: 0; }
+.ss-home .ss-rail__nav { align-items: center; }
+.ss-home .ss-rail__nav .ss-sechead__link { margin-right: 6px; }
+
+/* ---------- categories ---------- */
+.ss-hcats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 576px) { .ss-hcats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 992px) { .ss-hcats { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; } }
+.ss-hcat {
+    display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 8px 14px; border-radius: 18px; background: #fff;
+    box-shadow: var(--ss-shadow); text-align: center; text-decoration: none; color: var(--ss-ink); transition: transform .15s, box-shadow .15s;
 }
-.no-stock img {
-    opacity: 0.6;
+.ss-hcat:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(16, 16, 24, .1); color: var(--ss-ink); }
+.ss-hcat__icon { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: var(--ss-red-soft); color: var(--ss-red); transition: background-color .15s, color .15s; }
+.ss-hcat:hover .ss-hcat__icon { background: var(--ss-red); color: #fff; }
+.ss-hcat__icon .ss-icon { width: 26px; height: 26px; }
+.ss-hcat__name { font: 700 13.5px/1.2 var(--ss-font); }
+.ss-hcat__subs { display: none; font-size: 12px; line-height: 1.35; color: var(--ss-muted); }
+@media (min-width: 992px) {
+    .ss-hcat { padding: 22px 12px 18px; }
+    .ss-hcat__name { font-size: 15px; }
+    .ss-hcat__subs { display: block; }
 }
-.no-stock-title {
-    color: gray;
-    cursor: pointer;
-}
-@media (max-width: 767px) {
-    .xb-accordion .block .acc-btn { padding-right: 70px !important; }
-    .xb-accordion .block .acc-btn .arrow { top: 50% !important; transform: translateY(-50%); }
-}
-@media (max-width: 480px) {
-    .xb-accordion .block .acc-btn { padding-right: 60px !important; font-size: 13px !important; }
-    .xb-accordion .block .acc-btn .arrow {
-        width: 32px !important; height: 32px !important;
-        right: 12px !important;
+
+/* ---------- brands ---------- */
+.ss-hbrands { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 576px) and (max-width: 991.98px) { .ss-hbrands { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* Computers: one row of seven that the arrows slide */
+@media (min-width: 992px) {
+    .ss-hbrands {
+        grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: calc((100% - 6 * 14px) / 7); gap: 14px;
+        overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 4px 2px 10px; margin: -4px -2px 0;
     }
-    .xb-accordion .block .acc-btn .arrow::before {
-        top: 3px !important; left: 9px !important; font-size: 13px !important;
+    .ss-hbrands::-webkit-scrollbar { display: none; }
+    .ss-hbrands > * { scroll-snap-align: start; }
+    .ss-hbrand { height: 96px; }
+    .ss-hbrand img { height: 40px; }
+}
+.ss-hbrand {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; height: 104px; padding: 12px; min-width: 0;
+    border-radius: 16px; background: #fff; border: 1px solid transparent; box-shadow: var(--ss-shadow); text-decoration: none; transition: border-color .15s, transform .15s;
+}
+.ss-hbrand:hover { border-color: var(--ss-red); transform: translateY(-2px); }
+.ss-hbrand img { max-width: 100%; height: 46px; object-fit: contain; filter: grayscale(.15); transition: filter .15s; }
+.ss-hbrand:hover img { filter: none; }
+.ss-hbrand__initials { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--ss-bg); color: var(--ss-ink); font: 700 15px/1 var(--ss-font); }
+.ss-hbrand__name { max-width: 100%; font: 500 12px/1.2 var(--ss-font); color: var(--ss-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- about ---------- */
+.ss-about { display: grid; gap: 22px; padding: 24px; border-radius: 24px; background: #fff; box-shadow: var(--ss-shadow); }
+@media (min-width: 992px) { .ss-about { grid-template-columns: .9fr 1.1fr; gap: 48px; padding: 44px; } }
+.ss-about h2 { margin: 0 0 12px; font: 700 clamp(22px, 2.6vw, 32px)/1.15 var(--ss-display); text-transform: none; color: var(--ss-ink); }
+.ss-about__intro p { margin: 0; font-size: 15px; line-height: 1.65; color: var(--ss-muted); }
+.ss-about__since { display: flex; align-items: baseline; gap: 10px; margin-top: 22px; }
+.ss-about__since strong { font: 700 48px/1 var(--ss-display); color: var(--ss-red); }
+.ss-about__since span { font-size: 13px; color: var(--ss-muted); }
+.ss-about__points { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+@media (min-width: 576px) { .ss-about__points { grid-template-columns: 1fr 1fr; gap: 18px; } }
+.ss-about__points li { display: flex; gap: 12px; padding: 16px; border-radius: 16px; background: var(--ss-bg); font-size: 13.5px; line-height: 1.5; color: var(--ss-muted); }
+.ss-about__points li > span { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: #fff; color: var(--ss-red); }
+.ss-about__points strong { display: block; margin-bottom: 2px; font-size: 14.5px; color: var(--ss-ink); }
+
+/* ---------- questions: heading on the left, one panel of numbered questions on the right ---------- */
+.ss-faq { display: grid; gap: 22px; }
+@media (min-width: 992px) { .ss-faq { grid-template-columns: minmax(0, .85fr) minmax(0, 1.45fr); gap: 48px; align-items: start; } }
+.ss-faq__intro h2 { margin: 0 0 10px; font: 700 clamp(22px, 2.6vw, 32px)/1.15 var(--ss-display); color: var(--ss-ink); text-transform: none; }
+.ss-faq__intro > p { margin: 0; max-width: 380px; font-size: 15px; line-height: 1.6; color: var(--ss-muted); }
+@media (min-width: 992px) { .ss-faq__intro { position: sticky; top: 110px; } }
+
+.ss-faq__help { margin-top: 26px; padding-top: 24px; border-top: 1px solid var(--ss-line); }
+.ss-faq__helpicon { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--ss-red-soft); color: var(--ss-red); }
+.ss-faq__help h3 { display: flex; align-items: center; gap: 12px; margin: 0 0 8px; font: 700 19px/1.2 var(--ss-display); color: var(--ss-ink); text-transform: none; }
+.ss-faq__help p { margin: 0 0 18px; max-width: 380px; font-size: 14.5px; line-height: 1.6; color: var(--ss-muted); }
+.ss-faq__helpbtns { display: flex; flex-wrap: wrap; gap: 10px; }
+.ss-faq__helpbtns .ss-btn { min-height: 44px; }
+.ss-faq__helpbtns i { font-size: 18px; }
+@media (max-width: 991.98px) { .ss-faq__help { display: none; } }
+
+.ss-faq__list { padding: 6px 0; border-radius: 22px; background: #fff; box-shadow: var(--ss-shadow); }
+.ss-faq__item + .ss-faq__item { border-top: 1px solid var(--ss-line); }
+.ss-faq__item summary {
+    display: flex; align-items: center; gap: 16px; padding: 18px 18px; cursor: pointer; list-style: none;
+    font: 600 15.5px/1.4 var(--ss-font); color: var(--ss-ink); transition: color .15s;
+}
+@media (min-width: 992px) { .ss-faq__item summary { padding: 20px 26px; gap: 20px; } }
+.ss-faq__item summary::-webkit-details-marker { display: none; }
+.ss-faq__item summary:hover, .ss-faq__item[open] summary { color: var(--ss-red); }
+.ss-faq__num { flex: none; width: 26px; font: 700 13px/1 var(--ss-display); color: var(--ss-faint); letter-spacing: .04em; }
+.ss-faq__item[open] .ss-faq__num { color: var(--ss-red); }
+.ss-faq__q { flex: 1; min-width: 0; }
+.ss-faq__toggle { flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--ss-bg); color: var(--ss-ink); transition: background-color .2s, color .2s, transform .25s; }
+.ss-faq__toggle .ss-ui { width: 16px; height: 16px; }
+.ss-faq__item summary:hover .ss-faq__toggle { background: var(--ss-red-soft); color: var(--ss-red); }
+.ss-faq__item[open] .ss-faq__toggle { background: var(--ss-red); color: #fff; transform: rotate(45deg); }
+.ss-faq__item p { margin: 0; padding: 0 18px 20px 60px; font-size: 14.5px; line-height: 1.7; color: var(--ss-muted); }
+@media (min-width: 992px) { .ss-faq__item p { padding: 0 78px 22px 72px; } }
+/* Browsers that can animate <details> slide the answer open; the others just show it */
+@supports selector(::details-content) {
+    .ss-faq { interpolate-size: allow-keywords; }
+    .ss-faq__item::details-content { height: 0; overflow: clip; transition: height .25s ease, content-visibility .25s allow-discrete; }
+    .ss-faq__item[open]::details-content { height: auto; }
+}
+/* ---------- phones: categories and brands become two-row strips that scroll sideways ---------- */
+@media (max-width: 575.98px) {
+    .ss-hcats, .ss-hbrands {
+        grid-auto-flow: column; grid-template-columns: none; grid-template-rows: repeat(2, auto); grid-auto-columns: 30%;
+        overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -16px; padding: 4px 16px 10px; scroll-padding: 0 16px;
     }
+    .ss-hcats::-webkit-scrollbar, .ss-hbrands::-webkit-scrollbar { display: none; }
+    .ss-hcats > *, .ss-hbrands > * { scroll-snap-align: start; }
+    .ss-hbrand { height: 92px; }
+    .ss-hbrand img { height: 38px; }
 }

@@ -15,6 +15,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ShippingDetail;
+use App\Services\Catalog;
 use App\Services\CurrentCart;
 use App\Services\ProductAvailability;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -47,7 +48,7 @@ class CartController extends Controller
     {
         $cart = CurrentCart::get();
         if (!$cart) {
-            return response()->json(['items' => []]);
+            return response()->json(['items' => [], 'summary' => $this->summary(collect())]);
         }
 
         $items = $cart->items()->with(self::LINE_RELATIONS)->get();
@@ -57,7 +58,8 @@ class CartController extends Controller
             $product = $item->product;
 
             $item->formatted_options = collect($options)->map(fn ($value, $name) => ucfirst($name) . ': ' . ucfirst($value))->implode(', ');
-            $item->product_image = $product->images->first()?->url;
+            $item->product_image = $item->image();
+            $item->product_url = $product->url();
             $item->discounted_price = $product->price_after_discount;
             $item->subtotal = $item->lineTotal();
             // Tells the page if this line can't be ordered anymore (sold out since it was added)
@@ -66,7 +68,48 @@ class CartController extends Controller
             $product->unsetRelation('productOptions');   // only needed for the check, not by the page
         }
 
-        return response()->json(['items' => $items]);
+        return response()->json(['items' => $items, 'summary' => $this->summary($items)]);
+    }
+
+    // Totals worked out here, so the cart drawer, the cart page and the checkout always show the same
+    // numbers as the order will have (the coupon is checked again when the order is placed)
+    private function summary($items): array
+    {
+        $subtotal = round((float) $items->sum(fn (CartItem $item) => $item->lineTotal()), 2);
+        $coupon = null;
+        $discount = 0.0;
+
+        if ($applied = Session::get('applied_coupon')) {
+            $model = Coupon::find($applied['id']);
+            $problem = !$model ? 'This coupon no longer exists.'
+                : ($model->problem() ?? (!$model->canApplyToOrder($subtotal)
+                    ? 'Add $' . number_format($model->minimum_order_amount - $subtotal, 2) . ' more to use this coupon (minimum $' . number_format($model->minimum_order_amount, 2) . ').'
+                    : null));
+            $discount = $problem || $subtotal <= 0 ? 0.0 : $model->calculateDiscount($subtotal);
+            $coupon = [
+                'code' => $applied['code'],
+                'name' => $applied['name'] ?? $applied['code'],
+                'discount_percentage' => $applied['discount_percentage'] ?? null,
+                'problem' => $problem,
+            ];
+        }
+
+        return [
+            'count' => (int) $items->sum('quantity'),
+            'subtotal' => $subtotal,
+            'discount' => $discount,
+            'total' => round($subtotal - $discount, 2),
+            'coupon' => $coupon,
+            'has_problems' => $items->contains(fn ($item) => $item->unavailable_reason),
+        ];
+    }
+
+    // "Complete your stack": products that go with what is in the cart
+    public function suggestions(): JsonResponse
+    {
+        $ids = CurrentCart::get()?->items()->pluck('product_id')->all() ?? [];
+
+        return response()->json(['products' => Catalog::suggestions($ids)]);
     }
 
     public function add(Request $request): JsonResponse
@@ -274,7 +317,7 @@ class CartController extends Controller
             'order_id' => $order->id,
             'product_id' => $item->product_id,
             'product_name' => $item->product->name,
-            'product_image' => $item->product->images->first()?->url,
+            'product_image' => $item->image(),
             'quantity' => $item->quantity,
             'price' => $item->product->price_after_discount,
             'selected_options' => $item->selected_options,

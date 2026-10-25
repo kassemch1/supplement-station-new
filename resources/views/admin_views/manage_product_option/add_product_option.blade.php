@@ -18,7 +18,7 @@
         <!-- Add or Edit Product Start -->
         <div class="add-edit-product-wrap col-12">
             <div class="add-edit-product-form">
-                <form id="productOptionForm" method="post" action="{{ route('manageProductsOptions.store') }}">
+                <form id="productOptionForm" method="post" action="{{ route('manageProductsOptions.store') }}" enctype="multipart/form-data">
                     @csrf
                     <h4 class="title">Add Product Option</h4>
 
@@ -41,6 +41,16 @@
                                 <label class="adomx-radio"><input type="radio" name="stock" value="1" checked> <i class="icon"></i> In Stock</label>
                                 <label class="adomx-radio"><input type="radio" name="stock" value="0"> <i class="icon"></i> Out of Stock</label>
                             </div>
+                        </div>
+                        <div class="col-lg-6 col-12 mb-30">
+                            <label>Picture <small class="text-muted">(optional: the flavour tub, the colour... saved as a small WebP)</small></label>
+                            @if(isset($productOption) && $productOption->imageUrl())
+                                <div class="mb-10" style="display:flex;align-items:center;gap:14px;">
+                                    <img src="{{ $productOption->imageUrl() }}" alt="" style="width:72px;height:72px;object-fit:cover;border-radius:12px;background:#fff;">
+                                    <label class="adomx-checkbox"><input type="checkbox" name="remove_image" value="1"> <i class="icon"></i> Remove picture</label>
+                                </div>
+                            @endif
+                            <input class="dropify" type="file" name="image" accept="image/png,image/jpeg,image/webp">
                         </div>
                         <input type="hidden" name="product_id" value="{{ $product_id }}">
                     </div>

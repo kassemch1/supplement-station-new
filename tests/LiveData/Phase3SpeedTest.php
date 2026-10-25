@@ -90,10 +90,9 @@ class Phase3SpeedTest extends TestCase
                 $strip($this->withHeaders($phone)->get($url)->getContent()), $url);
         }
         $shop = $this->get('/shop')->getContent();
-        $this->assertStringContainsString('widget__inner d-md-none', $shop);         // phone category dropdown
-        $this->assertStringContainsString('widget__inner d-none d-md-block', $shop); // category buttons
-        $this->assertStringContainsString('row d-md-none', $shop);
-        $this->assertStringContainsString('row d-none d-md-flex', $shop);
+        $this->assertStringContainsString('id="shop-nav"', $shop);         // category buttons
+        $this->assertStringContainsString('id="shop-sidebar"', $shop);     // filters (a sheet on phones)
+        $this->assertStringContainsString('data-open-filters', $shop);      // phone filters button
         $this->assertFalse(class_exists('Jenssegers\Agent\Agent'));
     }
 
@@ -145,12 +144,13 @@ class Phase3SpeedTest extends TestCase
     public function test_shop_filters_still_work(): void
     {
         $category = Category::whereHas('getProducts')->first();
-        $expected = Product::where('category_id', $category->id)->count();
+        // A main category lists its subcategories' products too
+        $expected = Product::whereIn('category_id', $category->familyIds())->count();
 
         foreach (['category', 'category-phone'] as $field) {
             $json = $this->getJson('/shop?' . http_build_query([$field => $category->name]), ['X-Requested-With' => 'XMLHttpRequest'])
                 ->assertOk()->json();
-            $this->assertStringContainsString("of $expected result", $json['productsIndexing'], $field);
+            $this->assertSame($expected, $json['total'], $field);
             $this->assertArrayHasKey('productList', $json);
             $this->assertArrayHasKey('paginatee', $json);
         }
@@ -158,9 +158,10 @@ class Phase3SpeedTest extends TestCase
         $all = Product::count();
         $this->get('/shop?category=show-all')->assertStatus(301)->assertRedirect('/shop');
         $html = $this->get('/shop')->assertOk()->getContent();
-        $this->assertStringContainsString("of $all result", $html);
-        $this->assertStringContainsString('of ' . Product::where('name', 'like', '%whey%')->count() . ' result',
-            $this->get('/shop?shop-search=whey')->getContent());
+        $this->assertStringContainsString("of $all products", $html);
+        // The search matches product names and brand names
+        $whey = Product::where('name', 'like', '%whey%')->orWhereIn('brand_id', \App\Models\Brand::where('name', 'like', '%whey%')->select('id'))->count();
+        $this->assertStringContainsString("of $whey products", $this->get('/shop?shop-search=whey')->getContent());
     }
 
     // ---------- emails after the response ----------

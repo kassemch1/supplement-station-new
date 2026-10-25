@@ -24,6 +24,13 @@
                     </ul>
                 </li>
 
+                <li class="has-sub-menu"><a href="#"><i class="fa fa-certificate"></i> <span>Manage Brands</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="{{route('manageBrands.create')}}"><span>Add Brand</span></a></li>
+                        <li><a href="{{route('manageBrands.index')}}"><span>Edit Brands</span></a></li>
+                    </ul>
+                </li>
+
                 <li class="has-sub-menu"><a href="#"><i class="fa fa-shopping-bag"></i> <span>Manage Products</span></a>
                     <ul class="side-header-sub-menu">
                         <li><a href="{{route('manageProducts.create')}}"><span>Add Product</span></a></li>

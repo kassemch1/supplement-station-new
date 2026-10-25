@@ -12,6 +12,8 @@
 
 <div class="body_wrap">
 
+@include('partials.store.topnav')
+
    <!-- header start -->
 <header id="home" class="header-area header-default is-sticky" >
     <div class="xb-header stricky" >
@@ -27,18 +29,17 @@
                                 <a class="section-link" href="{{ route('home') }}"><span>Home</span></a>
                             </li>
 
-                                    <li class="{{ url()->current() ==route('shop')? 'active' : '' }}"><a href="{{ route('shop') }}"><span>Products</span></a></li>
+                                    <li class="{{ url()->current() ==route('shop')? 'active' : '' }}"><a href="{{ route('shop') }}"><span>Shop</span></a></li>
                                     <li class="{{ url()->current() ==route('cart')? 'active' : '' }}"><a href="{{ route('cart') }}"><span>Cart</span></a></li>
 
                             <li class="menu-item-has-children ">
                                 <a class="section-link" href="#"><span>Categories</span></a>
                             <ul class="submenu"  >
-                                    @foreach($categories as $category)
+                                    @foreach($categories->whereNull('parent_id') as $category)
                                         <li><a href="{{ $category->url() }}"><span>{{ $category->name }}</span></a></li>
                                     @endforeach
                                 </ul>
                             </li>
-                            <li><a class="section-link" href="{{ route('home') }}#pricing"><span>Plans</span></a></li>
                             <li><a class="section-link" href="{{ route('home') }}#contact"><span>Contact</span></a></li>
                         </ul>
                     </nav>
@@ -60,18 +61,17 @@
                                         <li class="menu-item active">
                                             <a class="" href="{{ route('home') }}"><span>Home</span></a>
                                         </li>
-                                                <li><a href="{{ route('shop') }}"><span>Products</span></a></li>
+                                                <li><a href="{{ route('shop') }}"><span>Shop</span></a></li>
                                                 <li><a href="{{ route('cart') }}"><span>Cart</span></a></li>
 
                                         <li class="menu-item menu-item-has-children">
                                             <a class="menu-item menu-item-has-children" href="" onclick="toggleDropdown(event, 'categories-dropdown'); return false;"><span>Categories</span></a>
                                             <ul class="sub-menu" id="categories-dropdown">
-                                                @foreach($categories as $category)
+                                                @foreach($categories->whereNull('parent_id') as $category)
                                                     <li><a href="{{ $category->url() }}"><span>{{ $category->name }}</span></a></li>
                                                 @endforeach
                                             </ul>
                                         </li>
-                                        <li class="menu-item"><a class="section-link" href="{{ route('home') }}#plans"><span>plans</span></a></li>
                                         <li class="menu-item"><a class="section-link" href="{{ route('home') }}#contact"><span>Contact</span></a></li>
                                     </ul>
                                 </nav>

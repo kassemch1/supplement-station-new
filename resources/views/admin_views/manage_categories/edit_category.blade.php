@@ -16,7 +16,7 @@
         </div><!-- Page Headings End -->
 
         <!--Bordered Table Light Start-->
-        <div class="col-lg-6 col-12 mb-30">
+        <div class="col-lg-8 col-12 mb-30">
             <div class="box">
                 <div class="box-head">
                     <h4 class="title">Categories</h4>
@@ -25,14 +25,30 @@
                     <table class="table table-bordered">
                         <thead>
                         <tr>
+                            <th style="width: 64px;">Icon</th>
                             <th>Category Name</th>
+                            <th>Products</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($categories as $category)
                             <tr>
-                                <td>{{$category->name}}</td>
+                                <td style="color:#c8304a;">
+                                    @if($category->imageUrl())
+                                        <img src="{{ $category->imageUrl() }}" alt="" style="width:32px;height:32px;object-fit:contain;">
+                                    @elseif($category->icon)
+                                        {!! $category->iconSvg('ss-admin-icon') !!}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($category->parent_id)
+                                        <span style="opacity:.5;padding-left:14px;">↳</span> {{$category->name}}
+                                    @else
+                                        <strong>{{$category->name}}</strong>
+                                    @endif
+                                </td>
+                                <td>{{ $productCounts[$category->id] ?? 0 }}</td>
                                 <td>
                                     <a class="button button-info"
                                        href="{{route("manageCategories.edit",['id'=>$category->id])}}"><span>Edit</span></a>
@@ -76,6 +92,10 @@
         </div>
         <!--Bordered Table Light End-->
 @endsection
+
+@push('styles')
+<style>.ss-admin-icon { width: 26px; height: 26px; }</style>
+@endpush
 
 @push('scripts')
 <script>

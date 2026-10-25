@@ -9,6 +9,7 @@
       @push('schema')          optional: JSON-LD structured data (<script type="application/ld+json">)
       @section('page')         home, shop, product, cart or checkout: loads that page's CSS/JS bundle
       @section('body_wrap', 1) optional: wrap the page in .body_wrap (clips sideways overflow)
+      @section('shell', 'app') optional: on phones, a compact app header and bottom tabs replace the menu
       @push('head')            optional extra tags (preloads, meta)
     CSS/JS come from public/assets/build (php artisan assets:build, see config/assets.php).
 --}}
@@ -22,6 +23,7 @@
     $seoCanonical = trim($__env->yieldContent('canonical')) ?: e(url()->current());
     $seoRobots = trim($__env->yieldContent('robots')) ?: 'index, follow, max-image-preview:large';
     $seoImage = trim($__env->yieldContent('og_image')) ?: e(asset('assets/img/logo/preloader2.png'));
+    $appShell = trim($__env->yieldContent('shell')) === 'app';
 @endphp
 <!doctype html>
 <html lang="en">
@@ -64,6 +66,9 @@
             csrf: @json(csrf_token()),
             routes: {
                 cart: @json(route('api.cart.get')),
+                cartAdd: @json(route('cart.add')),
+                cartSuggestions: @json(route('api.cart.suggestions')),
+                quickView: @json(url('/products/__ID__/quick')),
                 cartRemove: @json(route('cart.remove')),
                 cartUpdate: @json(route('cart.update')),
                 cartPage: @json(route('cart')),
@@ -86,7 +91,7 @@
     @endif
 </head>
 
-<body>
+<body class="{{ $appShell ? 'ss-app' : '' }} {{ $page ? 'ss-on-' . $page : '' }}">
 
 <div class="xb-backtotop">
     <a href="#" class="scroll">
@@ -99,12 +104,20 @@
 @endif
 
 @include('partials.navBar')
+@if($appShell)
+    @include('partials.store.app_header')
+@endif
 
 <div class="body-overlay"></div>
 
 @yield('content')
 
 @include('partials.footer')
+
+@include('partials.store.cart_drawer')
+@if($appShell)
+    @include('partials.store.bottom_nav')
+@endif
 
 @hasSection('body_wrap')
 </div>

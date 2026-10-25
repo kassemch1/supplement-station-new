@@ -148,7 +148,7 @@ class SeoTest extends TestCase
     public function test_a_category_page_lists_only_that_category_and_keeps_sorting_and_paging(): void
     {
         $category = Category::factory()->create(['name' => 'Protein']);
-        Product::factory()->count(13)->withImage()->create(['category_id' => $category->id]);
+        Product::factory()->count(25)->withImage()->create(['category_id' => $category->id]);
         $other = $this->product();
 
         $html = $this->get($category->url())->assertOk()->getContent();
@@ -157,7 +157,8 @@ class SeoTest extends TestCase
 
         $json = $this->getJson($category->url() . '?orderby=high-to-low', ['X-Requested-With' => 'XMLHttpRequest'])->assertOk()->json();
         $this->assertStringNotContainsString(e($other->name), $json['productList']);
-        $this->assertStringContainsString($category->url() . '?orderby=high-to-low&amp;page=2', $json['paginatee']);
+        $this->assertStringNotContainsString(e($other->name), $json['cards']);
+        $this->assertSame($category->url() . '?orderby=high-to-low&page=2', $json['next'], 'load more keeps the sorting');
 
         $this->get($category->url() . '?page=2')->assertOk();
         $this->get($category->url() . '?page=999')->assertNotFound();

@@ -225,6 +225,6 @@ class Phase2ImagesTest extends TestCase
         $id = DB::table('product_images')->join('products', 'products.id', '=', 'product_images.product_id')
             ->whereNull('products.deleted_at')->value('products.id');
         $page = $this->get($this->productUrl($id))->assertOk()->getContent();
-        $this->assertStringContainsString('width="500" height="500"  fetchpriority="high"', $page);
+        $this->assertMatchesRegularExpression('#width="500" height="500"\s+fetchpriority="high"#', $page);
     }
 }

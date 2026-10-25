@@ -20,7 +20,7 @@
         <div class="add-edit-product-wrap col-12">
 
             <div class="add-edit-product-form">
-                <form id="categoryForm" method="post" action="{{route('manageCategories.update')}}">
+                <form id="categoryForm" method="post" enctype="multipart/form-data" action="{{route('manageCategories.update')}}">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="category_id" value="{{$category->id}}">
@@ -30,6 +30,7 @@
                             <label for="">Name</label>
                             <input name="name" class="form-control" type="text"  placeholder="Category Name" value="{{$category->name}}">
                         </div>
+                        @include('admin_views.manage_categories._fields')
                     </div>
                     <!-- Success Alert -->
                     <div id="successAlert" class="alert alert-success mt-3" style="display: none;">
@@ -58,13 +59,15 @@
             e.preventDefault(); // Prevent default form submission
 
             // Serialize form data
-            var formData = $(this).serialize();
+            var formData = new FormData(this);
 
             // Send AJAX request
             $.ajax({
-                type: 'PUT',
+                type: 'POST',
                 url: $(this).attr('action'), // Use form's action attribute as URL
                 data: formData,
+                processData: false,
+                contentType: false,
                 success: function(response) {
                     if(response.status ==='success'){
                         $('#successAlert').text(response.message).fadeIn();
@@ -80,6 +83,10 @@
                     }
                 },
                 error: function(xhr, status, error) {
+                    var json = xhr.responseJSON || {};
+                    if (json.errors || json.message) {
+                        $('#errorAlert').text(json.errors ? Object.values(json.errors)[0][0] : json.message);
+                    }
                     $('#errorAlert').fadeIn();
                     setTimeout(function() {
                         $('#errorAlert').fadeOut();

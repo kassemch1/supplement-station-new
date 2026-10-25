@@ -27,6 +27,7 @@
                 <thead>
                 <tr>
                     <th>Option Name</th>
+                    <th>Picture</th>
                     <th>Option Value</th>
                     <th>Stock</th>
                     <th>Action</th>
@@ -36,6 +37,7 @@
                 @foreach($productOptions as $productOption)
                     <tr>
                         <td>{{ $productOption->option->option_name }}</td>
+                        <td>@if($productOption->imageUrl())<img src="{{ $productOption->imageUrl() }}" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:8px;">@endif</td>
                         <td>{{ $productOption->option_value }}</td>
                         <td>{{ $productOption->stock ? 'In Stock' : 'Out of Stock' }}</td>
                         <td>

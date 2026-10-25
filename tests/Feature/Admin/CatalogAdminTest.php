@@ -65,7 +65,7 @@ class CatalogAdminTest extends TestCase
         $this->assertSame(0, ProductOption::count() + Option::count());
     }
 
-    public function test_faqs_and_plans_show_on_the_home_page(): void
+    public function test_faqs_show_on_the_home_page_and_plans_do_not(): void
     {
         $this->postJson('/manageFaq/store', ['question' => 'Do you deliver?', 'answer' => 'Everywhere in Lebanon.'])->assertOk();
         $faq = Faq::sole();
@@ -77,7 +77,8 @@ class CatalogAdminTest extends TestCase
         $this->assertEquals(300, $plan->fresh()->price);
         $this->postJson('/managePlan/store', ['type' => '', 'price' => 'abc'])->assertJsonValidationErrors(['type', 'price']);
 
-        $this->get('/')->assertOk()->assertSee('Do you deliver to Tripoli?')->assertSee('Yearly')->assertSee('Diet plan');
+        // The site sells no plans, so the home page shows the questions but not the plans the admin keeps
+        $this->get('/')->assertOk()->assertSee('Do you deliver to Tripoli?')->assertDontSee('Diet plan');
 
         $this->deleteJson('/manageFaq/destroy', ['id' => $faq->id])->assertOk();
         $this->deleteJson('/managePlan/destroy', ['id' => $plan->id])->assertOk();

@@ -1,171 +1,172 @@
-// Checkout page: order summary, coupon box and placing the order
+// Checkout page: order summary (kept in step with the cart drawer), checking the form as it is filled,
+// placing the order without leaving the page, and the thank-you screen.
 $(function () {
     'use strict';
 
-    function loadSummary() {
-        $.get(SS.routes.cart).done(function (response) {
-            var $rows = $('#order_review tbody').empty();
-            var subtotal = 0;
+    var $form = $('[data-checkout-form]');
+    var $button = $('#place_order_btn');
+    var STORAGE_KEY = 'ss-checkout-details';
+    var FIELDS = ['billing_first_name', 'billing_phone', 'billing_email', 'billing_city', 'billing_address_1'];
 
-            if (!response.items.length) {
-                $rows.append('<tr><td colspan="2" style="text-align: center; padding: 30px;">Your cart is empty.</td></tr>');
-                $('#place_order_btn').prop('disabled', true);
-                $('#cart_empty_message').show();
-                return;
-            }
+    /* ---------- summary ---------- */
 
-            $('#place_order_btn').prop('disabled', false);
-            $('#cart_empty_message').hide();
-            response.items.forEach(function (item) {
-                var itemTotal = SS.priceAfterDiscount(item.product) * item.quantity;
-                $rows.append(
-                    '<tr class="cart_single">' +
-                        '<td class="product-name">' +
-                            SS.esc(item.product.name) + ' <br/>' +
-                            '<small>Options: ' + SS.esc(item.formatted_options) + '</small>' +
-                            '<strong class="product-quantity">&times; ' + item.quantity + '</strong>' +
-                        '</td>' +
-                        '<td class="product-total"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>' + itemTotal.toFixed(2) + '</span></td>' +
-                    '</tr>'
-                );
-                subtotal += itemTotal;
-            });
-            $('#checkout-subtotal').text(subtotal.toFixed(2));
-            checkAppliedCouponAndUpdateTotals(subtotal);
-        });
+    function lineHtml(item) {
+        var product = item.product || {};
+        return '<li class="ss-oline">' +
+            '<span class="ss-oline__img">' + (item.product_image ? '<img src="' + SS.esc(SS.url(item.product_image)) + '" alt="" loading="lazy">' : '') +
+                '<span class="ss-oline__qty">' + item.quantity + '</span></span>' +
+            '<span class="ss-oline__info"><span class="ss-oline__name">' + SS.esc(product.name) + '</span>' +
+                (item.formatted_options ? '<span class="ss-oline__opts">' + SS.esc(item.formatted_options) + '</span>' : '') +
+                (item.unavailable_reason ? '<span class="ss-oline__warn">' + SS.esc(item.unavailable_reason) + '</span>' : '') +
+            '</span>' +
+            '<span class="ss-oline__total">' + SS.money(item.subtotal) + '</span>' +
+        '</li>';
     }
 
-    // Removing something from the header mini cart updates the summary
-    $(document).on('cart:changed', loadSummary);
-
-    /* ---------- coupon ---------- */
-
-    function displayMessage(message, type) {
-        var $box = $('#coupon-message');
-        $box.text(message).removeClass('success error').addClass(type || 'success').show();
-        setTimeout(function () { $box.fadeOut(); }, 5000);
-    }
-
-    function updateCheckoutTotal(finalTotal) {
-        $('#checkout-total').text(finalTotal.toFixed(2));
-    }
-
-    function showCoupon(coupon, discountAmount) {
-        $('#coupon-name').text(coupon.name);
-        $('#coupon-discount').text(coupon.discount_percentage + '%');
-        $('#discount-amount').text(discountAmount.toFixed(2));
-        $('#applied-coupon').show();
-        $('.discount-row').show();
-    }
-
-    function hideCoupon() {
-        $('#applied-coupon').hide();
-        $('.discount-row').hide();
-        $('#discount-amount').text('0.00');
-    }
-
-    // The discount is worked out again from the current subtotal
-    function checkAppliedCouponAndUpdateTotals(subtotal) {
-        $.get(SS.routes.couponApplied)
-            .done(function (response) {
-                if (!response.success) {
-                    updateCheckoutTotal(subtotal);
-                    return;
-                }
-                var discountAmount = (subtotal * response.coupon.discount_percentage) / 100;
-                showCoupon(response.coupon, discountAmount);
-                updateCheckoutTotal(subtotal - discountAmount);
-                $('#coupon-code').val(response.coupon.code).prop('disabled', true);
-                $('#apply-coupon').hide();
-                $('#remove-coupon').show();
-            })
-            .fail(function () { updateCheckoutTotal(subtotal); });
-    }
-
-    $('#apply-coupon').on('click', function () {
-        var code = $('#coupon-code').val().trim();
-        if (!code) {
-            displayMessage('Please enter a coupon code.', 'error');
+    $(document).on('cart:updated', function (e, data) {
+        if ($form.data('placed')) {
             return;
         }
-        $(this).prop('disabled', true).text('Applying...');
-
-        $.post(SS.routes.couponApply, {coupon_code: code})
-            .done(function (response) {
-                if (response.success) {
-                    showCoupon(response.coupon, response.coupon.discount_amount);
-                    updateCheckoutTotal(response.final_total);
-                    displayMessage(response.message, 'success');
-                    $('#coupon-code').val('').prop('disabled', true);
-                    $('#apply-coupon').hide();
-                    $('#remove-coupon').show();
-                }
-            })
-            .fail(function (xhr) {
-                displayMessage((xhr.responseJSON || {}).message || 'Failed to apply coupon.', 'error');
-            })
-            .always(function () {
-                $('#apply-coupon').prop('disabled', false).text('Apply');
-            });
+        var items = data.items || [];
+        $('[data-order-lines]').html(items.map(lineHtml).join(''));
+        var problems = data.summary && data.summary.has_problems;
+        $button.prop('disabled', !items.length || problems);
+        if (!items.length) {
+            showError('Your cart is empty. Add something before placing an order.');
+        } else if (problems) {
+            showError('Something in your cart is sold out. Remove it from your cart to continue.');
+        } else {
+            showError('');
+        }
     });
 
-    $('#remove-coupon').on('click', function () {
-        $.post(SS.routes.couponRemove).done(function (response) {
-            if (response.success) {
-                hideCoupon();
-                displayMessage(response.message, 'success');
-                $('#coupon-code').val('').prop('disabled', false);
-                $('#apply-coupon').show();
-                $('#remove-coupon').hide();
-                updateCheckoutTotal(parseFloat($('#checkout-subtotal').text()));
+    $('[data-summary-toggle]').on('click', function () {
+        var open = $(this).attr('aria-expanded') !== 'true';
+        $(this).attr('aria-expanded', open ? 'true' : 'false');
+        $('[data-summary-body]').toggleClass('is-open', open);
+    });
+
+    /* ---------- the form ---------- */
+
+    function showError(text) {
+        $('[data-form-error]').text(text).prop('hidden', !text);
+    }
+
+    function fieldError(name, text) {
+        var $input = $('#' + name);
+        $('#' + name + '_error').text(text || '');
+        $input.closest('.ss-field').toggleClass('has-error', !!text);
+    }
+
+    // A quick look only (7 or 8 digits once +961 is taken off); the server checks the number properly
+    function phoneLooksValid(value) {
+        var digits = String(value).replace(/\D/g, '').replace(/^(00961|961)/, '');
+        return digits.length >= 7 && digits.length <= 8;
+    }
+
+    function check(name) {
+        var value = $.trim($('#' + name).val());
+        var message = '';
+        if (name === 'billing_email') {
+            message = value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? 'This email address looks wrong.' : '';
+        } else if (!value) {
+            message = {
+                billing_first_name: 'Please write your name.',
+                billing_phone: 'We need a phone number to confirm the delivery.',
+                billing_city: 'Please write your city or area.',
+                billing_address_1: 'Please write your address.'
+            }[name];
+        } else if (name === 'billing_phone' && !phoneLooksValid(value)) {
+            message = 'Please enter a Lebanese number, e.g. 03 123 456 or 71 123 456.';
+        }
+        fieldError(name, message);
+        return !message;
+    }
+
+    FIELDS.forEach(function (name) {
+        $('#' + name).on('blur', function () {
+            if (this.value) {
+                check(name);
+            }
+        }).on('input', function () {
+            if ($(this).closest('.ss-field').hasClass('has-error')) {
+                check(name);
             }
         });
     });
 
-    /* ---------- place the order ---------- */
+    // The details are remembered on this device for the next order
+    try {
+        var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        FIELDS.forEach(function (name) {
+            if (saved[name] && !$('#' + name).val()) {
+                $('#' + name).val(saved[name]);
+            }
+        });
+    } catch (e) { /* storage not available */ }
 
-    $('#checkout_form').on('submit', function (e) {
+    function remember() {
+        try {
+            var details = {};
+            FIELDS.forEach(function (name) { details[name] = $.trim($('#' + name).val()); });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(details));
+        } catch (e) { /* storage not available */ }
+    }
+
+    /* ---------- placing the order ---------- */
+
+    $form.on('submit', function (e) {
         e.preventDefault();
-        var $button = $('#place_order_btn');
         if ($button.data('submitting')) {
             return; // already placing this order
         }
-        $button.data('submitting', true).prop('disabled', true).text('Placing your order...');
+        var ok = FIELDS.map(check).every(Boolean);
+        if (!ok) {
+            var $first = $('.ss-field.has-error').first();
+            $('html, body').animate({scrollTop: $first.offset().top - 100}, 250);
+            $first.find('input, textarea').trigger('focus');
+            return;
+        }
 
-        $.ajax({
-            url: SS.routes.placeOrder,
-            method: 'POST',
-            data: $(this).serialize(),
-            complete: function (xhr) {
-                if (!(xhr.responseJSON && xhr.responseJSON.success)) {
-                    $button.data('submitting', false).prop('disabled', false).text('Place Order');
-                }
-            },
-            success: function (response) {
+        showError('');
+        $button.data('submitting', true).prop('disabled', true).find('[data-place-label]').text('Placing your order…');
+        var cartAtSubmit = SS.cart.data;
+
+        $.ajax({url: $form.attr('action'), method: 'POST', data: $form.serialize(), dataType: 'json'})
+            .done(function (response) {
                 if (response.success) {
-                    $button.hide();
-                    $('#success_message').text('Your order #' + response.order_id + ' has been placed successfully!').show();
-                    $('.mini-cart-count').text('0');
-                    $('.header-mini-cart').empty();
-                    if (response.billing_email) {
-                        $('#success_message').append('<p>Check your email for your receipt! 😊</p>');
-                    }
+                    remember();
+                    done(response, cartAtSubmit);
                 }
-            },
-            error: function (xhr) {
-                $('.error-message').empty();
-                if (xhr.status === 422 && !(xhr.responseJSON && xhr.responseJSON.errors)) {
-                    alert((xhr.responseJSON && xhr.responseJSON.message) || 'Please check your details and try again.');
-                } else if (xhr.status === 422) {
-                    $.each(xhr.responseJSON.errors, function (key, value) {
-                        $('#' + key + '_error').text(value);
-                    });
+            })
+            .fail(function (xhr) {
+                $button.data('submitting', false).prop('disabled', false).find('[data-place-label]').text('Place order');
+                var json = xhr.responseJSON || {};
+                if (xhr.status === 422 && json.errors) {
+                    $.each(json.errors, function (name, messages) { fieldError(name, messages[0]); });
+                    showError('Please check the highlighted fields.');
                 } else {
-                    alert('Failed to place the order. Please try again.');
+                    showError(json.message || 'We could not place your order. Please try again.');
+                    SS.cart.refresh();
                 }
-            }
-        });
+            });
     });
 
-    loadSummary();
+    function done(response, cart) {
+        $form.data('placed', true);
+        var items = (cart && cart.items) || [];
+        $('[data-done-name]').text($.trim($('#billing_first_name').val()).split(' ')[0]);
+        $('[data-done-number]').text('#' + response.order_id);
+        $('[data-done-phone]').text($.trim($('#billing_phone').val()));
+        if (response.billing_email) {
+            $('[data-done-email]').prop('hidden', false).find('strong').text(response.billing_email);
+        }
+        $('[data-done-lines]').html(items.map(lineHtml).join(''));
+        $('[data-done-total]').text(SS.money(cart && cart.summary ? cart.summary.total : 0));
+        $form.prop('hidden', true);
+        $('[data-checkout-head]').prop('hidden', true);
+        $('[data-order-done]').prop('hidden', false);
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        SS.cart.refresh();
+    }
 });

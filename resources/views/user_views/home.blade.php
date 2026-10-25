@@ -2,6 +2,7 @@
 
 @section('title', 'Buy Premium Supplements in Lebanon')
 @section('page', 'home')
+@section('shell', 'app')
 @section('full_title', 'Supplement Station Lebanon | Protein, Creatine & Gym Supplements')
 @section('description', 'Supplement Station in Beirut, Lebanon: whey protein, creatine, mass gainers, pre-workouts, vitamins and gym gear from Optimum Nutrition, MuscleTech, BPI and more. Order online.')
 
@@ -11,620 +12,197 @@
 @endpush
 
 @push('head')
-    <!-- hero background: the biggest thing on a phone screen, so fetch it before anything else -->
+    <!-- hero background: the biggest thing on the screen, so fetch it before anything else -->
     <link rel="preload" as="image" href="{{ asset('assets/img/bg/home-banner.webp') }}" fetchpriority="high">
 @endpush
 
+@php
+    use App\Support\Icons;
+    $heroProduct = $banner?->product_id ? $banner->getProduct : null;
+    $heroImage = $heroProduct && $banner->image ? asset($banner->image) : asset('assets/img/shop/hero_product.webp');
+@endphp
+
 @section('content')
-<a href="https://wa.me/96181823038" target="_blank" class="whatsapp-popup">
+<a href="https://wa.me/96181823038" target="_blank" rel="noopener" class="whatsapp-popup" aria-label="WhatsApp">
     <i class="fab fa-whatsapp"></i>
 </a>
-    <!-- main area start  -->
-    <main>
-        <!-- hero start -->
-        <section class="hero hero-style-one bg_img hero-height d-flex align-items-center" data-background="{{asset("assets/img/bg/home-banner.webp")}}" style="background-image: url({{asset("assets/img/bg/home-banner.webp")}})">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6">
-                        <div class="hero__content sec-title">
-                            <span class="sub-title">100% PREMIUM QUALITY</span>
-                            <h1 class="title mb-25"
-                            style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">
+
+<main class="ss-home">
+    {{-- ---------- banner: the original design ---------- --}}
+    <section class="hero hero-style-one bg_img hero-height d-flex align-items-center ss-banner" style="background-image: url({{ asset('assets/img/bg/home-banner.webp') }})">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero__content sec-title">
+                        <span class="sub-title">100% PREMIUM QUALITY</span>
+                        <h1 class="title mb-25" style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">
                             Today Elevate Your Energy Levels at Supplement Station
                         </h1>
-
-                            <div class="hero__action ul_li">
-                                @if($banner && $banner->product_id)
-                                    <a class="thm-btn mr-45 mt-30" href="{{ $banner->getProduct?->url() ?? route('shop') }}">BUY NOW</a>
-                                @else
-                                    <a class="thm-btn mr-45 mt-30" href="#">BUY NOW</a>
-                                @endif
-                                <div class="hero__cta ul_li mt-30">
-                                    <span class="icon">
-                                        <img src="{{ asset('assets/img/icon/call.svg') }}" alt="">
-                                    </span>
-                                    <div class="info">
-                                            <span style="color: #FFFFFF !important;">CONTACT US DAILY</span>
-                                        <h4>+961 81-823-038 / 81-088-266</h4>
-                                    </div>
+                        <div class="hero__action ul_li">
+                            <a class="thm-btn mr-45 mt-30" href="{{ $heroProduct ? $heroProduct->url() : route('shop') }}">BUY NOW</a>
+                            <div class="hero__cta ul_li mt-30">
+                                <span class="icon"><img src="{{ asset('assets/img/icon/call.svg') }}" alt=""></span>
+                                <div class="info">
+                                    <span style="color: #FFFFFF !important;">CONTACT US DAILY</span>
+                                    <h4>+961 81-823-038 / 81-088-266</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5">
-                        <div class="hero__product text-md-end">
-                            @if($banner && $banner->product_id)
-                                <img src="{{asset("$banner->image")}}" alt="{{ $banner->getProduct?->name ?? 'Featured supplement' }}" height="500" width="500" fetchpriority="high">
-                            @else
-                                <img src="{{asset("assets/img/shop/hero_product.webp")}}" alt="Featured supplement" height="500" width="500" fetchpriority="high">
-                            @endif
-                        </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="hero__product text-md-end">
+                        <img src="{{ $heroImage }}" alt="{{ $heroProduct?->name ?? 'Featured supplement' }}" width="500" height="500" fetchpriority="high">
                     </div>
-
                 </div>
             </div>
-        </section>
-        <!-- hero end -->
-
-        <div class="bg_img position-botttom bottom--105 pb-70" data-background="{{ asset('assets/img/bg/pp_bg2.png') }}">
-      <!-- offers product start -->
-<section class="offers-product pt-120 pb-120">
-    <div class="container">
-        <div class="sec-title text-center mb-30">
-            <span class="sub-title">Shop</span>
-            <h2 class="title">Our Special Offers</h2>
         </div>
-        <div class="row" >
-            <div class="col-lg-8 pb-col-8" >
-                <div class="row g-20">
-                    @forelse ($offersProducts as $offer)
-                        @php
-                            $ratingCount = $offer->reviews_count;
-                            $averageRating = $ratingCount > 0 ? $offer->reviews_avg_rating : 5; // Default to 0 if no ratings
-                        @endphp
-                    <div class="col-lg-6 col-md-6 mt-20" >
-
-                        <div class="popular-product-item ul_li" style="position: relative; min-height: 300px; max-height: 400px; overflow: hidden;">
-                            <div class="ribbon" style="
-            width: 150px;
-            height: 150px;
-            overflow: hidden;
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            z-index: 2;
-        ">
-            <span style="
-                position: absolute;
-                display: block;
-                width: 225px;
-                padding: 10px 0;
-                background-color: #A02334;
-                color: white;
-                text-transform: uppercase;
-                font-weight: bold;
-                text-align: center;
-                transform: rotate(45deg);
-                top: 20px;
-                right: -75px;
-            ">On Sale</span>
-        </div>
-                            <div class="xb-item--img">
-                                @if($offer->stock > 0)
-                                <a href="{{ $offer->url() }}">
-                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" width="300" height="300" style="width: 100%; height: auto; object-fit: cover;" loading="lazy">
-                                </a>
-                                @else
-                                <a href="{{ $offer->url() }}" class="no-stock">
-                                    <img src="{{ asset($offer->images->first()->url) }}" alt="{{ $offer->name }}" width="300" height="300" style="width: 100%; height: auto; object-fit: cover;" loading="lazy">
-                                </a>
-                                @endif
-                            </div>
-
-                            <div class="xb-item--holder">
-                                <h3 class="xb-item--title"> @if($offer->stock > 0)
-                                    <a href="{{ $offer->url() }}">{{ $offer->name }}</a>
-                                @else
-                                <a href="{{ $offer->url() }}"><span class="no-stock-title">{{ $offer->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
-                                @endif</h3>
-                                <div class="xb-item--rating-inner ul_li">
-                                    <ul class="xb-item--rating ul_li">
-                                        @for ($i = 0; $i < 5; $i++)
-                                            <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
-                                        @endfor
-                                    </ul>
-                                </div>
-                                <div class="xb-item--action ul_li_between" style="position: absolute; bottom:40px;width:55%">
-                                    <h4 class="xb-item--price">${{ number_format($offer->price, 2) }}</h4>
-                                    @if($offer->stock > 0)
-                                    <a class="xb-item--cart" href="{{ $offer->url() }}">
-                                        <img src="{{ asset('assets/img/icon/bag.svg') }}" alt="">
-                                    </a>
-                                    @else
-                                    <a class="xb-item--cart" href="{{ $offer->url() }}" style="opacity: .5">
-                                        <img src="{{ asset('assets/img/icon/bag.svg') }}" alt="">
-                                    </a>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @empty
-                    <div class="col-12">
-                        <p>No special offers found.</p>
-                    </div>
-                    @endforelse
-                </div>
-                <div class="text-center mt-30">
-                    <a href="{{ route('shop') }}" class="btn-orange" style="background-color: #A02334; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
-                        View More <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
+    </section>
+    {{-- ---------- categories ---------- --}}
+    @if($categoryTree->isNotEmpty())
+        <section class="ss-wrap ss-hsec">
+            <div class="ss-sechead">
+                <h2>Shop by category</h2>
+                <a href="{{ route('shop') }}" class="ss-sechead__link">All products {!! Icons::ui('arrow') !!}</a>
+            </div>
+            <div class="ss-hcats">
+                @foreach($categoryTree as $main)
+                    <a href="{{ $main->url() }}" class="ss-hcat">
+                        <span class="ss-hcat__icon">{!! $main->iconSvg() !!}</span>
+                        <span class="ss-hcat__name">{{ $main->name }}</span>
+                        @if($main->children->isNotEmpty())
+                            <span class="ss-hcat__subs">{{ $main->children->take(3)->pluck('name')->join(', ') }}</span>
+                        @endif
                     </a>
-                </div>
-
-            </div>
-            <div class="col-lg-4 pb-col-4">
-                <div class="popular-product__img mt-20">
-                    <br><br>
-                    <img src="{{asset("assets/img/bg/products-image3.webp")}}" alt="Supplements at Supplement Station" loading="lazy" style="margin-top: -53px;">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- offers product end -->
-
-            <!-- about start -->
-            <section class="about pb-120">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="sec-title mb-30">
-                                <span class="sub-title">about Supplement Station</span>
-                                <h2 class="title">At Supplement Station  Your health journey begins!</h2>
-                            </div>
-                            <div class="about-experience">
-                                <span>since</span>
-                                <h2>2018</h2>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mt-40">
-                            <div class="about-content">
-                                <p>At Supplement Station, we're dedicated to helping you  on a transformative health journey. Our mission is to provide you with the highest quality supplements, backed by science and crafted with care. Here's what you can expect from us.</p>
-                                <ul class="about-list ul_li mt-10">
-                                    <li><img src="{{ asset('assets/img/icon/check.svg') }}" alt="">Premium Quality Products</li>
-                                    <li><img src="{{ asset('assets/img/icon/check.svg') }}" alt="">Clear Information</li>
-                                    <li><img src="{{ asset('assets/img/icon/check.svg') }}" alt="">Customized Training Plans</li>
-                                    <li><img src="{{ asset('assets/img/icon/check.svg') }}" alt="">Expert Guidance</li>
-                                    <li><img src="{{ asset('assets/img/icon/check.svg') }}" alt="">Increased Energy</li>
-                                    <li><img src="{{ asset('assets/img/icon/check.svg') }}" alt="">Friendly Service</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- about end -->
-
-        </div>
-
-        <!-- feature start -->
-        <section id="features" class="feature bg_img pt-200 pb-120" data-background="{{ asset('assets/img/bg/feature_bg2.jpg') }}">
-            <div class="container">
-                <div class="row align-items-center mt-none-30">
-                    <div class="col-lg-4 col-md-6 mt-30">
-                        <ul class="feature-list list-unstyled">
-                            <li>
-                                <span class="xb-item--icon">
-                                    <img src="{{ asset('assets/img/icon/ft_01.svg') }}" alt="">
-                                </span>
-                                <div class="xb-item--holder">
-                                    <h3 class="xb-item--title">Supports Optimal Performance</h3>
-                                    <p class="xb-item--desc">High-quality supplements can enhance your physical performance, helping you achieve your fitness goals more effectively.</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="xb-item--icon">
-                                    <img src="{{ asset('assets/img/icon/ft_02.svg') }}" alt="">
-                                </span>
-                                <div class="xb-item--holder">
-                                    <h3 class="xb-item--title">Boosts Recovery <br> Time</h3>
-                                    <p class="xb-item--desc">Supplements with ingredients like protein, amino acids, and antioxidants can aid in quicker recovery after intense workouts or physical exertion.</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="xb-item--icon">
-                                    <img src="{{ asset('assets/img/icon/ft_03.svg') }}" alt="">
-                                </span>
-                                <div class="xb-item--holder">
-                                    <h3 class="xb-item--title">Promotes Muscle <br> Growth</h3>
-                                    <p class="xb-item--desc">Essential supplements like creatine, BCAAs, and whey protein can support muscle development and strength gains, contributing to overall fitness progress.</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="xb-item--icon">
-                                    <img src="{{ asset('assets/img/icon/ft_04.svg') }}" alt="">
-                                </span>
-                                <div class="xb-item--holder">
-                                    <h3 class="xb-item--title">Enhances Energy <br> Levels</h3>
-                                    <p class="xb-item--desc">Energy-boosting supplements can help improve endurance and reduce fatigue, allowing you to stay active and motivated throughout the day.</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-5 offset-lg-3 col-md-6 mt-30">
-                        <div class="feature-content">
-                            <div class="sec-title sec-title--big sec-title--white">
-                                <span class="sub-title">100% PREMIUM QUALITY</span>
-                                <h2 class="title mb-25">Maximize Your Fitness Potential</h2>
-                                <p>At Supplement Station, we're dedicated to helping you  on a health journey. Our mission is to provide 100% high-quality supplements, personalized support, and expert guidance to ensure you achieve your wellness goals..</p>
-                                <a class="thm-btn mt-45" href="{{ route('shop') }}">LEARN MORE</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </section>
-        <!-- feature end -->
+    @endif
 
-  <!-- product start -->
-<section id="shop" class="product bg_img pt-120 pb-130" data-background="{{ asset('assets/img/bg/shop_bg.jpg') }}">
-    <div class="container">
-        <div class="sec-title text-center mb-55">
-            <span class="sub-title">products</span>
-            <h2 class="title">best selling products</h2>
-        </div>
-        <div class="product-slider swiper-container"  >
-            <div class="swiper-wrapper" >
-                @forelse ($product as $product)
-                <div class="swiper-slide product-item text-center" style="min-height: 400px">
-                    <div class="xb-item--img">
-                        @if($product->discount > 0)
-                        <div class="ribbon" style="
-                            width: 150px;
-                            height: 150px;
-                            overflow: hidden;
-                            position: absolute;
-                            top: -10px;
-                            right: 0px;
-                            z-index: 2;
-                        ">
-                            <span style="
-                                position: absolute;
-                                display: block;
-                                width: 225px;
-                                padding: 15px 0;
-                                background-color: #A02334;
-                                color: white;
-                                text-transform: uppercase;
-                                font-weight: bold;
-                                text-align: center;
-                                transform: rotate(45deg);
-                                top: 30px;
-                                right: -65px;
-                            ">On Sale</span>
-                        </div>
-                        @endif
-                        @if($product->stock > 0)
-                        <a href="{{ $product->url() }}">
-                            <!-- Add image here -->
-                            @if($product->images->isNotEmpty())
-                                <img src="{{ asset($product->images->first()->url) }}" alt="{{ $product->name }}" style="max-height: 120px" loading="lazy">
-                            @else
-                                No image available
-                            @endif
-                        </a>
-                    @else
-                        <a href="{{ $product->url() }}" class="no-stock">
-                            <!-- Add image here -->
-                            @if($product->images->isNotEmpty())
-                                <img src="{{ asset($product->images->first()->url) }}" alt="{{ $product->name }}" style="max-height: 120px" loading="lazy">
-                            @else
-                                No image available
-                            @endif
-                        </a>
-                    @endif
-                    </div>
-                    <div class="xb-item--holder">
-                        <h3 class="xb-item--title">
-                            @if($product->stock > 0)
-                            <a href="{{ $product->url() }}">{{ $product->name }}</a>
-                        @else
-                        <a href="{{ $product->url() }}"><span>{{ $product->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
-
-                        @endif
-                        </h3>
-                        @php
-                            $ratingCount = $product->reviews_count;
-                            $averageRating = $ratingCount > 0 ? $product->reviews_avg_rating : 5;
-                        @endphp
-                        <div class="xb-item--rating-inner ul_li_center">
-                            <ul class="xb-item--rating ul_li">
-                                @for ($i = 0; $i < 5; $i++)
-                                    <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
-                                @endfor
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="xb-item--action ul_li mt-20" style="position: absolute; bottom: 30px; width: 80%;">
-                        <span class="xb-item--price">
-                            @if($product->discount > 0)
-                                <span style="text-decoration: line-through; color: gray;">${{ number_format($product->price, 2) }}</span>
-                                <span style="color: #A02334;">${{ number_format($product->price - ($product->price * $product->discount / 100), 2) }}</span>
-                            @else
-                                ${{ number_format($product->price, 2) }}
-                            @endif
-                        </span>
-                        @if($product->stock > 0)
-                            <a href="{{ $product->url() }}" class="xb-item--cart-btn">
-                                <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt=""></span>
-                                <span class="xb-item--cart">add to cart</span>
-                            </a>
-                        @else
-                            <a href="{{ $product->url() }}" class="xb-item--cart-btn disabled" >
-                                <span class="xb-item--cart-icon"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt=""></span>
-                                <span class="xb-item--cart">Out of Stock</span>
-                            </a>
-                        @endif
-                    </div>
+    {{-- ---------- special offers ---------- --}}
+    <section class="ss-wrap ss-hsec">
+        <div class="ss-rail" data-rail>
+            <div class="ss-rail__head">
+                <div>
+                    <span class="ss-sechead__kicker">Limited time</span>
+                    <h2>Special offers</h2>
                 </div>
+                <div class="ss-rail__nav">
+                    <a href="{{ route('shop', ['sale' => 1]) }}" class="ss-sechead__link">See all {!! Icons::ui('arrow') !!}</a>
+                    <button type="button" class="ss-iconbtn ss-iconbtn--sm" data-rail-scroll="-1" aria-label="Previous">{!! Icons::ui('prev') !!}</button>
+                    <button type="button" class="ss-iconbtn ss-iconbtn--sm" data-rail-scroll="1" aria-label="Next">{!! Icons::ui('next') !!}</button>
+                </div>
+            </div>
+            <div class="ss-rail__track" data-rail-track>
+                @forelse($offersProducts as $item)
+                    @include('partials.shop.card', ['item' => $item])
                 @empty
-                    <p>No products available.</p>
+                    <p class="ss-muted">No special offers right now.</p>
                 @endforelse
             </div>
         </div>
-    </div>
-</section>
-<!-- product end -->
+    </section>
 
-    <!-- testimonial start -->
-<section class="testimonial bg_img pt-120 pb-115" data-background="{{ asset('assets/img/bg/tm_bg2.jpg') }}">
-    <div class="container">
-        <div class="sec-title sec-title--white text-center mb-60">
-            <span class="sub-title">SUPPLEMENT GUIDE</span>
-            <h2 class="title">WHY THESE SUPPLEMENTS MATTER</h2>
-        </div>
-        <div class="testimonial-slider swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide xb-testimonial">
-                    <div class="xb-item--author ul_li">
-                        <div class="xb-item--avatar">
-                            <img src="{{ asset('assets/img/avatar/creatine.png') }}" alt="" style="width: 100px; height: 100px; object-fit: cover;">
-                        </div>
-                        <div class="xb-item--holder">
-                            <h3 class="xb-item--name">Creatine</h3>
-                            <span class="xb-item--date">Essential for Strength</span>
-                        </div>
-                    </div>
-                    <div class="xb-item--desc mt-35">
-                        "Creatine enhances your strength and power, which is crucial for high-intensity training. It helps increase muscle mass and improves recovery times."
-                    </div>
-                </div>
-                <div class="swiper-slide xb-testimonial">
-                    <div class="xb-item--author ul_li">
-                        <div class="xb-item--avatar">
-                            <img src="{{ asset('assets/img/avatar/protein.png') }}" alt="" style="width: 100px; height: 100px; object-fit: cover;">
-                        </div>
-                        <div class="xb-item--holder">
-                            <h3 class="xb-item--name">Protein</h3>
-                            <span class="xb-item--date">Builds Muscle</span>
-                        </div>
-                    </div>
-                    <div class="xb-item--desc mt-35">
-                        "Protein is vital for muscle repair and growth. It ensures you recover from workouts and helps build lean muscle mass effectively."
-                    </div>
-                </div>
-                <div class="swiper-slide xb-testimonial">
-                    <div class="xb-item--author ul_li">
-                        <div class="xb-item--avatar">
-                            <img src="{{ asset('assets/img/avatar/EAA.png') }}" alt="" style="width: 100px; height: 100px; object-fit: cover;">
-                        </div>
-                        <div class="xb-item--holder">
-                            <h3 class="xb-item--name">EAAs</h3>
-                            <span class="xb-item--date">Essential Amino Acids</span>
-                        </div>
-                    </div>
-                    <div class="xb-item--desc mt-35">
-                        "Essential Amino Acids (EAAs) are crucial for muscle repair and reducing exercise-induced muscle damage, aiding in faster recovery."
-                    </div>
-                </div>
-                <div class="swiper-slide xb-testimonial">
-                    <div class="xb-item--author ul_li">
-                        <div class="xb-item--avatar">
-                            <img src="{{ asset('assets/img/avatar/Preworkout.png') }}" alt="" style="width: 100px; height: 100px; object-fit: cover;">
-                        </div>
-                        <div class="xb-item--holder">
-                            <h3 class="xb-item--name">Pre-Workout</h3>
-                            <span class="xb-item--date">Boosts Energy</span>
-                        </div>
-                    </div>
-                    <div class="xb-item--desc mt-35">
-                        "Pre-workout supplements boost energy, focus, and endurance, helping you maximize performance during intense training sessions."
-                    </div>
+    {{-- ---------- brands: every brand in the shop, each opens its products. Computers: one row that slides
+         with the arrows; phones: two rows to swipe ---------- --}}
+    @if($brands->isNotEmpty())
+        <section class="ss-wrap ss-hsec" data-rail>
+            <div class="ss-sechead">
+                <h2>Shop by brand</h2>
+                <div class="ss-rail__nav">
+                    <a href="{{ route('shop') }}" class="ss-sechead__link">All products {!! Icons::ui('arrow') !!}</a>
+                    <button type="button" class="ss-iconbtn ss-iconbtn--sm" data-rail-scroll="-1" aria-label="Previous brands">{!! Icons::ui('prev') !!}</button>
+                    <button type="button" class="ss-iconbtn ss-iconbtn--sm" data-rail-scroll="1" aria-label="Next brands">{!! Icons::ui('next') !!}</button>
                 </div>
             </div>
-            <div class="swiper-pagination"></div>
-        </div>
-    </div>
-</section>
-<!-- testimonial end -->
-
-        <!-- pricing start -->
-        @if(!$planes->isEmpty())
-            <section id="pricing" class="pricing pt-120 pb-130" data-bg-color="#fff">
-
-                <div class="container">
-                    <div class="sec-title text-center mb-55">
-                        <span class="sub-title">plans</span>
-                        <h2 class="title">flexible plans</h2>
-                    </div>
-                    <div class="row justify-content-center mt-none-30">
-
-                        @foreach($planes as $plane)
-                            @if($plane->id%2==1)
-                                <div class="col-lg-4 col-md-6 mt-30">
-
-                                    <div class="xb-pricing">
-                                        <div class="xb-item--head pos-rel">
-                                            <h4 class="xb-item--title">{{$plane->type}}</h4>
-                                            <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span>  </h2>
-                                            <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
-                                            <div class="xb-item--img" data-background="{{ asset('assets/img/pricing/img_01.png') }}"></div>
-                                            <br>
-                                            <div class="xb-item--shape" data-background="{{ asset('assets/img/shape/pricing_shape4.png') }}"></div>
-                                        </div>
-                                        <div class="xb-item--body">
-                                            <ul class="xb-item--list list-unstyled">
-                                                @if($plane->point1)
-                                                    <li><img src="{{ asset('assets/img/icon/p_check.svg') }}" alt="">{{$plane->point1}}</li>
-                                                @endif
-
-                                                @if($plane->point2)
-                                                    <li><img src="{{ asset('assets/img/icon/p_check.svg') }}" alt="">{{$plane->point2}}</li>
-                                                @endif
-                                                @if($plane->point3)
-                                                    <li><img src="{{ asset('assets/img/icon/p_check.svg') }}" alt="">{{$plane->point3}}</li>
-                                                @endif
-                                                @if($plane->point4)
-                                                    <li><img src="{{ asset('assets/img/icon/p_check.svg') }}" alt="">{{$plane->point4}}</li>
-                                                @endif
-                                                @if($plane->point5)
-                                                    <li><img src="{{ asset('assets/img/icon/p_check.svg') }}" alt="">{{$plane->point5}}</li>
-                                                @endif
-                                            </ul>
-                                            <div class="xb-item--btn">
-                                                <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=96181088266"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="">LEARN MORE</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            @elseif($plane->id%2==0)
-
-                                <div class="col-lg-4 col-md-6 mt-30">
-                                    <div class="xb-pricing active">
-                                        <div class="xb-item--head pos-rel">
-                                            <h4 class="xb-item--title">{{$plane->type}}</h4>
-                                            <h2 class="xb-item--price">${{$plane->price}}<span>Per Plan</span></h2>
-                                            <h3 class="xb-item--price-sub">(${{$plane->price}} total)</h3>
-                                            <div class="xb-item--img" data-background="{{ asset('assets/img/pricing/img_02.png') }}"></div>
-                                            <br>
-                                            <div class="xb-item--shape" data-background="{{ asset('assets/img/shape/pricing_shape2.png') }}"></div>
-                                        </div>
-                                        <div class="xb-item--body">
-                                            <ul class="xb-item--list list-unstyled">
-                                                @if($plane->point1)
-                                                    <li><img src="{{ asset('assets/img/icon/check_h.svg') }}" alt="">{{$plane->point1}}</li>
-                                                @endif
-                                                @if($plane->point2)
-                                                    <li><img src="{{ asset('assets/img/icon/check_h.svg') }}" alt="">{{$plane->point2}}</li>
-                                                @endif
-                                                @if($plane->point3)
-                                                    <li><img src="{{ asset('assets/img/icon/check_h.svg') }}" alt="">{{$plane->point3}}</li>
-                                                @endif
-                                                @if($plane->point4)
-                                                    <li><img src="{{ asset('assets/img/icon/check_h.svg') }}" alt="">{{$plane->point4}}</li>
-                                                @endif
-                                                @if($plane->point5)
-                                                    <li><img src="{{ asset('assets/img/icon/check_h.svg') }}" alt="">{{$plane->point5}}</li>
-                                                @endif
-                                            </ul>
-                                            <div class="xb-item--btn">
-                                                <a class="thm-btn w-100 text-center mt-45" href="https://api.whatsapp.com/send?phone=96181088266"><img src="{{ asset('assets/img/icon/bag.svg') }}" alt="">LEARN MORE</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
-                </div>
-
-            </section>
-        @endif
-        <!-- pricing end -->
-
-        <!-- faq start -->
-        <section class="faq" data-bg-color="#fff">
-            <div class="container">
-                <div class="accordion-inner bg_img" data-background="{{ asset('assets/img/bg/faq_bg2.jpg') }}">
-                    <div class="sec-title sec-title--white text-center mb-60">
-                        <span class="sub-title">faq</span>
-                        <h2 class="title">Frequently asked questions</h2>
-                    </div>
-                    <ul class="xb-accordion accordion_box clearfix">
-                        @foreach($faqs as $faq)
-                            <li class="accordion block">
-                                <div class="acc-btn">
-                                    {{$faq->question}}
-                                    <span class="arrow"></span>
-                                </div>
-                                <div class="acc_body">
-                                    <div class="content">
-                                        <p>{{$faq->answer}}</p>
-
-                                    </div>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+            <div class="ss-hbrands" data-rail-track>
+                @foreach($brands as $brand)
+                    <a href="{{ route('shop', ['brand' => $brand->slug]) }}" class="ss-hbrand" title="{{ $brand->name }} products">
+                        @if($brand->logoUrl())
+                            <img src="{{ $brand->logoUrl() }}" alt="{{ $brand->name }}" loading="lazy" decoding="async">
+                        @else
+                            <span class="ss-hbrand__initials">{{ $brand->initials() }}</span>
+                        @endif
+                        <span class="ss-hbrand__name">{{ $brand->name }}</span>
+                    </a>
+                @endforeach
             </div>
         </section>
-        <!-- faq end -->
+    @endif
 
-        <!-- brand start -->
-        <section class="brand pt-110 md-pb-0 pb-90" data-bg-color="#fff">
-            <div class="container">
-                <div class="sec-title text-center mb-35">
-                    <span class="sub-title">Explore Our Top Brands</span>
+    {{-- ---------- best sellers ---------- --}}
+    <section class="ss-wrap ss-hsec">
+        <div class="ss-rail" data-rail>
+            <div class="ss-rail__head">
+                <div>
+                    <span class="ss-sechead__kicker">Customer favourites</span>
+                    <h2>Best sellers</h2>
                 </div>
+                <div class="ss-rail__nav">
+                    <a href="{{ route('shop') }}" class="ss-sechead__link">Shop all {!! Icons::ui('arrow') !!}</a>
+                    <button type="button" class="ss-iconbtn ss-iconbtn--sm" data-rail-scroll="-1" aria-label="Previous">{!! Icons::ui('prev') !!}</button>
+                    <button type="button" class="ss-iconbtn ss-iconbtn--sm" data-rail-scroll="1" aria-label="Next">{!! Icons::ui('next') !!}</button>
+                </div>
+            </div>
+            <div class="ss-rail__track" data-rail-track>
+                @forelse($product as $item)
+                    @include('partials.shop.card', ['item' => $item])
+                @empty
+                    <p class="ss-muted">No products available.</p>
+                @endforelse
+            </div>
+        </div>
+    </section>
 
-                <div class="xb-swiper-sliders brand-slider">
-                    <div class="xb-carousel-inner">
-                        <div class="xb-swiper-container swiper-container">
-                            <div class="xb-swiper-wrapper swiper-wrapper">
-                                <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="{{ asset('assets/img/brand/Muscletech.png') }}" alt="MuscleTech" loading="lazy"></a>
-                                </div>
-                                <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="{{ asset('assets/img/brand/KevinLevrone.png') }}" alt="Kevin Levrone" loading="lazy"></a>
-                                </div>
-                                <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="{{ asset('assets/img/brand/ON.png') }}" alt="Optimum Nutrition" loading="lazy"></a>
-                                </div>
-                                <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="{{ asset('assets/img/brand/Dymatize.png') }}" alt="Dymatize" loading="lazy"></a>
-                                </div>
-                                <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="{{ asset('assets/img/brand/BPI.png') }}" alt="BPI Sports" loading="lazy"></a>
-                                </div>
-                                <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="{{ asset('assets/img/brand/XTEND.png') }}" alt="XTEND" loading="lazy"></a>
-                                </div>
-                                <div class="swiper-slide xb-swiper-slide">
-                                    <a href="#!"><img src="{{ asset('assets/img/brand/Challenger.png') }}" alt="Challenger Nutrition" loading="lazy"></a>
-                                </div>
-                            </div>
-                        </div>
+    {{-- ---------- about ---------- --}}
+    <section class="ss-wrap ss-hsec">
+        <div class="ss-about">
+            <div class="ss-about__intro">
+                <span class="ss-sechead__kicker">About Supplement Station</span>
+                <h2>Your health journey starts here</h2>
+                <p>Since 2018 we have helped athletes across Lebanon train harder and recover faster, with the highest quality supplements and honest advice.</p>
+                <div class="ss-about__since"><strong>2018</strong><span>serving Lebanon since</span></div>
+            </div>
+            <ul class="ss-about__points">
+                <li><span>{!! Icons::ui('shield') !!}</span><div><strong>Authentic products</strong>Sourced from the brands and their official distributors.</div></li>
+                <li><span>{!! Icons::ui('truck') !!}</span><div><strong>Delivery all over Lebanon</strong>We call to confirm, then deliver to your door.</div></li>
+                <li><span>{!! Icons::ui('lock') !!}</span><div><strong>Cash on delivery</strong>Pay when your order arrives. No card needed.</div></li>
+                <li><span>{!! Icons::ui('chat') !!}</span><div><strong>Expert guidance</strong>Ask us anything on WhatsApp, every day.</div></li>
+            </ul>
+        </div>
+    </section>
+
+    {{-- ---------- questions ---------- --}}
+    @if($faqs->isNotEmpty())
+        <section class="ss-wrap ss-hsec ss-faq">
+            <div class="ss-faq__intro">
+                <span class="ss-sechead__kicker">Questions</span>
+                <h2>Frequently asked questions</h2>
+                <p>Everything about ordering, delivery and choosing the right supplements.</p>
+                <div class="ss-faq__help">
+                    <h3><span class="ss-faq__helpicon">{!! Icons::ui('chat') !!}</span> Still have a question?</h3>
+                    <p>Our team answers on WhatsApp, Monday to Saturday, 9:00 AM – 9:00 PM.</p>
+                    <div class="ss-faq__helpbtns">
+                        <a href="https://wa.me/96181823038?text={{ rawurlencode('Hello, I have a question: ') }}" target="_blank" rel="noopener" class="ss-btn ss-btn--red">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a href="tel:+96181823038" class="ss-btn ss-btn--outline">{!! Icons::ui('phone') !!} Call</a>
                     </div>
                 </div>
             </div>
+            <div class="ss-faq__list">
+                @foreach($faqs as $faq)
+                    <details class="ss-faq__item">
+                        <summary>
+                            <span class="ss-faq__num">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                            <span class="ss-faq__q">{{ $faq->question }}</span>
+                            <span class="ss-faq__toggle">{!! Icons::ui('plus') !!}</span>
+                        </summary>
+                        <p>{{ $faq->answer }}</p>
+                    </details>
+                @endforeach
+            </div>
         </section>
-        <!-- brand end -->
-
-        <!-- blog start -->
-        <!-- blog end -->
-
-    </main>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-    <!-- main area end  -->
+    @endif
+</main>
 @endsection

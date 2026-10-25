@@ -168,6 +168,9 @@ class Seo
         if ($categoryName) {
             $data['category'] = $categoryName;
         }
+        if ($product->brand) {
+            $data['brand'] = ['@type' => 'Brand', 'name' => $product->brand->name];
+        }
 
         if ($reviews->count() > 0) {
             $data['aggregateRating'] = [

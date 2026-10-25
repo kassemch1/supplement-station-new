@@ -19,6 +19,8 @@ return [
             'public/assets/css/swiper.min.css',
             'public/assets/css/main.css',
             'resources/assets/css/store.css',
+            'resources/assets/css/ss.css',
+            'resources/assets/css/ss-pages.css',
         ],
         'store.js' => [
             'public/assets/js/jquery-3.7.1.min.js',

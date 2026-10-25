@@ -11,13 +11,16 @@ use Illuminate\Support\Facades\Storage;
 class ImageFiles
 {
     // Folders on the public disk that hold uploaded pictures
-    public const DIRECTORIES = ['products_images', 'banner_picture'];
+    public const DIRECTORIES = ['products_images', 'banner_picture', 'product_options', 'brands', 'categories'];
 
     // All image paths in use, as keys: ['storage/products_images/abc.png' => true, ...]
     public static function referencedPaths(): array
     {
         $paths = DB::table('product_images')->pluck('url')
             ->merge(DB::table('banners')->whereNotNull('image')->pluck('image'))
+            ->merge(DB::table('product_options')->whereNotNull('image')->pluck('image'))
+            ->merge(DB::table('brands')->whereNotNull('logo')->pluck('logo'))
+            ->merge(DB::table('categories')->whereNotNull('image')->pluck('image'))
             ->merge(DB::table('order_items')->whereNotNull('product_image')->distinct()->pluck('product_image'))
             ->merge(DB::table('image_conversions')->pluck('old_url'))
             ->merge(DB::table('image_conversions')->pluck('new_url'));
@@ -35,6 +38,9 @@ class ImageFiles
     {
         return DB::table('product_images')->where('url', $url)->exists()
             || DB::table('banners')->where('image', $url)->exists()
+            || DB::table('product_options')->where('image', $url)->exists()
+            || DB::table('brands')->where('logo', $url)->exists()
+            || DB::table('categories')->where('image', $url)->exists()
             || DB::table('order_items')->where('product_image', $url)->exists()
             || DB::table('image_conversions')->where('old_url', $url)->orWhere('new_url', $url)->exists()
             || self::mentionedInDescriptions(basename($url));

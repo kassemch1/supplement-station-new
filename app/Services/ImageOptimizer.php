@@ -13,6 +13,9 @@ class ImageOptimizer
 {
     public const PRODUCT_MAX_SIZE = 1200;
     public const BANNER_MAX_SIZE = 1920;
+    public const OPTION_MAX_SIZE = 600;
+    public const LOGO_MAX_SIZE = 400;
+    public const CATEGORY_MAX_SIZE = 256;
 
     private const QUALITY = 82;
     // A 25 megapixel image needs ~100 MB of memory in GD, more than shared hosting usually allows

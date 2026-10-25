@@ -61,7 +61,8 @@ class Phase0Test extends TestCase
 
         // Phase 4: the archived product page sends visitors to its category (not permanent: it can be restored)
         $this->get($this->productUrl($pid))->assertStatus(302)->assertRedirect(Category::find(DB::table('products')->where('id', $pid)->value('category_id'))?->url() ?? route('shop'));
-        $this->get('/shop?shop-search='.urlencode($name))->assertDontSee($name);
+        $found = $this->get('/shop?shop-search='.urlencode($name))->assertOk()->viewData('products')->pluck('id')->all();
+        $this->assertNotContains($pid, $found, 'archived product is not listed in the shop');
         $this->get('/')->assertOk();
         $this->getJson('/api/recent-purchases')->assertOk()->assertJsonMissing(['product_id' => $pid]);
 

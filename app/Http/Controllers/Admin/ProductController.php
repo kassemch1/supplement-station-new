@@ -21,7 +21,9 @@ class ProductController extends Controller
     {
         $products = Product::query()
             ->when($request->filled('search'), fn ($q) => $q->where('name', 'like', '%' . $request->input('search') . '%'))
-            ->when($request->filled('category_id'), fn ($q) => $q->where('category_id', $request->input('category_id')))
+            ->when($request->filled('category_id'), fn ($q) => $q->whereIn('category_id',
+                // a main category lists its subcategories' products too
+                Category::cachedAll()->firstWhere('id', (int) $request->input('category_id'))?->familyIds() ?? [(int) $request->input('category_id')]))
             ->when($request->filled('stock'), fn ($q) => match ($request->input('stock')) {
                 'in-stock' => $q->where('stock', 1),
                 'archived' => $q->onlyTrashed(),

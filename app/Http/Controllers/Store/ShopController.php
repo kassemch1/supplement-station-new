@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Category;
-use App\Models\Product;
-use App\Models\SpecialOffer;
+use App\Services\Catalog;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
     // Parameters the menus and filters sent before categories had their own pages
     private const OLD_CATEGORY_PARAMS = ['category-nav', 'category-sidebar', 'category', 'category-phone'];
+
+    private const PER_PAGE = 24;
 
     public function index(Request $request)
     {
@@ -32,7 +34,7 @@ class ShopController extends Controller
         return $this->listing($request, $hasOldParams ? $this->categoryFromOldParams($request) : null);
     }
 
-    // /shop/{slug}: one category's products
+    // /shop/{slug}: one category's products (a main category includes its subcategories)
     public function category(Request $request, string $key)
     {
         $categories = Category::cachedAll();
@@ -57,70 +59,90 @@ class ShopController extends Controller
 
     private function listing(Request $request, ?Category $category)
     {
-        $query = Product::query();
-        $categories = Category::cachedAll();
+        $filters = Catalog::filters($request);
+        $scope = Catalog::scope($category, $filters['search']);
+        $products = Catalog::sort(Catalog::apply(clone $scope, $filters), $filters['sort'])
+            ->withCardData()
+            ->paginate(self::PER_PAGE)
+            ->withQueryString();
 
-        if ($category) {
-            $query->where('category_id', $category->id);
-        }
+        $ajax = $request->ajax() || $request->wantsJson();
 
-        // The menu search, the home search and the shop search each send their own parameter
-        $search = null;
-        foreach (['shop-search', 'home-search'] as $field) {
-            if ($request->filled($field)) {
-                $search = (string) $request->input($field);
-                $query->where('name', 'like', '%' . $search . '%');
-            }
-        }
+        // A page number past the end is not a page
+        abort_if(!$ajax && $products->currentPage() > max(1, $products->lastPage()), 404);
 
-        if ($request->input('orderby') === 'low-to-high') {
-            $query->orderByRaw('(price * (1 - discount / 100.0)) ASC');
-        } elseif ($request->input('orderby') === 'high-to-low') {
-            $query->orderByRaw('(price * (1 - discount / 100.0)) DESC');
-        } else {
-            $query->orderBy('created_at', 'ASC');
-        }
+        $data = $this->viewData($category, $filters, $scope, $products);
 
-        $perPage = 12;
-        $products = $query->withCardData()->paginate($perPage);
-        $totalProducts = $products->total();
-        $startIndex = $totalProducts > 0 ? ($products->currentPage() - 1) * $perPage + 1 : 0;
-        $endIndex = $totalProducts > 0 ? min($products->currentPage() * $perPage, $totalProducts) : 0;
+        // Filters, sorting, "load more" and moving between categories happen without reloading the page:
+        // the page asks for the parts that change
+        if ($ajax) {
+            $cards = view('partials.shop.cards', $data)->render();
 
-        // Searching, sorting and paging reload only the product list
-        if ($request->ajax()) {
             return response()->json([
-                'productList' => view('partials.product_list', ['product' => $products])->render(),
-                'paginatee' => view('partials.product_pagination', ['product' => $products])->render(),
-                'productsIndexing' => view('partials.products_indexing', compact('startIndex', 'endIndex', 'totalProducts'))->render(),
+                'title' => $data['pageTitle'] . ' | Supplement Station',
+                'nav' => view('partials.shop.nav', $data)->render(),
+                'sidebar' => view('partials.shop.sidebar', $data)->render(),
+                'results' => view('partials.shop.results', $data)->render(),
+                'cards' => $cards,
+                'next' => $products->nextPageUrl(),
+                'total' => $products->total(),
+                'to' => $products->lastItem() ?? 0,
+                // What shop pages cached before the redesign read
+                'productList' => $cards,
+                'paginatee' => '',
+                'productsIndexing' => '',
             ]);
         }
 
-        // A page number past the end is not a page
-        abort_if($products->currentPage() > max(1, $products->lastPage()), 404);
+        return view('user_views.Shop', $data);
+    }
 
-        $offerIds = SpecialOffer::productIds(4);
-        $offers = $offerIds ? Product::cards($offerIds) : Product::inRandomOrder()->with('images')->take(4)->get();
+    private function viewData(?Category $category, array $filters, $scope, $products): array
+    {
+        // Categories without products are left out of the menu
+        $counts = Catalog::categoryCounts();
+        $tree = Category::tree()
+            ->filter(fn ($main) => ($counts[$main->id] ?? 0) > 0)
+            ->each(fn ($main) => $main->setRelation('children', $main->children->filter(fn ($sub) => ($counts[$sub->id] ?? 0) > 0)->values()))
+            ->values();
 
-        // Search engines index each category page and its numbered pages; sorted lists point to the
-        // plain list, search results are not indexed
-        $baseUrl = $category ? $category->url() : route('shop');
+        $brandCounts = Catalog::brandCounts($scope);
+        $brands = Brand::cachedAll()
+            ->filter(fn ($brand) => isset($brandCounts[$brand->id]))
+            ->sortByDesc(fn ($brand) => $brandCounts[$brand->id])
+            ->values();
+
+        $search = $filters['search'];
+        $filtered = $filters['brands']->isNotEmpty() || $filters['min'] !== null || $filters['max'] !== null
+            || $filters['in_stock'] || $filters['sale'] || $filters['sort'] !== 'default';
         $page = $products->currentPage();
+        $baseUrl = $category ? $category->url() : route('shop');
 
-        return view('user_views.Shop', [
-            'product' => $products,
-            'categories' => $categories,
+        return [
+            'products' => $products,
             'category' => $category,
-            'offersProducts' => $offers,
-            'totalProducts' => $totalProducts,
-            'startIndex' => $startIndex,
-            'endIndex' => $endIndex,
+            'main' => $category?->main(),
+            'tree' => $tree,
+            'counts' => $counts,
+            'brands' => $brands,
+            'brandCounts' => $brandCounts,
+            'filters' => $filters,
+            'filtered' => $filtered,
+            'priceRange' => Catalog::priceRange($scope),
+            'sorts' => Catalog::SORTS,
             'search' => $search,
+            'heading' => $search !== null ? "Results for \"{$search}\"" : ($category ? $category->name : 'All Supplements'),
+            'baseUrl' => $baseUrl,
+            'totalProducts' => $products->total(),
+            'startIndex' => $products->firstItem() ?? 0,
+            'pageTitle' => ($category ? $category->name . ' in Lebanon' : 'Shop All Supplements in Lebanon') . ($page > 1 ? ' - Page ' . $page : ''),
+            // Search engines index each category page and its numbered pages; filtered and sorted lists
+            // point to the plain list, search results are not indexed
             'canonical' => $page > 1 ? $baseUrl . '?page=' . $page : $baseUrl,
-            'noindex' => $search !== null || $totalProducts === 0,
-            'prevUrl' => $page > 1 ? ($page === 2 ? $baseUrl : $baseUrl . '?page=' . ($page - 1)) : null,
-            'nextUrl' => $products->hasMorePages() ? $baseUrl . '?page=' . ($page + 1) : null,
-        ]);
+            'noindex' => $search !== null || $filtered || $products->total() === 0,
+            'prevUrl' => !$filtered && $page > 1 ? ($page === 2 ? $baseUrl : $baseUrl . '?page=' . ($page - 1)) : null,
+            'nextUrl' => !$filtered && $products->hasMorePages() ? $baseUrl . '?page=' . ($page + 1) : null,
+        ];
     }
 
     // The category the menu (id) or the filters (name) asked for with the old parameters

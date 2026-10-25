@@ -4,16 +4,18 @@ namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Faq;
 use App\Models\OrderItem;
-use App\Models\Plan;
 use App\Models\Product;
 use App\Models\SpecialOffer;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    private const CARDS = 6;
+    // Products in each row of cards (the rows scroll sideways)
+    private const CARDS = 10;
 
     public function index()
     {
@@ -31,17 +33,25 @@ class HomeController extends Controller
         if (count($ids) < self::CARDS) {
             $ids = array_merge($ids, Product::whereNotIn('id', $ids)->inRandomOrder()->limit(self::CARDS - count($ids))->pluck('id')->all());
         }
-        $bestSellers = Product::cards($ids);
+        $bestSellers = $this->inStockFirst(Product::cards($ids));
 
         // Special offers are picked by the admin; without any the best sellers are shown
         $offerIds = SpecialOffer::productIds(self::CARDS);
 
         return view('user_views.home', [
             'product' => $bestSellers,
-            'offersProducts' => $offerIds ? Product::cards($offerIds) : $bestSellers,
+            'offersProducts' => $offerIds ? $this->inStockFirst(Product::cards($offerIds)) : $bestSellers,
             'banner' => Banner::first(),
-            'planes' => Plan::all(),
             'faqs' => Faq::all(),
+            // Menus and lists come from the cache: no queries
+            'categoryTree' => Category::tree(),
+            'brands' => Brand::cachedAll(),
         ]);
+    }
+
+    // Sold-out products go to the end of a row; the rest keep their order
+    private function inStockFirst($products)
+    {
+        return $products->sortBy(fn (Product $product) => $product->stock ? 0 : 1)->values();
     }
 }

@@ -164,18 +164,20 @@ class Phase4SeoTest extends TestCase
 
     public function test_category_page_lists_only_that_category_and_keeps_sorting_and_paging(): void
     {
-        $category = Category::withCount('getProducts')->orderByDesc('get_products_count')->firstOrFail();
+        // The category with the most products, its subcategories included
+        $category = Category::findOrFail(\App\Services\Catalog::categoryCounts()->sortDesc()->keys()->first());
         $html = $this->get($category->url())->assertOk()->getContent();
 
-        $this->assertStringContainsString('<h1 class="breadcrumb__title"', $html);
-        $this->assertStringContainsString('>' . e($category->name) . '</h1>', $html);
+        $this->assertSame(1, substr_count($html, '<h1'));
+        $this->assertStringContainsString('<h1 class="ss-shop-title__h">' . e($category->name) . '</h1>', $html);
         $this->assertStringContainsString('<title>' . e($category->name) . ' in Lebanon | Supplement Station</title>', $html);
 
-        $other = Product::where('category_id', '!=', $category->id)->value('name');
+        $other = Product::whereNotIn('category_id', $category->familyIds())->value('name');
         $json = $this->getJson($category->url() . '?orderby=high-to-low', ['X-Requested-With' => 'XMLHttpRequest'])->assertOk()->json();
         $this->assertStringNotContainsString(e($other), $json['productList']);
-        $this->assertGreaterThan(12, $category->get_products_count);
-        $this->assertStringContainsString($category->url() . '?orderby=high-to-low&amp;page=2', $json['paginatee']);
+        // 24 a page; the next page keeps the sorting
+        $this->assertGreaterThan(24, $json['total']);
+        $this->assertStringContainsString($category->url() . '?orderby=high-to-low&page=2', (string) $json['next']);
 
         $this->get($category->url() . '?page=999')->assertNotFound();
     }
@@ -282,7 +284,7 @@ class Phase4SeoTest extends TestCase
     {
         $html = $this->get('/')->getContent();
         foreach (Category::all() as $category) {
-            $this->assertStringContainsString('<a href="' . $category->url() . '">', $html, $category->name);
+            $this->assertMatchesRegularExpression('#<a href="' . preg_quote($category->url(), '#') . '"[ >]#', $html, $category->name);
         }
         $this->assertStringNotContainsString('category-nav', $html);
     }

@@ -1,8 +1,16 @@
 @extends('layouts.store')
 
 @php
+    use App\Support\Icons;
     $seoPrice = '$' . number_format($product->price_after_discount, 2);
     $seoImage = $product->images->first() ? asset($product->images->first()->url) : null;
+    $inStock = (bool) $product->stock;
+    $final = $product->price_after_discount;
+    $main = $category?->main();
+    $rounded = $ratingCount ? round((float) $averageRating, 1) : 0;
+
+    // Flavour, size, colour...: the values of each option, in the order the admin added them
+    $groupedOptions = $product->productOptions->groupBy(fn ($value) => $value->option->option_name);
 @endphp
 @section('title', $product->name . ' Price in Lebanon')
 @section('description', \App\Support\Seo::text(
@@ -31,377 +39,230 @@
     ]) }}
 @endpush
 @section('page', 'product')
-@section('body_wrap', 1)
+@section('shell', 'app')
 
 @section('content')
-    <!-- main area start  -->
-    <main>
-        <!-- breadcrumb start -->
-        <section class="breadcrumb position-bottom bg_img" data-background="{{ asset('assets/img/bg/shop-cart-banner.webp')}}">
-            <div class="container">
-                <div class="breadcrumb__content text-center">
-                    <h2 class="breadcrumb__title" style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); color: #fff;">{{ $category?->name ?? 'Product' }}</h2>
-                    <ul class="breadcrumb__list clearfix">
-                        <li class="breadcrumb-item">
-                            <a href="{{route('home')}}" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); color: #fff;">
-                                Supplement Station
-                            </a>
-                        </li>
-                        @if($category)
-                        <li class="breadcrumb-item">
-                            <a href="{{ $category->url() }}" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); color: #fff;">{{ $category->name }}</a>
-                        </li>
-                        @endif
-                        <li class="breadcrumb-item" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); color: #fff;" aria-current="page">
-                            {{ $product->name }}
-                        </li>
-                    </ul>
+@include('partials.subscription-modal', ['delay' => 2000])
+
+<main class="ss-pdp">
+    <div class="ss-wrap">
+        <nav class="ss-crumbs" aria-label="Breadcrumb">
+            <a href="{{ route('home') }}">Home</a><span>/</span>
+            <a href="{{ route('shop') }}">Shop</a><span>/</span>
+            @if($main && $main->id !== $category->id)
+                <a href="{{ $main->url() }}">{{ $main->name }}</a><span>/</span>
+            @endif
+            @if($category)
+                <a href="{{ $category->url() }}">{{ $category->name }}</a><span>/</span>
+            @endif
+            <span aria-current="page">{{ $product->name }}</span>
+        </nav>
+
+        <div class="ss-pdp__grid">
+            {{-- Pictures: swipe on phones, thumbnails underneath --}}
+            <section class="ss-pdp__gallery" aria-label="Pictures">
+                <div class="ss-pdp__main" data-pdp-main>
+                    @forelse($product->images as $index => $image)
+                        <img src="{{ asset($image->url) }}" alt="{{ $product->name }}{{ $index ? ' picture ' . ($index + 1) : '' }}" width="500" height="500"
+                             @if($index === 0) fetchpriority="high" @else loading="lazy" decoding="async" @endif data-pdp-slide="{{ $index }}">
+                    @empty
+                        <span class="ss-card__noimg">No picture</span>
+                    @endforelse
                 </div>
-            </div>
-        </section>
-
-        <!-- breadcrumb end -->
-
-        <!-- shop single start -->
-        <section class="shop-single-section pt-115 pb-385">
-            @include('partials.subscription-modal', ['delay' => 2000])
-
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-md-6">
-                        <div class="product-single-wrap mb-30">
-                            <div class="product_details_img">
-                                <div class="tab-content" id="myTabContent">
-                                    @foreach($products->images as $index => $image)
-                                        <div class="tab-pane {{ $index == 0 ? 'show active' : '' }}" id="tab-{{ $index }}" role="tabpanel">
-                                            <div class="pl_thumb">
-                                                <img src="{{ asset($image->url) }}"
-                                                     alt="{{ $products->name }} image {{ $index + 1 }}"
-                                                     style="width: 100%; /* Make the image responsive to the container's width */
-                                                            height: auto; /* Maintain aspect ratio */
-                                                            display: block;
-                                                            object-fit: cover;
-                                                            max-width: 100%; /* Ensure it doesn't exceed its container width */
-                                                            max-height: 500px; /* Set maximum height */
-                                                            " width="500" height="500" @if($index === 0) fetchpriority="high" @else loading="lazy" @endif>
-                                            </div>
-
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                            <div class="shop_thumb_tab">
-                                <ul class="nav" id="myTab2" role="tablist">
-                                    @foreach($products->images as $index => $image)
-                                        <li class="nav-item">
-                                            <button class="nav-link {{ $index == 0 ? 'active' : '' }}" id="home-tab" data-bs-toggle="tab" data-bs-target="#tab-{{ $index }}" type="button" role="tab" aria-controls="tab-{{ $index }}" aria-selected="{{ $index == 0 ? 'true' : 'false' }}" >
-                                                <img src="{{ asset($image->url) }}" alt="{{ $products->name }} thumbnail {{ $index + 1 }}" height="100" width="100" loading="lazy">
-                                            </button>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
+                <span class="ss-pdp__badges">
+                    @if(!$inStock)
+                        <span class="ss-tag ss-tag--dark">Sold out</span>
+                    @elseif($product->discount > 0)
+                        <span class="ss-tag ss-tag--red">-{{ rtrim(rtrim(number_format($product->discount, 1), '0'), '.') }}%</span>
+                    @endif
+                </span>
+                @if($product->images->count() > 1)
+                    <div class="ss-pdp__thumbs" role="tablist" aria-label="Choose a picture">
+                        @foreach($product->images as $index => $image)
+                            <button type="button" class="{{ $index === 0 ? 'is-active' : '' }}" data-pdp-thumb="{{ $index }}" aria-label="Picture {{ $index + 1 }}">
+                                <img src="{{ asset($image->url) }}" alt="" width="64" height="64" loading="lazy" decoding="async">
+                            </button>
+                        @endforeach
                     </div>
+                    <div class="ss-pdp__dots" aria-hidden="true">
+                        @foreach($product->images as $index => $image)
+                            <span class="{{ $index === 0 ? 'is-active' : '' }}"></span>
+                        @endforeach
+                    </div>
+                @endif
+            </section>
 
-            <div class="col-md-6 product-details-col">
-                <div class="product-details mb-20">
+            {{-- Name, price, options and the buy button. On phones this is a sheet that overlaps the picture. --}}
+            <section class="ss-pdp__info">
+                <div class="ss-pdp__top">
+                    @if($product->brand)
+                        <a href="{{ route('shop', ['brand' => $product->brand->slug]) }}" class="ss-pbrand">
+                            @if($product->brand->logoUrl())<img src="{{ $product->brand->logoUrl() }}" alt="" width="56" height="28">@endif
+                            <span>{{ $product->brand->name }}</span>
+                        </a>
+                    @endif
                     <h1>{{ $product->name }}</h1>
-                    <div class="rating">
-                        @for ($i = 0; $i < 5; $i++)
-                            <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
-                        @endfor
-                        <span>({{ $ratingCount  }} Customer review{{ $ratingCount > 1 ? 's' : '' }})</span>
-                    </div>
+                    <a href="#reviews" class="ss-pdp__rating">
+                        <span class="ss-stars" style="--rating: {{ $rounded }}" aria-hidden="true"></span>
+                        @if($ratingCount)
+                            <strong>{{ $rounded }}</strong> · {{ $ratingCount }} {{ \Illuminate\Support\Str::plural('review', $ratingCount) }}
+                        @else
+                            Be the first to review
+                        @endif
+                    </a>
+                </div>
 
-                    <div class="price">
-                        <span class="xb-item--price">
-                            @if($product->discount > 0)
-                                <span style="text-decoration: line-through; color: gray;">${{ number_format($product->price, 2) }}</span>
-                                <span style="color: red;">${{ number_format($product->price - ($product->price * $product->discount / 100), 2) }}</span>
-                            @else
-                                ${{ number_format($product->price, 2) }}
-                            @endif
-                        </span>
-                    </div>
+                <div class="ss-pdp__price">
+                    <span class="ss-pdp__now">${{ number_format($final, 2) }}</span>
+                    @if($product->discount > 0)
+                        <s>${{ number_format($product->price, 2) }}</s>
+                        <span class="ss-tag ss-tag--soft">You save ${{ number_format($product->price - $final, 2) }}</span>
+                    @endif
+                </div>
+                <p class="ss-pdp__stock {{ $inStock ? 'is-in' : 'is-out' }}">
+                    <span></span>{{ $inStock ? 'In stock, ready to deliver' : 'Sold out for now' }}
+                </p>
 
-                    <div class="product-option">
+                <form class="ss-pdp__form" action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <input type="hidden" name="selected_options" id="selected_options" value="{}">
 
-                        <form class="form" action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form" >
-                            <div class="product-row">
-                                <div>
-                                    <input class="product-count" type="number" value="1" name="quantity" min="1" id="quantity">
-                                </div>
-                                <div class="add-to-cart-btn">
-                                    @csrf
-                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                    <input type="hidden" name="selected_options" id="selected_options" value="{}">
-                                    @if($product->stock)
-                                        <button type="submit" class="xb-btn add-to-cart" data-product-id="{{ $product->id }}">
-                                            <i class="far fa-shopping-bag"></i> Add to cart
+                    @foreach($groupedOptions as $optionName => $values)
+                        <div class="ss-opt" data-option-group="{{ $optionName }}">
+                            <span class="ss-opt__label">{{ $optionName }}: <em data-option-chosen="{{ $optionName }}">Choose</em></span>
+                            <div class="ss-opt__values">
+                                @foreach($values as $value)
+                                    @php $optionImage = $value->imageUrl(); @endphp
+                                    @if($value->stock > 0)
+                                        <button type="button" class="option-value ss-optbtn {{ $optionImage ? 'has-img' : '' }}"
+                                                data-option-name="{{ $optionName }}" data-option-value="{{ $value->option_value }}"
+                                                @if($optionImage) data-image="{{ $optionImage }}" @endif>
+                                            @if($optionImage)<img src="{{ $optionImage }}" alt="" width="32" height="32" loading="lazy">@endif
+                                            {{ $value->option_value }}
                                         </button>
                                     @else
-                                        <button type="button" class="xb-btn add-to-cart" disabled style="opacity: .6; cursor: not-allowed;">
-                                            Sold out
-                                        </button>
+                                        <span class="ss-optbtn is-out {{ $optionImage ? 'has-img' : '' }}" title="Out of stock">
+                                            @if($optionImage)<img src="{{ $optionImage }}" alt="" width="32" height="32" loading="lazy">@endif
+                                            {{ $value->option_value }}
+                                        </span>
                                     @endif
-                                </div>
+                                @endforeach
                             </div>
-                            <div id="successAlert" class="alert alert-success mt-3" style="display: none;">
-                                <strong>Success!</strong> Image added successfully.
-                            </div>
-                            <!-- Error Alert -->
-                            <div id="errorAlert" class="alert alert-danger mt-3" style="display: none;">
-                                <strong>Error!</strong> Failed to add Image. Please try again.
-                            </div>
-                        </form>
+                        </div>
+                    @endforeach
+
+                    <div class="ss-pdp__buy">
+                        <div class="ss-qty ss-qty--lg">
+                            <button type="button" data-pdp-step="-1" aria-label="Less">{!! Icons::ui('minus') !!}</button>
+                            <input type="number" name="quantity" id="quantity" value="1" min="1" max="100" aria-label="Quantity">
+                            <button type="button" data-pdp-step="1" aria-label="More">{!! Icons::ui('plus') !!}</button>
+                        </div>
+                        @if($inStock)
+                            <button type="submit" class="ss-btn ss-btn--red ss-btn--lg add-to-cart" data-product-id="{{ $product->id }}">
+                                {!! Icons::ui('bag') !!} Add to cart
+                            </button>
+                        @else
+                            <button type="button" class="ss-btn ss-btn--lg ss-btn--dark" disabled>Sold out</button>
+                        @endif
                     </div>
+                    <p class="ss-pdp__msg" data-pdp-msg role="status" aria-live="polite"></p>
+                </form>
 
-                    <div class="thb-product-meta-after mt-20">
-                        <div class="product_meta">
-            <span class="posted_in">Categories:
-            @if($category)
-                <a href="{{ $category->url() }}">{{ $category->name }}</a>
-            @else
-                <span>No categories</span>
-            @endif
-            </span>
+                @include('partials.store.trust')
 
-                            <div class="inner-shop-details-bottom">
-    <span class="posted_in">
-        @php
-            $groupedOptions = [];
-            foreach ($product->productOptions as $productOption) {
-                $groupedOptions[$productOption->option->option_name][] = $productOption;
-            }
-        @endphp
-
-        @foreach ($groupedOptions as $optionName => $productOptions)
-            <div>
-                <span>{{ $optionName }}:</span>
-                @foreach ($productOptions as $productOption)
-                    @if($productOption->stock > 0)
-                        <a href="#" class="option-value" data-option-name="{{ $optionName }}" data-option-value="{{ $productOption->option_value }}">
-                            {{ $productOption->option_value }}
-                        </a>
-                    @else
-                        <a href="#" class="option-value">{{ $productOption->option_value }} (Out of stock)</a>
+                <dl class="ss-pdp__meta">
+                    @if($category)
+                        <div><dt>Category</dt><dd><a href="{{ $category->url() }}">{{ $category->name }}</a></dd></div>
                     @endif
-                @endforeach
-            </div>
-        @endforeach
-    </span>
-                            </div>
-                        </div>
+                    @if($product->brand)
+                        <div><dt>Brand</dt><dd><a href="{{ route('shop', ['brand' => $product->brand->slug]) }}">{{ $product->brand->name }}</a></dd></div>
+                    @endif
+                    <div><dt>Questions?</dt><dd><a href="https://wa.me/96181823038?text={{ rawurlencode('Hello, about ' . $product->name . ': ') }}" target="_blank" rel="noopener">WhatsApp</a></dd></div>
+                </dl>
+            </section>
+        </div>
+
+        <div class="ss-pdp__more">
+            <section class="ss-panel ss-pdp__desc">
+                <h2 class="ss-panel__title">About this product</h2>
+                <div class="ss-pdp__text" data-pdp-text>{!! nl2br(e($product->description ?: $product->name)) !!}</div>
+                <button type="button" class="ss-pdp__readmore" data-pdp-readmore hidden>Read more {!! Icons::ui('down') !!}</button>
+            </section>
+
+            <section class="ss-panel ss-reviews" id="reviews">
+                <div class="ss-reviews__head">
+                    <h2 class="ss-panel__title">Reviews</h2>
+                    <div class="ss-reviews__score">
+                        <strong>{{ $ratingCount ? $rounded : '–' }}</strong>
+                        <span class="ss-stars" style="--rating: {{ $ratingCount ? $rounded : 0 }}" aria-hidden="true"></span>
+                        <span>{{ $ratingCount }} {{ \Illuminate\Support\Str::plural('review', $ratingCount) }}</span>
                     </div>
                 </div>
-            </div> <!-- end col -->
 
+                <div class="ss-reviews__list" id="reviewsSection">
+                    @forelse($reviews->sortByDesc('id') as $review)
+                        <article class="ss-review">
+                            <span class="ss-review__avatar">{{ mb_strtoupper(mb_substr(trim($review->name), 0, 1)) }}</span>
+                            <div>
+                                <div class="ss-review__top">
+                                    <strong>{{ $review->name }}</strong>
+                                    <span class="ss-stars ss-stars--sm" style="--rating: {{ (int) $review->rating }}" aria-label="{{ (int) $review->rating }} out of 5"></span>
+                                </div>
+                                <p>{{ $review->message }}</p>
+                            </div>
+                        </article>
+                    @empty
+                        <p class="ss-muted" data-no-reviews>No reviews yet. Tried it? Tell others what you think.</p>
+                    @endforelse
                 </div>
 
-                <div class="row">
-                    <div class="col col-xs-12">
-                        <div class="single-product-info">
-
-                            <div class="tablist">
-                                <ul class="nav nav-tabs" id="pills-tab" role="tablist">
-                                    <li><button  class="active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#tb-01">Product Details</button></li>
-                                    <li><button  id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#tb-03">Review ({{$ratingCount}})</button></li>
-                                </ul>
-                            </div>
-
-                            <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="tb-01">
-                                    <p>{{ $product->description ?: $product->name }}</p>
-                                </div>
-                                <div class="tab-pane fade" id="tb-03">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-sm-12 col-xs-12">
-
-                                            <h3 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Reviews</h3>
-
-                                            <div class="reviews-section" id="reviewsSection" style="max-height: 400px; overflow-y: auto;">
-                                                @foreach($reviews as $review)
-                                                <div class="client-rv">
-                                                        {{-- phone and wider-screen avatar sizes; the screen width picks one --}}
-                                                        <div class="d-md-none">
-                                                            <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="height: 60px;width:60px" loading="lazy">
-                                                        </div>
-                                                        <div class="client-pic d-none d-md-block">
-                                                            <img src="{{ asset('assets/img/icon/profile.png') }}" alt="Client Avatar" style="width:100px;height:60px" loading="lazy">
-                                                        </div>
-
-                                                    <div class="details">
-                                                        <div class="name-rating-time" style="display: flex; flex-direction: column;">
-                                                            <div class="name-rating" style="display: flex; align-items: center;">
-                                                                <h4 style="font-weight: bold; color: black; margin: 0;">{{ $review->name }}</h4>
-                                                            </div>
-                                                            <div class="review-body" style="margin-top: 5px;">
-                                                                <p>{{ $review->message }}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @endforeach
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-lg-6 col-sm-12 col-xs-12 review-form-wrapper">
-                                            <div class="review-form">
-                                                <h4>Here you can review the item</h4>
-                                                <form id="reviewForm" data-url="{{ route('product.createReview', $product->id) }}">
-                                                    @csrf <!-- CSRF token for security -->
-                                                    <div>
-                                                        <input type="text" class="form-control" name="name" placeholder="Name *" required>
-                                                    </div>
-                                                    <div>
-                                                        <textarea class="form-control" name="message" placeholder="Review *" required></textarea>
-                                                    </div>
-                                                    <div class="rating-wrapper">
-                                                        <div class="rating" style="display: flex; gap: 5px;">
-                                                            @for ($i = 1; $i <= 5; $i++)
-                                                            <label style="cursor: pointer;">
-                                                                <input type="radio" name="rating" value="{{ $i }}" style="display: none;">
-                                                                <i class="fal fa-star star" onclick="gfg({{ $i }})" style="font-size: 24px; transition: color 0.3s ease-in-out;"></i>
-                                                            </label>
-                                                            @endfor
-                                                        </div>
-                                                        <div class="submit">
-                                                            <button class="thm-btn thm-btn--black" type="submit">
-                                                                <span class="btn-wrap">
-                                                                    <span>Submit</span>
-                                                                </span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                                <!-- Success message container -->
-                                                <div id="successMessage" style="color: green; margin-top: 10px; display: none;"></div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <form id="reviewForm" class="ss-reviewform" data-url="{{ route('product.createReview', $product->id) }}">
+                    @csrf
+                    <h3>Write a review</h3>
+                    <div class="ss-starpick" role="radiogroup" aria-label="Your rating">
+                        @for ($i = 5; $i >= 1; $i--)
+                            <input type="radio" name="rating" value="{{ $i }}" id="rate-{{ $i }}" required>
+                            <label for="rate-{{ $i }}" title="{{ $i }} star{{ $i > 1 ? 's' : '' }}">{!! Icons::ui('star') !!}</label>
+                        @endfor
                     </div>
-                </div> <!-- end row -->
+                    <input type="text" class="ss-input" name="name" placeholder="Your name" maxlength="255" required>
+                    <textarea class="ss-input" name="message" rows="3" placeholder="What did you think?" maxlength="5000" required></textarea>
+                    <button class="ss-btn ss-btn--dark" type="submit">Post review</button>
+                    <p class="ss-pdp__msg" id="successMessage" role="status" aria-live="polite"></p>
+                </form>
+            </section>
+        </div>
 
-                    <!-- Mobile Layout -->
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                    <div class="container">
-                        <div class="sec-title text-center mb-55">
-                            <h2 class="title">Related products</h2>
-                        </div>
-                        <div class="product-slider swiper-container"  >
-                            <div class="swiper-wrapper" >
-                                @foreach($relatedProducts as $item)
-                                    <div class="swiper-slide product-item text-center" style="min-height: 400px">
-                                        <div class="xb-item--img">
-                                            @if($item->discount > 0)
-                                                <div class="ribbon" style="
-                            width: 150px;
-                            height: 150px;
-                            overflow: hidden;
-                            position: absolute;
-                            top: -10px;
-                            right: 0px;
-                            z-index: 2;
-                        ">
-                            <span style="
-                                position: absolute;
-                                display: block;
-                                width: 225px;
-                                padding: 15px 0;
-                                background-color: #A02334;
-                                color: white;
-                                text-transform: uppercase;
-                                font-weight: bold;
-                                text-align: center;
-                                transform: rotate(45deg);
-                                top: 30px;
-                                right: -65px;
-                            ">On Sale</span>
-                                                </div>
-                                            @endif
-                                            @if($item->stock > 0)
-                                                <a href="{{ $item->url() }}">
-                                                    <!-- Add image here -->
-                                                    @if($item->images->isNotEmpty())
-                                                        <img src="{{ asset($item->images->first()->url) }}" alt="{{ $item->name }}" style="max-height: 120px" loading="lazy">
-                                                    @else
-                                                        No image available
-                                                    @endif
-                                                </a>
-                                            @else
-                                                <a href="{{ $item->url() }}" class="no-stock">
-                                                    <!-- Add image here -->
-                                                    @if($item->images->isNotEmpty())
-                                                        <img src="{{ asset($item->images->first()->url) }}" alt="{{ $item->name }}" style="max-height: 120px" loading="lazy">
-                                                    @else
-                                                        No image available
-                                                    @endif
-                                                </a>
-                                            @endif
-                                        </div>
-                                        <div class="xb-item--holder">
-                                            <h3 class="xb-item--title">
-                                                @if($item->stock > 0)
-                                                    <a href="{{ $item->url() }}">{{ $item->name }}</a>
-                                                @else
-                                                    <a href="{{ $item->url() }}"><span>{{ $item->name }}<span style="opacity: 0.8; color: #ff0000;"><br/>(out of stock)</span></span></a>
-
-                                                @endif
-                                            </h3>
-                                            @php
-                                                $ratingCount = $item->reviews_count;
-                                                $averageRating = $ratingCount > 0 ? $item->reviews_avg_rating : 5;
-                                            @endphp
-                                            <div class="xb-item--rating-inner ul_li_center">
-                                                <ul class="xb-item--rating ul_li">
-                                                    @for ($i = 0; $i < 5; $i++)
-                                                        <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
-                                                    @endfor
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="xb-item--action ul_li mt-20" style="position: absolute; bottom: 30px; width: 80%;">
-                        <span class="xb-item--price">
-                            @if($item->discount > 0)
-                                <span style="text-decoration: line-through; color: gray;">${{ number_format($item->price, 2) }}</span>
-                                <span style="color: #A02334;">${{ number_format($item->price - ($item->price * $item->discount / 100), 2) }}</span>
-                            @else
-                                ${{ number_format($item->price, 2) }}
-                            @endif
-                        </span>
-                                            @if($item->stock > 0)
-                                                <a href="{{ $item->url() }}" class="xb-item--cart-btn">
-                                                    <span class="xb-item--cart-icon"><img src="{{asset('assets/img/icon/bag.svg')}}" alt="" loading="lazy"></span>
-                                                    <span class="xb-item--cart">add to cart</span>
-                                                </a>
-                                            @elseif($item->stock == 0)
-                                                <a href="{{ $item->url() }}" class="xb-item--cart-btn disabled" style="color: lightgrey" >
-                                                    <span class="xb-item--cart-icon"><img src="{{asset('assets/img/icon/bag.svg')}}" alt="" loading="lazy"></span>
-                                                    <span class="xb-item--cart">Out of Stock</span>
-                                                </a>
-                                            @endif
-                                        </div>
-                                    </div>
-                                        @endforeach
-                            </div>
-                        </div>
+        @if($relatedProducts->isNotEmpty())
+            <section class="ss-rail" data-rail>
+                <div class="ss-rail__head">
+                    <h2>You may also like</h2>
+                    <div class="ss-rail__nav">
+                        <button type="button" class="ss-iconbtn ss-iconbtn--sm" data-rail-scroll="-1" aria-label="Previous">{!! Icons::ui('prev') !!}</button>
+                        <button type="button" class="ss-iconbtn ss-iconbtn--sm" data-rail-scroll="1" aria-label="Next">{!! Icons::ui('next') !!}</button>
                     </div>
+                </div>
+                <div class="ss-rail__track" data-rail-track>
+                    @foreach($relatedProducts as $item)
+                        @include('partials.shop.card', ['item' => $item])
+                    @endforeach
+                </div>
+            </section>
+        @endif
+    </div>
 
-            </div> <!-- end of container -->
-        </section>
-        <!-- shop single start -->
-
-    </main>
-    <!-- main area end  -->
+    {{-- Phones: price and the buy button stay on screen above the tabs --}}
+    <div class="ss-stickybar ss-pdp__bar">
+        <div>
+            <span class="ss-stickybar__label">{{ $inStock ? 'Price' : 'Sold out' }}</span>
+            <strong>${{ number_format($final, 2) }}</strong>
+        </div>
+        @if($inStock)
+            <button type="submit" form="add-to-cart-form" class="ss-btn ss-btn--red">{!! Icons::ui('bag') !!} Add to cart</button>
+        @else
+            <a href="{{ $category ? $category->url() : route('shop') }}" class="ss-btn ss-btn--dark">See similar</a>
+        @endif
+    </div>
+</main>
 @endsection

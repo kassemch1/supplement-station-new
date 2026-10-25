@@ -15,7 +15,7 @@ class Product extends Model
     // The page URL is /products/{slug}, made from the name (see HasSlug)
     use HasSlug;
 
-    protected $fillable = ['name', 'description', 'price', 'category_id', 'stock', 'discount'];
+    protected $fillable = ['name', 'description', 'price', 'category_id', 'brand_id', 'stock', 'discount'];
 
     public function productOptions()
     {
@@ -25,6 +25,11 @@ class Product extends Model
     public function getCategory()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
     }
 
     public function images()
@@ -37,10 +42,17 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
-    // What a product card shows besides the product: its pictures and star rating
+    // What a product card shows besides the product: its pictures, brand and star rating. The brand is
+    // taken from the cached brand list, so it costs no query.
     public function scopeWithCardData($query)
     {
-        return $query->with('images')->withCount('reviews')->withAvg('reviews', 'rating');
+        return $query->with('images')->withCount('reviews')->withAvg('reviews', 'rating')
+            ->afterQuery(function ($products) {
+                $brands = Brand::cachedAll()->keyBy('id');
+                foreach ($products as $product) {
+                    $product->setRelation('brand', $product->brand_id ? $brands->get($product->brand_id) : null);
+                }
+            });
     }
 
     // Products for cards, in the order of $ids (best sellers first, special offers in the admin's order)

@@ -9,7 +9,13 @@ class ProductOption extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'option_id', 'option_value', 'stock'];
+    protected $fillable = ['product_id', 'option_id', 'option_value', 'image', 'stock'];
+
+    // Optional picture of this value (a flavour tub, a colour), shown on the option button
+    public function imageUrl(): ?string
+    {
+        return $this->image ? asset($this->image) : null;
+    }
 
     public function product()
     {

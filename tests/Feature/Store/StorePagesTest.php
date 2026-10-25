@@ -147,7 +147,7 @@ class StorePagesTest extends TestCase
     public function test_home_works_on_an_empty_shop(): void
     {
         $this->get('/')->assertOk();
-        $this->get('/shop')->assertOk()->assertSee('of 0 result', false);
+        $this->get('/shop')->assertOk()->assertSee('No products found');
     }
 
     public function test_hero_and_main_product_image_load_first(): void
@@ -156,7 +156,7 @@ class StorePagesTest extends TestCase
         $this->assertMatchesRegularExpression('#<img src="[^"]*"[^>]*fetchpriority="high"(?![^>]*loading="lazy")#', $home);
 
         $product = Product::factory()->withImage()->create();
-        $this->assertStringContainsString('width="500" height="500"  fetchpriority="high"', $this->get($product->url())->getContent());
+        $this->assertMatchesRegularExpression('#width="500" height="500"\s+fetchpriority="high"#', $this->get($product->url())->getContent());
     }
 
     // ---------- shop ----------
@@ -168,16 +168,17 @@ class StorePagesTest extends TestCase
         Product::factory()->withImage()->create(['name' => 'Iso Whey', 'price' => 50, 'discount' => 50, 'category_id' => $category->id]);
         Product::factory()->withImage()->create(['name' => 'Creatine', 'price' => 30]);
 
-        $this->assertStringContainsString('of 3 result', $this->get('/shop')->getContent());
-        $this->assertStringContainsString('of 2 result', $this->get('/shop?shop-search=whey')->getContent());
-        $this->assertStringContainsString('of 2 result', $this->get('/shop?home-search=whey')->getContent());
+        $this->assertSame(3, $this->get('/shop')->viewData('totalProducts'));
+        $this->assertSame(2, $this->get('/shop?shop-search=whey')->viewData('totalProducts'));
+        $this->assertSame(2, $this->get('/shop?home-search=whey')->viewData('totalProducts'));
+        $this->assertSame(2, $this->get('/shop?q=whey')->viewData('totalProducts'));
 
-        $sorted = $this->get('/shop?orderby=low-to-high')->viewData('product')->pluck('name')->all();
+        $sorted = $this->get('/shop?orderby=low-to-high')->viewData('products')->pluck('name')->all();
         $this->assertSame(['Iso Whey', 'Creatine', 'Gold Whey'], $sorted, 'sorted by the price after discount');
 
         foreach (['category', 'category-phone'] as $field) {
             $json = $this->getJson('/shop?' . http_build_query([$field => 'Whey']), ['X-Requested-With' => 'XMLHttpRequest'])->assertOk()->json();
-            $this->assertStringContainsString('of 2 result', $json['productsIndexing'], $field);
+            $this->assertSame(2, $json['total'], $field);
             $this->assertArrayHasKey('productList', $json);
             $this->assertArrayHasKey('paginatee', $json);
         }
@@ -202,10 +203,10 @@ class StorePagesTest extends TestCase
         $sibling = Product::factory()->withImage()->create(['category_id' => $category->id]);
         SpecialOffer::create(['product_id' => $sold->id, 'position' => 1]);
 
-        $this->assertGreaterThanOrEqual(3, $this->linksTo($this->get('/shop?shop-search=Rare')->getContent(), $sold), 'shop card');
+        $this->assertGreaterThanOrEqual(2, $this->linksTo($this->get('/shop?shop-search=Rare')->getContent(), $sold), 'shop card: picture and name');
         $this->assertStringNotContainsString('showOutOfStockMessage(event)', $this->get('/shop')->getContent());
-        $this->assertGreaterThanOrEqual(3, $this->linksTo($this->get('/')->getContent(), $sold), 'home special offer card');
-        $this->assertGreaterThanOrEqual(3, $this->linksTo($this->get($sibling->url())->getContent(), $sold), 'related products card');
+        $this->assertGreaterThanOrEqual(2, $this->linksTo($this->get('/')->getContent(), $sold), 'home special offer card');
+        $this->assertGreaterThanOrEqual(2, $this->linksTo($this->get($sibling->url())->getContent(), $sold), 'related products card');
     }
 
     public function test_related_products_come_from_the_same_category_in_stock_first(): void
@@ -224,7 +225,8 @@ class StorePagesTest extends TestCase
         $this->assertFalse($related->contains('id', $soldOut->id), 'in stock first');
         $this->assertNotNull($related->first()->reviews_count);
         $first = $related->first();
-        $this->assertMatchesRegularExpression('#href="' . preg_quote($first->url(), '#') . '" class="xb-item--cart-btn"#', $response->getContent());
+        $this->assertMatchesRegularExpression('#href="' . preg_quote($first->url(), '#') . '" class="ss-card__media"#', $response->getContent());
+        $this->assertStringContainsString('data-quick="' . $first->id . '"', $response->getContent(), 'quick add on related products in stock');
     }
 
     public function test_reviews_are_saved_for_real_products_and_rate_limited(): void
