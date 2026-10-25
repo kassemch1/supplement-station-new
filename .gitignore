@@ -20,3 +20,10 @@ yarn-error.log
 /.vscode
 /storage/backups/public_storage/
 error_log
+# Backups and dumps never go in git (they hold customer data); keep them outside the web root
+/backups
+/storage/backups
+/public/storage.zip
+*.sql
+*.sql.gz
+/.claude/worktrees

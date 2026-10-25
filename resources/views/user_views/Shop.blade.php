@@ -59,8 +59,6 @@
         </div>
     </section>
 
-
-
     <!-- breadcrumb end -->
 
     <!-- shop start -->
@@ -79,7 +77,6 @@
                                 </form>
                             </div>
                         </div>
-
 
                         <div class="widget mt-40">
                             <h2 class="widget__title">
@@ -113,14 +110,12 @@
                                     </ul>
                                 </div>
 
-
                         </div>
                         @if($offersProducts)
                             @include('partials.shop_offers', ['class' => 'd-none d-md-block'])
                         @endif
 
                         <!--End Of the Offers Section -->
-
 
                     </div>
                 </div>
@@ -152,7 +147,6 @@
                             <div id="pagination">
                                 @include('partials/product_pagination',['product'=>$product])
                             </div>
-
 
                         </div>
                         <br>

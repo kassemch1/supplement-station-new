@@ -1,25 +1,9 @@
-<!doctype html>
-<html class="no-js" lang="en">
+@extends('layouts.admin')
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Admin | Manage Special Offers</title>
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+@section('title', 'Manage Special Offers')
 
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/material-design-iconic-font.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/themify-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/cryptocurrency-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/plugins/plugins.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/helper.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/style.css') }}">
-    <link id="cus-style" rel="stylesheet" href="{{ asset('admin_assets/css/style-primary.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
-    <style>
+@push('styles')
+<style>
         .so-page-heading h3 { margin:0; font-weight:600; }
         .so-page-heading p { color:#94a3b8; margin-top:6px; max-width:720px; }
 
@@ -128,16 +112,10 @@
         .select2-container--default .select2-results__option--highlighted[aria-selected] { background:#2563eb; color:#fff; }
         .select2-container--default .select2-results__option[aria-selected=true] { background: rgba(255,255,255,0.05); }
     </style>
-</head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+@endpush
 
-<body class="skin-dark">
-
-<div class="main-wrapper">
-
-    @include('partials/adminHeader')
-    @include('partials/adminSideBar')
-
-    <div class="content-body">
+@section('content')
         <div class="row mb-20">
             <div class="col-12">
                 <div class="so-page-heading">
@@ -250,20 +228,9 @@
                 </div>
             @endif
         </div>
+@endsection
 
-    </div>
-
-</div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="{{ asset('admin_assets/js/vendor/modernizr-3.6.0.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/jquery-3.3.1.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/popper.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/bootstrap.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/plugins/plugins.js') }}"></script>
-<script src="{{ asset('admin_assets/js/main.js') }}"></script>
+@push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -273,6 +240,4 @@
         });
     });
 </script>
-
-</body>
-</html>
+@endpush

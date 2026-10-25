@@ -9,14 +9,10 @@ class ShippingDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'order_id',
-        'name',
-        'phone',
-        'email',
-        'address',
-        'city',
-    ];
+    protected $fillable = ['order_id', 'name', 'phone', 'email', 'address', 'city'];
 
-
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }

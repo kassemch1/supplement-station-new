@@ -1,57 +1,8 @@
-<!doctype html>
-<html class="no-js" lang="en">
+@extends('layouts.admin')
 
+@section('title', 'Manage Products Options')
 
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Manage Products Options</title>
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- CSS
-	============================================ -->
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href={{asset("admin_assets/css/vendor/bootstrap.min.css")}}>
-
-    <!-- Icon Font CSS -->
-    <link rel="stylesheet" href={{asset("admin_assets/css/vendor/material-design-iconic-font.min.css")}}>
-    <link rel="stylesheet" href={{asset("admin_assets/css/vendor/font-awesome.min.css")}}>
-    <link rel="stylesheet" href={{asset("admin_assets/css/vendor/themify-icons.css")}}>
-    <link rel="stylesheet" href={{asset("admin_assets/css/vendor/cryptocurrency-icons.css")}}>
-
-    <!-- Plugins CSS -->
-    <link rel="stylesheet" href={{asset("admin_assets/css/plugins/plugins.css")}}>
-
-    <!-- Helper CSS -->
-    <link rel="stylesheet" href={{asset("admin_assets/css/helper.css")}}>
-
-    <!-- Main Style CSS -->
-    <link rel="stylesheet" href={{asset("admin_assets/css/style.css")}}>
-
-    <!-- Custom Style CSS Only For Demo Purpose -->
-    <link id="cus-style" rel="stylesheet" href={{asset("admin_assets/css/style-primary.css")}}>
-
-</head>
-
-<body class="skin-dark">
-
-<div class="main-wrapper">
-
-    <!-- Header Section Start -->
-    @include('partials/adminHeader')
-    <!-- Header Section End -->
-
-    <!-- Side Header Start -->
-    @include('partials/adminSideBar')
-    <!-- Side Header End -->
-
-    <!-- Content Body Start -->
-    <div class="content-body">
-
+@section('content')
         <!-- Page Headings Start -->
         <div class="row justify-content-between align-items-center mb-10">
 
@@ -70,7 +21,7 @@
                 <form id="productOptionForm" method="post" action="{{ route('manageProductsOptions.store') }}">
                     @csrf
                     <h4 class="title">Add Product Option</h4>
-        
+
                     <div class="row">
                         <div class="col-lg-6 col-12 mb-30">
                             <label for="">Option</label>
@@ -93,15 +44,15 @@
                         </div>
                         <input type="hidden" name="product_id" value="{{ $product_id }}">
                     </div>
-        
+
                     <div id="successAlert" class="alert alert-success mt-3" style="display: none;">
                         <strong>Success!</strong> Product option added successfully.
                     </div>
-        
+
                     <div id="errorAlert" class="alert alert-danger mt-3" style="display: none;">
                         <strong>Error!</strong> Failed to add product option. Please try again.
                     </div>
-        
+
                     <div class="row">
                         <div class="d-flex flex-wrap justify-content-end col mbn-10">
                             <button class="button button-outline button-primary mb-10 ml-10 mr-0" type="submit" id="submitBtn">Save & Publish</button>
@@ -110,44 +61,9 @@
                 </form>
             </div>
         </div>
-        
-       
-        
+@endsection
 
-    </div><!-- Content Body End -->
-
-     <!-- Footer Section Start -->
-   
-     @include('partials.adminFooter')
-     
-     <!-- Footer Section End -->
-
-</div>
-
-<!-- JS
-============================================ -->
-
-<!-- Global Vendor, plugins & Activation JS -->
-<script src={{asset("admin_assets/js/vendor/modernizr-3.6.0.min.js")}}></script>
-<script src={{asset("admin_assets/js/vendor/jquery-3.3.1.min.js")}}></script>
-<script src={{asset("admin_assets/js/vendor/popper.min.js")}}></script>
-<script src={{asset("admin_assets/js/vendor/bootstrap.min.js")}}></script>
-<!--Plugins JS-->
-<script src={{asset("admin_assets/js/plugins/perfect-scrollbar.min.js")}}></script>
-<script src={{asset("admin_assets/js/plugins/tippy4.min.js.js")}}></script>
-<!--Main JS-->
-<script src={{asset("admin_assets/js/main.js")}}></script>
-
-<!-- Plugins & Activation JS For Only This Page -->
-<script src={{asset("admin_assets/js/plugins/nice-select/jquery.nice-select.min.js")}}></script>
-<script src={{asset("admin_assets/js/plugins/nice-select/niceSelect.active.js")}}></script>
-<script src={{asset("admin_assets/js/plugins/filepond/filepond.min.js")}}></script>
-<script src={{asset("admin_assets/js/plugins/filepond/filepond-plugin-image-exif-orientation.min.js")}}></script>
-<script src={{asset("admin_assets/js/plugins/filepond/filepond-plugin-image-preview.min.js")}}></script>
-<script src={{asset("admin_assets/js/plugins/filepond/filepond.active.js")}}></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
+@push('scripts')
 <script>
     $(document).ready(function () {
         $('#productOptionForm').submit(function (e) {
@@ -156,9 +72,6 @@
             var formData = new FormData(this);
 
             $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
                 type: 'POST',
                 url: $(this).attr('action'),
                 data: formData,
@@ -180,9 +93,4 @@
         });
     });
 </script>
-
-</body>
-
-
-
-</html>
+@endpush

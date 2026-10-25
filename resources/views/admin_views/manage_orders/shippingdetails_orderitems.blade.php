@@ -1,27 +1,9 @@
-<!doctype html>
-<html class="no-js" lang="en">
+@extends('layouts.admin')
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Order Details - #{{ $order->id }}</title>
-    <meta name="robots" content="noindex, follow"/>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('title')Order Details - #{{ $order->id }}@endsection
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/material-design-iconic-font.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/themify-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/cryptocurrency-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/plugins/plugins.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/helper.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/style.css') }}">
-    <link id="cus-style" rel="stylesheet" href="{{ asset('admin_assets/css/style-primary.css') }}">
-
-    <style>
+@push('styles')
+<style>
         /* CSS Variables for consistent theming */
         :root {
             --bg: #202334;
@@ -269,22 +251,9 @@
             to   { transform: scale(1);   opacity: 1; }
         }
     </style>
-</head>
+@endpush
 
-<body class="skin-dark">
-
-<div class="main-wrapper">
-    <!-- Header Section Start -->
-    @include('partials.adminHeader')
-    <!-- Header Section End -->
-
-    <!-- Side Header Start -->
-    @include('partials.adminSideBar')
-    <!-- Side Header End -->
-
-    <!-- Content Body Start -->
-    <div class="content-body">
-
+@section('content')
         <!-- Order Header -->
         <div class="order-header">
             <div class="row align-items-center">
@@ -354,16 +323,6 @@
                     <h4 class="mb-3"><i class="zmdi zmdi-shopping-cart mr-2"></i>Order Items</h4>
                     <div class="d-flex justify-content-center">
 
-
-{{--                                    @if ($item->product->images->isNotEmpty())--}}
-{{--                                        <img src="{{ asset($item->product->images->first()->url) }}"--}}
-{{--                                             alt="Product Image"--}}
-{{--                                             loading="lazy"--}}
-{{--                                             style="max-width: 100%; max-height: 100%; object-fit: cover;">--}}
-{{--                                    @else--}}
-{{--                                        <span>No Image</span>--}}
-{{--                                    @endif--}}
-
                     </div>
                     <div class="order-items-table">
                         <table class="table mb-0">
@@ -382,14 +341,6 @@
 
                                 @foreach($order->orderItems as $item)
                             <tr>
-                                {{--                                    <td>--}}
-                                {{--                                        @if ($item->product->images->isNotEmpty())--}}
-                                {{--                                            <img src="{{ asset($item->product->images->first()->url) }}" alt="Product Image" style="width: 50px; height: 50px;object-fit: cover">--}}
-                                {{--                                        @else--}}
-                                {{--                                            <span>No Image</span>--}}
-                                {{--                                        @endif--}}
-                                {{--                                    </td>--}}
-
 
                                 {{-- ↓ ADD THIS TD --}}
                                 <td>
@@ -525,29 +476,13 @@
                 </div>
             </div>
         </div>
+@endsection
 
-    </div><!-- Content Body End -->
-
-    <!-- Footer Section Start -->
-    @include('partials.adminFooter')
-    <!-- Footer Section End -->
-</div>
-
-<!-- JS -->
-<script src="{{ asset('admin_assets/js/vendor/modernizr-3.6.0.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/jquery-3.3.1.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/popper.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/bootstrap.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/main.js') }}"></script>
-
+@push('scripts')
 <script>
     function updateStatus(status) {
         if (confirm('Are you sure you want to update the order status to ' + status + '?')) {
             $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
                 type: 'POST',
                 url: "{{ route('admin.orders.updateStatus', $order->id) }}",
                 data: { status: status },
@@ -576,7 +511,7 @@
         console.log('Update status function exists:', typeof updateStatus);
     });
 </script>
-<!-- Lightbox -->
+
 <div id="img-lightbox" onclick="closeLightbox()">
     <span class="lb-close" onclick="closeLightbox()">&times;</span>
     <img id="lb-img" src="" alt="Product">
@@ -595,5 +530,4 @@
         if (e.key === 'Escape') closeLightbox();
     });
 </script>
-</body>
-</html>
+@endpush

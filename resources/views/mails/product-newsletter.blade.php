@@ -165,7 +165,7 @@
 
             <div class="product-info">
                 <!-- Category -->
-                <div class="product-category">{{ $product->getCategory->name }}</div>
+                <div class="product-category">{{ $product->getCategory?->name }}</div>
 
                 <!-- Product Name -->
                 <h2 class="product-name">{{ $product->name }}</h2>
@@ -178,12 +178,8 @@
                 <!-- Price -->
                 <div class="price-section">
                     @if($product->discount > 0)
-                        @php
-                            $originalPrice = $product->price;
-                            $discountedPrice = $originalPrice - ($originalPrice * $product->discount / 100);
-                        @endphp
-                        <span class="current-price">${{ number_format($discountedPrice, 2) }}</span>
-                        <span class="original-price">${{ number_format($originalPrice, 2) }}</span>
+                        <span class="current-price">${{ number_format($product->price_after_discount, 2) }}</span>
+                        <span class="original-price">${{ number_format($product->price, 2) }}</span>
                         <span class="discount-badge">{{ $product->discount }}% OFF</span>
                     @else
                         <span class="current-price">${{ number_format($product->price, 2) }}</span>
@@ -211,6 +207,9 @@
         <p style="font-size: 12px; color: #999; margin-top: 20px;">
             This email was sent to {{ $subscriber->email }} because you subscribed to our newsletter
             on {{ $subscriber->subscribed_at->format('M d, Y') }}.
+        </p>
+        <p style="font-size: 12px; color: #999;">
+            <a href="{{ $unsubscribeUrl }}" class="unsubscribe-link">Unsubscribe</a> from these emails.
         </p>
     </div>
 </div>

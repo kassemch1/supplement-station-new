@@ -1,18 +1,14 @@
 <?php
 
-use App\Http\Controllers\admin_controllers\ProductController;
+use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->prefix('manageProducts')->group(function () {
-    Route::get('/', [ProductController::class, 'index'])->name('manageProducts.index');
-    Route::get('/create', [ProductController::class, 'create'])->name('manageProducts.create');
-    Route::post('/store', [ProductController::class, 'store'])->name('manageProducts.store');
-    Route::get('/{id}/edit', [ProductController::class, 'edit'])->name('manageProducts.edit');
-    Route::post('/update', [ProductController::class, 'update'])->name('manageProducts.update');
-    Route::delete('/destroy', [ProductController::class, 'destroy'])->name('manageProducts.destroy');
-    Route::post('/{id}/restore', [ProductController::class, 'restore'])->name('manageProducts.restore');
+Route::middleware('auth')->prefix('manageProducts')->name('manageProducts.')->controller(ProductController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/{id}/edit', 'edit')->whereNumber('id')->name('edit');
+    Route::post('/update', 'update')->name('update');
+    Route::delete('/destroy', 'destroy')->name('destroy');
+    Route::post('/{id}/restore', 'restore')->whereNumber('id')->name('restore');
 });
-
-
-
-

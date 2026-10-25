@@ -65,12 +65,9 @@
         <!-- shop single start -->
         <section class="shop-single-section pt-115 pb-385">
             @include('partials.subscription-modal', ['delay' => 2000])
-{{--            <div id="message-container" style="display: none;"></div>--}}
-
 
             <div class="container">
                 <div class="row">
-
 
                     <div class="col-md-6">
                         <div class="product-single-wrap mb-30">
@@ -90,8 +87,6 @@
                                                             " width="500" height="500" @if($index === 0) fetchpriority="high" @else loading="lazy" @endif>
                                             </div>
 
-
-
                                         </div>
                                     @endforeach
                                 </div>
@@ -109,8 +104,6 @@
                             </div>
                         </div>
                     </div>
-
-
 
             <div class="col-md-6 product-details-col">
                 <div class="product-details mb-20">
@@ -134,9 +127,6 @@
                     </div>
 
                     <div class="product-option">
-
-
-
 
                         <form class="form" action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form" >
                             <div class="product-row">
@@ -208,9 +198,7 @@
                 </div>
             </div> <!-- end col -->
 
-
                 </div>
-
 
                 <div class="row">
                     <div class="col col-xs-12">
@@ -223,7 +211,6 @@
                                 </ul>
                             </div>
 
-
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="tb-01">
                                     <p>{{ $product->description ?: $product->name }}</p>
@@ -231,8 +218,6 @@
                                 <div class="tab-pane fade" id="tb-03">
                                     <div class="row">
                                         <div class="col-lg-6 col-sm-12 col-xs-12">
-
-
 
                                             <h3 style="font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px;">Reviews</h3>
 
@@ -261,7 +246,6 @@
                                                 @endforeach
                                             </div>
 
-
                                         </div>
 
                                         <div class="col-lg-6 col-sm-12 col-xs-12 review-form-wrapper">
@@ -272,9 +256,6 @@
                                                     <div>
                                                         <input type="text" class="form-control" name="name" placeholder="Name *" required>
                                                     </div>
-{{--                                                    <div>--}}
-{{--                                                        <input type="text" class="form-control" name="phoneNumber" placeholder="Phone *" required>--}}
-{{--                                                    </div>--}}
                                                     <div>
                                                         <textarea class="form-control" name="message" placeholder="Review *" required></textarea>
                                                     </div>
@@ -301,18 +282,12 @@
                                             </div>
                                         </div>
 
-
-
-
-
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div> <!-- end row -->
-
 
                     <!-- Mobile Layout -->
                 <br>
@@ -418,8 +393,6 @@
                                             @endif
                                         </div>
                                     </div>
-{{--                                @empty--}}
-{{--                                    <p>No products available.</p>--}}
                                         @endforeach
                             </div>
                         </div>

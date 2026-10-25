@@ -1,24 +1,9 @@
-<!doctype html>
-<html class="no-js" lang="en">
+@extends('layouts.admin')
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Admin | Create Coupon</title>
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+@section('title', 'Create Coupon')
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/material-design-iconic-font.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/themify-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/plugins/plugins.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/helper.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/style.css') }}">
-    <link id="cus-style" rel="stylesheet" href="{{ asset('admin_assets/css/style-primary.css') }}">
-    <style>
+@push('styles')
+<style>
     body.skin-dark {
         background-color: #202334;
         color: #F5F7FA;
@@ -84,24 +69,9 @@
         color: #B0BEC5;
     }
 </style>
+@endpush
 
-</head>
-
-<body class="skin-dark">
-
-<div class="main-wrapper">
-
-    <!-- Header Section Start -->
-    @include('partials/adminHeader')
-    <!-- Header Section End -->
-
-    <!-- Side Header Start -->
-    @include('partials/adminSideBar')
-    <!-- Side Header End -->
-
-    <!-- Content Body Start -->
-    <div class="content-body">
-
+@section('content')
         <!-- Page Headings Start -->
         <div class="row justify-content-between align-items-center mb-10">
 
@@ -144,8 +114,8 @@
                                 <!-- Coupon Name -->
                                 <div class="col-lg-6 col-12 mb-30">
                                     <label for="name">Coupon Name *</label>
-                                    <input name="name" class="form-control @error('name') is-invalid @enderror" 
-                                           type="text" placeholder="e.g., Summer Sale 20%" 
+                                    <input name="name" class="form-control @error('name') is-invalid @enderror"
+                                           type="text" placeholder="e.g., Summer Sale 20%"
                                            value="{{ old('name') }}" required>
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -173,8 +143,8 @@
                                 <div class="col-lg-6 col-12 mb-30">
                                     <label for="discount_percentage">Discount Percentage *</label>
                                     <div class="input-group">
-                                        <input name="discount_percentage" class="form-control @error('discount_percentage') is-invalid @enderror" 
-                                               type="number" step="0.01" min="0.01" max="100" 
+                                        <input name="discount_percentage" class="form-control @error('discount_percentage') is-invalid @enderror"
+                                               type="number" step="0.01" min="0.01" max="100"
                                                placeholder="e.g., 20" value="{{ old('discount_percentage') }}" required>
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
@@ -192,8 +162,8 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input name="minimum_order_amount" class="form-control @error('minimum_order_amount') is-invalid @enderror" 
-                                               type="number" step="0.01" min="0" 
+                                        <input name="minimum_order_amount" class="form-control @error('minimum_order_amount') is-invalid @enderror"
+                                               type="number" step="0.01" min="0"
                                                placeholder="e.g., 50.00" value="{{ old('minimum_order_amount', 0) }}" required>
                                     </div>
                                     @error('minimum_order_amount')
@@ -204,8 +174,8 @@
                                 <!-- Max Uses (for reusable coupons) -->
                                 <div class="col-lg-6 col-12 mb-30" id="max-uses-field" style="display: none;">
                                     <label for="max_uses">Maximum Uses</label>
-                                    <input name="max_uses" class="form-control @error('max_uses') is-invalid @enderror" 
-                                           type="number" min="1" placeholder="Leave empty for unlimited" 
+                                    <input name="max_uses" class="form-control @error('max_uses') is-invalid @enderror"
+                                           type="number" min="1" placeholder="Leave empty for unlimited"
                                            value="{{ old('max_uses') }}">
                                     <small class="form-text text-muted">Leave empty for unlimited uses</small>
                                     @error('max_uses')
@@ -216,7 +186,7 @@
                                 <!-- Expiry Date -->
                                 <div class="col-lg-6 col-12 mb-30">
                                     <label for="expires_at">Expiry Date</label>
-                                    <input name="expires_at" class="form-control @error('expires_at') is-invalid @enderror" 
+                                    <input name="expires_at" class="form-control @error('expires_at') is-invalid @enderror"
                                            type="datetime-local" value="{{ old('expires_at') }}">
                                     <small class="form-text text-muted">Leave empty for no expiry</small>
                                     @error('expires_at')
@@ -227,7 +197,7 @@
                                 <!-- Description -->
                                 <div class="col-12 mb-30">
                                     <label for="description">Description</label>
-                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror" 
+                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror"
                                               rows="3" placeholder="Optional description for this coupon">{{ old('description') }}</textarea>
                                     @error('description')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -251,19 +221,9 @@
                 </div>
             </div>
         </div><!-- Create Coupon Form End -->
+@endsection
 
-    </div><!-- Content Body End -->
-
-</div><!-- Main Wrapper End -->
-
-<!-- JS -->
-<script src="{{ asset('admin_assets/js/vendor/modernizr-3.6.0.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/jquery-3.3.1.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/popper.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/bootstrap.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/plugins/plugins.js') }}"></script>
-<script src="{{ asset('admin_assets/js/main.js') }}"></script>
-
+@push('scripts')
 <script>
 // Show/hide max uses field based on coupon type
 $(document).ready(function() {
@@ -280,6 +240,4 @@ $(document).ready(function() {
     $('select[name="type"]').trigger('change');
 });
 </script>
-
-</body>
-</html>
+@endpush

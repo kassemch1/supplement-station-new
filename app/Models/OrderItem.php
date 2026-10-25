@@ -17,6 +17,11 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class)->withTrashed();
     }
 
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
     // Name and image as they were when ordered, falling back to the product for older lines
     public function getDisplayNameAttribute(): string
     {
@@ -28,13 +33,8 @@ class OrderItem extends Model
         return $this->product_image ?? $this->product?->images->first()?->url;
     }
 
-    public function options()
+    public function selectedOptions(): array
     {
-        return $this->belongsToMany(ProductOption::class, 'order_item_options');
-    }
-
-    public function order()
-    {
-        return $this->belongsTo(Order::class);
+        return json_decode($this->selected_options ?? '', true) ?: [];
     }
 }

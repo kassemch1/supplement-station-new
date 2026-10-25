@@ -15,6 +15,8 @@ class Category extends Model
 
     private const CACHE_KEY = 'store.categories';
 
+    protected $fillable = ['name'];
+
     protected static function booted(): void
     {
         // The admin adds, renames and deletes categories through these models, so the menu updates at once

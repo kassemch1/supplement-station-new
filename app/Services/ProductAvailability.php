@@ -27,7 +27,8 @@ class ProductAvailability
             return $fail('The selected options are not valid.');
         }
 
-        $groups = $product->productOptions()->with('option')->get()
+        // Callers checking many lines eager-load productOptions.option, so this runs no query
+        $groups = $product->loadMissing('productOptions.option')->productOptions
             ->filter(fn ($productOption) => $productOption->option)
             ->groupBy(fn ($productOption) => $productOption->option->option_name);
 

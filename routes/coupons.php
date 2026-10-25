@@ -1,23 +1,20 @@
 <?php
 
+use App\Http\Controllers\Admin\CouponController as AdminCouponController;
+use App\Http\Controllers\Store\CouponController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\user_controllers\CouponController as UserCouponController;
-use App\Http\Controllers\admin_controllers\CouponController as AdminCouponController;
 
-// User routes for coupon application
+// The coupon box on the cart and checkout pages
+Route::post('/coupon/apply', [CouponController::class, 'apply'])->name('coupon.apply')->middleware('throttle:10,1,coupon');
+Route::post('/coupon/remove', [CouponController::class, 'remove'])->name('coupon.remove');
+Route::get('/coupon/applied', [CouponController::class, 'applied'])->name('coupon.applied');
 
-    Route::post('/coupon/apply', [UserCouponController::class, 'apply'])->name('coupon.apply')->middleware('throttle:10,1,coupon');
-    Route::post('/coupon/remove', [UserCouponController::class, 'remove'])->name('coupon.remove');
-    Route::get('/coupon/applied', [UserCouponController::class, 'getAppliedCoupon'])->name('coupon.applied');
-
-
-// Admin routes for coupon management
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/coupons', [AdminCouponController::class, 'index'])->name('coupons.index');
-    Route::get('/coupons/create', [AdminCouponController::class, 'create'])->name('coupons.create');
-    Route::post('/coupons', [AdminCouponController::class, 'store'])->name('coupons.store');
-    Route::get('/coupons/{id}/edit', [AdminCouponController::class, 'edit'])->name('coupons.edit');
-    Route::put('/coupons/{id}', [AdminCouponController::class, 'update'])->name('coupons.update');
-    Route::delete('/coupons/{id}', [AdminCouponController::class, 'destroy'])->name('coupons.destroy');
-    Route::patch('/coupons/{id}/toggle-status', [AdminCouponController::class, 'toggleStatus'])->name('coupons.toggle-status');
+Route::middleware('auth')->prefix('admin/coupons')->name('admin.coupons.')->controller(AdminCouponController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/', 'store')->name('store');
+    Route::get('/{id}/edit', 'edit')->whereNumber('id')->name('edit');
+    Route::put('/{id}', 'update')->whereNumber('id')->name('update');
+    Route::delete('/{id}', 'destroy')->whereNumber('id')->name('destroy');
+    Route::patch('/{id}/toggle-status', 'toggleStatus')->whereNumber('id')->name('toggle-status');
 });

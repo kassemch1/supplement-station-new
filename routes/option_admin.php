@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\admin_controllers\OptionController;
+use App\Http\Controllers\Admin\OptionController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->prefix('manageOptions')->group(function () {
-    Route::get('/', [OptionController::class, 'index'])->name('manageOptions.index');
-    Route::get('/create', [OptionController::class, 'create'])->name('manageOptions.create');
-    Route::post('/store', [OptionController::class, 'store'])->name('manageOptions.store');
-    Route::get('/{id}/edit', [OptionController::class, 'edit'])->name('manageOptions.edit');
-    Route::put('/update', [OptionController::class, 'update'])->name('manageOptions.update');
-    Route::delete('/destroy', [OptionController::class, 'destroy'])->name('manageOptions.destroy');
+Route::middleware('auth')->prefix('manageOptions')->name('manageOptions.')->controller(OptionController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/{id}/edit', 'edit')->whereNumber('id')->name('edit');
+    Route::put('/update', 'update')->name('update');
+    Route::delete('/destroy', 'destroy')->name('destroy');
 });

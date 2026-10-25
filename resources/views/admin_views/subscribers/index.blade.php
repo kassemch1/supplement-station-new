@@ -1,25 +1,9 @@
-<!doctype html>
-<html class="no-js" lang="en">
+@extends('layouts.admin')
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Admin | Manage Subscribers</title>
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('title', 'Manage Subscribers')
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/material-design-iconic-font.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/themify-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/plugins/plugins.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/helper.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/style.css') }}">
-    <link id="cus-style" rel="stylesheet" href="{{ asset('admin_assets/css/style-primary.css') }}">
-    <style>
+@push('styles')
+<style>
         body.skin-dark {
             background-color: #202334;
             color: #F5F7FA;
@@ -199,24 +183,9 @@
             vertical-align: middle;
         }
     </style>
+@endpush
 
-</head>
-
-<body class="skin-dark">
-
-<div class="main-wrapper">
-
-    <!-- Header Section Start -->
-    @include('partials/adminHeader')
-    <!-- Header Section End -->
-
-    <!-- Side Header Start -->
-    @include('partials/adminSideBar')
-    <!-- Side Header End -->
-
-    <!-- Content Body Start -->
-    <div class="content-body">
-
+@section('content')
         <!-- Page Headings Start -->
         <div class="row justify-content-between align-items-center mb-10">
             <!-- Page Heading Start -->
@@ -241,25 +210,25 @@
         <div class="row mb-30">
             <div class="col-lg-3 col-md-6 col-12 mb-20">
                 <div class="stats-card">
-                    <div class="stats-number">{{ $subscribers->total() }}</div>
+                    <div class="stats-number">{{ $stats['total'] }}</div>
                     <div class="stats-label">Total Subscribers</div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-12 mb-20">
                 <div class="stats-card">
-                    <div class="stats-number">{{ $subscribers->where('is_active', true)->count() }}</div>
+                    <div class="stats-number">{{ $stats['active'] }}</div>
                     <div class="stats-label">Active Subscribers</div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-12 mb-20">
                 <div class="stats-card">
-                    <div class="stats-number">{{ $subscribers->where('is_active', false)->count() }}</div>
+                    <div class="stats-number">{{ $stats['inactive'] }}</div>
                     <div class="stats-label">Inactive Subscribers</div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-12 mb-20">
                 <div class="stats-card">
-                    <div class="stats-number">{{ $subscribers->where('created_at', '>=', now()->subDays(30))->count() }}</div>
+                    <div class="stats-number">{{ $stats['recent'] }}</div>
                     <div class="stats-label">New This Month</div>
                 </div>
             </div>
@@ -269,7 +238,6 @@
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
-{{--                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>--}}
             </div>
         @endif
 
@@ -396,25 +364,12 @@
                 </div>
             </div>
         </div>
+@endsection
 
-    </div><!-- Content Body End -->
-
-</div><!-- Main Wrapper End -->
-
-<!-- JS -->
-<script src="{{ asset('admin_assets/js/vendor/modernizr-3.6.0.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/jquery-3.3.1.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/popper.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/bootstrap.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/plugins/plugins.js') }}"></script>
-<script src="{{ asset('admin_assets/js/main.js') }}"></script>
-
+@push('scripts')
 <script>
     // CSRF Token setup
     $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
     });
 
     // Toggle bulk actions
@@ -522,6 +477,4 @@
         window.location.href = url;
     }
 </script>
-
-</body>
-</html>
+@endpush

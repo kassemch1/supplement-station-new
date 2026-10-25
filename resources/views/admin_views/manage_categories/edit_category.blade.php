@@ -1,57 +1,8 @@
-<!doctype html>
-<html class="no-js" lang="en">
+@extends('layouts.admin')
 
+@section('title', 'Manage Category')
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Manage Category</title>
-    <meta name="robots" content="noindex, follow"/>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <!-- CSS
-	============================================ -->
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href={{asset("admin_assets/css/vendor/bootstrap.min.css")}}>
-
-    <!-- Icon Font CSS -->
-    <link rel="stylesheet" href={{asset("admin_assets/css/vendor/material-design-iconic-font.min.css")}}>
-    <link rel="stylesheet" href={{asset("admin_assets/css/vendor/font-awesome.min.css")}}>
-    <link rel="stylesheet" href={{asset("admin_assets/css/vendor/themify-icons.css")}}>
-    <link rel="stylesheet" href={{asset("admin_assets/css/vendor/cryptocurrency-icons.css")}}>
-
-    <!-- Plugins CSS -->
-    <link rel="stylesheet" href={{asset("admin_assets/css/plugins/plugins.css")}}>
-
-    <!-- Helper CSS -->
-    <link rel="stylesheet" href={{asset("admin_assets/css/helper.css")}}>
-
-    <!-- Main Style CSS -->
-    <link rel="stylesheet" href={{asset("admin_assets/css/style.css")}}>
-
-    <!-- Custom Style CSS Only For Demo Purpose -->
-    <link id="cus-style" rel="stylesheet" href={{asset("admin_assets/css/style-primary.css")}}>
-
-</head>
-
-<body class="skin-dark">
-
-<div class="main-wrapper">
-
-    <!-- Header Section Start -->
-    @include('partials.adminHeader')
-    <!-- Header Section End -->
-
-    <!-- Side Header Start -->
-    @include('partials.adminSideBar')
-    <!-- Side Header End -->
-
-    <!-- Content Body Start -->
-    <div class="content-body">
-
+@section('content')
         <!-- Page Headings Start -->
         <div class="row justify-content-between align-items-center mb-10">
 
@@ -124,37 +75,9 @@
             </div>
         </div>
         <!--Bordered Table Light End-->
+@endsection
 
-    </div><!-- Content Body End -->
-
-     <!-- Footer Section Start -->
-   
-     @include('partials.adminFooter')
-     
-     <!-- Footer Section End -->
-
-</div>
-
-<!-- JS
-============================================ -->
-
-<!-- Global Vendor, plugins & Activation JS -->
-<script src={{asset("admin_assets/js/vendor/modernizr-3.6.0.min.js")}}></script>
-<script src={{asset("admin_assets/js/vendor/jquery-3.3.1.min.js")}}></script>
-<script src={{asset("admin_assets/js/vendor/popper.min.js")}}></script>
-<script src={{asset("admin_assets/js/vendor/bootstrap.min.js")}}></script>
-<!--Plugins JS-->
-<script src={{asset("admin_assets/js/plugins/perfect-scrollbar.min.js")}}></script>
-<script src={{asset("admin_assets/js/plugins/tippy4.min.js.js")}}></script>
-<!--Main JS-->
-<script src={{asset("admin_assets/js/main.js")}}></script>
-
-<!-- Plugins & Activation JS For Only This Page -->
-<script src={{asset("admin_assets/js/plugins/nice-select/jquery.nice-select.min.js")}}></script>
-<script src={{asset("admin_assets/js/plugins/nice-select/niceSelect.active.js")}}></script>
-<script src="{{asset("admin_assets/js/plugins/dropify/dropify.min.js")}}"></script>
-<script src="{{asset("admin_assets/js/plugins/dropify/dropify.active.js")}}"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@push('scripts')
 <script>
     var category_id = 0;
     function getCategoryId(id)
@@ -171,9 +94,6 @@
             var url = $(this).attr('action'); // Get form action URL
             // Send AJAX request
             $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
                 type: 'DELETE',
                 url: url,
                 data: { id: category_id },
@@ -192,9 +112,4 @@
         });
     });
 </script>
-
-
-</body>
-
-
-</html>
+@endpush

@@ -11,7 +11,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Email apps' one-click unsubscribe has no CSRF token; the signed address protects it
+        $middleware->validateCsrfTokens(except: ['newsletter/unsubscribe/*']);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

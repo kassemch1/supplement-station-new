@@ -1,16 +1,14 @@
 <?php
 
-
-
-use App\Http\Controllers\admin_controllers\OrderController;
+use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->group(function () {
-    Route::get('/admin/orders/pending', [OrderController::class, 'pendingOrders'])->name('admin.orders.pending');
-    Route::get('/admin/orders/delivered', [OrderController::class, 'deliveredOrders'])->name('admin.orders.delivered');
-    Route::get('/admin/orders/cancelled', [OrderController::class, 'cancelledOrders'])->name('admin.orders.cancelled');
-    Route::get('/admin/orders/{orderId}', [OrderController::class, 'orderDetails'])->name('admin.orders.details');
-    Route::post('/admin/orders/{orderId}/update-status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
-    Route::delete('/admin/orders/{orderId}', [OrderController::class, 'deleteOrder'])->name('admin.orders.delete');
-    Route::get('/admin/orders/{id}/details', [OrderController::class, 'details'])->name('admin.orders.details.old');
+Route::middleware('auth')->prefix('admin/orders')->name('admin.orders.')->controller(OrderController::class)->group(function () {
+    Route::get('/pending', 'index')->defaults('status', 'pending')->name('pending');
+    Route::get('/delivered', 'index')->defaults('status', 'delivered')->name('delivered');
+    Route::get('/cancelled', 'index')->defaults('status', 'cancelled')->name('cancelled');
+    Route::get('/{orderId}', 'show')->whereNumber('orderId')->name('details');
+    Route::get('/{orderId}/details', 'show')->whereNumber('orderId')->name('details.old');
+    Route::post('/{orderId}/update-status', 'updateStatus')->whereNumber('orderId')->name('updateStatus');
+    Route::delete('/{orderId}', 'destroy')->whereNumber('orderId')->name('delete');
 });

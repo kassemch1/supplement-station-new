@@ -76,38 +76,6 @@
                     </ul>
                 </li>
 
-{{--                <li class="has-sub-menu"><a href="#"><i class="fa fa-commenting"></i> <span>Manage FAQs</span></a>--}}
-{{--                    <ul class="side-header-sub-menu">--}}
-{{--                        <li><a href=""><span>Add FAQ</span></a></li>--}}
-{{--                        <li><a href=""><span>Edit FAQ</span></a></li>--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--                <li class="has-sub-menu"><a href="#"><i class="fa fa-commenting"></i> <span>Manage Project</span></a>--}}
-{{--                    <ul class="side-header-sub-menu">--}}
-{{--                        <li><a href=""><span>Add Project</span></a></li>--}}
-{{--                        <li><a href=""><span>Edit Project</span></a></li>--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--                <li class="has-sub-menu"><a href="#"><i class="fa fa-commenting"></i> <span>Manage Process</span></a>--}}
-{{--                    <ul class="side-header-sub-menu">--}}
-{{--                        <li><a href=""><span>Add Process</span></a></li>--}}
-{{--                        <li><a href=""><span>Edit Process</span></a></li>--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--                <li class="has-sub-menu"><a href="#"><i class="fa fa-commenting"></i> <span>Manage Why Choose Us</span></a>--}}
-{{--                    <ul class="side-header-sub-menu">--}}
-{{--                        <li><a href=""><span>Add Reason</span></a></li>--}}
-{{--                        <li><a href=""><span>Edit Reason</span></a></li>--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--                <li class="has-sub-menu"><a href="#"><i class="fa fa-commenting"></i> <span>Manage Our Team</span></a>--}}
-{{--                    <ul class="side-header-sub-menu">--}}
-{{--                        <li><a href=""><span>Add Member</span></a></li>--}}
-{{--                        <li><a href=""><span>Edit Member</span></a></li>--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--                <li><a href=""><i class="zmdi zmdi-info-outline"></i> <span>Manage Numbers</span></a></li>--}}
-
             </ul>
         </nav>
 

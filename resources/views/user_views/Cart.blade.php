@@ -49,17 +49,8 @@
                                     </thead>
                                     <tbody id="cart-items">
 
-
                                     </tbody>
-{{--                                    <tr>--}}
-{{--                                        <td colspan="6" class="actions">--}}
 
-{{--                                            <button class="xb-btn" type="button">Update Cart--}}
-{{--                                            </button>--}}
-
-
-{{--                                        </td>--}}
-{{--                                    </tr>--}}
                                 </table>
                             </form>
 

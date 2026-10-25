@@ -63,8 +63,6 @@
 
                 </div>
             </div>
-{{--            <div class="hero-shape">--}}
-{{--            </div>--}}
         </section>
         <!-- hero end -->
 
@@ -134,7 +132,6 @@
                                         @for ($i = 0; $i < 5; $i++)
                                             <i class="fas fa-star{{ $i < $averageRating ? '' : '-o' }}"></i>
                                         @endfor
-{{--                                        <span>({{ $ratingCount }} Customer review{{ $ratingCount != 1 ? 's' : '' }})</span>--}}
                                     </ul>
                                 </div>
                                 <div class="xb-item--action ul_li_between" style="position: absolute; bottom:40px;width:55%">
@@ -164,7 +161,6 @@
                     </a>
                 </div>
 
-
             </div>
             <div class="col-lg-4 pb-col-4">
                 <div class="popular-product__img mt-20">
@@ -176,7 +172,6 @@
     </div>
 </section>
 <!-- offers product end -->
-
 
             <!-- about start -->
             <section class="about pb-120">
@@ -462,13 +457,11 @@
                         <span class="sub-title">plans</span>
                         <h2 class="title">flexible plans</h2>
                     </div>
-                    {{--                <div class="swiper-wrapper">--}}
                     <div class="row justify-content-center mt-none-30">
 
                         @foreach($planes as $plane)
                             @if($plane->id%2==1)
                                 <div class="col-lg-4 col-md-6 mt-30">
-
 
                                     <div class="xb-pricing">
                                         <div class="xb-item--head pos-rel">
@@ -504,11 +497,8 @@
                                         </div>
                                     </div>
 
-
                                 </div>
                             @elseif($plane->id%2==0)
-
-
 
                                 <div class="col-lg-4 col-md-6 mt-30">
                                     <div class="xb-pricing active">
@@ -547,7 +537,6 @@
                             @endif
                         @endforeach
                     </div>
-                    {{--                </div>--}}
                 </div>
 
             </section>
@@ -577,86 +566,6 @@
                                 </div>
                             </li>
                         @endforeach
-{{--                        <li class="accordion block active-block">--}}
-{{--                            <div class="acc-btn">--}}
-{{--                                Are your supplements suitable for vegans or vegetarians?--}}
-{{--                                <span class="arrow"></span>--}}
-{{--                            </div>--}}
-{{--                            <div class="acc_body current">--}}
-{{--                                <div class="content">--}}
-{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
-{{--                                    <ul>--}}
-{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
-{{--                                        <li>No Animal-Derived Ingredients</li>--}}
-{{--                                        <li>Alternative Capsules</li>--}}
-{{--                                    </ul>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
-{{--                        <li class="accordion block">--}}
-{{--                            <div class="acc-btn">--}}
-{{--                                Can I take multiple supplements together?--}}
-{{--                                <span class="arrow"></span>--}}
-{{--                            </div>--}}
-{{--                            <div class="acc_body">--}}
-{{--                                <div class="content">--}}
-{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
-{{--                                    <ul>--}}
-{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
-{{--                                        <li>No Animal-Derived Ingredients</li>--}}
-{{--                                        <li>Alternative Capsules</li>--}}
-{{--                                    </ul>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
-{{--                        <li class="accordion block">--}}
-{{--                            <div class="acc-btn">--}}
-{{--                                Can I take supplements with medications or other dietary products?--}}
-{{--                                <span class="arrow"></span>--}}
-{{--                            </div>--}}
-{{--                            <div class="acc_body">--}}
-{{--                                <div class="content">--}}
-{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
-{{--                                    <ul>--}}
-{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
-{{--                                        <li>No Animal-Derived Ingredients</li>--}}
-{{--                                        <li>Alternative Capsules</li>--}}
-{{--                                    </ul>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
-{{--                        <li class="accordion block">--}}
-{{--                            <div class="acc-btn">--}}
-{{--                                What is the recommended daily dosage for your supplements?--}}
-{{--                                <span class="arrow"></span>--}}
-{{--                            </div>--}}
-{{--                            <div class="acc_body">--}}
-{{--                                <div class="content">--}}
-{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
-{{--                                    <ul>--}}
-{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
-{{--                                        <li>No Animal-Derived Ingredients</li>--}}
-{{--                                        <li>Alternative Capsules</li>--}}
-{{--                                    </ul>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
-{{--                        <li class="accordion block">--}}
-{{--                            <div class="acc-btn">--}}
-{{--                                Are your supplements tested for quality and purity?--}}
-{{--                                <span class="arrow"></span>--}}
-{{--                            </div>--}}
-{{--                            <div class="acc_body">--}}
-{{--                                <div class="content">--}}
-{{--                                    <p>When addressing whether your supplements are suitable for vegans or vegetarians, you can following points:</p>--}}
-{{--                                    <ul>--}}
-{{--                                        <li>Vegan-Friendly Ingredients</li>--}}
-{{--                                        <li>No Animal-Derived Ingredients</li>--}}
-{{--                                        <li>Alternative Capsules</li>--}}
-{{--                                    </ul>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
                     </ul>
                 </div>
             </div>
@@ -704,55 +613,6 @@
         <!-- brand end -->
 
         <!-- blog start -->
-{{--        <section id="blog" class="blog position-top blog-pb bg_img pt-180" data-background="{{ asset('assets/img/bg/blog_bg.jpg') }}">--}}
-{{--            <div class="container">--}}
-{{--                <div class="ul_li_between align-items-end mb-25">--}}
-{{--                    <div class="sec-title mb-30">--}}
-{{--                        <span class="sub-title">blog</span>--}}
-{{--                        <h2 class="title">latest blog</h2>--}}
-{{--                    </div>--}}
-{{--                    <a class="border-btn mb-30" href="blog.html">view all blog</a>--}}
-{{--                </div>--}}
-{{--                <div class="row mt-none-30 justify-content-center">--}}
-{{--                    <div class="col-lg-4 col-md-6 mt-30">--}}
-{{--                        <div class="xb-blog">--}}
-{{--                            <div class="xb-item--img">--}}
-{{--                                <a href="blog-single.html"><img src="{{ asset('assets/img/blog/img_01.jpg') }}" alt=""></a>--}}
-{{--                                <div class="xb-item--date">28 <br><span>sep</span></div>--}}
-{{--                            </div>--}}
-{{--                            <div class="xb-item--holder">--}}
-{{--                                <span class="xb-item--author"><img src="{{ asset('assets/img/icon/user.svg') }}" alt="">Steven Timothy</span>--}}
-{{--                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">The Power of Adaptogens Stress Relief and..</a></h3>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-lg-4 col-md-6 mt-30">--}}
-{{--                        <div class="xb-blog">--}}
-{{--                            <div class="xb-item--img">--}}
-{{--                                <a href="blog-single.html"><img src="{{ asset('assets/img/blog/img_02.jpg') }}" alt=""></a>--}}
-{{--                                <div class="xb-item--date">28 <br><span>sep</span></div>--}}
-{{--                            </div>--}}
-{{--                            <div class="xb-item--holder">--}}
-{{--                                <span class="xb-item--author"><img src="{{ asset('assets/img/icon/user.svg') }}" alt="">Andrew Brian</span>--}}
-{{--                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">The Role of Supplements in Athletic Perf..</a></h3>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-lg-4 col-md-8 mt-30">--}}
-{{--                        <div class="xb-blog">--}}
-{{--                            <div class="xb-item--img">--}}
-{{--                                <a href="blog-single.html"><img src="{{ asset('assets/img/blog/img_03.jpg') }}" alt=""></a>--}}
-{{--                                <div class="xb-item--date">28 <br><span>sep</span></div>--}}
-{{--                            </div>--}}
-{{--                            <div class="xb-item--holder">--}}
-{{--                                <span class="xb-item--author"><img src="{{ asset('assets/img/icon/user.svg') }}" alt="">Andrew Brian</span>--}}
-{{--                                <h3 class="xb-item--title border-effect"><a href="blog-single.html">Discover the Benefits of Essential Nutrients..</a></h3>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </section>--}}
         <!-- blog end -->
 
     </main>

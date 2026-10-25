@@ -1,14 +1,13 @@
 <?php
 
-use App\Http\Controllers\admin_controllers\CategoryController;
+use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->prefix('manageCategories')->group(function () {
-    Route::get('/', [CategoryController::class, 'index'])->name('manageCategories.index');
-    Route::get('/create', [CategoryController::class, 'create'])->name('manageCategories.create');
-    Route::post('/store', [CategoryController::class, 'store'])->name('manageCategories.store');
-    Route::get('/{id}/edit', [CategoryController::class, 'edit'])->name('manageCategories.edit');
-    Route::put('/update', [CategoryController::class, 'update'])->name('manageCategories.update');
-    Route::delete('/destroy', [CategoryController::class, 'destroy'])->name('manageCategories.destroy');
+Route::middleware('auth')->prefix('manageCategories')->name('manageCategories.')->controller(CategoryController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/{id}/edit', 'edit')->whereNumber('id')->name('edit');
+    Route::put('/update', 'update')->name('update');
+    Route::delete('/destroy', 'destroy')->name('destroy');
 });
-

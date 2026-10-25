@@ -27,13 +27,8 @@
                                 <a class="section-link" href="{{ route('home') }}"><span>Home</span></a>
                             </li>
 
-
-
                                     <li class="{{ url()->current() ==route('shop')? 'active' : '' }}"><a href="{{ route('shop') }}"><span>Products</span></a></li>
                                     <li class="{{ url()->current() ==route('cart')? 'active' : '' }}"><a href="{{ route('cart') }}"><span>Cart</span></a></li>
-
-
-
 
                             <li class="menu-item-has-children ">
                                 <a class="section-link" href="#"><span>Categories</span></a>
@@ -68,8 +63,6 @@
                                                 <li><a href="{{ route('shop') }}"><span>Products</span></a></li>
                                                 <li><a href="{{ route('cart') }}"><span>Cart</span></a></li>
 
-
-
                                         <li class="menu-item menu-item-has-children">
                                             <a class="menu-item menu-item-has-children" href="" onclick="toggleDropdown(event, 'categories-dropdown'); return false;"><span>Categories</span></a>
                                             <ul class="sub-menu" id="categories-dropdown">
@@ -93,7 +86,6 @@
                             <a href="javascript:void(0);"><img src="{{ asset('assets/img/icon/bag.svg')}}" alt=""><span class="mini-cart-count">0</span></a>
                             <div class="header-mini-cart" >
 
-
                             </div>
                         </div>
                         <a class="header__bar offcanvas-sidebar-btn" href="javascript:void(0);">
@@ -110,7 +102,6 @@
                 <div class="header-shop-cart d-lg-none">
                     <a href="javascript:void(0);"><img src="{{ asset('assets/img/icon/bag.svg')}}" alt=""><span class="mini-cart-count">0</span></a>
                     <div class="header-mini-cart" >
-
 
                     </div>
                 </div>
@@ -176,8 +167,6 @@
         </div>
     </div>
 
-
-
     <br/><br/>
 
     <div class="xb-item col-auto">
@@ -186,7 +175,6 @@
         </span>
     </div>
 </div>
-
 
     <script>
         function toggleDropdown(event, dropdownId) {

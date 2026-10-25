@@ -2,64 +2,31 @@
 
 namespace App\Mail;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Order;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
+// The customer's receipt. Replying reaches the store.
 class CheckoutMail extends Mailable
 {
-    use Queueable, SerializesModels;
-
-    public $client_data;
-    public $items;
-    public $order;
-
-
-    /**
-     * Create a new message instance.
-     */
-    public function __construct($client_data,$items,$order)
+    public function __construct(public array $client_data, public Collection $items, public Order $order)
     {
-        $this->client_data=$client_data;
-        $this->items=$items;
-        $this->order=$order;
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
-            from:new Address("admin@supplement-station.com","Supplement Station"),
+            from: new Address(config('mail.admin_address'), 'Supplement Station'),
+            replyTo: [new Address(config('mail.admin_address'), 'Supplement Station')],
             subject: 'Checkout From Supplement-Station',
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
-        return new Content(
-            view: 'mails/checkout_mail',
-            with: ['client_data'=>$this->client_data,
-                'items'=>$this->items,
-                'order'=>$this->order]
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        return new Content(view: 'mails/checkout_mail');
     }
 }

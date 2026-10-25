@@ -1,10 +1,6 @@
 <?php
 
-use App\Http\Controllers\admin_controllers\ProductImagesController;
+use App\Http\Controllers\Admin\ProductImagesController;
 use Illuminate\Support\Facades\Route;
 
-Route::delete('/productImage/{id}',[ProductImagesController::class,'destroy'])->name('productImage.destroy')->middleware('auth');
-
-
-
-
+Route::delete('/productImage/{id}', [ProductImagesController::class, 'destroy'])->whereNumber('id')->name('productImage.destroy')->middleware('auth');

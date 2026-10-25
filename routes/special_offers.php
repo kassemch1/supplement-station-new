@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\SpecialOfferController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\admin_controllers\SpecialOfferController;
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/special-offers', [SpecialOfferController::class, 'index'])->name('specialOffers.index');
-    Route::post('/special-offers', [SpecialOfferController::class, 'store'])->name('specialOffers.store');
-    Route::put('/special-offers/{id}', [SpecialOfferController::class, 'update'])->name('specialOffers.update');
-    Route::delete('/special-offers/{id}', [SpecialOfferController::class, 'destroy'])->name('specialOffers.destroy');
+Route::middleware('auth')->prefix('admin/special-offers')->name('admin.specialOffers.')->controller(SpecialOfferController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/', 'store')->name('store');
+    Route::put('/{id}', 'update')->whereNumber('id')->name('update');
+    Route::delete('/{id}', 'destroy')->whereNumber('id')->name('destroy');
 });

@@ -1,24 +1,9 @@
-<!doctype html>
-<html class="no-js" lang="en">
+@extends('layouts.admin')
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Admin | Add Subscriber</title>
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+@section('title', 'Add Subscriber')
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/material-design-iconic-font.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/vendor/themify-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/plugins/plugins.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/helper.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin_assets/css/style.css') }}">
-    <link id="cus-style" rel="stylesheet" href="{{ asset('admin_assets/css/style-primary.css') }}">
-    <style>
+@push('styles')
+<style>
         body.skin-dark {
             background-color: #202334;
             color: #F5F7FA;
@@ -101,24 +86,9 @@
             color: #F5F7FA;
         }
     </style>
+@endpush
 
-</head>
-
-<body class="skin-dark">
-
-<div class="main-wrapper">
-
-    <!-- Header Section Start -->
-    @include('partials/adminHeader')
-    <!-- Header Section End -->
-
-    <!-- Side Header Start -->
-    @include('partials/adminSideBar')
-    <!-- Side Header End -->
-
-    <!-- Content Body Start -->
-    <div class="content-body">
-
+@section('content')
         <!-- Page Headings Start -->
         <div class="row justify-content-between align-items-center mb-10">
 
@@ -190,18 +160,4 @@
                 </div>
             </div>
         </div><!-- Add Subscriber Form End -->
-
-    </div><!-- Content Body End -->
-
-</div><!-- Main Wrapper End -->
-
-<!-- JS -->
-<script src="{{ asset('admin_assets/js/vendor/modernizr-3.6.0.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/jquery-3.3.1.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/popper.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/vendor/bootstrap.min.js') }}"></script>
-<script src="{{ asset('admin_assets/js/plugins/plugins.js') }}"></script>
-<script src="{{ asset('admin_assets/js/main.js') }}"></script>
-
-</body>
-</html>
+@endsection

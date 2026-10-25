@@ -1,22 +1,13 @@
 <?php
 
-use App\Http\Controllers\admin_controllers\FaqController;
+use App\Http\Controllers\Admin\FaqController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->prefix('manageFaq')->group(function () {
-    Route::get('/create',[FaqController::class,'create'])->name('manageFaq.create');
-    //store a new faq
-    Route::post('/store',[FaqController::class,'store'])->name('manageFaq.store');
-    //list all existing faqs in a table
-    Route::get('/',[FaqController::class,'index'])->name('manageFaq.index');
-    //Display form to edit an existing faq
-    Route::get('/{id}/edit',[FaqController::class,'edit'])->name('manageFaq.edit');
-    //update an existing FAQ
-    Route::put('/update',[FaqController::class,'update'])->name('manageFaq.update');
-    //Delete an faq
-    Route::delete('/destroy',[FaqController::class,'destroy'])->name('manageFaq.destroy');
+Route::middleware('auth')->prefix('manageFaq')->name('manageFaq.')->controller(FaqController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/{id}/edit', 'edit')->whereNumber('id')->name('edit');
+    Route::put('/update', 'update')->name('update');
+    Route::delete('/destroy', 'destroy')->name('destroy');
 });
-
-
-
-
