@@ -147,12 +147,19 @@ $(function () {
     });
     $(document).on('click', '[data-close-filters]', closeFilters);
 
-    // Brand search inside the filters
+    // Brand search inside the filters (searches the hidden brands too)
     $(document).on('input', '[data-brand-find]', function () {
         var q = this.value.trim().toLowerCase();
+        $(this).closest('.ss-fgroup').find('[data-brand-list]').toggleClass('is-searching', q !== '');
         $(this).closest('.ss-fgroup').find('[data-brand-name]').each(function () {
             this.hidden = q !== '' && this.getAttribute('data-brand-name').indexOf(q) === -1;
         });
+    });
+
+    // "Show all brands" / "Show fewer brands"
+    $(document).on('click', '[data-brand-more]', function () {
+        var open = $(this).closest('.ss-fgroup').find('[data-brand-list]').toggleClass('is-all').hasClass('is-all');
+        $(this).toggleClass('is-open', open).contents().first()[0].textContent = (open ? this.dataset.less : this.dataset.more) + ' ';
     });
 
     // The chosen category and subcategory stay visible in their scrolling rows
