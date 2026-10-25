@@ -48,11 +48,10 @@
             @if($brands->count() > 8)
                 <input type="search" class="ss-brandfind" placeholder="Find a brand" aria-label="Find a brand" data-brand-find>
             @endif
-            {{-- The 8 brands with the most products show; the rest open with the button (a chosen brand always shows) --}}
-            <ul class="ss-brandlist" data-brand-list>
+            <ul class="ss-brandlist">
                 @foreach($brands as $brand)
                     @php $on = in_array($brand->slug, $chosenBrands, true); @endphp
-                    <li data-brand-name="{{ strtolower($brand->name) }}" class="{{ $loop->index >= 8 && !$on ? 'is-extra' : '' }}">
+                    <li data-brand-name="{{ strtolower($brand->name) }}">
                         <a href="{{ ShopUrl::toggleBrand($baseUrl, $brand->slug) }}" data-shop-link class="{{ $on ? 'is-on' : '' }}">
                             <span class="ss-check">{!! Icons::ui('check') !!}</span>
                             <span class="ss-brandlist__logo">
@@ -68,11 +67,6 @@
                     </li>
                 @endforeach
             </ul>
-            @if($brands->count() > 8)
-                <button type="button" class="ss-brandmore" data-brand-more data-more="Show all {{ $brands->count() }} brands" data-less="Show fewer brands">
-                    Show all {{ $brands->count() }} brands {!! Icons::ui('down') !!}
-                </button>
-            @endif
         </div>
     @endif
 
