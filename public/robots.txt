@@ -1,5 +1,15 @@
 User-agent: *
+# Addresses that only receive forms or serve data to the page's scripts; they are not pages
 Disallow: /api/
+Disallow: /product/
+Disallow: /cart/
+Disallow: /coupon/
+Disallow: /contact/
+Disallow: /subscription/
+Disallow: /subscribe
+Disallow: /place-order
+Disallow: /auth
 Disallow: /login
+Disallow: /logout
 
 Sitemap: https://supplement-station.com/sitemap.xml
