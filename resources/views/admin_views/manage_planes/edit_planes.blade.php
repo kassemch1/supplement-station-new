@@ -22,7 +22,7 @@
                     <h4 class="title">Plans</h4>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" data-ajax-list="list">
                         <thead>
                         <tr>
                             <th>Type</th>
@@ -101,12 +101,11 @@
                 data: { id: plan_id },
                 // url: url,
                 success: function (response) {
-                    console.log('Plan deleted successfully.');
-                    // $('#exampleModalCenter').modal('hide');
-                    location.reload();
+                    AdminUI.toast(response.message || (typeof response.success === 'string' ? response.success : 'Deleted.'));
+                    AdminUI.refresh();
                 },
                 error: function (xhr, status, error) {
-                    alert(JSON.stringify(error));
+                    AdminUI.toast(xhr.responseJSON?.message || 'Could not delete. Please try again.', 'error');
                     console.error('Error deleting Plane:', error);
                     // Handle errors or display error message
                 }

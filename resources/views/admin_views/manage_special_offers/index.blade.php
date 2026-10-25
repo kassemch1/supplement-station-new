@@ -100,19 +100,7 @@
         .so-alert { border-radius:8px; border:none; padding:14px 18px; margin-bottom:18px; }
         .so-alert-success { background: rgba(34,197,94,0.12); color:#4ade80; border:1px solid rgba(34,197,94,0.3); }
         .so-alert-error   { background: rgba(220,38,38,0.12); color:#f87171; border:1px solid rgba(220,38,38,0.3); }
-
-        /* Select2 dark theme */
-        .select2-container--default .select2-selection--single { background:#0f172a; border:1px solid rgba(255,255,255,0.1); height:42px; color:#fff; border-radius:6px; }
-        .select2-container--default .select2-selection--single .select2-selection__rendered { color:#fff; line-height:42px; padding-left:14px; }
-        .select2-container--default .select2-selection--single .select2-selection__arrow { height:42px; }
-        .select2-container--default .select2-selection--single .select2-selection__placeholder { color:#64748b; }
-        .select2-dropdown { background:#0f172a; border-color:rgba(255,255,255,0.1); color:#fff; }
-        .select2-search--dropdown .select2-search__field { background:#1e293b; color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:6px 10px; }
-        .select2-results__option { color:#e2e8f0; padding: 8px 12px; }
-        .select2-container--default .select2-results__option--highlighted[aria-selected] { background:#2563eb; color:#fff; }
-        .select2-container--default .select2-results__option[aria-selected=true] { background: rgba(255,255,255,0.05); }
     </style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
 @endpush
 
 @section('content')
@@ -138,19 +126,19 @@
             </div>
         @endif
 
-        <div class="so-panel">
+        <div class="so-panel" data-ajax-list="offer-add">
             <h4 class="so-panel-title">
                 <span class="so-icon"><i class="fa fa-plus"></i></span>
                 Add a product to special offers
                 <span class="so-count">{{ $offers->count() }} / {{ $maxOffers }}</span>
             </h4>
             @if($isFull)
-                <div class="so-alert so-alert-error mb-0">
+                <div class="so-alert so-alert-error mb-0 ad-static">
                     <i class="fa fa-info-circle mr-2"></i>
                     You've reached the maximum of {{ $maxOffers }} special offers. Remove one below before adding another.
                 </div>
             @else
-                <form method="POST" action="{{ route('admin.specialOffers.store') }}" class="so-form">
+                <form method="POST" action="{{ route('admin.specialOffers.store') }}" class="so-form" data-ajax-form>
                     @csrf
                     <div class="row align-items-end">
                         <div class="col-12 col-lg-8 mb-3 mb-lg-0">
@@ -172,7 +160,7 @@
             @endif
         </div>
 
-        <div class="so-panel">
+        <div class="so-panel" data-ajax-list="offer-list">
             <h4 class="so-panel-title">
                 <span class="so-icon" style="background: rgba(245,158,11,0.15); color:#fbbf24;"><i class="fa fa-star"></i></span>
                 Current Special Offers
@@ -202,14 +190,14 @@
                                 <div class="so-card-meta">Added {{ $offer->created_at->diffForHumans() }}</div>
                             </div>
                             <div class="so-card-actions">
-                                <form method="POST" action="{{ route('admin.specialOffers.update', $offer->id) }}" class="position-form">
+                                <form method="POST" action="{{ route('admin.specialOffers.update', $offer->id) }}" class="position-form" data-ajax-form>
                                     @csrf
                                     @method('PUT')
                                     <label>Pos</label>
                                     <input type="number" min="1" max="{{ $maxOffers }}" name="position" value="{{ $offer->position }}" required>
                                     <button type="submit" class="so-btn so-btn-save">Save</button>
                                 </form>
-                                <form method="POST" action="{{ route('admin.specialOffers.destroy', $offer->id) }}" onsubmit="return confirm('Remove this product from special offers?');">
+                                <form method="POST" action="{{ route('admin.specialOffers.destroy', $offer->id) }}" data-ajax-form onsubmit="return confirm('Remove this product from special offers?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="so-btn so-btn-delete" title="Remove">
@@ -231,7 +219,6 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#product_id').select2({

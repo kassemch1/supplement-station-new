@@ -207,7 +207,7 @@
         </div><!-- Page Headings End -->
 
         <!-- Stats Cards -->
-        <div class="row mb-30">
+        <div class="row mb-30" data-ajax-list="subscriber-stats">
             <div class="col-lg-3 col-md-6 col-12 mb-20">
                 <div class="stats-card">
                     <div class="stats-number">{{ $stats['total'] }}</div>
@@ -247,7 +247,7 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- Search Form -->
-                        <form method="GET" class="mb-30">
+                        <form method="GET" action="{{ route('admin.subscribers.index') }}" class="mb-30" data-ajax-filter>
                             <div class="row">
                                 <div class="col-lg-4 col-12 mb-20">
                                     <input type="text" name="search" class="form-control" placeholder="Search by email..."
@@ -260,12 +260,12 @@
                                         <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
                                     </select>
                                 </div>
-                                <div class="col-lg-2 col-12 mb-20">
+                                <div class="col-lg-3 col-12 mb-20 d-flex" style="gap: 8px" data-clear-slot>
                                     <button type="submit" class="btn btn-primary">
                                         <i class="zmdi zmdi-search"></i> Search
                                     </button>
                                 </div>
-                                <div class="col-lg-3 col-12 mb-20">
+                                <div class="col-lg-2 col-12 mb-20">
                                     <button type="button" class="btn btn-secondary" onclick="toggleBulkActions()">
                                         <i class="zmdi zmdi-check-all"></i> Bulk Actions
                                     </button>
@@ -296,6 +296,7 @@
                         </div>
 
                         <!-- Subscribers Table -->
+                        <div data-ajax-list="subscribers">
                         @if($subscribers->count() > 0)
                             <div class="table-responsive">
                                 <table class="table table-hover">
@@ -360,6 +361,7 @@
                                 <p class="text-muted">No subscribers match your search criteria.</p>
                             </div>
                         @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -368,23 +370,19 @@
 
 @push('scripts')
 <script>
-    // CSRF Token setup
-    $.ajaxSetup({
-    });
-
     // Toggle bulk actions
     function toggleBulkActions() {
         $('#bulkActions').slideToggle();
     }
 
     // Select all checkboxes
-    $('#selectAll').change(function() {
+    $(document).on('change', '#selectAll', function() {
         $('.subscriber-checkbox').prop('checked', this.checked);
         updateSelectedCount();
     });
 
     // Update selected count
-    $('.subscriber-checkbox').change(function() {
+    $(document).on('change', '.subscriber-checkbox', function() {
         updateSelectedCount();
     });
 
@@ -399,12 +397,11 @@
             url: `/admin/subscribers/${id}/toggle-status`,
             method: 'POST',
             success: function(response) {
-                if (response.success) {
-                    location.reload();
-                }
+                AdminUI.toast(response.message || 'Subscriber updated.');
+                AdminUI.refresh();
             },
             error: function() {
-                alert('Error updating subscriber status');
+                AdminUI.toast('Error updating subscriber status', 'error');
             }
         });
     }
@@ -412,12 +409,18 @@
     // Delete subscriber
     function deleteSubscriber(id) {
         if (confirm('Are you sure you want to delete this subscriber?')) {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = `/admin/subscribers/${id}`;
-            form.innerHTML = '<input name="_method" type="hidden" value="DELETE"><input name="_token" type="hidden" value="' + $('meta[name="csrf-token"]').attr('content') + '">';
-            document.body.appendChild(form);
-            form.submit();
+            $.ajax({
+                url: `/admin/subscribers/${id}`,
+                method: 'POST',
+                data: {_method: 'DELETE'},
+                success: function() {
+                    AdminUI.toast('Subscriber deleted.');
+                    AdminUI.refresh();
+                },
+                error: function() {
+                    AdminUI.toast('Error deleting subscriber', 'error');
+                }
+            });
         }
     }
 
@@ -428,7 +431,7 @@
         }).get();
 
         if (selectedIds.length === 0) {
-            alert('Please select at least one subscriber');
+            AdminUI.toast('Please select at least one subscriber', 'error');
             return;
         }
 
@@ -454,12 +457,14 @@
                     subscriber_ids: selectedIds
                 },
                 success: function(response) {
-                    if (response.success) {
-                        location.reload();
-                    }
+                    AdminUI.toast(response.message || 'Done.');
+                    AdminUI.refresh().done(function () {
+                        $('#selectAll').prop('checked', false);
+                        updateSelectedCount();
+                    });
                 },
                 error: function() {
-                    alert('Error performing bulk action');
+                    AdminUI.toast('Error performing bulk action', 'error');
                 }
             });
         }

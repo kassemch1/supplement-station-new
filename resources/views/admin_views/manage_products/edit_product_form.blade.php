@@ -74,9 +74,9 @@
                                 <span class="text-danger">{{ $errors->first('images') }}</span>
                             @endif
                         </div>
-                        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: flex-start;">
+                        <div class="col-12 mb-30" style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;" data-ajax-list="product-images">
                             @foreach($product->images as $image)
-                                <div style="flex: 1 1 100px; box-sizing: border-box;">
+                                <div style="flex: 0 0 auto; box-sizing: border-box;">
                                     <img src="{{ asset($image->url) }}" alt="img" style="width: 100px; height: 100px; object-fit: cover; display: block; margin-bottom: 10px;">
                                     <button type="button" class="button button-danger"
                                             onclick="deleteProductImage('{{ route('productImage.destroy', ['id' => $image->id]) }}')"><span>Delete</span></button>
@@ -133,6 +133,8 @@
                 processData: false,
                 contentType: false,
                 success: function (response) {
+                    $('input[name="images[]"]').val('');
+                    AdminUI.refresh();                   // shows the pictures just uploaded
                     $('#successAlert').fadeIn();
                     setTimeout(function () {
                         $('#successAlert').fadeOut();
@@ -171,18 +173,14 @@
     });
 </script>
 <script>
-    // Image delete sits inside the product form, so it submits its own DELETE form built outside it
+    // Image delete sits inside the product form, so it is sent on its own in the background
     function deleteProductImage(url) {
         if (!confirm('Delete this image?')) {
             return;
         }
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = url;
-        form.innerHTML = '<input type="hidden" name="_token" value="{{ csrf_token() }}">'
-            + '<input type="hidden" name="_method" value="DELETE">';
-        document.body.appendChild(form);
-        form.submit();
+        $.ajax({url: url, method: 'POST', data: {_method: 'DELETE'}})
+            .done(function () { AdminUI.toast('Image deleted.'); AdminUI.refresh(); })
+            .fail(function () { AdminUI.toast('Could not delete the image. Please try again.', 'error'); });
     }
 </script>
 @endpush

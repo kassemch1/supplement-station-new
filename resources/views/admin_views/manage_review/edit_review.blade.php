@@ -27,7 +27,7 @@
                 <h4>Product ID: #{{ $product_id }}</h4>
                 <hr>
                 <h4>Reviews:</h4>
-                <table class="table table-vertical-middle">
+                <table class="table table-vertical-middle" data-ajax-list="list">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -97,12 +97,12 @@
             type: form.attr('method'),
             data: form.serialize(),
             success: function (response) {
-                // Refresh the page on successful deletion
-                location.reload();
+                AdminUI.toast(response.message || (typeof response.success === 'string' ? response.success : 'Deleted.'));
+                AdminUI.refresh();
             },
             error: function (xhr, status, error) {
                 // Handle errors here
-                alert('An error occurred. Please try again.');
+                AdminUI.toast('Could not delete. Please try again.', 'error');
             }
         });
     });

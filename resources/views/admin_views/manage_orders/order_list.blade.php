@@ -8,9 +8,9 @@
                 <div class="page-heading">
                     <h3>{{ $heading }}</h3>
                     <div>
-                        <form action="{{ route('admin.orders.' . $status) }}" method="GET" class="form-inline">
+                        <form action="{{ route('admin.orders.' . $status) }}" method="GET" class="form-inline" data-ajax-filter>
                             <label for="sort" class="mr-2">Sort By:</label>
-                            <select name="sort" id="sort" class="form-control mr-2" onchange="this.form.submit()">
+                            <select name="sort" id="sort" class="form-control mr-2" data-clear-to="desc">
                                 <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Newest First</option>
                                 <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>Oldest First</option>
                             </select>
@@ -21,7 +21,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="table-responsive">
+                <div class="table-responsive" data-ajax-list="orders">
                     <table class="table table-vertical-middle">
                         <thead>
                             <tr>
@@ -91,7 +91,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <form id="deleteOrderForm" method="POST">
+                    <form id="deleteOrderForm" method="POST" data-ajax-form data-success="Order deleted.">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Yes</button>
@@ -115,7 +115,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <form id="updateStatusForm" method="POST">
+                    <form id="updateStatusForm" method="POST" data-ajax-form data-success="Order status updated.">
                         @csrf
                         <input type="hidden" name="status" value="{{ $status === 'pending' ? 'delivered' : 'pending' }}">
                         <button type="submit" class="btn btn-success">Yes</button>
