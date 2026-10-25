@@ -6,7 +6,7 @@
     </a>
     <form class="ss-apphead__search" action="{{ route('shop') }}" method="get" role="search" data-app-search>
         {!! Icons::ui('search') !!}
-        <input type="search" name="q" placeholder="Search protein, brands…" aria-label="Search products" value="{{ request('q') }}" autocomplete="off">
+        <input type="search" name="q" placeholder="Search protein, brands…" aria-label="Search products" value="{{ \App\Services\Catalog::text(request(), 'q') }}" autocomplete="off">
     </form>
     <button type="button" class="ss-cartpill" data-open-cart aria-label="Open cart">
         {!! Icons::ui('bag') !!}<span class="ss-cartpill__count" data-cart-count>0</span>

@@ -135,15 +135,13 @@
                                 @foreach($values as $value)
                                     @php $optionImage = $value->imageUrl(); @endphp
                                     @if($value->stock > 0)
-                                        <button type="button" class="option-value ss-optbtn {{ $optionImage ? 'has-img' : '' }}"
+                                        <button type="button" class="option-value ss-optbtn"
                                                 data-option-name="{{ $optionName }}" data-option-value="{{ $value->option_value }}"
                                                 @if($optionImage) data-image="{{ $optionImage }}" @endif>
-                                            @if($optionImage)<img src="{{ $optionImage }}" alt="" width="32" height="32" loading="lazy">@endif
                                             {{ $value->option_value }}
                                         </button>
                                     @else
-                                        <span class="ss-optbtn is-out {{ $optionImage ? 'has-img' : '' }}" title="Out of stock">
-                                            @if($optionImage)<img src="{{ $optionImage }}" alt="" width="32" height="32" loading="lazy">@endif
+                                        <span class="ss-optbtn is-out" title="Out of stock">
                                             {{ $value->option_value }}
                                         </span>
                                     @endif
@@ -178,7 +176,7 @@
                     @if($product->brand)
                         <div><dt>Brand</dt><dd><a href="{{ route('shop', ['brand' => $product->brand->slug]) }}">{{ $product->brand->name }}</a></dd></div>
                     @endif
-                    <div><dt>Questions?</dt><dd><a href="https://wa.me/96181823038?text={{ rawurlencode('Hello, about ' . $product->name . ': ') }}" target="_blank" rel="noopener">WhatsApp</a></dd></div>
+                    <div><dt>Questions?</dt><dd><a href="https://wa.me/{{ config('store.whatsapp') }}?text={{ rawurlencode('Hello, about ' . $product->name . ': ') }}" target="_blank" rel="noopener">WhatsApp</a></dd></div>
                 </dl>
             </section>
         </div>

@@ -32,9 +32,10 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
+    // In the order the admin dragged them into; the first one is the main picture
     public function images()
     {
-        return $this->hasMany(ProductImage::class, 'product_id', 'id');
+        return $this->hasMany(ProductImage::class, 'product_id', 'id')->orderBy('sort_order')->orderBy('id');
     }
 
     public function reviews()

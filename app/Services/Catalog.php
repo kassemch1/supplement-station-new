@@ -18,6 +18,7 @@ class Catalog
 {
     public const SORTS = [
         'default' => 'Recommended',
+        'best-selling' => 'Best selling',
         'newest' => 'Newest',
         'low-to-high' => 'Price: low to high',
         'high-to-low' => 'Price: high to low',
@@ -44,26 +45,37 @@ class Catalog
     /** The filters a shop request asks for, cleaned up */
     public static function filters(Request $request): array
     {
-        $brandSlugs = array_values(array_filter(array_map('trim', explode(',', strtolower((string) $request->query('brand', ''))))));
-        $sort = (string) $request->input('orderby', 'default');
+        $brandSlugs = array_values(array_filter(array_map('trim', explode(',', strtolower(self::text($request, 'brand') ?? '')))));
+        $sort = self::text($request, 'orderby') ?? 'default';
+        $min = self::text($request, 'min');
+        $max = self::text($request, 'max');
 
         return [
             'search' => self::search($request),
             'brands' => Brand::cachedAll()->whereIn('slug', $brandSlugs)->values(),
-            'min' => is_numeric($request->query('min')) ? max(0, (float) $request->query('min')) : null,
-            'max' => is_numeric($request->query('max')) ? max(0, (float) $request->query('max')) : null,
-            'in_stock' => $request->boolean('in_stock'),
-            'sale' => $request->boolean('sale'),
+            'min' => is_numeric($min) ? max(0, (float) $min) : null,
+            'max' => is_numeric($max) ? max(0, (float) $max) : null,
+            'in_stock' => filter_var(self::text($request, 'in_stock'), FILTER_VALIDATE_BOOLEAN),
+            'sale' => filter_var(self::text($request, 'sale'), FILTER_VALIDATE_BOOLEAN),
             'sort' => isset(self::SORTS[$sort]) ? $sort : 'default',
         ];
+    }
+
+    // A parameter as text; anything else (?brand[]=x from a bot or a mangled link) counts as not sent
+    public static function text(Request $request, string $key): ?string
+    {
+        $value = $request->input($key);
+
+        return is_scalar($value) ? (string) $value : null;
     }
 
     // The menu search, the home search and the shop search each send their own parameter
     private static function search(Request $request): ?string
     {
         foreach (['shop-search', 'home-search', 'q'] as $field) {
-            if ($request->filled($field)) {
-                return mb_substr(trim((string) $request->input($field)), 0, 100);
+            $value = trim(self::text($request, $field) ?? '');
+            if ($value !== '') {
+                return mb_substr($value, 0, 100);
             }
         }
 
@@ -75,11 +87,7 @@ class Catalog
     {
         return Product::query()
             ->when($category, fn ($q) => $q->whereIn('category_id', $category->familyIds()))
-            ->when($search !== null, function ($q) use ($search) {
-                $like = '%' . str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $search) . '%';
-                $q->where(fn ($q) => $q->where('name', 'like', $like)
-                    ->orWhereIn('brand_id', Brand::where('name', 'like', $like)->select('id')));
-            });
+            ->when($search !== null, fn ($q) => $q->whereIn('products.id', ProductSearch::ids($search) ?: [0]));
     }
 
     public static function apply(Builder $query, array $filters): Builder
@@ -94,16 +102,41 @@ class Catalog
             ->when($filters['sale'], fn ($q) => $q->where('discount', '>', 0));
     }
 
-    public static function sort(Builder $query, string $sort): Builder
+    // Every sort shows what can be bought first and ends on the id, so the order is the same on every
+    // request: "load more" then never repeats or skips a product between pages
+    // A search sorted as "Recommended" shows the best matches first
+    public static function sort(Builder $query, string $sort, ?string $search = null): Builder
     {
-        return match ($sort) {
+        $query->orderByDesc('products.stock');
+
+        if ($sort === 'default' && $search !== null && ($ids = ProductSearch::ids($search))) {
+            $cases = implode(' ', array_map(fn ($id, $rank) => 'WHEN ' . (int) $id . ' THEN ' . $rank, $ids, array_keys($ids)));
+
+            return $query->orderByRaw("CASE products.id {$cases} ELSE " . count($ids) . ' END')->orderByDesc('products.id');
+        }
+
+        match ($sort) {
             'low-to-high' => $query->orderByRaw(self::FINAL_PRICE_SQL . ' ASC'),
             'high-to-low' => $query->orderByRaw(self::FINAL_PRICE_SQL . ' DESC'),
-            'newest' => $query->orderByDesc('created_at')->orderByDesc('id'),
-            'name' => $query->orderBy('name'),
-            // Products that can be bought first, then in the order the admin added them
-            default => $query->orderByDesc('stock')->orderBy('created_at')->orderBy('id'),
+            'newest' => $query->orderByDesc('products.created_at'),
+            'name' => $query->orderBy('products.name'),
+            'best-selling' => $query->orderByDesc(self::unitsSold())->orderByDesc('products.created_at'),
+            // Best sellers, then products on sale, then the newest
+            default => $query->orderByDesc(self::unitsSold())->orderByDesc(DB::raw('products.discount > 0'))
+                ->orderByDesc('products.created_at'),
         };
+
+        return $query->orderByDesc('products.id');
+    }
+
+    // Units of the product in delivered orders, as a subquery to sort by
+    private static function unitsSold(): \Illuminate\Database\Query\Builder
+    {
+        return DB::table('order_items')
+            ->join('orders', 'orders.id', '=', 'order_items.order_id')
+            ->whereColumn('order_items.product_id', 'products.id')
+            ->where('orders.status', 'delivered')
+            ->selectRaw('COALESCE(SUM(order_items.quantity), 0)');
     }
 
     // [brand_id => number of products] for the brand buttons of the current list

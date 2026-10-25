@@ -45,12 +45,13 @@
                         <div class="col-lg-6 col-12 mb-30">
                             <label>Picture <small class="text-muted">(optional: the flavour tub, the colour... saved as a small WebP)</small></label>
                             @if(isset($productOption) && $productOption->imageUrl())
-                                <div class="mb-10" style="display:flex;align-items:center;gap:14px;">
-                                    <img src="{{ $productOption->imageUrl() }}" alt="" style="width:72px;height:72px;object-fit:cover;border-radius:12px;background:#fff;">
-                                    <label class="adomx-checkbox"><input type="checkbox" name="remove_image" value="1"> <i class="icon"></i> Remove picture</label>
-                                </div>
+                                @include('admin_views.partials.removable_image', [
+                                    'src' => $productOption->imageUrl(), 'url' => route('manageProductOptions.removeImage', $productOption->id),
+                                    'confirm' => 'Remove this option\'s picture?',
+                                ])
                             @endif
                             <input class="dropify" type="file" name="image" accept="image/png,image/jpeg,image/webp">
+                            <label class="adomx-checkbox mt-10"><input type="checkbox" name="keep_background" value="1"> <i class="icon"></i> Keep the original background <small class="text-muted">(by default a plain white background is removed)</small></label>
                         </div>
                         <input type="hidden" name="product_id" value="{{ $product_id }}">
                     </div>

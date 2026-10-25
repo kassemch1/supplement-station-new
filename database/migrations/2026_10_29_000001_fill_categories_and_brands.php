@@ -74,7 +74,7 @@ return new class extends Migration
         'NutriTech' => ['nutritech', ['nutritech', 'nutritecch']],
         'Weider' => ['weider', ['weider', 'russian bear']],
         'Dymatize' => ['dymatize', ['dymatize', 'iso 100', 'iso100']],
-        'Larry Wheels' => [null, ['larry wheels']],
+        'Larry Wheels' => ['larry-wheels', ['larry wheels']],
         'Core Champs' => ['core-champs', ['core champs']],
         'Giant Sports' => ['giant-sports', ['giant sports']],
         'Inner Armour' => ['inner-armour', ['inner armour', 'anabolic peak']],

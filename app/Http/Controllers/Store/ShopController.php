@@ -61,7 +61,7 @@ class ShopController extends Controller
     {
         $filters = Catalog::filters($request);
         $scope = Catalog::scope($category, $filters['search']);
-        $products = Catalog::sort(Catalog::apply(clone $scope, $filters), $filters['sort'])
+        $products = Catalog::sort(Catalog::apply(clone $scope, $filters), $filters['sort'], $filters['search'])
             ->withCardData()
             ->paginate(self::PER_PAGE)
             ->withQueryString();

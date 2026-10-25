@@ -41,11 +41,11 @@
 </div>
 <div class="col-lg-6 col-12 mb-30">
     <label>Picture <small class="text-muted">(optional, shown instead of the icon; saved as a small WebP)</small></label>
-    @if($current && $current->imageUrl())
-        <div class="mb-10" style="display:flex;align-items:center;gap:14px;">
-            <img src="{{ $current->imageUrl() }}" alt="" style="width:64px;height:64px;object-fit:contain;background:#fff;border-radius:12px;padding:4px;">
-            <label class="adomx-checkbox"><input type="checkbox" name="remove_image" value="1"> <i class="icon"></i> Remove picture</label>
-        </div>
+    @if($current && $current->exists && $current->imageUrl())
+        @include('admin_views.partials.removable_image', [
+            'src' => $current->imageUrl(), 'url' => route('manageCategories.removeImage', $current->id),
+            'confirm' => 'Remove this category\'s picture? Its icon will show instead.',
+        ])
     @endif
     <input class="dropify" type="file" name="image" accept="image/png,image/jpeg,image/webp">
 </div>

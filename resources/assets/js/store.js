@@ -455,10 +455,10 @@
             var options = (p.options || []).map(function (group) {
                 return '<div class="ss-opt"><span class="ss-opt__label">' + SS.esc(group.name) + ': <em>' + SS.esc(chosen[group.name] || 'Choose') + '</em></span>' +
                     '<div class="ss-opt__values">' + group.values.map(function (v) {
-                        var cls = 'ss-optbtn' + (v.image ? ' has-img' : '') + (chosen[group.name] === v.value ? ' is-selected' : '') + (v.in_stock ? '' : ' is-out');
+                        var cls = 'ss-optbtn' + (chosen[group.name] === v.value ? ' is-selected' : '') + (v.in_stock ? '' : ' is-out');
                         return '<button type="button" class="' + cls + '" data-qv-opt="' + SS.esc(group.name) + '" data-value="' + SS.esc(v.value) + '"' +
                             (v.image ? ' data-image="' + SS.esc(v.image) + '"' : '') + (v.in_stock ? '' : ' disabled aria-disabled="true" title="Sold out"') + '>' +
-                            (v.image ? '<img src="' + SS.esc(v.image) + '" alt="" loading="lazy">' : '') + SS.esc(v.value) + '</button>';
+                            SS.esc(v.value) + '</button>';
                     }).join('') + '</div></div>';
             }).join('');
 
@@ -694,5 +694,132 @@
                 }
             })
             .catch(function () { /* silent */ });
+    });
+
+    /* ---------- search suggestions under every search box ---------- */
+
+    // While typing: matching products (picture, brand, price), categories and brands. Arrow keys move,
+    // Enter opens the chosen one (or searches), Escape closes. The search itself forgives typos.
+    $(function () {
+        var $panel = $('<div class="ss-sugg" role="listbox" hidden></div>').appendTo('body');
+        var input = null;
+        var timer = null;
+        var seq = 0;
+
+        function place() {
+            if (!input) {
+                return;
+            }
+            var rect = input.getBoundingClientRect();
+            var width = Math.max(rect.width, Math.min(420, window.innerWidth - 16));
+            var left = Math.min(Math.max(8, rect.left), window.innerWidth - width - 8);
+            $panel.css({top: rect.bottom + 6, left: left, width: width});
+        }
+
+        function close() {
+            $panel.prop('hidden', true).empty();
+            input = null;
+        }
+
+        function options() {
+            return $panel.find('[data-sugg-opt]');
+        }
+
+        function render(q, data) {
+            var html = '';
+            if (data.products.length) {
+                html += '<div class="ss-sugg__group">' + data.products.map(function (p) {
+                    return '<a class="ss-sugg__item" href="' + SS.esc(p.url) + '" data-sugg-opt role="option">' +
+                        (p.image ? '<img src="' + SS.esc(p.image) + '" alt="" loading="lazy">' : '<span class="ss-sugg__noimg"></span>') +
+                        '<span class="ss-sugg__text">' + (p.brand ? '<small>' + SS.esc(p.brand) + '</small>' : '') +
+                        '<strong>' + SS.esc(p.name) + '</strong></span>' +
+                        '<span class="ss-sugg__price">' + (p.in_stock ? SS.money(p.final_price) : '<em>Sold out</em>') + '</span></a>';
+                }).join('') + '</div>';
+            }
+            var chips = data.categories.map(function (c) { return [c, 'Category']; })
+                .concat(data.brands.map(function (b) { return [b, 'Brand']; }));
+            if (chips.length) {
+                html += '<div class="ss-sugg__chips">' + chips.map(function (row) {
+                    return '<a class="ss-sugg__chip" href="' + SS.esc(row[0].url) + '" data-sugg-opt role="option"><small>' + row[1] +
+                        '</small> ' + SS.esc(row[0].name) + '</a>';
+                }).join('') + '</div>';
+            }
+            if (!html) {
+                html = '<p class="ss-sugg__empty">No products match “' + SS.esc(q) + '”. Try another spelling or a brand name.</p>';
+            } else {
+                html += '<a class="ss-sugg__all" href="' + SS.esc(data.all) + '" data-sugg-opt data-sugg-all role="option">See all ' +
+                    data.total + ' result' + (data.total === 1 ? '' : 's') + ' for “' + SS.esc(q) + '”</a>';
+            }
+            $panel.html(html).prop('hidden', false);
+            place();
+        }
+
+        function lookup(el) {
+            var q = el.value.trim();
+            if (q.length < 2) {
+                close();
+                return;
+            }
+            var mine = ++seq;
+            $.getJSON(SS.routes.search, {q: q}).done(function (data) {
+                // Only the answer to the latest letters typed, and only while the box is still in use
+                if (mine === seq && document.activeElement === el) {
+                    input = el;
+                    render(q, data);
+                }
+            });
+        }
+
+        var boxes = 'form[role="search"] input[name="q"]';
+        $(document).on('input', boxes, function () {
+            var el = this;
+            clearTimeout(timer);
+            timer = setTimeout(function () { lookup(el); }, 140);
+        });
+        $(document).on('focus', boxes, function () {
+            if (this.value.trim().length >= 2) {
+                lookup(this);
+            }
+        });
+        $(document).on('keydown', boxes, function (e) {
+            var $opts = options();
+            if ($panel.prop('hidden') || !$opts.length) {
+                return;
+            }
+            var current = $opts.index($opts.filter('.is-active'));
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                var next = e.key === 'ArrowDown' ? (current + 1) % $opts.length : (current <= 0 ? $opts.length - 1 : current - 1);
+                $opts.removeClass('is-active').eq(next).addClass('is-active')[0].scrollIntoView({block: 'nearest'});
+            } else if (e.key === 'Enter' && current >= 0) {
+                e.preventDefault();
+                var $chosen = $opts.eq(current);
+                if ($chosen.is('[data-sugg-all]')) {
+                    $(this).closest('form').trigger('submit');
+                    close();
+                } else {
+                    window.location.href = $chosen.attr('href');
+                }
+            } else if (e.key === 'Escape') {
+                close();
+            }
+        });
+        // "See all results" runs the box's own search (on the shop page it loads in place)
+        $panel.on('click', '[data-sugg-all]', function (e) {
+            if (input) {
+                e.preventDefault();
+                $(input).closest('form').trigger('submit');
+                close();
+            }
+        });
+        // Clicking inside the list keeps the box focused until the link opens
+        $panel.on('mousedown', function (e) { e.preventDefault(); });
+        $(document).on('blur', boxes, function () { setTimeout(function () { if (!$panel.is(':hover')) { close(); } }, 150); });
+        $(document).on('submit', 'form[role="search"]', function () { seq++; close(); });
+        $(window).on('resize scroll', function () {
+            if (!$panel.prop('hidden')) {
+                place();
+            }
+        });
     });
 })(jQuery);

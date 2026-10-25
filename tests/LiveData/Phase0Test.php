@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class Phase0Test extends TestCase
@@ -177,6 +178,8 @@ class Phase0Test extends TestCase
 
     public function test_image_delete_needs_delete_request(): void
     {
+        // Deleting removes the file, which the database rollback can't bring back: never touch the real pictures
+        Storage::fake('public');
         $image = DB::table('product_images')->value('id');
         $this->actingAs(User::first())->get("/productImage/$image/destroy")->assertNotFound();
         $this->assertTrue(DB::table('product_images')->where('id', $image)->exists());

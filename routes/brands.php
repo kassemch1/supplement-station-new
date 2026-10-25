@@ -10,4 +10,5 @@ Route::middleware('auth')->prefix('manageBrands')->name('manageBrands.')->contro
     Route::get('/{id}/edit', 'edit')->whereNumber('id')->name('edit');
     Route::post('/{id}', 'update')->whereNumber('id')->name('update');
     Route::delete('/{id}', 'destroy')->whereNumber('id')->name('destroy');
+    Route::delete('/{id}/logo', 'removeLogo')->whereNumber('id')->name('removeLogo');
 });

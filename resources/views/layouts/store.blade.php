@@ -68,6 +68,7 @@
                 cart: @json(route('api.cart.get')),
                 cartAdd: @json(route('cart.add')),
                 cartSuggestions: @json(route('api.cart.suggestions')),
+                search: @json(route('api.search')),
                 quickView: @json(url('/products/__ID__/quick')),
                 cartRemove: @json(route('cart.remove')),
                 cartUpdate: @json(route('cart.update')),

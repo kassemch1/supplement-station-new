@@ -10,6 +10,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\SpecialOffer;
+use App\Services\Catalog;
 use App\Services\ImageFiles;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -67,6 +68,35 @@ class ProductAdminTest extends TestCase
         $info = getimagesize($this->storedPath($big));
         $this->assertSame([1200, 600, 'image/webp'], [$info[0], $info[1], $info['mime']]);
         $this->assertSame([300, 200], array_slice(getimagesize($this->storedPath($small)), 0, 2), 'small pictures are not enlarged');
+    }
+
+    // A dark tub on a white background, as a JPEG like the pictures saved from Google
+    private function onWhiteBackground(string $name): UploadedFile
+    {
+        $image = imagecreatetruecolor(400, 400);
+        imagefill($image, 0, 0, imagecolorallocate($image, 255, 255, 255));
+        imagefilledrectangle($image, 100, 80, 300, 340, imagecolorallocate($image, 30, 30, 30));
+        ob_start();
+        imagejpeg($image, null, 85);
+
+        return UploadedFile::fake()->createWithContent($name, ob_get_clean());
+    }
+
+    private function cornerAlpha(string $url): int
+    {
+        return (imagecolorat(imagecreatefromwebp($this->storedPath($url)), 0, 0) >> 24) & 0x7F;
+    }
+
+    public function test_a_white_background_is_removed_unless_the_admin_keeps_it(): void
+    {
+        $this->admin()->post('/manageProducts/store', $this->form(['images' => [$this->onWhiteBackground('google.jpg')]]))->assertOk();
+        $product = Product::sole();
+        $this->assertSame(127, $this->cornerAlpha($product->images()->sole()->url), 'transparent around the product');
+
+        $this->post('/manageProducts/update', $this->form([
+            'product_id' => $product->id, 'keep_background' => '1', 'images' => [$this->onWhiteBackground('keep.jpg')],
+        ]))->assertOk();
+        $this->assertSame(0, $this->cornerAlpha(ProductImage::latest('id')->first()->url), 'the white background is kept');
     }
 
     public function test_the_form_is_validated(): void
@@ -189,6 +219,55 @@ class ProductAdminTest extends TestCase
         $this->assertModelMissing($unused);
         Storage::disk('public')->assertMissing('products_images/unused.png');
         Storage::disk('public')->assertExists('products_images/ordered.png');
+    }
+
+    public function test_the_edit_page_removes_a_picture_in_place_but_never_the_last_one(): void
+    {
+        $product = Product::factory()->create();
+        $first = ProductImage::create(['product_id' => $product->id, 'url' => $this->pngFile('products_images/first.png')]);
+        $second = ProductImage::create(['product_id' => $product->id, 'url' => $this->pngFile('products_images/second.png')]);
+
+        $this->admin()->get("/manageProducts/{$product->id}/edit")->assertOk()
+            ->assertSee('data-image-remove="' . route('productImage.destroy', $first->id) . '"', false)
+            ->assertSee('data-reorder-url="' . route('productImage.reorder', $product->id) . '"', false);
+
+        $this->deleteJson("/productImage/{$first->id}")->assertOk()->assertJson(['success' => 'Image deleted successfully']);
+        $this->assertModelMissing($first);
+        Storage::disk('public')->assertMissing('products_images/first.png');
+
+        $this->deleteJson("/productImage/{$second->id}")->assertStatus(422)
+            ->assertJsonPath('message', 'A product needs at least one picture. Add another one first.');
+        $this->assertModelExists($second);
+        Storage::disk('public')->assertExists('products_images/second.png');
+    }
+
+    public function test_dragging_sets_the_picture_order_and_the_first_is_the_main_picture(): void
+    {
+        $product = Product::factory()->create();
+        [$a, $b, $c] = collect(['a', 'b', 'c'])->map(fn ($n) => ProductImage::create([
+            'product_id' => $product->id, 'url' => $this->pngFile("products_images/{$n}.png"),
+        ]))->all();
+        $other = ProductImage::create(['product_id' => Product::factory()->create()->id, 'url' => $this->pngFile('products_images/other.png')]);
+        $this->assertSame([$a->id, $b->id, $c->id], $product->images()->pluck('id')->all(), 'until reordered, the upload order');
+
+        $this->admin()->postJson("/manageProducts/{$product->id}/images/order", ['ids' => [$c->id, $a->id, $b->id]])->assertOk();
+        $this->assertSame([$c->id, $a->id, $b->id], $product->images()->pluck('id')->all());
+        $this->assertSame(asset($c->url), Catalog::card($product->fresh('images'))['image'], 'the shop shows the first one');
+
+        // Only the product's own pictures, each once
+        $this->postJson("/manageProducts/{$product->id}/images/order", ['ids' => [$c->id, $a->id]])->assertStatus(422);
+        $this->postJson("/manageProducts/{$product->id}/images/order", ['ids' => [$c->id, $a->id, $other->id]])->assertStatus(422);
+        $this->assertSame([$c->id, $a->id, $b->id], $product->images()->pluck('id')->all());
+
+        // New uploads go after the existing ones
+        $this->post('/manageProducts/update', $this->form([
+            'product_id' => $product->id, 'images' => [UploadedFile::fake()->image('new.png', 300, 300)],
+        ]))->assertOk();
+        $this->assertSame($c->id, $product->images()->first()->id);
+        $this->assertSame(ProductImage::max('id'), $product->images()->get()->last()->id);
+
+        $this->post('/logout');
+        $this->postJson("/manageProducts/{$product->id}/images/order", ['ids' => [$a->id, $b->id, $c->id]])->assertUnauthorized();
     }
 
     public function test_only_upload_folders_can_be_deleted(): void

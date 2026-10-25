@@ -23,7 +23,7 @@
 @endphp
 
 @section('content')
-<a href="https://wa.me/96181823038" target="_blank" rel="noopener" class="whatsapp-popup" aria-label="WhatsApp">
+<a href="https://wa.me/{{ config('store.whatsapp') }}" target="_blank" rel="noopener" class="whatsapp-popup" aria-label="WhatsApp">
     <i class="fab fa-whatsapp"></i>
 </a>
 
@@ -44,7 +44,7 @@
                                 <span class="icon"><img src="{{ asset('assets/img/icon/call.svg') }}" alt=""></span>
                                 <div class="info">
                                     <span style="color: #FFFFFF !important;">CONTACT US DAILY</span>
-                                    <h4>+961 81-823-038 / 81-088-266</h4>
+                                    <h4>{{ config('store.phone') }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -183,10 +183,10 @@
                     <h3><span class="ss-faq__helpicon">{!! Icons::ui('chat') !!}</span> Still have a question?</h3>
                     <p>Our team answers on WhatsApp, Monday to Saturday, 9:00 AM – 9:00 PM.</p>
                     <div class="ss-faq__helpbtns">
-                        <a href="https://wa.me/96181823038?text={{ rawurlencode('Hello, I have a question: ') }}" target="_blank" rel="noopener" class="ss-btn ss-btn--red">
+                        <a href="https://wa.me/{{ config('store.whatsapp') }}?text={{ rawurlencode('Hello, I have a question: ') }}" target="_blank" rel="noopener" class="ss-btn ss-btn--red">
                             <i class="fab fa-whatsapp"></i> WhatsApp
                         </a>
-                        <a href="tel:+96181823038" class="ss-btn ss-btn--outline">{!! Icons::ui('phone') !!} Call</a>
+                        <a href="tel:{{ config('store.phone_link') }}" class="ss-btn ss-btn--outline">{!! Icons::ui('phone') !!} Call</a>
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Store\HomeController;
 use App\Http\Controllers\Store\ProductController;
 use App\Http\Controllers\Store\RecentPurchaseController;
 use App\Http\Controllers\Store\ShopController;
+use App\Http\Controllers\Store\SearchController;
 use App\Http\Controllers\Store\SitemapController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,7 @@ Route::get('/products/{id}/quick', [ProductController::class, 'quick'])->whereNu
 Route::post('/product/{id}/review', [ProductController::class, 'createReview'])->whereNumber('id')
     ->name('product.createReview')->middleware('throttle:5,1,review');
 Route::get('/api/recent-purchases', [RecentPurchaseController::class, 'index'])->name('api.recentPurchases');
+Route::get('/api/search', [SearchController::class, 'suggest'])->name('api.search')->middleware('throttle:120,1,search');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // Old addresses (mixed case) stay valid for links already shared or indexed: a permanent redirect

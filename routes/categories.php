@@ -10,4 +10,5 @@ Route::middleware('auth')->prefix('manageCategories')->name('manageCategories.')
     Route::get('/{id}/edit', 'edit')->whereNumber('id')->name('edit');
     Route::put('/update', 'update')->name('update');
     Route::delete('/destroy', 'destroy')->name('destroy');
+    Route::delete('/{id}/image', 'removeImage')->whereNumber('id')->name('removeImage');
 });

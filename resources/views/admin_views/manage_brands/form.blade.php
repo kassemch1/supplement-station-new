@@ -30,12 +30,10 @@
                         <div class="col-lg-6 col-12 mb-30">
                             <label>Logo <small class="text-muted">(optional; saved as a small WebP)</small></label>
                             @if($brand->logoUrl())
-                                <div class="mb-10" style="display:flex;align-items:center;gap:14px;">
-                                    <span style="display:inline-grid;place-items:center;width:120px;height:64px;background:#fff;border-radius:8px;padding:6px;">
-                                        <img src="{{ $brand->logoUrl() }}" alt="" style="max-width:100%;max-height:100%;object-fit:contain;">
-                                    </span>
-                                    <label class="adomx-checkbox"><input type="checkbox" name="remove_logo" value="1"> <i class="icon"></i> Remove logo</label>
-                                </div>
+                                @include('admin_views.partials.removable_image', [
+                                    'src' => $brand->logoUrl(), 'url' => route('manageBrands.removeLogo', $brand->id),
+                                    'confirm' => 'Remove this brand\'s logo?', 'wide' => true,
+                                ])
                             @endif
                             <input class="dropify" type="file" name="logo" accept="image/png,image/jpeg,image/webp">
                         </div>

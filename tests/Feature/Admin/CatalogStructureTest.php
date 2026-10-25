@@ -138,6 +138,72 @@ class CatalogStructureTest extends TestCase
         Storage::disk('public')->assertExists($path);
     }
 
+    public function test_an_option_picture_on_a_white_background_is_cut_out(): void
+    {
+        $product = Product::factory()->withImage()->create();
+        $option = Option::firstOrCreate(['option_name' => 'Flavor']);
+        $tub = imagecreatetruecolor(300, 300);
+        imagefill($tub, 0, 0, imagecolorallocate($tub, 255, 255, 255));
+        imagefilledrectangle($tub, 80, 60, 220, 260, imagecolorallocate($tub, 120, 40, 20));
+        ob_start();
+        imagejpeg($tub, null, 85);
+
+        $this->admin()->post('/manageProductsOptions/store', [
+            'product_id' => $product->id, 'option_id' => $option->id, 'option_value' => 'Chocolate', 'stock' => 1,
+            'image' => UploadedFile::fake()->createWithContent('tub.jpg', ob_get_clean()),
+        ])->assertOk();
+
+        $stored = imagecreatefromwebp(Storage::disk('public')->path(substr(ProductOption::sole()->image, strlen('storage/'))));
+        $this->assertSame(127, (imagecolorat($stored, 0, 0) >> 24) & 0x7F, 'transparent around the tub');
+        $this->assertSame(0, (imagecolorat($stored, 150, 150) >> 24) & 0x7F, 'the tub itself');
+    }
+
+    public function test_every_saved_picture_has_its_own_remove_button_and_route(): void
+    {
+        $this->admin();
+        $put = function (string $path) {
+            Storage::disk('public')->put($path, 'x');
+
+            return 'storage/' . $path;
+        };
+        $brand = Brand::create(['name' => 'Logo Brand', 'logo' => $put('brands/logo.webp')]);
+        $category = Category::create(['name' => 'Pictured', 'image' => $put('categories/pic.webp')]);
+        $product = Product::factory()->withImage()->create();
+        $option = Option::firstOrCreate(['option_name' => 'Flavor']);
+        $value = ProductOption::create(['product_id' => $product->id, 'option_id' => $option->id, 'option_value' => 'Mango', 'stock' => 1,
+            'image' => $put('product_options/mango.webp')]);
+
+        // Each edit form shows the picture with a × wired to its own route
+        foreach ([
+            ["/manageBrands/{$brand->id}/edit", route('manageBrands.removeLogo', $brand->id)],
+            ["/manageCategories/{$category->id}/edit", route('manageCategories.removeImage', $category->id)],
+            ["/manageProductsOptions/{$value->id}/edit", route('manageProductOptions.removeImage', $value->id)],
+            ["/manageProducts/{$product->id}/edit", route('productImage.destroy', $product->images->first()->id)],
+        ] as [$page, $url]) {
+            $this->get($page)->assertOk()->assertSee('data-image-remove="' . $url . '"', false)->assertDontSee('name="remove_', false);
+        }
+
+        $this->deleteJson("/manageBrands/{$brand->id}/logo")->assertOk()->assertJsonPath('message', 'Logo removed.');
+        $this->assertNull($brand->fresh()->logo);
+        Storage::disk('public')->assertMissing('brands/logo.webp');
+
+        $this->deleteJson("/manageCategories/{$category->id}/image")->assertOk();
+        $this->assertNull($category->fresh()->image);
+        Storage::disk('public')->assertMissing('categories/pic.webp');
+
+        // An order line shows the flavour picture: the option loses it, the file stays for the order
+        OrderItem::factory()->create(['product_image' => $value->image]);
+        $this->deleteJson("/manageProductsOptions/{$value->id}/image")->assertOk();
+        $this->assertNull($value->fresh()->image);
+        Storage::disk('public')->assertExists('product_options/mango.webp');
+
+        // A picture already gone, and only for signed-in admins
+        $this->deleteJson("/manageBrands/{$brand->id}/logo")->assertOk();
+        $this->deleteJson('/manageBrands/999999/logo')->assertNotFound();
+        $this->post('/logout');
+        $this->deleteJson("/manageCategories/{$category->id}/image")->assertUnauthorized();
+    }
+
     public function test_the_fill_migration_builds_the_tree_and_brands_and_rolls_back_exactly(): void
     {
         $migration = require database_path('migrations/2026_10_29_000001_fill_categories_and_brands.php');

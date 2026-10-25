@@ -95,6 +95,20 @@ class CategoryController extends Controller
         return response()->json(['status' => 'success', 'message' => $message]);
     }
 
+    // The × on the picture in the edit form: removes it right away (the icon shows again)
+    public function removeImage(int $id): JsonResponse
+    {
+        $category = Category::findOrFail($id);
+        $image = $category->image;
+        $category->image = null;
+        $category->save();
+        if ($image) {
+            ImageFiles::deleteIfUnused($image);
+        }
+
+        return response()->json(['status' => 'success', 'message' => 'Picture removed.']);
+    }
+
     public function destroy(Request $request): JsonResponse
     {
         $category = Category::findOrFail($request->id);

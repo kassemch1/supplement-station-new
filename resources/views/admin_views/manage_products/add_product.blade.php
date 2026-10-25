@@ -59,6 +59,7 @@
                         <div class="col-12 mb-30">
                             <label>Product Picture(s)</label>
                             <input class="dropify" type="file" name="images[]" multiple>
+                            <label class="adomx-checkbox mt-10"><input type="checkbox" name="keep_background" value="1"> <i class="icon"></i> Keep the original background <small class="text-muted">(by default a plain white background is removed)</small></label>
                             @if ($errors->has('images'))
                                 <span class="text-danger">{{ $errors->first('images') }}</span>
                             @endif

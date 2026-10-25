@@ -159,9 +159,11 @@ class Phase3SpeedTest extends TestCase
         $this->get('/shop?category=show-all')->assertStatus(301)->assertRedirect('/shop');
         $html = $this->get('/shop')->assertOk()->getContent();
         $this->assertStringContainsString("of $all products", $html);
-        // The search matches product names and brand names
-        $whey = Product::where('name', 'like', '%whey%')->orWhereIn('brand_id', \App\Models\Brand::where('name', 'like', '%whey%')->select('id'))->count();
-        $this->assertStringContainsString("of $whey products", $this->get('/shop?shop-search=whey')->getContent());
+        // The search finds every product whose name or brand has the word, and more (its category, typos)
+        $whey = Product::where('name', 'like', '%whey%')->orWhereIn('brand_id', \App\Models\Brand::where('name', 'like', '%whey%')->select('id'))->pluck('id')->all();
+        $found = \App\Services\ProductSearch::ids('whey');
+        $this->assertSame([], array_diff($whey, $found));
+        $this->assertStringContainsString('of ' . count($found) . ' products', $this->get('/shop?shop-search=whey')->getContent());
     }
 
     // ---------- emails after the response ----------

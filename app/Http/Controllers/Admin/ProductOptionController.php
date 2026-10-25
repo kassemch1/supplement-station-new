@@ -76,12 +76,27 @@ class ProductOptionController extends Controller
         unset($data['remove_image']);
         $data['image'] = $current;
         if ($request->hasFile('image')) {
-            $data['image'] = ImageOptimizer::storeUpload($request->file('image'), 'product_options', ImageOptimizer::OPTION_MAX_SIZE);
+            $data['image'] = ImageOptimizer::storeUpload($request->file('image'), 'product_options', ImageOptimizer::OPTION_MAX_SIZE,
+                !$request->boolean('keep_background'));
         } elseif ($request->boolean('remove_image')) {
             $data['image'] = null;
         }
 
         return $data;
+    }
+
+    // The × on the picture in the edit form: removes it right away
+    public function removeImage(int $id): JsonResponse
+    {
+        $productOption = ProductOption::findOrFail($id);
+        $image = $productOption->image;
+        $productOption->update(['image' => null]);
+        // Past orders may still show this picture; the file is only removed when nothing uses it
+        if ($image) {
+            ImageFiles::deleteIfUnused($image);
+        }
+
+        return response()->json(['success' => 'Picture removed.', 'message' => 'Picture removed.']);
     }
 
     public function destroy(int $id): JsonResponse

@@ -29,9 +29,10 @@ class ImageOptimizer
 
     // Saves the upload on the public disk and returns the path stored in the database,
     // e.g. storage/products_images/abc.webp (same style as the old $file->store() paths).
-    public static function storeUpload(UploadedFile $file, string $directory, int $maxSize): string
+    // With $removeBackground a plain white background around the product is made transparent.
+    public static function storeUpload(UploadedFile $file, string $directory, int $maxSize, bool $removeBackground = false): string
     {
-        $webp = self::toWebp($file->getRealPath(), $maxSize);
+        $webp = self::toWebp($file->getRealPath(), $maxSize, $removeBackground);
 
         if ($webp !== null) {
             $path = $directory.'/'.Str::random(40).'.webp';
@@ -44,7 +45,7 @@ class ImageOptimizer
     }
 
     // WebP bytes of the image scaled down to fit $maxSize x $maxSize, or null when it can't be converted.
-    public static function toWebp(string $sourcePath, int $maxSize): ?string
+    public static function toWebp(string $sourcePath, int $maxSize, bool $removeBackground = false): ?string
     {
         if (!self::supported()) {
             return null;
@@ -56,9 +57,10 @@ class ImageOptimizer
         }
         $type = $info[2];
         $needsResize = max($info[0], $info[1]) > $maxSize;
-        // GIFs may be animated, and a WebP that is already small enough is left as it is
+        // GIFs may be animated, and a WebP that is already small enough is left as it is (unless its
+        // background has to go)
         if (!in_array($type, [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_WEBP], true)
-            || ($type === IMAGETYPE_WEBP && !$needsResize)) {
+            || ($type === IMAGETYPE_WEBP && !$needsResize && !$removeBackground)) {
             return null;
         }
 
@@ -87,6 +89,10 @@ class ImageOptimizer
             imagefill($resized, 0, 0, imagecolorallocatealpha($resized, 0, 0, 0, 127));
             imagecopyresampled($resized, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
             $image = $resized;
+        }
+
+        if ($removeBackground) {
+            BackgroundRemover::removeLightBackground($image);
         }
 
         ob_start();

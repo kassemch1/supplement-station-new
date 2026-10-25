@@ -80,7 +80,7 @@ class Seo
             'logo' => asset('assets/img/logo/preloader2.png'),
             'image' => asset('assets/img/logo/preloader2.png'),
             'description' => 'Supplement store in Beirut, Lebanon: protein, creatine, mass gainers, pre-workouts, vitamins and gym gear.',
-            'telephone' => '+961 81 823 038',
+            'telephone' => config('store.phone'),
             'email' => 'admin@supplement-station.com',
             'address' => [
                 '@type' => 'PostalAddress',
@@ -97,7 +97,7 @@ class Seo
             ]],
             'contactPoint' => [[
                 '@type' => 'ContactPoint',
-                'telephone' => '+961 81 823 038',
+                'telephone' => config('store.phone'),
                 'contactType' => 'customer service',
                 'areaServed' => 'LB',
                 'availableLanguage' => ['English', 'Arabic'],

@@ -11,4 +11,5 @@ Route::middleware('auth')->prefix('manageProductsOptions')->controller(ProductOp
     Route::put('/{id}', 'update')->whereNumber('id')->name('manageProductOptions.update');
     Route::get('/{product_id}', 'show')->whereNumber('product_id')->name('manageProductOptions.show');
     Route::delete('/{id}', 'destroy')->whereNumber('id')->name('manageProductOptions.destroy');
+    Route::delete('/{id}/image', 'removeImage')->whereNumber('id')->name('manageProductOptions.removeImage');
 });

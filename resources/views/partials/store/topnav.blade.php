@@ -58,7 +58,7 @@
 
         <form class="ss-topnav__search" action="{{ route('shop') }}" method="get" role="search" data-app-search>
             {!! Icons::ui('search') !!}
-            <input type="search" name="q" placeholder="Search products or brands" aria-label="Search products" value="{{ request('q') }}" autocomplete="off">
+            <input type="search" name="q" placeholder="Search products or brands" aria-label="Search products" value="{{ \App\Services\Catalog::text(request(), 'q') }}" autocomplete="off">
         </form>
 
         <button type="button" class="ss-topnav__cart" data-open-cart aria-label="Open cart">

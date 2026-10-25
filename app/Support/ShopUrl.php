@@ -26,9 +26,10 @@ class ShopUrl
         return self::with($base, ['brand' => $brands ? implode(',', $brands) : null]);
     }
 
+    // Only plain values: a list (?brand[]=x) would break the links and the hidden form fields
     public static function current(): array
     {
-        return array_intersect_key(request()->query(), array_flip(self::FILTERS));
+        return array_filter(array_intersect_key(request()->query(), array_flip(self::FILTERS)), 'is_scalar');
     }
 
     private static function build(string $base, array $query): string

@@ -9,7 +9,7 @@
                 </a>
                 <p>Authentic supplements from the brands athletes trust, delivered all over Lebanon. Since 2018.</p>
                 <div class="ss-footer__social">
-                    <a href="https://api.whatsapp.com/send?phone=96181823038" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://wa.me/{{ config('store.whatsapp') }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     <a href="https://www.instagram.com/supplement_station_lb" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
@@ -28,12 +28,11 @@
             </nav>
             <div class="ss-footer__reach">
                 <h4>Contact us</h4>
-                <a href="tel:+96181823038">{!! Icons::ui('phone') !!} +961 81 823 038</a>
-                <a href="tel:+96181088266">{!! Icons::ui('phone') !!} +961 81 088 266</a>
+                <a href="tel:{{ config('store.phone_link') }}">{!! Icons::ui('phone') !!} {{ config('store.phone') }}</a>
                 <a href="mailto:admin@supplement-station.com">{!! Icons::ui('mail') !!} admin@supplement-station.com</a>
                 <span>{!! Icons::ui('pin') !!} Msharafieh, facing Garden State, Beirut</span>
                 <span>{!! Icons::ui('info') !!} Mon – Sat, 9:00 AM – 9:00 PM</span>
-                <a href="https://wa.me/96181823038?text={{ rawurlencode('Hello Supplement Station, ') }}" target="_blank" rel="noopener" class="ss-btn ss-btn--red ss-footer__wa">
+                <a href="https://wa.me/{{ config('store.whatsapp') }}?text={{ rawurlencode('Hello Supplement Station, ') }}" target="_blank" rel="noopener" class="ss-btn ss-btn--red ss-footer__wa">
                     <i class="fab fa-whatsapp"></i> WhatsApp
                 </a>
             </div>

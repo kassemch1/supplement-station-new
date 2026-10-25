@@ -74,6 +74,8 @@ class ImageCommandsTest extends TestCase
     public function test_deleting_a_converted_picture_also_removes_its_unused_original(): void
     {
         $image = $this->imageRow($this->pngFile('products_images/conv-del.png'));
+        // A product keeps at least one picture, so it has another one
+        ProductImage::create(['product_id' => $image->product_id, 'url' => $this->pngFile('products_images/conv-keep.png')]);
         $this->artisan('images:convert-webp')->assertSuccessful();
 
         $this->admin()->delete("/productImage/{$image->id}")->assertRedirect();

@@ -70,6 +70,20 @@ class BrandController extends Controller
         return response()->json(['success' => true, 'message' => $message, 'redirect' => route('manageBrands.index')]);
     }
 
+    // The × on the logo in the edit form: removes it right away
+    public function removeLogo(int $id): JsonResponse
+    {
+        $brand = Brand::findOrFail($id);
+        $logo = $brand->logo;
+        $brand->logo = null;
+        $brand->save();
+        if ($logo) {
+            ImageFiles::deleteIfUnused($logo);
+        }
+
+        return response()->json(['success' => true, 'message' => 'Logo removed.']);
+    }
+
     // The brand's products stay in the shop, just without a brand
     public function destroy(int $id): JsonResponse
     {

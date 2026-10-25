@@ -245,7 +245,7 @@ class Phase4SeoTest extends TestCase
         $this->assertStringContainsString('<link rel="canonical" href="' . url('/') . '/">', $html);
         $schema = $this->schema($html);
         $this->assertSame('LB', $schema['Store']['address']['addressCountry']);
-        $this->assertSame('+961 81 823 038', $schema['Store']['telephone']);
+        $this->assertSame('+961 81 088 266', $schema['Store']['telephone']);
         $this->assertArrayHasKey('WebSite', $schema);
         if (DB::table('faqs')->exists()) {
             $this->assertCount(DB::table('faqs')->count(), $schema['FAQPage']['mainEntity']);

@@ -144,7 +144,7 @@
         <h4 class="sidebar-heading">Contact Information</h4>
         <ul class="sidebar-info-list list-unstyled">
             <li><span><img src="{{ asset("assets/img/icon/i_star.svg")}}" alt=""></span>Msharafieh,Facing Garden State.</li>
-            <li><span><img src="{{ asset("assets/img/icon/i_star.svg")}}" alt=""></span><a href="tel:+96181823038">+961 81-823-038</a> / <a href="tel:+96181088266">81-088-266</a></li>
+            <li><span><img src="{{ asset("assets/img/icon/i_star.svg")}}" alt=""></span><a href="tel:{{ config('store.phone_link') }}">{{ config('store.phone') }}</a></li>
 
         </ul>
     </div>
@@ -154,7 +154,7 @@
             <div class="xb-item-wrap row">
                 <div class="xb-item col-auto">
                     <span class="item-content">
-                        <a href="tel:+96181823038" class="tel">+961 81-823-038</a>
+                        <a href="tel:{{ config('store.phone_link') }}" class="tel">{{ config('store.phone') }}</a>
                     </span>
                 </div>
             </div>

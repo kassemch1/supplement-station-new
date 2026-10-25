@@ -121,7 +121,7 @@
         </table>
     </div>
     <div class="footer">
-        <p>If you have any questions about your order, please contact us at +961 81-823-038</p>
+        <p>If you have any questions about your order, please contact us at {{ config('store.phone') }}</p>
         <p>Thank you for shopping with us!</p>
         <p>Best regards,<br>Supplement Station</p>
     </div>

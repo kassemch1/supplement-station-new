@@ -47,7 +47,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $product = Product::create($request->productData());
-        $this->storeImages($product, $request->file('images', []));
+        $this->storeImages($product, $request->file('images', []), !$request->boolean('keep_background'));
     }
 
     public function edit(int $id)
@@ -62,17 +62,20 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($request->input('product_id'));
         $product->update($request->productData());
-        $this->storeImages($product, $request->file('images', []));
+        $this->storeImages($product, $request->file('images', []), !$request->boolean('keep_background'));
 
         return response()->json(['success' => 'Product updated successfully']);
     }
 
     /** @param UploadedFile[] $images */
-    private function storeImages(Product $product, array $images): void
+    private function storeImages(Product $product, array $images, bool $removeBackground): void
     {
+        // New pictures go after the ones the product already has
+        $order = (int) $product->images()->max('sort_order');
         foreach ($images as $image) {
             $product->images()->create([
-                'url' => ImageOptimizer::storeUpload($image, 'products_images', ImageOptimizer::PRODUCT_MAX_SIZE),
+                'url' => ImageOptimizer::storeUpload($image, 'products_images', ImageOptimizer::PRODUCT_MAX_SIZE, $removeBackground),
+                'sort_order' => ++$order,
             ]);
         }
     }
