@@ -83,6 +83,7 @@ class StorePagesTest extends TestCase
     public function test_build_files_get_a_long_cache_header(): void
     {
         $this->assertStringContainsString('max-age=31536000', file_get_contents(public_path('assets/build/.htaccess')));
+        $this->assertStringContainsString('max-age=31536000', file_get_contents(public_path('admin_assets/build/.htaccess')));
         $this->assertStringContainsString('max-age=31536000', file_get_contents(public_path('assets/fonts/.htaccess')));
     }
 

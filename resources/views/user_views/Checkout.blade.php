@@ -53,6 +53,10 @@
                             <input type="email" name="billing_email" id="billing_email" autocomplete="email" maxlength="255" placeholder="you@example.com">
                             <span class="ss-field__hint">Get your receipt by email.</span>
                             <span class="ss-field__error" id="billing_email_error"></span>
+                            <label class="ss-optin" data-optin hidden>
+                                <input type="checkbox" name="newsletter" value="1" checked>
+                                <span>Email me new products and offers <em>(untick this box if you don&#39;t want our emails)</em></span>
+                            </label>
                         </div>
                     </div>
                 </section>
@@ -120,7 +124,7 @@
         <section class="ss-done" data-order-done hidden>
             <div class="ss-done__icon">{!! Icons::ui('done') !!}</div>
             <h1>Thank you, <span data-done-name></span>!</h1>
-            <p class="ss-done__lead">Your order <strong data-done-number></strong> has been placed.</p>
+            <p class="ss-done__lead">Your order has been placed.</p>
             <p>We'll call you on <strong data-done-phone></strong> to confirm the delivery.<span data-done-email hidden> A receipt is on its way to <strong></strong>.</span></p>
             <div class="ss-panel ss-done__summary">
                 <ul class="ss-olist" data-done-lines></ul>

@@ -16,7 +16,7 @@
         </div><!-- Page Headings End -->
 
 <!-- Combined Filter Form -->
-<form method="GET" action="{{ route('manageProducts.index') }}" class="mb-3">
+<form method="GET" action="{{ route('manageProducts.index') }}" class="mb-3" data-ajax-filter>
     <!-- Search Bar -->
     <input type="text" name="search" placeholder="Search for products..." value="{{ request('search') }}" style="padding: 5px; border: 1px solid #ccc; border-radius: 4px;"/>
 
@@ -47,7 +47,7 @@
         <div class="box-body">
 
             <!-- Products Table -->
-            <table class="table table-bordered">
+            <table class="table table-bordered" data-ajax-list="products-table">
                 <thead>
                     <tr>
                         <th>Image</th>
@@ -77,16 +77,14 @@
                             <td>
                                 @if($product->trashed())
                                     <span class="badge badge-secondary">Deleted</span>
-                                @elseif((int)$product->stock === 1)
-                                    <span class="badge badge-success">In Stock</span>
                                 @else
-                                    <span class="badge badge-danger">Out of Stock</span>
+                                    @include('admin_views.partials.stock_switch', ['product' => $product])
                                 @endif
                             </td>
                             <td>{{ $product->discount }} %</td>
                             <td>
                                 @if($product->trashed())
-                                <form method="POST" action="{{ route('manageProducts.restore', ['id' => $product->id]) }}" onsubmit="return confirm('Restore this product to the shop?')">
+                                <form method="POST" action="{{ route('manageProducts.restore', ['id' => $product->id]) }}" data-ajax-form data-success="Product restored to the shop." onsubmit="return confirm('Restore this product to the shop?')">
                                     @csrf
                                     <button type="submit" class="button button-success"><i class="zmdi zmdi-undo"></i><span>Restore</span></button>
                                 </form>
@@ -148,7 +146,7 @@
                 </tbody>
             </table>
 
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center" data-ajax-list="products-pages">
                 {!! $products->appends(request()->query())->links() !!}
             </div>
         </div>
@@ -180,12 +178,11 @@
                 data: { id: product_id },
                 // url: url,
                 success: function (response) {
-                    console.log('Product deleted successfully.');
-                    // $('#exampleModalCenter').modal('hide');
-                    location.reload();
+                    AdminUI.toast('Product deleted.');
+                    AdminUI.refresh();
                 },
                 error: function (xhr, status, error) {
-                    alert(JSON.stringify(error));
+                    AdminUI.toast(xhr.responseJSON?.message || 'Could not delete. Please try again.', 'error');
                     console.error('Error deleting Product:', error);
                     // Handle errors or display error message
                 }
@@ -211,9 +208,9 @@
                 },
                 success: function (response) {
                     if (response.success) {
-                        alert(`Success! ${response.message}`);
+                        AdminUI.toast(response.message);
                     } else {
-                        alert(`Error: ${response.message}`);
+                        AdminUI.toast(response.message, 'error');
                     }
                 },
                 error: function (xhr, status, error) {
@@ -221,7 +218,7 @@
                     if (xhr.responseJSON && xhr.responseJSON.message) {
                         errorMessage = xhr.responseJSON.message;
                     }
-                    alert('Error: ' + errorMessage);
+                    AdminUI.toast(errorMessage, 'error');
                     console.error('Error sending product email:', error);
                 },
                 complete: function() {

@@ -248,4 +248,38 @@ class CatalogStructureTest extends TestCase
 
         $migration->up();   // leaves the schema as RefreshDatabase expects
     }
+
+    public function test_brands_are_reordered_by_dragging(): void
+    {
+        $this->admin();
+        $a = Brand::create(['name' => 'Alpha', 'sort_order' => 1]);
+        $b = Brand::create(['name' => 'Beta', 'sort_order' => 2]);
+        $c = Brand::create(['name' => 'Gamma', 'sort_order' => 3]);
+        $this->assertSame(['Alpha', 'Beta', 'Gamma'], Brand::cachedAll()->pluck('name')->all());
+
+        $html = $this->get('/manageBrands')->assertOk()->getContent();
+        $this->assertStringContainsString('data-reorder-url="' . route('manageBrands.reorder'), $html);
+        $this->assertStringContainsString('data-brand-handle', $html);
+
+        $this->postJson('/manageBrands/reorder', ['ids' => [$c->id, $a->id, $b->id]])->assertOk()->assertJsonPath('success', true);
+
+        $this->assertSame([$c->id => 1, $a->id => 2, $b->id => 3], Brand::orderBy('sort_order')->pluck('sort_order', 'id')->all());
+        // the shop's brand list (cached) follows at once
+        $this->assertSame(['Gamma', 'Alpha', 'Beta'], Brand::cachedAll()->pluck('name')->all());
+    }
+
+    public function test_a_brand_reorder_must_list_every_brand_once(): void
+    {
+        $this->admin();
+        $a = Brand::create(['name' => 'Alpha', 'sort_order' => 1]);
+        $b = Brand::create(['name' => 'Beta', 'sort_order' => 2]);
+
+        $this->postJson('/manageBrands/reorder', ['ids' => [$b->id]])->assertStatus(422);
+        $this->postJson('/manageBrands/reorder', ['ids' => [$b->id, $b->id]])->assertStatus(422);
+        $this->postJson('/manageBrands/reorder', ['ids' => [$b->id, 999]])->assertStatus(422);
+        $this->assertSame(1, $a->fresh()->sort_order);
+
+        auth()->logout();
+        $this->postJson('/manageBrands/reorder', ['ids' => [$b->id, $a->id]])->assertUnauthorized();
+    }
 }

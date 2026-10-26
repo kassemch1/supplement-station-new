@@ -67,7 +67,7 @@
                         </div>
                         <div class="col-12 mb-30">
                             <label>Current pictures <small class="text-muted">(drag to change the order; the first one is the main picture in the shop)</small></label>
-                            <div data-image-area>
+                            <div data-image-area data-ajax-list="product-images">
                                 <div class="pimg-list" data-reorder-url="{{ route('productImage.reorder', $product->id) }}">
                                     @foreach($product->images as $image)
                                         <div class="adm-img pimg" data-id="{{ $image->id }}" data-image-box>
@@ -133,6 +133,8 @@
                 processData: false,
                 contentType: false,
                 success: function (response) {
+                    $('input[name="images[]"]').val('');
+                    AdminUI.refresh();                   // shows the pictures just uploaded
                     $('#successAlert').fadeIn();
                     setTimeout(function () {
                         $('#successAlert').fadeOut();
@@ -186,8 +188,14 @@
     // Product pictures: dragging sets the order and saves it right away through its own route. The × on
     // each picture is the shared one of every admin page (admin_views/partials/image_tools).
     $(function () {
-        var $list = $('.pimg-list');
-        var $status = $list.closest('[data-image-area]').find('[data-image-status]');
+        // The picture area is reloaded in place after an upload (AdminUI.refresh), so the list is looked up again
+        var $list, $status;
+        function findList() {
+            $list = $('.pimg-list');
+            $status = $list.closest('[data-image-area]').find('[data-image-status]');
+        }
+        findList();
+        $(document).on('admin:refreshed', findList);
         var csrf = '{{ csrf_token() }}';
 
         function say(text, isError) {
@@ -206,7 +214,7 @@
         // Moving the picture in the page drops the pointer capture, so moves and the release are followed
         // on the whole document
         var drag = null;
-        $list.on('pointerdown', '.pimg', function (e) {
+        $(document).on('pointerdown', '.pimg-list .pimg', function (e) {
             if (e.button !== undefined && e.button !== 0) {
                 return;
             }

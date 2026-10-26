@@ -22,6 +22,7 @@ require __DIR__ . '/faq.php';
 require __DIR__ . '/option_admin.php';
 require __DIR__ . '/product_option_admin.php';
 require __DIR__ . '/order_admin.php';
+require __DIR__ . '/customers_admin.php';
 require __DIR__ . '/contact.php';
 require __DIR__ . '/review_admin.php';
 require __DIR__ . '/coupons.php';

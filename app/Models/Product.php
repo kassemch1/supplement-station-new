@@ -16,6 +16,8 @@ class Product extends Model
     // The page URL is /products/{slug}, made from the name (see HasSlug)
     use HasSlug;
 
+    protected $casts = ['sold_out_at' => 'datetime'];
+
     protected $fillable = ['name', 'description', 'price', 'category_id', 'brand_id', 'stock', 'discount'];
 
     protected static function booted(): void
@@ -24,6 +26,12 @@ class Product extends Model
         static::saved(fn () => Catalog::forgetCategoryCounts());
         static::deleted(fn () => Catalog::forgetCategoryCounts());
         static::restored(fn () => Catalog::forgetCategoryCounts());
+        // when it went out of stock, for the dashboard's sold-out card
+        static::saving(function (self $product) {
+            if ($product->isDirty('stock') || !$product->exists) {
+                $product->sold_out_at = (int) $product->stock === 1 ? null : ($product->sold_out_at ?? now());
+            }
+        });
     }
 
     public function productOptions()

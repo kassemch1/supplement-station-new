@@ -8,6 +8,7 @@ use App\Models\CartItem;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Subscription;
 use App\Services\CurrentCart;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -85,6 +86,39 @@ class CheckoutTest extends TestCase
 
         Mail::assertNotSent(CheckoutMail::class);
         Mail::assertSent(NewOrderMail::class, fn (NewOrderMail $mail) => $mail->envelope()->replyTo === []);
+    }
+
+    public function test_the_checkout_email_joins_the_newsletter_when_the_box_is_ticked(): void
+    {
+        $this->addToCart(Product::factory()->create())->assertOk();
+        $this->placeOrder(['billing_email' => ' Buyer@Example.com ', 'newsletter' => '1'])->assertOk();
+
+        $subscription = Subscription::where('email', 'buyer@example.com')->firstOrFail();
+        $this->assertTrue($subscription->is_active);
+        $this->assertNotNull($subscription->subscribed_at);
+
+        // a second order with the same email adds no second row
+        $this->addToCart(Product::factory()->create())->assertOk();
+        $this->placeOrder(['billing_email' => 'buyer@example.com', 'newsletter' => '1'])->assertOk();
+        $this->assertSame(1, Subscription::count());
+    }
+
+    public function test_no_newsletter_without_the_box_or_after_unsubscribing(): void
+    {
+        $this->addToCart(Product::factory()->create())->assertOk();
+        $this->placeOrder(['billing_email' => 'no-thanks@example.com'])->assertOk();
+        $this->assertSame(0, Subscription::count());
+
+        Subscription::factory()->create(['email' => 'left@example.com', 'is_active' => false]);
+        $this->addToCart(Product::factory()->create())->assertOk();
+        $this->placeOrder(['billing_email' => 'left@example.com', 'newsletter' => '1'])->assertOk();
+        $this->assertFalse(Subscription::where('email', 'left@example.com')->value('is_active'));
+    }
+
+    public function test_the_checkout_page_offers_the_newsletter_box(): void
+    {
+        $this->addToCart(Product::factory()->create())->assertOk();
+        $this->get('/checkout')->assertOk()->assertSee('name="newsletter"', false)->assertSee('Email me new products and offers');
     }
 
     public function test_placing_an_order_does_not_query_once_per_line(): void

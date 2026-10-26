@@ -10,7 +10,7 @@
 
                     <!-- Search and Filter Form -->
                     <div class="mt-3">
-                        <form method="GET" action="{{ route('admin.coupons.index') }}" class="form-inline">
+                        <form method="GET" action="{{ route('admin.coupons.index') }}" class="form-inline" data-ajax-filter>
                             <input type="text" name="search" class="form-control mr-2" placeholder="Search by code or name" value="{{ request('search') }}">
 
                             <select name="type" class="form-control mr-2">
@@ -26,7 +26,7 @@
                             </select>
 
                             <button type="submit" class="btn btn-primary mr-2">Search</button>
-                            <a href="{{ route('admin.coupons.index') }}" class="btn btn-secondary">Clear</a>
+                            <a href="{{ route('admin.coupons.index') }}" class="btn btn-secondary" data-ajax-clear><i class="zmdi zmdi-close"></i> Clear filters</a>
                         </form>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
         @endif
 
         <div class="row">
-            <div class="col-12">
+            <div class="col-12" data-ajax-list="coupons">
                 @if($coupons->count() > 0)
                 <div class="table-responsive">
                     <table class="table table-vertical-middle">
@@ -161,7 +161,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <form id="toggleStatusForm" method="POST">
+                    <form id="toggleStatusForm" method="POST" data-ajax-form>
                         @csrf
                         @method('PATCH')
                         <button type="submit" class="btn btn-success">Yes</button>
@@ -185,7 +185,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <form id="deleteCouponForm" method="POST">
+                    <form id="deleteCouponForm" method="POST" data-ajax-form>
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Yes</button>

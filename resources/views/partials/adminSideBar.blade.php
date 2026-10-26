@@ -62,11 +62,16 @@
                         <li><a href="{{route("manageFaq.index")}}"><span>Edit FAQ</span></a></li>
                     </ul>
                 </li>
-                <li class="has-sub-menu"><a href="#"><i class="fa fa-shopping-cart"></i> <span>Manage Orders</span></a>
+                <li class="has-sub-menu"><a href="#"><i class="fa fa-shopping-cart"></i> <span>Manage Orders</span><span class="ad-menu-count" data-pending-count hidden></span></a>
                     <ul class="side-header-sub-menu">
-                        <li><a href="{{route("admin.orders.pending")}}"><span>Pending Orders List</span></a></li>
+                        <li><a href="{{route("admin.orders.pending")}}"><span>Pending Orders List</span><span class="ad-menu-count" data-pending-count hidden></span></a></li>
                         <li><a href="{{route("admin.orders.delivered")}}"><span>Deliverd Orders List</span></a></li>
                         <li><a href="{{route("admin.orders.cancelled")}}"><span>Cancelled Orders List</span></a></li>
+                    </ul>
+                </li>
+                <li class="has-sub-menu"><a href="#"><i class="fa fa-users"></i> <span>Customers</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="{{route("admin.customers.index")}}"><span>Customers List</span></a></li>
                     </ul>
                 </li>
 

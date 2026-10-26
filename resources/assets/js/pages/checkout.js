@@ -156,7 +156,6 @@ $(function () {
         $form.data('placed', true);
         var items = (cart && cart.items) || [];
         $('[data-done-name]').text($.trim($('#billing_first_name').val()).split(' ')[0]);
-        $('[data-done-number]').text('#' + response.order_id);
         $('[data-done-phone]').text($.trim($('#billing_phone').val()));
         if (response.billing_email) {
             $('[data-done-email]').prop('hidden', false).find('strong').text(response.billing_email);
@@ -169,4 +168,12 @@ $(function () {
         window.scrollTo({top: 0, behavior: 'smooth'});
         SS.cart.refresh();
     }
+
+    /* ---------- newsletter tick box: only offered once an email is written ---------- */
+
+    function syncOptin() {
+        $('[data-optin]').prop('hidden', $.trim($('#billing_email').val()) === '');
+    }
+    $('#billing_email').on('input change', syncOptin);
+    syncOptin();
 });

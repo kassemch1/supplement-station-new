@@ -255,7 +255,7 @@
 
 @section('content')
         <!-- Order Header -->
-        <div class="order-header">
+        <div class="order-header" data-ajax-list="order-head">
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <h2 class="mb-2">Order #{{ $order->id }}</h2>
@@ -432,7 +432,7 @@
 
             <!-- Sidebar -->
             <div class="col-lg-4">
-                <div class="quick-actions">
+                <div class="quick-actions" data-ajax-list="order-actions">
                     <h5 class="mb-3"><i class="zmdi zmdi-settings mr-2"></i>Quick Actions</h5>
 
                     <div class="mb-3">
@@ -486,30 +486,16 @@
                 type: 'POST',
                 url: "{{ route('admin.orders.updateStatus', $order->id) }}",
                 data: { status: status },
-                success: function(response) {
-                    console.log('Status updated successfully');
-                    location.reload(); // Reload to show updated status
+                success: function() {
+                    AdminUI.toast('Order marked as ' + status + '.');
+                    AdminUI.refresh();
                 },
                 error: function(xhr) {
-                    console.log('Full error response:', xhr);
-                    if (xhr.status === 404) {
-                        alert('Update route not found. Please check your routes.');
-                    } else if (xhr.status === 500) {
-                        alert('Server error occurred. Please check the server logs.');
-                    } else {
-                        alert('Error updating status: ' + (xhr.responseJSON?.message || 'Unknown error'));
-                    }
+                    AdminUI.toast('Could not update the status: ' + (xhr.responseJSON?.message || 'please try again.'), 'error');
                 }
             });
         }
     }
-
-    // Test if jQuery and functions are loaded
-    $(document).ready(function() {
-        console.log('Page loaded successfully');
-        console.log('jQuery version:', $.fn.jquery);
-        console.log('Update status function exists:', typeof updateStatus);
-    });
 </script>
 
 <div id="img-lightbox" onclick="closeLightbox()">

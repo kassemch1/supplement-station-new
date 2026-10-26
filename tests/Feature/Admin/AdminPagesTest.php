@@ -51,10 +51,13 @@ class AdminPagesTest extends TestCase
             if (str_contains($url, 'email-preview')) {
                 continue;
             }
-            $this->assertSame(1, substr_count($html, 'jquery-3.3.1.min.js'), "$url loads jQuery once");
-            $this->assertStringNotContainsString('jquery-3.6.0', $html, $url);
+            // one CSS bundle, the look, one JS bundle (jQuery is inside it), nothing loaded on the side
+            $this->assertSame(1, substr_count($html, 'admin_assets/build/admin.css?v='), "$url loads admin.css once");
+            $this->assertSame(1, substr_count($html, 'admin_assets/build/admin-theme.css?v='), "$url loads admin-theme.css once");
+            $this->assertSame(1, substr_count($html, 'admin_assets/build/admin.js?v='), "$url loads admin.js once");
+            $this->assertDoesNotMatchRegularExpression('#<script[^>]+jquery#i', $html, "$url loads no second jQuery");
             $this->assertStringNotContainsString('plugins/plugins.js', $html, $url);
-            $this->assertSame(1, substr_count($html, 'admin_assets/css/style'), "$url loads the theme stylesheet once");
+            $this->assertStringNotContainsString('admin_assets/css/', $html, "$url loads no unbundled template CSS");
             $this->assertStringContainsString('<meta name="csrf-token"', $html, $url);
             $this->assertStringContainsString('class="content-body"', $html, $url);
             $this->assertStringContainsString('<meta name="robots" content="noindex, nofollow">', $html, $url);

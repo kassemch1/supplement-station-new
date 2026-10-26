@@ -15,6 +15,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ShippingDetail;
+use App\Models\Subscription;
 use App\Services\Catalog;
 use App\Services\CurrentCart;
 use App\Services\ProductAvailability;
@@ -272,6 +273,7 @@ class CartController extends Controller
         }
 
         Session::forget('applied_coupon');
+        $this->subscribeCustomer($request);
         $this->sendOrderEmails($order, $cart->items, $request->only('billing_first_name', 'billing_phone', 'billing_address_1', 'billing_city', 'billing_email'));
 
         return $this->orderPlaced($order, $request->billing_email);
@@ -328,6 +330,23 @@ class CartController extends Controller
         $cart->items()->delete();
 
         return $order;
+    }
+
+    // "Email me new products and offers" at checkout (ticked by default, only shown with an email): a new
+    // email joins the newsletter list. Someone who unsubscribed before stays unsubscribed, since a box that
+    // was already ticked is not a clear yes from them; they can still join again from the newsletter pop-up.
+    private function subscribeCustomer(Request $request): void
+    {
+        $email = $request->billing_email ? Str::lower(trim($request->billing_email)) : null;
+        if (!$email || !$request->boolean('newsletter')) {
+            return;
+        }
+        try {
+            Subscription::firstOrCreate(['email' => $email], ['is_active' => true, 'subscribed_at' => now()]);
+        } catch (\Throwable $e) {
+            // the order is placed either way
+            Log::warning('Checkout newsletter sign-up failed', ['error' => $e->getMessage()]);
+        }
     }
 
     // Sent after the response: a slow or failing mail server can never make a placed order look failed

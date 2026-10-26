@@ -8,12 +8,13 @@
                 <div class="page-heading">
                     <h3>{{ $heading }}</h3>
                     <div>
-                        <form action="{{ route('admin.orders.' . $status) }}" method="GET" class="form-inline">
+                        <form action="{{ route('admin.orders.' . $status) }}" method="GET" class="form-inline" data-ajax-filter>
                             <label for="sort" class="mr-2">Sort By:</label>
-                            <select name="sort" id="sort" class="form-control mr-2" onchange="this.form.submit()">
+                            <select name="sort" id="sort" class="form-control mr-2" data-clear-to="desc">
                                 <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Newest First</option>
                                 <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>Oldest First</option>
                             </select>
+                            <input type="search" name="search" class="form-control mr-2 ad-order-search" value="{{ $search }}" placeholder="Search order #, phone or name" aria-label="Search orders by number, phone or customer name" autocomplete="off">
                         </form>
                     </div>
                 </div>
@@ -21,11 +22,12 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="table-responsive">
+                <div class="table-responsive" data-ajax-list="orders">
                     <table class="table table-vertical-middle">
                         <thead>
                             <tr>
                                 <th>Order ID</th>
+                                <th>Customer</th>
                                 <th>Total Amount</th>
                                 <th>Status</th>
                                 <th>Coupon Code</th>
@@ -38,6 +40,14 @@
                             @foreach ($orders as $order)
                             <tr>
                                 <td>#{{ $order->id }}</td>
+                                <td class="ad-order-customer">
+                                    @if($order->shippingDetail)
+                                        <strong><bdi>{{ $order->shippingDetail->name }}</bdi></strong>
+                                        <small>{{ $order->shippingDetail->phone }}@if($order->shippingDetail->city) · <bdi>{{ $order->shippingDetail->city }}</bdi>@endif</small>
+                                    @else
+                                        <span class="text-muted">—</span>
+                                    @endif
+                                </td>
                                 <td>${{ number_format($order->total_amount, 2) }}</td>
                                 <td><span class="badge badge-{{ ['pending' => 'danger', 'delivered' => 'success'][$order->status] ?? 'secondary' }}">{{ ucfirst($order->status) }}</span></td>
                                 <td>
@@ -68,6 +78,18 @@
                                 </td>
                             </tr>
                             @endforeach
+                            @if($orders->isEmpty())
+                                <tr><td colspan="8" class="ad-empty">
+                                    @if($search !== '')
+                                        No {{ strtolower($heading) }} match <strong>“{{ $search }}”</strong>.
+                                        @foreach($elsewhere as $otherStatus => $count)
+                                            <a href="{{ route('admin.orders.' . $otherStatus, ['search' => $search]) }}">{{ $count }} in {{ $headings[$otherStatus] }}</a>@if(!$loop->last) · @endif
+                                        @endforeach
+                                    @else
+                                        No {{ strtolower($heading) }}.
+                                    @endif
+                                </td></tr>
+                            @endif
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center">
@@ -91,7 +113,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <form id="deleteOrderForm" method="POST">
+                    <form id="deleteOrderForm" method="POST" data-ajax-form data-success="Order deleted.">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Yes</button>
@@ -115,7 +137,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <form id="updateStatusForm" method="POST">
+                    <form id="updateStatusForm" method="POST" data-ajax-form data-success="Order status updated.">
                         @csrf
                         <input type="hidden" name="status" value="{{ $status === 'pending' ? 'delivered' : 'pending' }}">
                         <button type="submit" class="btn btn-success">Yes</button>

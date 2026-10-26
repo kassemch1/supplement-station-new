@@ -23,7 +23,7 @@
             <h4 class="title">Product Options</h4>
         </div>
         <div class="box-body">
-            <table class="table table-bordered">
+            <table class="table table-bordered" data-ajax-list="list">
                 <thead>
                 <tr>
                     <th>Option Name</th>
@@ -105,8 +105,8 @@
                 url: url,
                 data: { id: productOptionId }, // Use the correct ID variable
                 success: function (response) {
-                    console.log('Product option deleted successfully.');
-                    location.reload(); // Reload the page after successful deletion
+                    AdminUI.toast(response.message || (typeof response.success === 'string' ? response.success : 'Deleted.'));
+                    AdminUI.refresh();
                 },
                 error: function (xhr) {
                     // Check if there are validation errors
@@ -118,9 +118,9 @@
                                 errorMsg += errors[key][0] + '<br>'; // Concatenate error messages
                             }
                         }
-                        alert(errorMsg); // Show validation errors
+                        AdminUI.toast(errorMsg, 'error');
                     } else {
-                        alert('Error deleting product option. Please try again.'); // General error message
+                        AdminUI.toast('Error deleting product option. Please try again.', 'error');
                     }
                     console.error('Error deleting product option:', xhr);
                 }

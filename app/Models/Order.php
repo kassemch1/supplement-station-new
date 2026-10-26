@@ -17,6 +17,32 @@ class Order extends Model
         return $query->where('status', '!=', 'cancelled');
     }
 
+    // The admin's order search: "#597" or "597" is an order number, digits are also looked for in the
+    // phone (in any of the ways it was typed, see ShippingDetail::phoneKey), and words in the name
+    public function scopeSearch($query, ?string $term)
+    {
+        $term = trim((string) $term);
+        if ($term === '') {
+            return $query;
+        }
+        $digits = preg_replace('/\D+/', '', $term);
+
+        return $query->where(function ($where) use ($term, $digits) {
+            $where->whereRaw('1 = 0');   // a search with nothing to look for finds nothing
+            if (preg_match('/^#?\s*\d{1,7}$/', $term)) {
+                $where->orWhere('orders.id', (int) $digits);
+            }
+            if (strlen($digits) >= 3) {
+                $key = strlen($digits) >= 7 ? ShippingDetail::phoneKey($digits) : $digits;
+                $where->orWhereHas('shippingDetail', fn ($s) => $s->where('phone_key', 'like', '%' . $key . '%'));
+            }
+            if (preg_match('/\pL/u', $term)) {
+                $like = '%' . addcslashes($term, '%_\\') . '%';
+                $where->orWhereHas('shippingDetail', fn ($s) => $s->where('name', 'like', $like));
+            }
+        });
+    }
+
     protected $fillable = [
         'total_amount',
         'subtotal_amount',

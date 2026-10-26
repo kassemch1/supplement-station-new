@@ -12,6 +12,11 @@
 }
 .ss-field input:focus, .ss-field textarea:focus { border-color: var(--ss-ink); box-shadow: 0 0 0 4px rgba(21, 21, 27, .06); }
 .ss-field__hint { font-size: 12px; color: var(--ss-faint); }
+/* newsletter tick box under the email (shown once an email is typed) */
+.ss-field label.ss-optin { display: flex; align-items: flex-start; gap: 8px; margin-top: 2px; font: 500 13px/1.35 var(--ss-font); color: var(--ss-ink-2); cursor: pointer; }
+.ss-field label.ss-optin[hidden] { display: none; }
+.ss-field .ss-optin input { width: 16px; height: 16px; min-height: 0; margin: 1px 0 0; padding: 0; flex: none; accent-color: var(--ss-red); }
+.ss-optin em { font-style: normal; color: var(--ss-faint); }
 .ss-field__error { font-size: 12.5px; font-weight: 600; color: #b42318; }
 .ss-field__error:empty { display: none; }
 .ss-field.has-error input, .ss-field.has-error textarea { border-color: #e5484d; box-shadow: 0 0 0 4px rgba(229, 72, 77, .08); }

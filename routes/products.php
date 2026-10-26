@@ -11,4 +11,5 @@ Route::middleware('auth')->prefix('manageProducts')->name('manageProducts.')->co
     Route::post('/update', 'update')->name('update');
     Route::delete('/destroy', 'destroy')->name('destroy');
     Route::post('/{id}/restore', 'restore')->whereNumber('id')->name('restore');
+    Route::post('/{id}/stock', 'setStock')->whereNumber('id')->name('stock');
 });

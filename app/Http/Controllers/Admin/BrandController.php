@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Services\ImageFiles;
 use App\Services\ImageOptimizer;
+use App\Services\PageCache;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -68,6 +69,28 @@ class BrandController extends Controller
         }
 
         return response()->json(['success' => true, 'message' => $message, 'redirect' => route('manageBrands.index')]);
+    }
+
+    // Dragging the rows of the brand list: the ids in their new order, every brand once. They are numbered
+    // 1, 2, 3... which is the order of the Brands menu and the "Shop by brand" row in the shop.
+    public function reorder(Request $request): JsonResponse
+    {
+        $ids = $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|distinct',
+        ])['ids'];
+
+        $all = Brand::pluck('id')->all();
+        abort_if(count($ids) !== count($all) || array_diff($all, $ids), 422, 'The list must hold every brand once. Reload the page and try again.');
+
+        foreach (array_values($ids) as $position => $id) {
+            Brand::whereKey($id)->update(['sort_order' => $position + 1]);
+        }
+        // a bulk update skips the model events that clear the brand list and the stored store pages
+        Brand::forgetCache();
+        PageCache::flush();
+
+        return response()->json(['success' => true, 'message' => 'Brand order saved.']);
     }
 
     // The × on the logo in the edit form: removes it right away

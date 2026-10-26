@@ -9,8 +9,8 @@
     <title>Admin | Login </title>
 
     <!-- Favicons-->
-    <link rel="shortcut icon" href={{asset("assets/icon/FaviconTawwer.png")}}>
-    <link rel="apple-touch-icon-precomposed" href={{asset("assets/icon/FaviconTawwer.png")}}>
+    <link rel="icon" href="{{ asset('assets/img/logo/preloader2.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('assets/img/logo/preloader2.png') }}">
     <!-- GOOGLE WEB FONT -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
 

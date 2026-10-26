@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Services\Assets;
+use App\Support\CssPurge;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use MatthiasMullie\Minify;
@@ -11,7 +12,7 @@ class BuildAssets extends Command
 {
     protected $signature = 'assets:build {--check : Only report whether the committed files are up to date}';
 
-    protected $description = 'Combine and minify the store CSS/JS bundles listed in config/assets.php';
+    protected $description = 'Combine and minify the store and admin CSS/JS bundles listed in config/assets.php';
 
     public function handle()
     {
@@ -20,13 +21,15 @@ class BuildAssets extends Command
             return self::FAILURE;
         }
 
-        $output = base_path(config('assets.output'));
         $manifest = [];
         $stale = [];
 
-        foreach (config('assets.bundles') as $name => $sources) {
-            $target = "$output/$name";
-            $content = $this->build($sources, $target);
+        foreach (config('assets.bundles') as $name => $bundle) {
+            $target = base_path(Assets::outputDir($name) . "/$name");
+            $content = $this->build($bundle['files'] ?? $bundle, $target, isset($bundle['output']));
+            if (isset($bundle['purge'])) {
+                $content = $this->purge($content, config('assets.purge.' . $bundle['purge']));
+            }
             $manifest[$name] = substr(md5($content), 0, 10);
 
             if (!File::exists($target) || File::get($target) !== $content) {
@@ -36,7 +39,7 @@ class BuildAssets extends Command
                     File::put($target, $content);
                 }
             }
-            $this->line(sprintf('%-14s %7.1f KB', $name, strlen($content) / 1024));
+            $this->line(sprintf('%-16s %7.1f KB', $name, strlen($content) / 1024));
         }
 
         $json = json_encode($manifest, JSON_PRETTY_PRINT) . "\n";
@@ -60,7 +63,21 @@ class BuildAssets extends Command
         return self::SUCCESS;
     }
 
-    private function build(array $sources, string $target): string
+    // Only the rules some page can use (App\Support\CssPurge, config/assets.php 'purge')
+    private function purge(string $css, array $options): string
+    {
+        $files = [];
+        foreach ($options['content'] as $path) {
+            $path = base_path($path);
+            $files = array_merge($files, is_dir($path) ? array_map(fn ($f) => $f->getPathname(), File::allFiles($path)) : [$path]);
+        }
+
+        return (new CssPurge(CssPurge::wordsIn($files), $options['safelist'] ?? []))->purge($css);
+    }
+
+    // $moveUrls: the bundle is not next to its sources, so every CSS file (minified ones too) goes
+    // through the minifier, which rewrites the relative url(...) paths for the bundle's folder
+    private function build(array $sources, string $target, bool $moveUrls = false): string
     {
         $isCss = str_ends_with($target, '.css');
         $parts = [];
@@ -69,7 +86,7 @@ class BuildAssets extends Command
             // Relative url(...) paths need no rewriting: the bundles live in public/assets/build, one
             // folder below public/assets like public/assets/css (resources/assets/css is written that way)
             $path = base_path($source);
-            if (str_contains($source, '.min.')) {
+            if (str_contains($source, '.min.') && !($isCss && $moveUrls)) {
                 $code = File::get($path);
                 $parts[] = $isCss ? $code : rtrim($code) . ';';
                 continue;
@@ -83,7 +100,7 @@ class BuildAssets extends Command
                     protected function cleanupModernColors($content) { return $content; }
                 };
                 $minifier->setImportExtensions([]); // keep images and fonts as files, not inline base64
-                $parts[] = $minifier->minify();
+                $parts[] = $moveUrls ? $minifier->execute($target) : $minifier->minify();
             } else {
                 $parts[] = rtrim((new Minify\JS($path))->minify(), ';') . ';';
             }

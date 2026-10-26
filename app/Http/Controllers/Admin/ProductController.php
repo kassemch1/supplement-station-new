@@ -39,6 +39,20 @@ class ProductController extends Controller
         ]);
     }
 
+    // The In stock / Out of stock switch in the product list and on the dashboard's sold-out card
+    public function setStock(Request $request, int $id): JsonResponse
+    {
+        $inStock = $request->validate(['stock' => 'required|boolean'])['stock'];
+        $product = Product::findOrFail($id);
+        $product->update(['stock' => $inStock ? 1 : 0]);
+
+        return response()->json([
+            'success' => true,
+            'stock' => (bool) $inStock,
+            'message' => $product->name . ($inStock ? ' is in stock.' : ' is now out of stock.'),
+        ]);
+    }
+
     public function create()
     {
         return view('admin_views/manage_products/add_product', ['categories' => Category::cachedAll()]);

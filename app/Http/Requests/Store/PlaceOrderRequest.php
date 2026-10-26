@@ -14,6 +14,7 @@ class PlaceOrderRequest extends FormRequest
             'billing_address_1' => 'required|string|max:1000',
             'billing_city' => 'required|string|max:255',
             'billing_email' => 'nullable|email|max:255',
+            'newsletter' => 'nullable|boolean',
             'checkout_token' => 'nullable|string|max:64',
         ];
     }
