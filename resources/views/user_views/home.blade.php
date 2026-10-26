@@ -24,7 +24,7 @@
 
 @section('content')
 <a href="https://wa.me/{{ config('store.whatsapp') }}" target="_blank" rel="noopener" class="whatsapp-popup" aria-label="WhatsApp">
-    <i class="fab fa-whatsapp"></i>
+    {!! Icons::fa('whatsapp') !!}
 </a>
 
 <main class="ss-home">
@@ -184,7 +184,7 @@
                     <p>Our team answers on WhatsApp, Monday to Saturday, 9:00 AM – 9:00 PM.</p>
                     <div class="ss-faq__helpbtns">
                         <a href="https://wa.me/{{ config('store.whatsapp') }}?text={{ rawurlencode('Hello, I have a question: ') }}" target="_blank" rel="noopener" class="ss-btn ss-btn--red">
-                            <i class="fab fa-whatsapp"></i> WhatsApp
+                            {!! Icons::fa('whatsapp') !!} WhatsApp
                         </a>
                         <a href="tel:{{ config('store.phone_link') }}" class="ss-btn ss-btn--outline">{!! Icons::ui('phone') !!} Call</a>
                     </div>

@@ -43,8 +43,8 @@ class HomeController extends Controller
             'offersProducts' => $offerIds ? $this->inStockFirst(Product::cards($offerIds)) : $bestSellers,
             'banner' => Banner::first(),
             'faqs' => Faq::all(),
-            // Menus and lists come from the cache: no queries
-            'categoryTree' => Category::tree(),
+            // Menus and lists come from the cache (one query counts the products per category)
+            'categoryTree' => Category::treeWithProducts(),
             'brands' => Brand::cachedAll(),
         ]);
     }

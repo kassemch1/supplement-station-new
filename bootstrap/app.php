@@ -13,6 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // Email apps' one-click unsubscribe has no CSRF token; the signed address protects it
         $middleware->validateCsrfTokens(except: ['newsletter/unsubscribe/*']);
+        // Ready-made store pages (App\Services\PageCache)
+        $middleware->web(append: [\App\Http\Middleware\CachePages::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

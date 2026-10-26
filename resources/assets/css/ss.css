@@ -30,6 +30,8 @@
 
 .ss-ui { width: 18px; height: 18px; flex: none; }
 .ss-icon { width: 24px; height: 24px; }
+/* Font Awesome icons drawn as SVG (Icons::fa): the same box and baseline as the <i class="fab"> they replaced */
+.ss-fa { display: inline-block; height: 1em; vertical-align: -.125em; overflow: visible; }
 .ss-only-mobile { display: inline-flex; }
 @media (min-width: 992px) { .ss-only-mobile { display: none !important; } }
 
@@ -217,8 +219,9 @@
 .ss-mini__name { font: 600 12.5px/1.3 var(--ss-font); color: var(--ss-ink); text-decoration: none; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.6em; }
 .ss-mini__row { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
 .ss-mini__row .ss-price__now { font-size: 15px; color: var(--ss-red); }
-.ss-mini__add { width: 32px; height: 32px; border-radius: 10px; border: 0; background: var(--ss-ink); color: #fff; display: grid; place-items: center; cursor: pointer; }
-.ss-mini__add:hover { background: var(--ss-red); }
+/* Red like the add button on the shop cards (.ss-card__add) */
+.ss-mini__add { width: 32px; height: 32px; border-radius: 10px; border: 0; background: var(--ss-red); color: #fff; display: grid; place-items: center; cursor: pointer; box-shadow: 0 4px 10px rgba(160, 35, 52, .25); transition: transform .15s, background .15s; }
+.ss-mini__add:hover { background: #8b1d2d; transform: scale(1.06); }
 .ss-mini__add .ss-ui { width: 16px; height: 16px; }
 
 /* ---------- quick view: a centred window on wide screens, a sheet from the bottom on phones ---------- */
@@ -496,7 +499,7 @@ input.ss-input:focus, textarea.ss-input:focus { border-color: var(--ss-ink); box
 .ss-footer__reach .ss-ui { width: 16px; height: 16px; color: #ff6b7f; flex: none; }
 .ss-footer .ss-footer__wa { margin-top: 8px; min-height: 42px; color: #fff; }
 .ss-footer .ss-footer__wa:hover { color: #fff; }
-.ss-footer__wa i { font-size: 17px; }
+.ss-footer__wa .ss-fa { font-size: 17px; }
 .ss-footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .08); font-size: 12.5px; color: rgba(255, 255, 255, .45); }
 @media (max-width: 991.98px) {
     /* Shop, cart and checkout end with their own bars and the tabs on phones */

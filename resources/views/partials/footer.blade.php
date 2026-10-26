@@ -1,16 +1,16 @@
-{{-- Store footer: logo and social links, shop and help links, contact details (the "Contact" links point at #contact) --}}
+{{-- Store footer: logo and social links, shop and help links, contact details (#contact is kept for old links) --}}
 @php use App\Support\Icons; @endphp
 <footer class="ss-footer" id="contact">
     <div class="ss-wrap">
         <div class="ss-footer__cols">
             <div class="ss-footer__brand">
                 <a href="{{ route('home') }}" aria-label="Supplement Station home">
-                    <img src="{{ asset('assets/img/logo/outlined-logo-nav.png') }}" alt="Supplement Station" width="168" height="46" loading="lazy">
+                    <img src="{{ asset('assets/img/logo/outlined-logo-nav.webp') }}" alt="Supplement Station" width="168" height="46" loading="lazy">
                 </a>
                 <p>Authentic supplements from the brands athletes trust, delivered all over Lebanon. Since 2018.</p>
                 <div class="ss-footer__social">
-                    <a href="https://wa.me/{{ config('store.whatsapp') }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                    <a href="https://www.instagram.com/supplement_station_lb" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/{{ config('store.whatsapp') }}" target="_blank" rel="noopener" aria-label="WhatsApp">{!! Icons::fa('whatsapp') !!}</a>
+                    <a href="https://www.instagram.com/supplement_station_lb" target="_blank" rel="noopener" aria-label="Instagram">{!! Icons::fa('instagram') !!}</a>
                 </div>
             </div>
             <nav aria-label="Categories">
@@ -33,7 +33,7 @@
                 <span>{!! Icons::ui('pin') !!} Msharafieh, facing Garden State, Beirut</span>
                 <span>{!! Icons::ui('info') !!} Mon – Sat, 9:00 AM – 9:00 PM</span>
                 <a href="https://wa.me/{{ config('store.whatsapp') }}?text={{ rawurlencode('Hello Supplement Station, ') }}" target="_blank" rel="noopener" class="ss-btn ss-btn--red ss-footer__wa">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
+                    {!! Icons::fa('whatsapp') !!} WhatsApp
                 </a>
             </div>
         </div>

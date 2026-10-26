@@ -18,19 +18,22 @@ class Brand extends Model
 
     protected static function booted(): void
     {
-        static::saved(fn () => Cache::forget(self::CACHE_KEY));
-        static::deleted(fn () => Cache::forget(self::CACHE_KEY));
+        static::saved(fn () => static::forgetCache());
+        static::deleted(fn () => static::forgetCache());
     }
 
-    // Every shop page lists the brands; read from the database only after a change
+    // Every shop page lists the brands; read from the database only after a change.
+    // Kept in memory for the rest of the request (pages ask for it many times), and each caller gets its
+    // own copies, so changing one never leaks into another caller
     public static function cachedAll(): Collection
     {
-        return Cache::rememberForever(self::CACHE_KEY, fn () => static::orderBy('sort_order')->orderBy('name')->get());
+        return Cache::memo()->rememberForever(self::CACHE_KEY, fn () => static::orderBy('sort_order')->orderBy('name')->get())
+            ->map(fn (self $model) => clone $model);
     }
 
     public static function forgetCache(): void
     {
-        Cache::forget(self::CACHE_KEY);
+        Cache::memo()->forget(self::CACHE_KEY);
     }
 
     public function products()

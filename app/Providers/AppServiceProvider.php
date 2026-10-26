@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Services\Catalog;
+use App\Services\PageCache;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -25,14 +27,21 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
+
+        // Stored store pages go out of date when something they show changes
+        PageCache::watchModels();
         Paginator::useBootstrap();
 
-        // The header menu lists the categories (with their subcategories) and the brands on every store page
-        View::composer('partials.navBar', fn ($view) => $view->with([
-            'categories' => Category::cachedAll(),
-            'categoryTree' => Category::tree(),
-            'brands' => Brand::cachedAll(),
-        ]));
-        View::composer('partials.footer', fn ($view) => $view->with('footerCategories', Category::tree()));
+        // The header menu lists the categories (with their subcategories) and the brands on every store page.
+        // Categories without products are left out of every menu
+        View::composer('partials.navBar', function ($view) {
+            $counts = Catalog::categoryCounts();
+            $view->with([
+                'categories' => Category::cachedAll()->filter(fn (Category $category) => ($counts[$category->id] ?? 0) > 0)->values(),
+                'categoryTree' => Category::treeWithProducts($counts),
+                'brands' => Brand::cachedAll(),
+            ]);
+        });
+        View::composer('partials.footer', fn ($view) => $view->with('footerCategories', Category::treeWithProducts()));
     }
 }

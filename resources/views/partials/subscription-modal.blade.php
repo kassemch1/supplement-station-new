@@ -3,7 +3,7 @@
     <div class="subscription-modal-overlay">
         <div class="subscription-modal-content">
             <div class="subscription-modal-header">
-                <span class="subscription-modal-icon"><i class="fas fa-dumbbell"></i></span>
+                <span class="subscription-modal-icon">{!! \App\Support\Icons::fa('dumbbell') !!}</span>
                 <h3>Stay Strong, Stay Updated!</h3>
                 <button class="close-modal" id="closeModal">&times;</button>
             </div>
@@ -11,7 +11,7 @@
                 <p>Stay updated on the latest deals, exclusive offers, and new product alerts delivered to your house!</p>
                 <form id="subscriptionForm">
                     <div class="form-group">
-                        <i class="fas fa-envelope input-icon"></i>
+                        {!! \App\Support\Icons::fa('envelope', 'input-icon') !!}
                         <input type="email" id="subscriptionEmail" name="email" placeholder="Enter your email address" required>
                     </div>
                     <div class="form-actions">

@@ -273,4 +273,28 @@ class ShopRedesignTest extends TestCase
         $this->get('/no-such-page')->assertNotFound()->assertSee('We could not find this page')->assertSee('ss-topnav', false);
         $this->get('/products/no-such-product')->assertNotFound()->assertSee('Go to the shop');
     }
+
+    public function test_empty_categories_are_never_shown_and_their_page_opens_the_shop(): void
+    {
+        $c = $this->catalogue();
+        // An empty subcategory of a category that has products
+        $shirts = Category::create(['name' => 'Shirts', 'parent_id' => $c['creatine']->id]);
+
+        foreach (['/', '/shop', $c['creatine']->url(), '/cart', $c['p']['gold']->url()] as $page) {
+            $html = $this->get($page)->assertOk()->getContent();
+            $this->assertStringNotContainsString($c['empty']->url() . '"', $html, $page);
+            $this->assertStringNotContainsString($shirts->url() . '"', $html, $page);
+            $this->assertStringContainsString($c['whey']->url() . '"', $html, $page);
+            // The header has no Contact link (the footer is the contact section)
+            $this->assertStringNotContainsString('>Contact<', $html, $page);
+        }
+
+        $this->get($c['empty']->url())->assertRedirect(route('shop'));
+        $this->get($shirts->url())->assertRedirect(route('shop'));
+
+        // Once it has a product it shows again
+        Product::factory()->withImage()->create(['name' => 'Gym Shirt', 'category_id' => $shirts->id]);
+        $this->get($shirts->url())->assertOk();
+        $this->assertStringContainsString($shirts->url() . '"', $this->get('/shop')->getContent());
+    }
 }

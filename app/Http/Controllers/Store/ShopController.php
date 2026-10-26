@@ -54,6 +54,12 @@ class ShopController extends Controller
             return $this->permanentRedirect($category->url(), $request);
         }
 
+        // A category with no products is not shown anywhere; an old link to it opens the whole shop
+        // (temporarily: the page comes back once products are added to it)
+        if ((Catalog::categoryCounts()[$category->id] ?? 0) === 0) {
+            return redirect()->route('shop');
+        }
+
         return $this->listing($request, $category);
     }
 
@@ -101,10 +107,7 @@ class ShopController extends Controller
     {
         // Categories without products are left out of the menu
         $counts = Catalog::categoryCounts();
-        $tree = Category::tree()
-            ->filter(fn ($main) => ($counts[$main->id] ?? 0) > 0)
-            ->each(fn ($main) => $main->setRelation('children', $main->children->filter(fn ($sub) => ($counts[$sub->id] ?? 0) > 0)->values()))
-            ->values();
+        $tree = Category::treeWithProducts($counts);
 
         $brandCounts = Catalog::brandCounts($scope);
         $brands = Brand::cachedAll()

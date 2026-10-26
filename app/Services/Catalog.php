@@ -146,15 +146,31 @@ class Catalog
             ->pluck(DB::raw('COUNT(*)'), 'brand_id')->map(fn ($n) => (int) $n);
     }
 
-    // [category_id => products] including subcategories, so empty categories can be hidden
+    private const CATEGORY_COUNTS_KEY = 'store.category_product_counts';
+
+    // [category_id => products] including subcategories, so empty categories can be hidden. Every store page
+    // needs it for the menus, so the per-category numbers are cached: a product being added, changed, archived
+    // or restored clears them (Product::booted), and they expire after an hour in case the table is changed
+    // some other way
     public static function categoryCounts(): Collection
     {
-        $own = DB::table('products')->whereNull('deleted_at')->groupBy('category_id')
-            ->pluck(DB::raw('COUNT(*)'), 'category_id')->map(fn ($n) => (int) $n);
+        $own = Cache::memo()->remember(self::CATEGORY_COUNTS_KEY, 3600, fn () => DB::table('products')
+            ->whereNull('deleted_at')->groupBy('category_id')
+            ->pluck(DB::raw('COUNT(*)'), 'category_id')->map(fn ($n) => (int) $n));
 
-        return Category::cachedAll()->mapWithKeys(fn (Category $category) => [
-            $category->id => collect($category->familyIds())->sum(fn ($id) => $own[$id] ?? 0),
+        // A category's own products plus its subcategories' (as Category::familyIds), from one read of the list
+        $all = Category::cachedAll();
+        $children = $all->whereNotNull('parent_id')->groupBy('parent_id');
+
+        return $all->mapWithKeys(fn (Category $category) => [
+            $category->id => ($own[$category->id] ?? 0)
+                + ($children[$category->id] ?? collect())->sum(fn (Category $sub) => $own[$sub->id] ?? 0),
         ]);
+    }
+
+    public static function forgetCategoryCounts(): void
+    {
+        Cache::memo()->forget(self::CATEGORY_COUNTS_KEY);
     }
 
     // Lowest and highest price a customer pays in the current list, for the price filter

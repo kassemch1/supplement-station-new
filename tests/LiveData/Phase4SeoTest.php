@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Category;
+use App\Services\Catalog;
 use App\Models\Product;
 use App\Support\Slugs;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -16,6 +17,15 @@ class Phase4SeoTest extends TestCase
     {
         parent::setUp();
         Cache::forget('store.categories');
+        Catalog::forgetCategoryCounts();
+    }
+
+    // What these tests counted inside their (rolled back) transaction must not stay in the cache
+    protected function tearDown(): void
+    {
+        Cache::forget('store.categories');
+        Catalog::forgetCategoryCounts();
+        parent::tearDown();
     }
 
     private function liveProduct(): Product
@@ -283,7 +293,9 @@ class Phase4SeoTest extends TestCase
     public function test_menu_links_go_to_category_pages(): void
     {
         $html = $this->get('/')->getContent();
-        foreach (Category::all() as $category) {
+        // Every category that has products (empty ones are left out of the menus)
+        $counts = Catalog::categoryCounts();
+        foreach (Category::all()->filter(fn ($category) => ($counts[$category->id] ?? 0) > 0) as $category) {
             $this->assertMatchesRegularExpression('#<a href="' . preg_quote($category->url(), '#') . '"[ >]#', $html, $category->name);
         }
         $this->assertStringNotContainsString('category-nav', $html);

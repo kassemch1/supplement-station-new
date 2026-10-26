@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Services\ImageFiles;
+use App\Services\PageCache;
 use Illuminate\Http\Request;
 
 class ProductImagesController extends Controller
@@ -46,6 +47,8 @@ class ProductImagesController extends Controller
         foreach (array_values($ids) as $position => $id) {
             ProductImage::where('id', $id)->update(['sort_order' => $position + 1]);
         }
+        // A bulk update skips the model events that refresh the stored store pages
+        PageCache::flush();
 
         return response()->json(['success' => 'Order saved']);
     }

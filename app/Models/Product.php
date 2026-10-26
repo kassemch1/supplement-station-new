@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasSlug;
+use App\Services\Catalog;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,14 @@ class Product extends Model
     use HasSlug;
 
     protected $fillable = ['name', 'description', 'price', 'category_id', 'brand_id', 'stock', 'discount'];
+
+    protected static function booted(): void
+    {
+        // The menus hide categories without products, from cached numbers (Catalog::categoryCounts)
+        static::saved(fn () => Catalog::forgetCategoryCounts());
+        static::deleted(fn () => Catalog::forgetCategoryCounts());
+        static::restored(fn () => Catalog::forgetCategoryCounts());
+    }
 
     public function productOptions()
     {

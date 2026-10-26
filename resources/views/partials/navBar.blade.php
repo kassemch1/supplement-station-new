@@ -20,7 +20,7 @@
         <div class="container" >
             <div class="header__wrap ul_li_between">
                 <div class="header-logo">
-                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/outlined-logo-nav.png')}}" alt="Supplement Station" style="width: 190px;height: auto" class="logo"></a>
+                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/outlined-logo-nav.webp')}}" alt="Supplement Station" style="width: 190px;height: auto" class="logo"></a>
                 </div>
                 <div class="main-menu__wrap ul_li navbar navbar-expand-lg">
                     <nav class="main-menu collapse navbar-collapse">
@@ -40,7 +40,6 @@
                                     @endforeach
                                 </ul>
                             </li>
-                            <li><a class="section-link" href="{{ route('home') }}#contact"><span>Contact</span></a></li>
                         </ul>
                     </nav>
                     <div class="xb-header-wrap">
@@ -48,7 +47,7 @@
                             <div class="xb-header-menu-scroll">
                                 <div class="xb-menu-close xb-hide-xl xb-close"></div>
                                 <div class="xb-logo-mobile xb-hide-xl">
-                                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/outlined-logo-nav.png')}}" alt="Supplement Station" style="height: 50px; width: 160px;" class="logo"></a>
+                                    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo/outlined-logo-nav.webp')}}" alt="Supplement Station" style="height: 50px; width: 160px;" class="logo"></a>
                                 </div>
                                 <div class="xb-header-mobile-search xb-hide-xl">
                                     <form role="search" action="{{route('shop')}}" method="get">
@@ -72,7 +71,6 @@
                                                 @endforeach
                                             </ul>
                                         </li>
-                                        <li class="menu-item"><a class="section-link" href="{{ route('home') }}#contact"><span>Contact</span></a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -161,7 +159,8 @@
         </div>
         <div class="sidebar-socials-wrap" style="margin-top: 0; text-align: center; display: flex; align-items: center; margin-left: auto;">
             <a class="social-item" href="https://www.instagram.com/supplement_station_lb/" target="_blank" style="display: flex; align-items: center;">
-                <i class="fab fa-instagram" style="font-size: 24px; margin-right: 10px;" aria-hidden="true"></i>
+                {{-- 10.7px: the link's .7px letter spacing used to follow the font icon --}}
+                {!! \App\Support\Icons::fa('instagram', style: 'font-size: 24px; margin-right: 10.7px;') !!}
                 Instagram
             </a>
         </div>

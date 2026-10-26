@@ -3,6 +3,7 @@
 use App\Jobs\SendProductNewsletter;
 use App\Mail\ContactMail;
 use App\Models\Category;
+use App\Services\Catalog;
 use App\Models\Product;
 use App\Models\Subscription;
 use App\Models\User;
@@ -24,6 +25,15 @@ class Phase3SpeedTest extends TestCase
     {
         parent::setUp();
         Cache::forget('store.categories');
+        Catalog::forgetCategoryCounts();
+    }
+
+    // What these tests counted inside their (rolled back) transaction must not stay in the cache
+    protected function tearDown(): void
+    {
+        Cache::forget('store.categories');
+        Catalog::forgetCategoryCounts();
+        parent::tearDown();
     }
 
     private function productPage(): string
@@ -115,6 +125,9 @@ class Phase3SpeedTest extends TestCase
         $category = new Category();
         $category->name = 'P3 Test Category';
         $category->save();
+        // The menus only list categories that have products
+        $this->assertStringNotContainsString('P3 Test Category', $this->get('/cart')->getContent());
+        $product = Product::factory()->create(['category_id' => $category->id]);
         $this->assertStringContainsString('P3 Test Category', $this->get('/cart')->getContent());
 
         $category->name = 'P3 Renamed Category';
@@ -123,6 +136,8 @@ class Phase3SpeedTest extends TestCase
         $this->assertStringContainsString('P3 Renamed Category', $html);
         $this->assertStringNotContainsString('P3 Test Category', $html);
 
+        $product->delete();
+        $this->assertStringNotContainsString('P3 Renamed Category', $this->get('/cart')->getContent());
         $category->delete();
         $this->assertStringNotContainsString('P3 Renamed Category', $this->get('/cart')->getContent());
     }

@@ -252,6 +252,8 @@ class SeoTest extends TestCase
     public function test_menu_links_go_to_category_pages(): void
     {
         $categories = Category::factory()->count(3)->create();
+        // The menus only list categories that have products
+        $categories->each(fn ($category) => Product::factory()->create(['category_id' => $category->id]));
 
         $html = $this->get('/')->getContent();
         foreach ($categories as $category) {

@@ -7,7 +7,7 @@
 <div class="ss-topnav" id="ss-topnav">
     <div class="ss-topnav__inner">
         <a href="{{ route('home') }}" class="ss-topnav__logo" aria-label="Supplement Station home">
-            <img src="{{ asset('assets/img/logo/outlined-logo-nav.png') }}" alt="Supplement Station" width="176" height="48">
+            <img src="{{ asset('assets/img/logo/outlined-logo-nav.webp') }}" alt="Supplement Station" width="176" height="48">
         </a>
 
         <nav class="ss-topnav__links" aria-label="Main menu">
@@ -53,7 +53,6 @@
                 </div>
             @endif
 
-            <a href="#contact" class="ss-topnav__link">Contact</a>
         </nav>
 
         <form class="ss-topnav__search" action="{{ route('shop') }}" method="get" role="search" data-app-search>

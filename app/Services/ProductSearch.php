@@ -111,7 +111,7 @@ class ProductSearch
     public static function suggest(string $query, int $limit = 6): array
     {
         $ids = array_slice(self::ids($query), 0, $limit);
-        $products = Product::with('images', 'brand')->whereIn('id', $ids ?: [0])->get()
+        $products = Product::with('images', 'brand', 'productOptions:id,product_id')->whereIn('id', $ids ?: [0])->get()
             ->sortBy(fn (Product $p) => array_search($p->id, $ids, true))
             ->map(fn (Product $p) => Catalog::card($p))
             ->values();

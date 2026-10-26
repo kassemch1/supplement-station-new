@@ -112,6 +112,9 @@ class StorePagesTest extends TestCase
     {
         $this->get('/cart');
         $category = Category::create(['name' => 'Test Category']);
+        // The menus only list categories that have products
+        $this->assertStringNotContainsString('Test Category', $this->get('/cart')->getContent());
+        $product = Product::factory()->create(['category_id' => $category->id]);
         $this->assertStringContainsString('Test Category', $this->get('/cart')->getContent());
 
         $category->update(['name' => 'Renamed Category']);
@@ -119,6 +122,8 @@ class StorePagesTest extends TestCase
         $this->assertStringContainsString('Renamed Category', $html);
         $this->assertStringNotContainsString('Test Category', $html);
 
+        $product->delete();
+        $this->assertStringNotContainsString('Renamed Category', $this->get('/cart')->getContent());
         $category->delete();
         $this->assertStringNotContainsString('Renamed Category', $this->get('/cart')->getContent());
     }

@@ -96,7 +96,7 @@
 .ss-faq__help p { margin: 0 0 18px; max-width: 380px; font-size: 14.5px; line-height: 1.6; color: var(--ss-muted); }
 .ss-faq__helpbtns { display: flex; flex-wrap: wrap; gap: 10px; }
 .ss-faq__helpbtns .ss-btn { min-height: 44px; }
-.ss-faq__helpbtns i { font-size: 18px; }
+.ss-faq__helpbtns .ss-fa { font-size: 18px; }
 @media (max-width: 991.98px) { .ss-faq__help { display: none; } }
 
 .ss-faq__list { padding: 6px 0; border-radius: 22px; background: #fff; box-shadow: var(--ss-shadow); }
