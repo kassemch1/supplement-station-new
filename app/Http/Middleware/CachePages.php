@@ -26,7 +26,7 @@ class CachePages
         $version = PageCache::version();
         $stored = Cache::get($key);
 
-        if (is_array($stored) && ($stored['version'] ?? null) === $version && ($html = @gzinflate($stored['html'])) !== false) {
+        if (is_array($stored) && ($stored['version'] ?? null) === $version && ($html = self::unpack($stored['html'] ?? null)) !== null) {
             return new Response(str_replace(PageCache::TOKEN, $token, $html), 200, [
                 'Content-Type' => $stored['type'],
                 'X-Page-Cache' => 'HIT',
@@ -42,11 +42,26 @@ class CachePages
             Cache::put($key, [
                 'version' => $version,
                 'type' => $type,
-                'html' => gzdeflate(str_replace($token, PageCache::TOKEN, (string) $response->getContent()), 6),
+                'html' => self::pack(str_replace($token, PageCache::TOKEN, (string) $response->getContent())),
             ], now()->addMinutes(max(1, (int) config('store.page_cache_minutes'))));
             $response->headers->set('X-Page-Cache', 'MISS');
         }
 
         return $response;
+    }
+
+    // Compressed, then written as plain text: the live site keeps its cache in a database table whose
+    // text column refuses raw binary (CACHE_STORE=database)
+    private static function pack(string $html): string
+    {
+        return base64_encode(gzdeflate($html, 6));
+    }
+
+    private static function unpack(mixed $packed): ?string
+    {
+        $binary = is_string($packed) ? base64_decode($packed, true) : false;
+        $html = $binary === false ? false : @gzinflate($binary);
+
+        return $html === false ? null : $html;
     }
 }

@@ -10,6 +10,8 @@ use App\Models\SpecialOffer;
 use App\Models\User;
 use App\Services\PageCache;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 // Ready-made store pages (App\Services\PageCache, App\Http\Middleware\CachePages)
@@ -121,6 +123,26 @@ class PageCacheTest extends TestCase
         // A signed-in admin always sees the page built fresh
         $this->actingAs(User::factory()->create());
         $this->assertNull($this->cacheStatus('/shop'));
+    }
+
+    public function test_pages_fit_the_live_sites_database_cache(): void
+    {
+        // The live site keeps its cache in a table (CACHE_STORE=database) whose text column refuses raw
+        // binary on MariaDB/MySQL: what is stored must be plain text
+        config(['cache.default' => 'database']);
+        foreach (['/', '/shop', $this->product->url()] as $url) {
+            $this->get($url)->assertOk()->assertHeader('X-Page-Cache', 'MISS');
+            $this->get($url)->assertOk()->assertHeader('X-Page-Cache', 'HIT');
+        }
+
+        // (Laravel itself base64-encodes binary for SQLite, the test database, but not for MariaDB/MySQL, so
+        // the page entry is checked, not the table row)
+        $keys = DB::table('cache')->where('key', 'like', '%store.page.%')->pluck('key');
+        $this->assertCount(3, $keys);
+        foreach ($keys as $key) {
+            $entry = Cache::get(substr($key, strlen((string) config('cache.prefix'))));
+            $this->assertTrue(mb_check_encoding(serialize($entry), 'UTF-8'), 'a stored page is not plain text');
+        }
     }
 
     public function test_switched_off_nothing_is_stored(): void
