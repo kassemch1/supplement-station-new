@@ -11,7 +11,7 @@
 #   1. refuses to run if files on the server were edited by hand (git status not clean)
 #   2. tags the running commit (live-YYYYmmdd-HHMMSS) and dumps the database to ~/backups
 #   3. pulls, installs packages, migrates, rebuilds the caches
-#   4. checks the home and shop pages answer 200
+#   4. checks the shop (front page), home, cart and sitemap answer 200
 #   5. writes the tag, commits, migration batch and backup to storage/logs/deploys.log (before changing anything)
 # To go back: bash scripts/rollback.sh (see that file).
 set -euo pipefail
@@ -127,7 +127,7 @@ trap - ERR
 say "Checking the site"
 URL=$(env_value APP_URL)
 bad=0
-for path in / /shop /cart /sitemap.xml; do
+for path in / /home /cart /sitemap.xml; do
     code=$(curl -s -o /dev/null -w '%{http_code}' -m 30 "$URL$path") || code=000
     echo "  $code $path"
     [ "$code" = "200" ] || bad=1
