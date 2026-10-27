@@ -15,6 +15,7 @@ $(function () {
         $('#shop-nav').html(response.nav);
         $('#shop-sidebar').html(response.sidebar);
         $results.html(response.results).removeClass('is-loading');
+        $('#shop-about').html(response.about || '');
         document.title = response.title;
         if (push) {
             history.pushState({shop: true}, '', url);

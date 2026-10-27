@@ -89,6 +89,7 @@ class ShopController extends Controller
                 'nav' => view('partials.shop.nav', $data)->render(),
                 'sidebar' => view('partials.shop.sidebar', $data)->render(),
                 'results' => view('partials.shop.results', $data)->render(),
+                'about' => view('partials.shop.about', $data)->render(),
                 'cards' => $cards,
                 'next' => $products->nextPageUrl(),
                 'total' => $products->total(),

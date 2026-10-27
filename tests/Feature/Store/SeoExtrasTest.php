@@ -44,6 +44,13 @@ class SeoExtrasTest extends TestCase
         $html = $this->get('/shop/vitamins')->getContent();
         $this->assertStringNotContainsString('ss-shop__about', $html);
         $this->assertStringContainsString('ss-shop__intro', $html);
+
+        // Moving to another category without reloading swaps the text with the products
+        $json = $this->getJson('/shop/vitamins', ['X-Requested-With' => 'XMLHttpRequest'])->assertOk()->json();
+        $this->assertStringContainsString('Shop Vitamins in Lebanon', $json['about']);
+        $this->assertStringNotContainsString('Creatine', $json['about']);
+        $this->assertStringContainsString('<h2>About Creatine</h2>', $this->getJson('/shop/creatine', ['X-Requested-With' => 'XMLHttpRequest'])->json('about'));
+        $this->assertSame('', trim($this->getJson('/', ['X-Requested-With' => 'XMLHttpRequest'])->json('about')), 'the whole shop has no text');
     }
 
     public function test_indexnow_is_off_without_a_key(): void

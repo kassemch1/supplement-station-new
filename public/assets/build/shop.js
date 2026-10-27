@@ -1,5 +1,5 @@
 $(function(){'use strict';var $results=$('#shop-results');var request=null;function skeleton(n){return new Array(n+1).join('<div class="ss-skel-card"></div>')}
-function render(response,url,push){$('#shop-nav').html(response.nav);$('#shop-sidebar').html(response.sidebar);$results.html(response.results).removeClass('is-loading');document.title=response.title;if(push){history.pushState({shop:!0},'',url)}
+function render(response,url,push){$('#shop-nav').html(response.nav);$('#shop-sidebar').html(response.sidebar);$results.html(response.results).removeClass('is-loading');$('#shop-about').html(response.about||'');document.title=response.title;if(push){history.pushState({shop:!0},'',url)}
 keepActiveInView()}
 function load(url,push){if(request){request.abort()}
 $results.addClass('is-loading');closeFilters();request=$.ajax({url:url,dataType:'json',headers:{'X-Requested-With':'XMLHttpRequest'}}).done(function(response){render(response,url,push);var top=$results.offset().top-90;if(window.scrollY>top){window.scrollTo({top:Math.max(0,$('#shop-nav').offset().top-70),behavior:'smooth'})}}).fail(function(xhr,status){if(status!=='abort'){window.location.href=url}}).always(function(){request=null})}
