@@ -242,8 +242,9 @@ class ShopRedesignTest extends TestCase
             ->assertSee('Isolate, Whey Protein')            // its subcategories
             ->assertSee('ss-app', false)                     // phones get the app header and tabs here too
             ->assertDontSee('xb-item--cart-btn', false);
+        $this->assertTrue($home->viewData('product')->every(fn ($p) => $p->stock > 0), 'best sellers are only products in stock');
+        $this->assertNotContains($c['p']['sold']->id, $home->viewData('product')->pluck('id'));
         $this->assertSame([$c['p']['gold']->id, $c['p']['sold']->id], $home->viewData('offersProducts')->pluck('id')->all(), 'sold out goes last');
-        $this->assertFalse((bool) $home->viewData('product')->last()->stock || $home->viewData('product')->every(fn ($p) => $p->stock));
     }
 
     public function test_product_page_shows_rating_options_related_cards_and_the_phone_buy_bar(): void

@@ -19,21 +19,22 @@ class HomeController extends Controller
 
     public function index()
     {
-        // Best sellers: most units in delivered orders, among products still in the shop
+        // Best sellers: most units in delivered orders, among products in the shop that can be bought now
+        // (a sold-out product leaves the row until it is back in stock)
         $ids = OrderItem::select('product_id')
             ->whereHas('order', fn ($query) => $query->where('status', 'delivered'))
-            ->whereIn('product_id', Product::select('id'))
+            ->whereIn('product_id', Product::where('stock', '>', 0)->select('id'))
             ->groupBy('product_id')
             ->orderByDesc(DB::raw('SUM(quantity)'))
             ->limit(self::CARDS)
             ->pluck('product_id')
             ->all();
 
-        // A young shop with few sales fills the row with random products
+        // Too few of them: the row is filled with other products in stock
         if (count($ids) < self::CARDS) {
-            $ids = array_merge($ids, Product::whereNotIn('id', $ids)->inRandomOrder()->limit(self::CARDS - count($ids))->pluck('id')->all());
+            $ids = array_merge($ids, Product::where('stock', '>', 0)->whereNotIn('id', $ids)->inRandomOrder()->limit(self::CARDS - count($ids))->pluck('id')->all());
         }
-        $bestSellers = $this->inStockFirst(Product::cards($ids));
+        $bestSellers = Product::cards($ids);
 
         // Special offers are picked by the admin; without any the best sellers are shown
         $offerIds = SpecialOffer::productIds(self::CARDS);
