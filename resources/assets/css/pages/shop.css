@@ -181,3 +181,6 @@
 .ss-empty p { color: var(--ss-muted); margin: 0 0 18px; }
 
 .ss-shop__intro { margin-top: 28px; font-size: 13.5px; color: var(--ss-muted); }
+.ss-shop__about { margin-top: 36px; max-width: 860px; color: var(--ss-muted); font-size: 14px; line-height: 1.7; }
+.ss-shop__about h2 { font-size: 18px; margin: 0 0 10px; color: inherit; }
+.ss-shop__about p { margin: 0 0 10px; }

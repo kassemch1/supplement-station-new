@@ -78,7 +78,7 @@ class CatalogAdminTest extends TestCase
         $this->postJson('/managePlan/store', ['type' => '', 'price' => 'abc'])->assertJsonValidationErrors(['type', 'price']);
 
         // The site sells no plans, so the home page shows the questions but not the plans the admin keeps
-        $this->get('/')->assertOk()->assertSee('Do you deliver to Tripoli?')->assertDontSee('Diet plan');
+        $this->get('/home')->assertOk()->assertSee('Do you deliver to Tripoli?')->assertDontSee('Diet plan');
 
         $this->deleteJson('/manageFaq/destroy', ['id' => $faq->id])->assertOk();
         $this->deleteJson('/managePlan/destroy', ['id' => $plan->id])->assertOk();

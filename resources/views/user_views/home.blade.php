@@ -3,12 +3,12 @@
 @section('title', 'Buy Premium Supplements in Lebanon')
 @section('page', 'home')
 @section('shell', 'app')
-@section('full_title', 'Supplement Station Lebanon | Protein, Creatine & Gym Supplements')
-@section('description', 'Supplement Station in Beirut, Lebanon: whey protein, creatine, mass gainers, pre-workouts, vitamins and gym gear from Optimum Nutrition, MuscleTech, BPI and more. Order online.')
+@section('full_title', 'Best Sellers & Special Offers | Supplement Station Lebanon')
+@section('description', 'This week at Supplement Station, Beirut: best-selling protein, creatine and pre-workouts, special offers, and answers to common questions about delivery in Lebanon.')
 
-@section('canonical', url('/') . '/')
+@section('canonical', route('home'))
 @push('schema')
-    {{ \App\Support\Seo::script([\App\Support\Seo::store(), \App\Support\Seo::website(), \App\Support\Seo::faq($faqs)]) }}
+    {{ \App\Support\Seo::script([\App\Support\Seo::store(), \App\Support\Seo::faq($faqs)]) }}
 @endpush
 
 @push('head')

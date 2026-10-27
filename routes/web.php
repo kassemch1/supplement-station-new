@@ -28,11 +28,14 @@ require __DIR__ . '/review_admin.php';
 require __DIR__ . '/coupons.php';
 require __DIR__ . '/subscribe.php';
 require __DIR__ . '/special_offers.php';
+require __DIR__ . '/seo.php';
 
 // ---------- store pages ----------
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+// The shop is the front page; the old /shop address sends visitors there (see ShopController::index)
+Route::get('/', [ShopController::class, 'index'])->name('shop');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/shop', [ShopController::class, 'index']);
 Route::get('/shop/{category}', [ShopController::class, 'category'])->name('shop.category');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/products/{id}/quick', [ProductController::class, 'quick'])->whereNumber('id')->name('products.quick');
@@ -46,5 +49,5 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap')
 // tells search engines to move them to the new address
 Route::get('/viewCart', fn () => redirect()->route('cart', [], 301));
 Route::get('/Checkout', fn () => redirect()->route('checkout', [], 301));
-Route::get('/Shop/search', fn (Request $request) => redirect()->route('shop', array_filter(['shop-search' => $request->query('search')]), 301))->name('home.search');
-Route::get('/Shop', [ShopController::class, 'index']);  // redirects to /shop or the category page
+Route::get('/Shop/search', fn (Request $request) => redirect(rtrim(url('/') . '/?' . http_build_query(array_filter(['shop-search' => $request->query('search')])), '?'), 301))->name('home.search');
+Route::get('/Shop', [ShopController::class, 'index']);  // redirects to the shop or the category page

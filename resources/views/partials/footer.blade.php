@@ -4,7 +4,7 @@
     <div class="ss-wrap">
         <div class="ss-footer__cols">
             <div class="ss-footer__brand">
-                <a href="{{ route('home') }}" aria-label="Supplement Station home">
+                <a href="{{ route('shop') }}" aria-label="Supplement Station home">
                     <img src="{{ asset('assets/img/logo/outlined-logo-nav.webp') }}" alt="Supplement Station" width="168" height="46" loading="lazy">
                 </a>
                 <p>Authentic supplements from the brands athletes trust, delivered all over Lebanon. Since 2018.</p>

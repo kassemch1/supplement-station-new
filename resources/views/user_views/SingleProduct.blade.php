@@ -31,8 +31,7 @@
     {{ \App\Support\Seo::script([
         \App\Support\Seo::product($product, $category?->name, $reviews),
         \App\Support\Seo::breadcrumbs(array_filter([
-            ['Home', route('home')],
-            ['Shop', route('shop')],
+            ['Shop', url('/') . '/'],
             $category ? [$category->name, $category->url()] : null,
             [$product->name, $product->url()],
         ])),

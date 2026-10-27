@@ -61,6 +61,7 @@ class CategoryController extends Controller
             'parent_id' => ['nullable', 'integer', Rule::exists('categories', 'id')->whereNull('parent_id'), Rule::notIn(array_filter([$category->id]))],
             'icon' => ['nullable', 'string', Rule::in(array_keys(Icons::ALL))],
             'sort_order' => 'nullable|integer|min:0|max:9999',
+            'description' => 'nullable|string|max:3000',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'remove_image' => 'nullable|boolean',
         ], [
@@ -81,6 +82,7 @@ class CategoryController extends Controller
         $category->parent_id = $request->input('parent_id') ?: null;
         $category->icon = $request->input('icon') ?: null;
         $category->sort_order = (int) $request->input('sort_order', 0);
+        $category->description = trim((string) $request->input('description')) ?: null;
         if ($request->hasFile('image')) {
             $category->image = ImageOptimizer::storeUpload($request->file('image'), 'categories', ImageOptimizer::CATEGORY_MAX_SIZE);
         } elseif ($request->boolean('remove_image')) {

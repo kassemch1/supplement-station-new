@@ -5,7 +5,7 @@
         @if($lastUpdate)<lastmod>{{ $lastUpdate->toAtomString() }}</lastmod>@endif
     </url>
     <url>
-        <loc>{{ route('shop') }}</loc>
+        <loc>{{ route('home') }}</loc>
         @if($lastUpdate)<lastmod>{{ $lastUpdate->toAtomString() }}</lastmod>@endif
     </url>
 @foreach($categories as $category)

@@ -148,7 +148,7 @@ class ProductAdminTest extends TestCase
         $this->assertSame(0, CartItem::count());
         $this->assertSame(0, SpecialOffer::count());
         $this->assertNull($banner->fresh()->product_id);
-        $this->assertFalse($this->get('/shop?shop-search=' . urlencode($product->name))->viewData('products')->contains('id', $product->id));
+        $this->assertFalse($this->get('/?shop-search=' . urlencode($product->name))->viewData('products')->contains('id', $product->id));
         $this->get("/admin/orders/$orderId")->assertOk()->assertSee($product->name);
     }
 

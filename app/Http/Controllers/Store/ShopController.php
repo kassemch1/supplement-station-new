@@ -19,15 +19,15 @@ class ShopController extends Controller
     {
         $hasOldParams = (bool) array_intersect(self::OLD_CATEGORY_PARAMS, array_keys($request->query()));
 
-        // /Shop, and /shop?category=..., become /shop or /shop/{slug} with the other parameters kept
-        if (!$request->ajax() && ($request->path() !== 'shop' || $hasOldParams)) {
+        // /shop, /Shop, and ?category=..., become the front page or /shop/{slug} with the other parameters kept
+        if (!$request->ajax() && ($request->path() !== '/' || $hasOldParams)) {
             $category = $this->categoryFromOldParams($request);
             $query = array_filter(
                 $request->except([...self::OLD_CATEGORY_PARAMS, '_token', 'post_type']),
                 fn ($value) => $value !== null && $value !== '' && $value !== 'sort'
             );
 
-            return redirect(($category ? $category->url() : route('shop')) . ($query ? '?' . http_build_query($query) : ''), 301);
+            return redirect(($category ? $category->url() : url('/') . '/') . ($query ? '?' . http_build_query($query) : ''), 301);
         }
 
         // A page opened before the move may still filter by these parameters
@@ -119,7 +119,7 @@ class ShopController extends Controller
         $filtered = $filters['brands']->isNotEmpty() || $filters['min'] !== null || $filters['max'] !== null
             || $filters['in_stock'] || $filters['sale'] || $filters['sort'] !== 'default';
         $page = $products->currentPage();
-        $baseUrl = $category ? $category->url() : route('shop');
+        $baseUrl = $category ? $category->url() : url('/') . '/';
 
         return [
             'products' => $products,
@@ -136,6 +136,7 @@ class ShopController extends Controller
             'search' => $search,
             'heading' => $search !== null ? "Results for \"{$search}\"" : ($category ? $category->name : 'All Supplements'),
             'baseUrl' => $baseUrl,
+            'frontPage' => !$category && $search === null && $page === 1,
             'totalProducts' => $products->total(),
             'startIndex' => $products->firstItem() ?? 0,
             'pageTitle' => ($category ? $category->name . ' in Lebanon' : 'Shop All Supplements in Lebanon') . ($page > 1 ? ' - Page ' . $page : ''),

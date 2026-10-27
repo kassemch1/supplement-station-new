@@ -20,7 +20,7 @@ class Category extends Model
 
     private const CACHE_KEY = 'store.categories';
 
-    protected $fillable = ['name', 'parent_id', 'icon', 'image', 'sort_order'];
+    protected $fillable = ['name', 'parent_id', 'icon', 'image', 'description', 'sort_order'];
 
     protected static function booted(): void
     {

@@ -72,19 +72,19 @@ class ShopRedesignTest extends TestCase
         $c = $this->catalogue();
         $p = $c['p'];
 
-        $this->assertSame($this->sorted([$p['iso']->id, $p['mono']->id]), $this->ids($this->get('/shop?brand=' . $c['bio']->slug)));
+        $this->assertSame($this->sorted([$p['iso']->id, $p['mono']->id]), $this->ids($this->get('/?brand=' . $c['bio']->slug)));
         $this->assertSame($this->sorted([$p['gold']->id, $p['iso']->id, $p['mono']->id]),
-            $this->ids($this->get('/shop?brand=' . $c['bio']->slug . ',' . $c['on']->slug)), 'several brands at once');
+            $this->ids($this->get('/?brand=' . $c['bio']->slug . ',' . $c['on']->slug)), 'several brands at once');
         $this->assertSame([$p['mono']->id], $this->ids($this->get($c['creatine']->url() . '?brand=' . $c['bio']->slug)), 'brand inside a category');
 
         // Iso Zero costs 120 - 25% = 90 after the discount
-        $this->assertSame($this->sorted([$p['iso']->id, $p['gold']->id]), $this->ids($this->get('/shop?min=80&max=100')));
-        $this->assertSame([$p['iso']->id], $this->ids($this->get('/shop?sale=1')));
-        $this->assertNotContains($p['sold']->id, $this->ids($this->get('/shop?in_stock=1')));
+        $this->assertSame($this->sorted([$p['iso']->id, $p['gold']->id]), $this->ids($this->get('/?min=80&max=100')));
+        $this->assertSame([$p['iso']->id], $this->ids($this->get('/?sale=1')));
+        $this->assertNotContains($p['sold']->id, $this->ids($this->get('/?in_stock=1')));
 
-        $response = $this->get('/shop?brand=' . $c['bio']->slug)->assertOk();
+        $response = $this->get('/?brand=' . $c['bio']->slug)->assertOk();
         $response->assertSee('<meta name="robots" content="noindex, follow">', false);
-        $this->assertStringContainsString('<link rel="canonical" href="' . route('shop') . '">', $response->getContent());
+        $this->assertStringContainsString('<link rel="canonical" href="' . url('/') . '/">', $response->getContent());
 
         // brand buttons count the products of the current category, whatever brand is chosen
         $counts = $this->get($c['creatine']->url() . '?brand=' . $c['bio']->slug)->viewData('brandCounts');
@@ -96,10 +96,10 @@ class ShopRedesignTest extends TestCase
         $c = $this->catalogue();
         $p = $c['p'];
 
-        $this->assertSame([$p['gold']->id], $this->ids($this->get('/shop?q=optimum')));
-        $names = $this->get('/shop?orderby=name')->viewData('products')->pluck('name')->all();
+        $this->assertSame([$p['gold']->id], $this->ids($this->get('/?q=optimum')));
+        $names = $this->get('/?orderby=name')->viewData('products')->pluck('name')->all();
         $this->assertSame(['Gold Standard', 'Iso Zero', 'Mono Creatine', 'Plain Protein', 'Sold Creatine'], $names);
-        $this->assertSame($p['sold']->id, $this->get('/shop')->viewData('products')->last()->id, 'sold out products come last');
+        $this->assertSame($p['sold']->id, $this->get('/')->viewData('products')->last()->id, 'sold out products come last');
     }
 
     public function test_filters_load_without_reloading_the_page(): void
@@ -201,7 +201,7 @@ class ShopRedesignTest extends TestCase
         $html = $this->get($product->url())->assertOk()->getContent();
         $this->assertStringContainsString('data-image="' . asset('storage/product_options/vanilla.webp') . '"', $html);
         $this->assertStringContainsString('"brand":{"@type":"Brand","name":"Optimum Nutrition"}', $html, 'structured data names the brand');
-        $this->assertStringContainsString('/shop?brand=optimum-nutrition', $html);
+        $this->assertStringContainsString(route('shop', ['brand' => 'optimum-nutrition']), $html);
     }
 
     public function test_cart_and_checkout_pages_use_the_new_layout(): void
@@ -214,7 +214,7 @@ class ShopRedesignTest extends TestCase
     {
         $c = $this->catalogue();
 
-        $home = $this->get('/')->assertOk();
+        $home = $this->get('/home')->assertOk();
         $home->assertSee('ss-topnav', false)
             ->assertSee('>Shop</a>', false)
             ->assertDontSee('>Products<', false)
@@ -226,7 +226,7 @@ class ShopRedesignTest extends TestCase
             ->assertSee('ss-mega__initials">BI<', false);
 
         // The current page is marked
-        $this->get('/shop')->assertOk()->assertSee('class="ss-topnav__link is-active">Shop</a>', false);
+        $this->get('/')->assertOk()->assertSee('class="ss-topnav__link is-active">Shop</a>', false);
     }
     public function test_home_lists_every_brand_and_main_category_and_puts_sold_out_products_last(): void
     {
@@ -234,7 +234,7 @@ class ShopRedesignTest extends TestCase
         SpecialOffer::create(['product_id' => $c['p']['sold']->id, 'position' => 1]);
         SpecialOffer::create(['product_id' => $c['p']['gold']->id, 'position' => 2]);
 
-        $home = $this->get('/')->assertOk();
+        $home = $this->get('/home')->assertOk();
         foreach ([$c['on'], $c['bio']] as $brand) {
             $home->assertSee('href="' . route('shop', ['brand' => $brand->slug]) . '" class="ss-hbrand"', false);
         }
@@ -280,7 +280,7 @@ class ShopRedesignTest extends TestCase
         // An empty subcategory of a category that has products
         $shirts = Category::create(['name' => 'Shirts', 'parent_id' => $c['creatine']->id]);
 
-        foreach (['/', '/shop', $c['creatine']->url(), '/cart', $c['p']['gold']->url()] as $page) {
+        foreach (['/home', '/', $c['creatine']->url(), '/cart', $c['p']['gold']->url()] as $page) {
             $html = $this->get($page)->assertOk()->getContent();
             $this->assertStringNotContainsString($c['empty']->url() . '"', $html, $page);
             $this->assertStringNotContainsString($shirts->url() . '"', $html, $page);
@@ -295,6 +295,6 @@ class ShopRedesignTest extends TestCase
         // Once it has a product it shows again
         Product::factory()->withImage()->create(['name' => 'Gym Shirt', 'category_id' => $shirts->id]);
         $this->get($shirts->url())->assertOk();
-        $this->assertStringContainsString($shirts->url() . '"', $this->get('/shop')->getContent());
+        $this->assertStringContainsString($shirts->url() . '"', $this->get('/')->getContent());
     }
 }

@@ -87,11 +87,11 @@ class SeoTest extends TestCase
     {
         $category = Category::factory()->create(['name' => 'Old Category']);
         $this->product(['category_id' => $category->id]);
-        $this->get('/shop')->assertOk();        // fills the menu cache
+        $this->get('/')->assertOk();        // fills the menu cache
 
         $category->update(['name' => 'Renamed Category']);
 
-        $this->assertStringContainsString('/shop/renamed-category"', $this->get('/shop')->getContent());
+        $this->assertStringContainsString('/shop/renamed-category"', $this->get('/')->getContent());
         $this->get('/shop/old-category')->assertStatus(301)->assertRedirect('/shop/renamed-category');
     }
 
@@ -121,14 +121,14 @@ class SeoTest extends TestCase
 
     public function test_lowercase_pages_and_old_mixed_case_redirects(): void
     {
-        foreach (['/shop', '/cart', '/checkout'] as $url) {
+        foreach (['/', '/cart', '/checkout'] as $url) {
             $this->get($url)->assertOk();
         }
-        $this->get('/Shop')->assertStatus(301)->assertRedirect('/shop');
+        $this->get('/Shop')->assertStatus(301)->assertRedirect(url('/') . '/');
         $this->get('/viewCart')->assertStatus(301)->assertRedirect('/cart');
         $this->get('/Checkout')->assertStatus(301)->assertRedirect('/checkout');
-        $this->get('/Shop/search?search=whey')->assertStatus(301)->assertRedirect('/shop?shop-search=whey');
-        $this->get('/Shop?shop-search=whey')->assertStatus(301)->assertRedirect('/shop?shop-search=whey');
+        $this->get('/Shop/search?search=whey')->assertStatus(301)->assertRedirect(url('/') . '/?shop-search=whey');
+        $this->get('/Shop?shop-search=whey')->assertStatus(301)->assertRedirect(url('/') . '/?shop-search=whey');
     }
 
     public function test_old_category_filters_redirect_to_the_category_page(): void
@@ -138,8 +138,8 @@ class SeoTest extends TestCase
 
         $this->get("/Shop?category-sidebar={$category->id}&orderby=low-to-high")->assertStatus(301)->assertRedirect($category->url() . '?orderby=low-to-high');
         $this->get("/Shop?category-nav={$category->id}&_token=abc")->assertStatus(301)->assertRedirect($category->url());
-        $this->get('/shop?category=Creatine')->assertStatus(301)->assertRedirect($category->url());
-        $this->get('/shop?category=show-all')->assertStatus(301)->assertRedirect('/shop');
+        $this->get('/?category=Creatine')->assertStatus(301)->assertRedirect($category->url());
+        $this->get('/?category=show-all')->assertStatus(301)->assertRedirect(url('/') . '/');
         $this->get("/shop/{$category->id}")->assertStatus(301)->assertRedirect($category->url());
         $this->get('/shop/Creatine')->assertStatus(301)->assertRedirect('/shop/creatine');
         $this->get('/shop/no-such-category')->assertNotFound();
@@ -205,20 +205,33 @@ class SeoTest extends TestCase
         $this->assertStringNotContainsString('</script><b>', $html);  // a review name cannot close the tag
     }
 
-    public function test_home_page_describes_the_store(): void
+    public function test_front_page_describes_the_store(): void
     {
         Faq::factory()->count(2)->create();
         $this->product();
 
+        // The shop is the front page: it carries the store's name, details and site search
         $html = $this->get('/')->assertOk()->getContent();
-
         $this->assertStringContainsString('<title>Supplement Station Lebanon | Protein, Creatine &amp; Gym Supplements</title>', $html);
         $this->assertStringContainsString('<link rel="canonical" href="' . url('/') . '/">', $html);
+        $this->assertStringContainsString('<meta name="robots" content="index, follow', $html);
         $schema = $this->schema($html);
         $this->assertSame('LB', $schema['Store']['address']['addressCountry']);
         $this->assertSame('+961 81 088 266', $schema['Store']['telephone']);
         $this->assertArrayHasKey('WebSite', $schema);
-        $this->assertCount(2, $schema['FAQPage']['mainEntity']);
+
+        // Page 2 and category pages keep their own titles
+        $this->assertStringNotContainsString('Protein, Creatine &amp; Gym Supplements</title>', $this->get('/shop/' . $this->product()->getCategory->slug)->getContent());
+
+        // /home has its own title and is indexed under its own address
+        $home = $this->get('/home')->assertOk()->getContent();
+        $this->assertStringContainsString('<title>Best Sellers &amp; Special Offers | Supplement Station Lebanon</title>', $home);
+        $this->assertStringContainsString('<link rel="canonical" href="' . url('/home') . '">', $home);
+        $this->assertCount(2, $this->schema($home)['FAQPage']['mainEntity']);
+
+        // The old /shop address still opens the shop, with its filters
+        $this->get('/shop')->assertRedirect(url('/') . '/')->assertStatus(301);
+        $this->get('/shop?orderby=newest')->assertStatus(301)->assertRedirectContains('orderby=newest');
     }
 
     public function test_every_store_page_has_one_title_description_and_canonical(): void
@@ -226,7 +239,7 @@ class SeoTest extends TestCase
         $product = $this->product();
         $category = $product->getCategory;
 
-        foreach (['/', '/shop', $category->url(), $product->url(), '/cart', '/checkout'] as $url) {
+        foreach (['/home', '/', $category->url(), $product->url(), '/cart', '/checkout'] as $url) {
             $html = $this->get($url)->assertOk()->getContent();
             $this->assertSame(1, substr_count($html, '<title>'), $url);
             $this->assertSame(1, substr_count($html, '<meta name="description"'), $url);
@@ -241,12 +254,12 @@ class SeoTest extends TestCase
 
     public function test_cart_checkout_and_search_results_are_not_indexed(): void
     {
-        foreach (['/cart', '/checkout', '/shop?shop-search=whey'] as $url) {
+        foreach (['/cart', '/checkout', '/?shop-search=whey'] as $url) {
             $this->assertStringContainsString('<meta name="robots" content="noindex, follow">', $this->get($url)->getContent(), $url);
         }
         $this->product();
-        $this->assertStringContainsString('<meta name="robots" content="index, follow', $this->get('/shop')->getContent());
-        $this->assertStringContainsString('<link rel="canonical" href="' . route('shop') . '">', $this->get('/shop?orderby=low-to-high')->getContent());
+        $this->assertStringContainsString('<meta name="robots" content="index, follow', $this->get('/')->getContent());
+        $this->assertStringContainsString('<link rel="canonical" href="' . url('/') . '/">', $this->get('/?orderby=low-to-high')->getContent());
     }
 
     public function test_menu_links_go_to_category_pages(): void
@@ -255,7 +268,7 @@ class SeoTest extends TestCase
         // The menus only list categories that have products
         $categories->each(fn ($category) => Product::factory()->create(['category_id' => $category->id]));
 
-        $html = $this->get('/')->getContent();
+        $html = $this->get('/home')->getContent();
         foreach ($categories as $category) {
             $this->assertStringContainsString('<a href="' . $category->url() . '">', $html, $category->name);
         }
@@ -284,7 +297,8 @@ class SeoTest extends TestCase
         }
         $this->assertNotContains($archived->url(), $locs);
         $this->assertNotContains($archived->getCategory->url(), $locs, 'a category with no products left is not listed');
-        $this->assertContains(route('shop'), $locs);
+        $this->assertContains(url('/') . '/', $locs);
+        $this->assertContains(route('home'), $locs);
         $this->assertSame($locs->count(), $locs->unique()->count());
         $this->assertFileDoesNotExist(public_path('sitemap.xml'));   // a file there would hide this page
     }
@@ -298,7 +312,7 @@ class SeoTest extends TestCase
         preg_match_all('/^Disallow: (\S+)/m', $robots, $m);
         $blocked = fn (string $path) => collect($m[1])->contains(fn ($rule) => str_starts_with($path, $rule));
         $product = $this->product();
-        foreach (['/', '/shop', parse_url($product->getCategory->url(), PHP_URL_PATH), parse_url($product->url(), PHP_URL_PATH), '/cart', '/checkout', '/sitemap.xml'] as $path) {
+        foreach (['/home', '/', parse_url($product->getCategory->url(), PHP_URL_PATH), parse_url($product->url(), PHP_URL_PATH), '/cart', '/checkout', '/sitemap.xml'] as $path) {
             $this->assertFalse($blocked($path), "$path must stay open to search engines");
         }
         foreach (["/product/{$product->id}/review", '/cart/add', '/cart/update', '/cart/remove', '/coupon/apply', '/contact/send', '/subscribe', '/subscription/cancel', '/place-order', '/api/cart'] as $path) {

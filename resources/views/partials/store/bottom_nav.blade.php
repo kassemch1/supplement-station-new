@@ -2,7 +2,7 @@
 @php
     use App\Support\Icons;
     $here = trim($__env->yieldContent('page'));
-    $bestSellers = request()->is('shop') && request()->query('orderby') === 'best-selling';
+    $bestSellers = request()->routeIs('shop') && request()->query('orderby') === 'best-selling';
 @endphp
 <nav class="ss-tabbar" aria-label="Main">
     <a href="{{ route('home') }}" class="ss-tabbar__item {{ $here === 'home' ? 'is-active' : '' }}">{!! Icons::ui('home') !!}<span>Home</span></a>

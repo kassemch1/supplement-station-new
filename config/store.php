@@ -20,4 +20,8 @@ return [
     'page_cache' => (bool) env('PAGE_CACHE', env('APP_ENV') === 'production'),
     'page_cache_minutes' => (int) env('PAGE_CACHE_MINUTES', 10),
 
+    // IndexNow: tells Bing about changed pages at once (App\Services\IndexNow). Off while empty; on the live
+    // site only, as a random key of 8 to 128 letters, digits or dashes
+    'indexnow_key' => env('INDEXNOW_KEY'),
+
 ];

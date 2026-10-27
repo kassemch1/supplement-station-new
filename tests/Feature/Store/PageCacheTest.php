@@ -45,7 +45,7 @@ class PageCacheTest extends TestCase
 
     public function test_store_pages_are_stored_and_each_visitor_gets_their_own_token(): void
     {
-        foreach (['/', '/shop', '/shop?page=1', '/shop?sort=newest', $this->product->getCategory->url(), $this->product->url(), '/sitemap.xml'] as $url) {
+        foreach (['/home', '/', '/?page=1', '/?sort=newest', $this->product->getCategory->url(), $this->product->url(), '/sitemap.xml'] as $url) {
             $first = $this->newVisitor();
             $this->get($url)->assertOk()->assertHeader('X-Page-Cache', 'MISS');
 
@@ -90,9 +90,9 @@ class PageCacheTest extends TestCase
         Review::create(['product_id' => $this->product->id, 'name' => 'Sam', 'rating' => 5, 'message' => 'Great stuff']);
         $this->get($url)->assertHeader('X-Page-Cache', 'MISS')->assertSee('Great stuff');
 
-        $this->get('/');
+        $this->get('/home');
         SpecialOffer::create(['product_id' => $this->product->id, 'position' => 1]);
-        $this->assertSame('MISS', $this->cacheStatus('/'));
+        $this->assertSame('MISS', $this->cacheStatus('/home'));
 
         // Reordering pictures is one bulk update, which refreshes the pages itself
         $this->get($url);
@@ -109,20 +109,20 @@ class PageCacheTest extends TestCase
 
     public function test_pages_that_change_per_visitor_or_per_search_are_never_stored(): void
     {
-        foreach (['/cart', '/checkout', '/shop?q=whey', '/shop?shop-search=whey', '/shop?min=1&max=50', '/shop?sale=1',
-            '/shop?brand=no-such-brand', '/shop?fbclid=abc', '/shop?page=abc', '/shop/no-such-category', '/products/no-such-product',
+        foreach (['/cart', '/checkout', '/?q=whey', '/?shop-search=whey', '/?min=1&max=50', '/?sale=1',
+            '/?brand=no-such-brand', '/?fbclid=abc', '/?page=abc', '/shop/no-such-category', '/products/no-such-product',
             '/api/search?q=creatine'] as $url) {
             $this->get($url);
             $this->assertNull($this->cacheStatus($url), $url);
         }
 
         // The shop's own requests (filters, "load more") are built each time
-        $this->get('/shop');
-        $this->assertNull($this->cacheStatus('/shop', ['X-Requested-With' => 'XMLHttpRequest']));
+        $this->get('/');
+        $this->assertNull($this->cacheStatus('/', ['X-Requested-With' => 'XMLHttpRequest']));
 
         // A signed-in admin always sees the page built fresh
         $this->actingAs(User::factory()->create());
-        $this->assertNull($this->cacheStatus('/shop'));
+        $this->assertNull($this->cacheStatus('/'));
     }
 
     public function test_pages_fit_the_live_sites_database_cache(): void
@@ -130,7 +130,7 @@ class PageCacheTest extends TestCase
         // The live site keeps its cache in a table (CACHE_STORE=database) whose text column refuses raw
         // binary on MariaDB/MySQL: what is stored must be plain text
         config(['cache.default' => 'database']);
-        foreach (['/', '/shop', $this->product->url()] as $url) {
+        foreach (['/home', '/', $this->product->url()] as $url) {
             $this->get($url)->assertOk()->assertHeader('X-Page-Cache', 'MISS');
             $this->get($url)->assertOk()->assertHeader('X-Page-Cache', 'HIT');
         }
@@ -148,7 +148,7 @@ class PageCacheTest extends TestCase
     public function test_switched_off_nothing_is_stored(): void
     {
         config(['store.page_cache' => false]);
-        $this->get('/shop');
-        $this->assertNull($this->cacheStatus('/shop'));
+        $this->get('/');
+        $this->assertNull($this->cacheStatus('/'));
     }
 }

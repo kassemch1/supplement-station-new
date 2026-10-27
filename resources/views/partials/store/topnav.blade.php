@@ -6,7 +6,7 @@
 @endphp
 <div class="ss-topnav" id="ss-topnav">
     <div class="ss-topnav__inner">
-        <a href="{{ route('home') }}" class="ss-topnav__logo" aria-label="Supplement Station home">
+        <a href="{{ route('shop') }}" class="ss-topnav__logo" aria-label="Supplement Station home">
             <img src="{{ asset('assets/img/logo/outlined-logo-nav.webp') }}" alt="Supplement Station" width="176" height="48">
         </a>
 

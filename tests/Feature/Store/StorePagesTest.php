@@ -18,7 +18,7 @@ class StorePagesTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const PAGES = ['/', '/shop', '/cart', '/checkout'];
+    private const PAGES = ['/home', '/', '/cart', '/checkout'];
 
     private function queries(string $url): int
     {
@@ -60,10 +60,10 @@ class StorePagesTest extends TestCase
             $this->assertSame(1, substr_count($html, '<footer'), "$url renders the footer once");
         }
 
-        $this->assertStringContainsString('assets/build/shop.js', $this->get('/shop')->getContent());
+        $this->assertStringContainsString('assets/build/shop.js', $this->get('/')->getContent());
         $this->assertStringContainsString('assets/build/cart.js', $this->get('/cart')->getContent());
         $this->assertStringContainsString('assets/build/product.js', $this->get($product->url())->getContent());
-        $home = $this->get('/')->getContent();
+        $home = $this->get('/home')->getContent();
         $this->assertStringContainsString('assets/build/home.css', $home);
         $this->assertStringNotContainsString('assets/build/shop.js', $home);
     }
@@ -75,7 +75,7 @@ class StorePagesTest extends TestCase
         $desktop = ['User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36'];
         $strip = fn ($html) => preg_replace('/(csrf-token" content="|csrf: ")[^"]+"/', '$1"', preg_replace('/name="_token" value="[^"]+"/', '', $html));
 
-        foreach (['/shop', $product->url()] as $url) {
+        foreach (['/', $product->url()] as $url) {
             $this->assertSame($strip($this->withHeaders($desktop)->get($url)->getContent()), $strip($this->withHeaders($phone)->get($url)->getContent()), $url);
         }
     }
@@ -104,8 +104,8 @@ class StorePagesTest extends TestCase
         $this->assertSame(0, $this->queries('/cart'));
         $this->assertSame(0, $this->queries('/checkout'));
         // 11 on the home page: fewer than 6 products sold, so one more query fills the row
-        $this->assertLessThanOrEqual(11, $this->queries('/'));
-        $this->assertLessThanOrEqual(7, $this->queries('/shop'));
+        $this->assertLessThanOrEqual(11, $this->queries('/home'));
+        $this->assertLessThanOrEqual(7, $this->queries('/'));
         $this->assertLessThanOrEqual(8, $this->queries($product->url()));
     }
 
@@ -142,7 +142,7 @@ class StorePagesTest extends TestCase
         SpecialOffer::create(['product_id' => $third->id, 'position' => 1]);
         SpecialOffer::create(['product_id' => $first->id, 'position' => 2]);
 
-        $response = $this->get('/')->assertOk();
+        $response = $this->get('/home')->assertOk();
 
         $this->assertSame([$second->id, $third->id], $response->viewData('product')->take(2)->pluck('id')->all());
         $this->assertCount(3, $response->viewData('product'), 'filled up with other products');
@@ -152,13 +152,13 @@ class StorePagesTest extends TestCase
 
     public function test_home_works_on_an_empty_shop(): void
     {
-        $this->get('/')->assertOk();
-        $this->get('/shop')->assertOk()->assertSee('No products found');
+        $this->get('/home')->assertOk();
+        $this->get('/')->assertOk()->assertSee('No products found');
     }
 
     public function test_hero_and_main_product_image_load_first(): void
     {
-        $home = $this->get('/')->assertOk()->getContent();
+        $home = $this->get('/home')->assertOk()->getContent();
         $this->assertMatchesRegularExpression('#<img src="[^"]*"[^>]*fetchpriority="high"(?![^>]*loading="lazy")#', $home);
 
         $product = Product::factory()->withImage()->create();
@@ -174,16 +174,16 @@ class StorePagesTest extends TestCase
         Product::factory()->withImage()->create(['name' => 'Iso Whey', 'price' => 50, 'discount' => 50, 'category_id' => $category->id]);
         Product::factory()->withImage()->create(['name' => 'Creatine', 'price' => 30]);
 
-        $this->assertSame(3, $this->get('/shop')->viewData('totalProducts'));
-        $this->assertSame(2, $this->get('/shop?shop-search=whey')->viewData('totalProducts'));
-        $this->assertSame(2, $this->get('/shop?home-search=whey')->viewData('totalProducts'));
-        $this->assertSame(2, $this->get('/shop?q=whey')->viewData('totalProducts'));
+        $this->assertSame(3, $this->get('/')->viewData('totalProducts'));
+        $this->assertSame(2, $this->get('/?shop-search=whey')->viewData('totalProducts'));
+        $this->assertSame(2, $this->get('/?home-search=whey')->viewData('totalProducts'));
+        $this->assertSame(2, $this->get('/?q=whey')->viewData('totalProducts'));
 
-        $sorted = $this->get('/shop?orderby=low-to-high')->viewData('products')->pluck('name')->all();
+        $sorted = $this->get('/?orderby=low-to-high')->viewData('products')->pluck('name')->all();
         $this->assertSame(['Iso Whey', 'Creatine', 'Gold Whey'], $sorted, 'sorted by the price after discount');
 
         foreach (['category', 'category-phone'] as $field) {
-            $json = $this->getJson('/shop?' . http_build_query([$field => 'Whey']), ['X-Requested-With' => 'XMLHttpRequest'])->assertOk()->json();
+            $json = $this->getJson('/?' . http_build_query([$field => 'Whey']), ['X-Requested-With' => 'XMLHttpRequest'])->assertOk()->json();
             $this->assertSame(2, $json['total'], $field);
             $this->assertArrayHasKey('productList', $json);
             $this->assertArrayHasKey('paginatee', $json);
@@ -209,9 +209,9 @@ class StorePagesTest extends TestCase
         $sibling = Product::factory()->withImage()->create(['category_id' => $category->id]);
         SpecialOffer::create(['product_id' => $sold->id, 'position' => 1]);
 
-        $this->assertGreaterThanOrEqual(2, $this->linksTo($this->get('/shop?shop-search=Rare')->getContent(), $sold), 'shop card: picture and name');
-        $this->assertStringNotContainsString('showOutOfStockMessage(event)', $this->get('/shop')->getContent());
-        $this->assertGreaterThanOrEqual(2, $this->linksTo($this->get('/')->getContent(), $sold), 'home special offer card');
+        $this->assertGreaterThanOrEqual(2, $this->linksTo($this->get('/?shop-search=Rare')->getContent(), $sold), 'shop card: picture and name');
+        $this->assertStringNotContainsString('showOutOfStockMessage(event)', $this->get('/')->getContent());
+        $this->assertGreaterThanOrEqual(2, $this->linksTo($this->get('/home')->getContent(), $sold), 'home special offer card');
         $this->assertGreaterThanOrEqual(2, $this->linksTo($this->get($sibling->url())->getContent(), $sold), 'related products card');
     }
 

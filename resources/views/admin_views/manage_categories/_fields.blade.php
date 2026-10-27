@@ -49,6 +49,11 @@
     @endif
     <input class="dropify" type="file" name="image" accept="image/png,image/jpeg,image/webp">
 </div>
+<div class="col-12 mb-30">
+    <label for="description">About this category <small class="text-muted">(optional, shown under the products on its page and read by Google; leave an empty line between paragraphs)</small></label>
+    <textarea name="description" id="description" class="form-control" rows="6" maxlength="3000"
+              placeholder="What these products are for, who they suit, how to choose between them...">{{ $current->description ?? '' }}</textarea>
+</div>
 
 @once
     @push('styles')

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Services\Catalog;
+use App\Services\IndexNow;
 use App\Services\PageCache;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
@@ -30,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Stored store pages go out of date when something they show changes
         PageCache::watchModels();
+        IndexNow::watchModels();
         Paginator::useBootstrap();
 
         // The header menu lists the categories (with their subcategories) and the brands on every store page.

@@ -116,7 +116,7 @@ class Seo
             'publisher' => ['@id' => url('/') . '/#store'],
             'potentialAction' => [
                 '@type' => 'SearchAction',
-                'target' => ['@type' => 'EntryPoint', 'urlTemplate' => route('shop') . '?shop-search={search_term_string}'],
+                'target' => ['@type' => 'EntryPoint', 'urlTemplate' => url('/') . '/?shop-search={search_term_string}'],
                 'query-input' => 'required name=search_term_string',
             ],
         ];

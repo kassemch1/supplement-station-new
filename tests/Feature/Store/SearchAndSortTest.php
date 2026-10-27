@@ -61,13 +61,13 @@ class SearchAndSortTest extends TestCase
         $p = $this->catalogue();
         $wheyBar = Product::factory()->withImage()->create(['name' => 'Whey Bar Cookies', 'price' => 3]);
 
-        $this->assertSame([$wheyBar->id, $p['gold']->id, $p['iso']->id], $this->ids('/shop?q=whey'),
+        $this->assertSame([$wheyBar->id, $p['gold']->id, $p['iso']->id], $this->ids('/?q=whey'),
             'the name match first, then the whey category; a sold-out product would come last');
 
         $new = Product::factory()->withImage()->create(['name' => 'Whey Gold Isolate', 'price' => 80, 'discount' => 0]);
-        $this->assertContains($new->id, $this->ids('/shop?q=whey'), 'a new product is found right away');
+        $this->assertContains($new->id, $this->ids('/?q=whey'), 'a new product is found right away');
         $this->assertSame([$p['iso']->id, $p['gold']->id, $new->id, $wheyBar->id],
-            array_values(array_intersect($this->ids('/shop?q=whey&orderby=high-to-low'), [$p['iso']->id, $p['gold']->id, $wheyBar->id, $new->id])),
+            array_values(array_intersect($this->ids('/?q=whey&orderby=high-to-low'), [$p['iso']->id, $p['gold']->id, $wheyBar->id, $new->id])),
             'another sort still applies to the results');
     }
 
@@ -91,12 +91,12 @@ class SearchAndSortTest extends TestCase
     {
         $this->catalogue();
 
-        foreach (['/shop?brand[]=x', '/shop?orderby[]=1', '/shop?q[]=a', '/shop?shop-search[]=a', '/shop?min[]=1', '/shop?max[]=2',
-                     '/shop?in_stock[]=1', '/shop?sale[]=1', '/shop/creatine?brand[]=x&q[]=y', '/?q[]=1', '/cart?q[]=1'] as $url) {
+        foreach (['/?brand[]=x', '/?orderby[]=1', '/?q[]=a', '/?shop-search[]=a', '/?min[]=1', '/?max[]=2',
+                     '/?in_stock[]=1', '/?sale[]=1', '/shop/creatine?brand[]=x&q[]=y', '/?q[]=1', '/cart?q[]=1'] as $url) {
             $this->get($url)->assertOk();
         }
         $this->getJson('/api/search?q[]=x')->assertOk()->assertJsonPath('total', 0);
-        $this->get('/shop?q=' . urlencode('whey"><script>'))->assertOk()->assertDontSee('"><script>', false);
+        $this->get('/?q=' . urlencode('whey"><script>'))->assertOk()->assertDontSee('"><script>', false);
     }
 
     // ---------- sorting and "load more" ----------
@@ -107,9 +107,9 @@ class SearchAndSortTest extends TestCase
         $cheapSoldOut = Product::factory()->soldOut()->withImage()->create(['name' => 'Sold Out Bar', 'price' => 1]);
 
         foreach (['default', 'best-selling', 'newest', 'low-to-high', 'high-to-low', 'name'] as $sort) {
-            $this->assertSame($cheapSoldOut->id, last($this->ids("/shop?orderby={$sort}")), $sort);
+            $this->assertSame($cheapSoldOut->id, last($this->ids("/?orderby={$sort}")), $sort);
         }
-        $this->assertSame([$p['shaker']->id, $p['mono']->id, $p['c4']->id], array_slice($this->ids('/shop?orderby=low-to-high'), 0, 3));
+        $this->assertSame([$p['shaker']->id, $p['mono']->id, $p['c4']->id], array_slice($this->ids('/?orderby=low-to-high'), 0, 3));
     }
 
     public function test_best_selling_and_recommended_put_the_most_sold_products_first(): void
@@ -120,9 +120,9 @@ class SearchAndSortTest extends TestCase
         // Not delivered: doesn't count
         OrderItem::factory()->create(['product_id' => $p['shaker']->id, 'quantity' => 50, 'order_id' => Order::factory()->status('cancelled')]);
 
-        $this->assertSame([$p['mono']->id, $p['c4']->id], array_slice($this->ids('/shop?orderby=best-selling'), 0, 2));
-        $this->assertSame([$p['mono']->id, $p['c4']->id], array_slice($this->ids('/shop'), 0, 2));
-        $this->get('/shop')->assertSee('<option value="best-selling" >Best selling</option>', false);
+        $this->assertSame([$p['mono']->id, $p['c4']->id], array_slice($this->ids('/?orderby=best-selling'), 0, 2));
+        $this->assertSame([$p['mono']->id, $p['c4']->id], array_slice($this->ids('/'), 0, 2));
+        $this->get('/')->assertSee('<option value="best-selling" >Best selling</option>', false);
     }
 
     public function test_load_more_never_repeats_or_skips_products_with_the_same_price(): void
@@ -131,7 +131,7 @@ class SearchAndSortTest extends TestCase
 
         foreach (['low-to-high', 'name', 'default'] as $sort) {
             $seen = [];
-            $url = "/shop?orderby={$sort}";
+            $url = "/?orderby={$sort}";
             while ($url) {
                 $json = $this->getJson($url, ['X-Requested-With' => 'XMLHttpRequest'])->assertOk()->json();
                 preg_match_all('/data-quick="(\d+)"/', $json['cards'], $m);
@@ -149,7 +149,7 @@ class SearchAndSortTest extends TestCase
     public function test_the_phone_tab_bar_links_best_sellers_and_the_new_number(): void
     {
         $this->catalogue();
-        $page = $this->get('/shop')->assertOk();
+        $page = $this->get('/')->assertOk();
 
         $page->assertSee('href="' . route('shop', ['orderby' => 'best-selling']) . '"', false)
             ->assertSee('<span>Best sellers</span>', false)
@@ -159,7 +159,7 @@ class SearchAndSortTest extends TestCase
         foreach (['81823038', '81 823 038', '81-823-038'] as $old) {
             $page->assertDontSee($old, false);
         }
-        $this->get('/shop?orderby=best-selling')
+        $this->get('/?orderby=best-selling')
             ->assertSee('href="' . route('shop', ['orderby' => 'best-selling']) . '" class="ss-tabbar__item is-active"', false);
     }
 

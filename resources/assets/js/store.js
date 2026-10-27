@@ -109,7 +109,7 @@
                     '<div class="ss-cart-empty">' +
                         '<span class="ss-cart-empty__icon">' + ICON.bag + '</span>' +
                         '<h3>Your cart is empty</h3><p>Find your next favourite supplement.</p>' +
-                        '<a href="' + SS.url('shop') + '" class="ss-btn ss-btn--dark">Start shopping</a>' +
+                        '<a href="' + SS.url('/') + '" class="ss-btn ss-btn--dark">Start shopping</a>' +
                     '</div>'
                 );
                 $('[data-cart-foot]').prop('hidden', true);
