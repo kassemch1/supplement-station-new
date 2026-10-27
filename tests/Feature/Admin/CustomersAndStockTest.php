@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -163,9 +165,81 @@ class CustomersAndStockTest extends TestCase
         $this->assertSame(['Popular Whey', 'Quiet Bar'], $soldOut['items']->pluck('name')->all());
         $this->assertSame(4, $soldOut['items']->first()->sold_recently);
         $response->assertSee('4 sold')->assertDontSee('Available Creatine')
-            ->assertSee(route('manageProducts.index', ['stock' => 'out-of-stock']), false);
+            ->assertSee(route('manageProducts.soldOut'), false);
 
         Product::query()->update(['stock' => 1]);
         $this->get('/admin')->assertOk()->assertDontSee('db-card db-soldout', false);
+    }
+
+    public function test_the_sold_out_page_lists_every_sold_out_product_best_sellers_first(): void
+    {
+        $quiet = Product::factory()->withImage()->create(['name' => 'Quiet Bar', 'stock' => 0]);
+        $popular = Product::factory()->withImage()->create(['name' => 'Popular Whey', 'stock' => 0]);
+        Product::factory()->create(['name' => 'Available Creatine', 'stock' => 1]);
+        Product::factory()->create(['name' => 'Archived Gainer', 'stock' => 0])->delete();
+        $order = Order::factory()->create(['status' => 'delivered']);
+        OrderItem::factory()->create(['order_id' => $order->id, 'product_id' => $popular->id, 'quantity' => 4]);
+        // a cancelled order is not a sale
+        $cancelled = Order::factory()->create(['status' => 'cancelled']);
+        OrderItem::factory()->create(['order_id' => $cancelled->id, 'product_id' => $quiet->id, 'quantity' => 9]);
+
+        $response = $this->get('/manageProducts/sold-out')->assertOk();
+        $this->assertSame(['Popular Whey', 'Quiet Bar'], $response->viewData('products')->pluck('name')->all());
+        $this->assertSame([4, 0], $response->viewData('products')->pluck('sold_recently')->all());
+        $response->assertSeeInOrder(['Popular Whey', 'Quiet Bar'])
+            ->assertDontSee('Available Creatine')->assertDontSee('Archived Gainer')
+            ->assertSee('data-stock-toggle="' . route('manageProducts.stock', ['id' => $popular->id]) . '"', false)
+            ->assertSee(route('manageProducts.edit', ['id' => $quiet->id]), false);
+
+        // Back in stock: it leaves the page
+        $this->postJson(route('manageProducts.stock', ['id' => $popular->id]), ['stock' => 1])->assertOk();
+        $this->assertSame(['Quiet Bar'], $this->get('/manageProducts/sold-out')->viewData('products')->pluck('name')->all());
+
+        Product::query()->update(['stock' => 1]);
+        $this->get('/manageProducts/sold-out')->assertOk()->assertSee('Nothing is sold out');
+
+        auth()->logout();
+        $this->get('/manageProducts/sold-out')->assertRedirect();
+    }
+
+    public function test_the_sold_out_page_filters_sorts_and_pages(): void
+    {
+        $protein = Category::create(['name' => 'Protein']);
+        $whey = Category::create(['name' => 'Whey', 'parent_id' => $protein->id]);
+        $creatine = Category::create(['name' => 'Creatine']);
+        $on = Brand::create(['name' => 'Optimum Nutrition']);
+        $gold = Product::factory()->create(['name' => 'Gold Whey', 'stock' => 0, 'category_id' => $whey->id, 'brand_id' => $on->id, 'sold_out_at' => now()->subDays(30)]);
+        $mono = Product::factory()->create(['name' => 'Mono Creatine', 'stock' => 0, 'category_id' => $creatine->id, 'sold_out_at' => now()->subDay()]);
+        $names = fn (string $url) => $this->get($url)->assertOk()->viewData('products')->pluck('name')->all();
+
+        $this->assertSame(['Gold Whey'], $names('/manageProducts/sold-out?search=gold'));
+        $this->assertSame(['Gold Whey'], $names('/manageProducts/sold-out?category=' . $protein->id), 'a main category includes its subcategories');
+        $this->assertSame(['Mono Creatine'], $names('/manageProducts/sold-out?category=' . $creatine->id));
+        $this->assertSame(['Gold Whey'], $names('/manageProducts/sold-out?brand=' . $on->id));
+        $this->assertSame([], $names('/manageProducts/sold-out?search=nothing%25like_this'));
+        $this->get('/manageProducts/sold-out?search=nothing')->assertSee('No sold-out products match these filters.')->assertSee('0 of 2 sold-out products match');
+
+        $this->assertSame(['Gold Whey', 'Mono Creatine'], $names('/manageProducts/sold-out?sort=longest'));
+        $this->assertSame(['Mono Creatine', 'Gold Whey'], $names('/manageProducts/sold-out?sort=recent'));
+        $this->assertSame(['Gold Whey', 'Mono Creatine'], $names('/manageProducts/sold-out?sort=name'));
+        $this->assertSame(['Gold Whey', 'Mono Creatine'], $names('/manageProducts/sold-out?sort=nonsense'), 'unknown sort: best sellers');
+
+        // 25 a page; the filters stay on the page links
+        Product::factory()->count(26)->create(['stock' => 0, 'category_id' => $creatine->id]);
+        $page = $this->get('/manageProducts/sold-out?category=' . $creatine->id)->assertOk();
+        $this->assertCount(25, $page->viewData('products'));
+        $this->assertSame(27, $page->viewData('products')->total());
+        $page->assertSee('category=' . $creatine->id . '&amp;page=2', false)->assertSee('data-soldout-total>28<', false);
+        $this->assertCount(2, $this->get('/manageProducts/sold-out?category=' . $creatine->id . '&page=2')->viewData('products'));
+    }
+
+    public function test_menus_with_one_page_are_plain_links(): void
+    {
+        $html = $this->get('/admin')->assertOk()->getContent();
+        foreach ([route('admin') => 'Admin Dashboard', route('admin.customers.index') => 'Customers', route('admin.specialOffers.index') => 'Special Offers'] as $url => $label) {
+            $this->assertMatchesRegularExpression('#<li><a href="' . preg_quote($url, '#') . '"><i class="fa [a-z-]+"></i> <span>' . preg_quote($label, '#') . '</span></a></li>#', $html, $label);
+        }
+        $this->assertStringContainsString('<a href="' . route('manageProducts.soldOut') . '"><span>Sold Out</span></a>', $html);
+        $this->assertStringNotContainsString('Customers List', $html);
     }
 }

@@ -82,7 +82,7 @@
                     <h4>Sold out <span class="db-soldout__count" data-soldout-count>{{ $soldOut['count'] }}</span></h4>
                     <small>Best sellers of the last 90 days first · flip the switch when a product is back</small>
                 </div>
-                <a href="{{ route('manageProducts.index', ['stock' => 'out-of-stock']) }}">See all sold-out products</a>
+                <a href="{{ route('manageProducts.soldOut') }}">See all sold-out products</a>
             </div>
             <ul class="db-soldout__list">
                 @foreach($soldOut['items'] as $product)

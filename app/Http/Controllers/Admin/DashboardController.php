@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\Product;
+use App\Services\SoldOutProducts;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
@@ -90,24 +90,10 @@ class DashboardController extends Controller
         ]);
     }
 
-    // The sold-out card: products out of stock (not archived), the ones that sold most in the last 90 days
-    // first, then the ones sold out longest. Two queries whatever the number of products.
+    // The sold-out card: the first few of the Sold Out page (App\Services\SoldOutProducts)
     private function soldOut(int $show = 6): array
     {
-        $products = Product::where('stock', 0)->with('images')->get(['id', 'name', 'slug', 'stock', 'sold_out_at', 'updated_at']);
-        $sold = $products->isEmpty() ? collect() : DB::table('order_items')
-            ->join('orders', 'orders.id', '=', 'order_items.order_id')
-            ->whereIn('order_items.product_id', $products->modelKeys())
-            ->where('orders.status', '!=', 'cancelled')
-            ->where('orders.created_at', '>=', now()->subDays(90))
-            ->groupBy('order_items.product_id')
-            ->selectRaw('order_items.product_id, SUM(order_items.quantity) as qty')
-            ->pluck('qty', 'product_id');
-
-        $products->each(fn (Product $p) => $p->setAttribute('sold_recently', (int) ($sold[$p->id] ?? 0)));
-        $sorted = $products->sort(fn (Product $a, Product $b) => [$b->sold_recently, $a->sold_out_at ?? $a->updated_at] <=> [$a->sold_recently, $b->sold_out_at ?? $b->updated_at]);
-
-        return ['count' => $products->count(), 'items' => $sorted->take($show)->values()];
+        return ['count' => SoldOutProducts::count(), 'items' => SoldOutProducts::query()->limit($show)->get()];
     }
 
     // Everything the filtered part of the dashboard shows, for the chosen period and the one before it

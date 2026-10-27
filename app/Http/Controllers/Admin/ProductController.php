@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Banner;
+use App\Models\Brand;
 use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\SpecialOffer;
 use App\Services\ImageOptimizer;
+use App\Services\SoldOutProducts;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -40,6 +42,27 @@ class ProductController extends Controller
     }
 
     // The In stock / Out of stock switch in the product list and on the dashboard's sold-out card
+    // Sold Out: every product customers cannot buy right now (the ones that sold most first by default),
+    // filtered by name, category and brand, 25 a page
+    public function soldOut(Request $request)
+    {
+        $filters = [
+            'search' => trim((string) $request->input('search')),
+            'category' => $request->integer('category') ?: null,
+            'brand' => $request->integer('brand') ?: null,
+        ];
+        $sort = array_key_exists($request->input('sort'), SoldOutProducts::SORTS) ? $request->input('sort') : 'best';
+
+        return view('admin_views.manage_products.sold_out', [
+            'products' => SoldOutProducts::query($filters, $sort)->paginate(25)->withQueryString(),
+            'total' => SoldOutProducts::count(),
+            'filters' => $filters,
+            'sort' => $sort,
+            'categories' => Category::tree(),
+            'brands' => Brand::cachedAll(),
+        ]);
+    }
+
     public function setStock(Request $request, int $id): JsonResponse
     {
         $inStock = $request->validate(['stock' => 'required|boolean'])['stock'];

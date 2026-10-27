@@ -65,15 +65,21 @@
     });
 
     /* ---------- 2. current page in the menu ---------- */
-    // exact page first, else the list it belongs to (/manageProducts/2/edit -> /manageProducts)
+    // exact page first, else the list it belongs to (/manageProducts/2/edit -> /manageProducts).
+    // A menu with one page is a plain link at the top level: it is highlighted itself
     (function () {
         var here = location.pathname, best = null, bestLen = 0;
-        $nav.find('.side-header-sub-menu a').each(function () {
+        var $links = $nav.children('ul').children('li:not(.has-sub-menu)').children('a').add($nav.find('.side-header-sub-menu a'));
+        $links.each(function () {
             var path = this.pathname;
             if (path === here) { best = this; return false; }
             if (path !== '/admin' && here.indexOf(path + '/') === 0 && path.length > bestLen) { best = this; bestLen = path.length; }
         });
         if (!best) return;
+        if (!$(best).closest('.side-header-sub-menu').length) {
+            $(best).parent().addClass('active');
+            return;
+        }
         var $li = $(best).closest('li').addClass('current');
         var $group = $li.closest('.has-sub-menu').addClass('active');
         $group.children('ul').show();

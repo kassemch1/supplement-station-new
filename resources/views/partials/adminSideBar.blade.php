@@ -5,11 +5,8 @@
 
         <nav class="side-header-menu" id="side-header-menu">
             <ul>
-                <li class="has-sub-menu"><a href="#"><i class="fa fa-tachometer"></i> <span>Admin Dashboard</span></a>
-                    <ul class="side-header-sub-menu">
-                        <li><a href="{{route('admin')}}"><span>Dashboard</span></a></li>
-                    </ul>
-                </li>
+                {{-- A menu with one page is a plain link; menus with several pages open a list --}}
+                <li><a href="{{route('admin')}}"><i class="fa fa-tachometer"></i> <span>Admin Dashboard</span></a></li>
                 <li class="has-sub-menu"><a href="#"><i class="fa fa-tachometer"></i> <span> Manage Subscribers</span></a>
                     <ul class="side-header-sub-menu">
                         <li><a href="{{route('admin.subscribers.create')}}"><span>Add Subscribers</span></a></li>
@@ -35,6 +32,7 @@
                     <ul class="side-header-sub-menu">
                         <li><a href="{{route('manageProducts.create')}}"><span>Add Product</span></a></li>
                         <li><a href="{{route('manageProducts.index')}}"><span>Edit Product</span></a></li>
+                        <li><a href="{{route('manageProducts.soldOut')}}"><span>Sold Out</span></a></li>
                     </ul>
                 </li>
 
@@ -69,17 +67,9 @@
                         <li><a href="{{route("admin.orders.cancelled")}}"><span>Cancelled Orders List</span></a></li>
                     </ul>
                 </li>
-                <li class="has-sub-menu"><a href="#"><i class="fa fa-users"></i> <span>Customers</span></a>
-                    <ul class="side-header-sub-menu">
-                        <li><a href="{{route("admin.customers.index")}}"><span>Customers List</span></a></li>
-                    </ul>
-                </li>
+                <li><a href="{{route("admin.customers.index")}}"><i class="fa fa-users"></i> <span>Customers</span></a></li>
 
-                <li class="has-sub-menu"><a href="#"><i class="fa fa-star"></i> <span>Special Offers</span></a>
-                    <ul class="side-header-sub-menu">
-                        <li><a href="{{route('admin.specialOffers.index')}}"><span>Manage Special Offers</span></a></li>
-                    </ul>
-                </li>
+                <li><a href="{{route('admin.specialOffers.index')}}"><i class="fa fa-star"></i> <span>Special Offers</span></a></li>
 
                 <li class="has-sub-menu"><a href="#"><i class="fa fa-ticket"></i> <span>Manage Coupons</span></a>
                     <ul class="side-header-sub-menu">

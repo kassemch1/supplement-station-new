@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->prefix('manageProducts')->name('manageProducts.')->controller(ProductController::class)->group(function () {
     Route::get('/', 'index')->name('index');
+    Route::get('/sold-out', 'soldOut')->name('soldOut');
     Route::get('/create', 'create')->name('create');
     Route::post('/store', 'store')->name('store');
     Route::get('/{id}/edit', 'edit')->whereNumber('id')->name('edit');
