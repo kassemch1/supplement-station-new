@@ -52,13 +52,16 @@ class BrandController extends Controller
             'sort_order' => 'nullable|integer|min:0|max:9999',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'remove_logo' => 'nullable|boolean',
+            'keep_background' => 'nullable|boolean',
         ]);
 
         $oldLogo = $brand->logo;
         $brand->name = $data['name'];
         $brand->sort_order = (int) ($data['sort_order'] ?? 0);
         if ($request->hasFile('logo')) {
-            $brand->logo = ImageOptimizer::storeUpload($request->file('logo'), 'brands', ImageOptimizer::LOGO_MAX_SIZE);
+            // like product pictures: a plain white background around the logo is made transparent
+            $brand->logo = ImageOptimizer::storeUpload($request->file('logo'), 'brands', ImageOptimizer::LOGO_MAX_SIZE,
+                !$request->boolean('keep_background'));
         } elseif ($request->boolean('remove_logo')) {
             $brand->logo = null;
         }

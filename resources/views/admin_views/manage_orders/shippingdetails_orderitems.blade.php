@@ -301,6 +301,12 @@
                                 <div class="info-label">Email Address</div>
                                 <div class="info-value">{{ $order->shippingDetail->email ?? 'Not provided' }}</div>
                             </div>
+                            @if($order->isPickup())
+                            <div class="col-md-6">
+                                <div class="info-label">Delivery</div>
+                                <div class="info-value"><span class="badge badge-info">Store pickup</span></div>
+                            </div>
+                            @else
                             <div class="col-md-6">
                                 <div class="info-label">City</div>
                                 <div class="info-value">{{ $order->shippingDetail->city }}</div>
@@ -309,6 +315,7 @@
                                 <div class="info-label">Delivery Address</div>
                                 <div class="info-value">{{ $order->shippingDetail->address }}</div>
                             </div>
+                            @endif
                         </div>
                     @else
                         <div class="text-center text-muted py-3">

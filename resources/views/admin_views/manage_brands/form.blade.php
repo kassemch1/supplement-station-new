@@ -36,6 +36,7 @@
                                 ])
                             @endif
                             <input class="dropify" type="file" name="logo" accept="image/png,image/jpeg,image/webp">
+                            <label class="adomx-checkbox mt-10"><input type="checkbox" name="keep_background" value="1"> <i class="icon"></i> Keep the original background <small class="text-muted">(by default a plain white background is removed)</small></label>
                         </div>
                     </div>
 

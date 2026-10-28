@@ -1,0 +1,12 @@
+{
+    "name": "Supplement Station Admin",
+    "short_name": "SS Admin",
+    "start_url": "/admin",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#202334",
+    "theme_color": "#202334",
+    "icons": [
+        {"src": "/assets/img/logo/preloader2.png", "sizes": "225x225", "type": "image/png"}
+    ]
+}

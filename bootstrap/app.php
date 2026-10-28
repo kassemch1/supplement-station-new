@@ -15,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: ['newsletter/unsubscribe/*']);
         // Ready-made store pages (App\Services\PageCache)
         $middleware->web(append: [\App\Http\Middleware\CachePages::class]);
+        // A tunnel on this computer (cloudflared, for trying the site on a phone over https) says the visit
+        // came in over https, so links are made with https. Only a proxy on the server itself is believed.
+        $middleware->trustProxies(at: ['127.0.0.1', '::1']);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

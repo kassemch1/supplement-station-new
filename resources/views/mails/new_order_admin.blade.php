@@ -10,7 +10,11 @@
 <p><strong>Name:</strong> {{ $order->shippingDetail?->name }}</p>
 <p><strong>Phone:</strong> {{ $order->shippingDetail?->phone }}</p>
 <p><strong>Email:</strong> {{ $order->shippingDetail?->email ?: '-' }}</p>
+@if($order->isPickup())
+<p><strong>Delivery:</strong> Pick up from the store</p>
+@else
 <p><strong>Address:</strong> {{ $order->shippingDetail?->address }}, {{ $order->shippingDetail?->city }}</p>
+@endif
 
 <table cellpadding="6" cellspacing="0" border="1" style="border-collapse: collapse; border-color: #ddd;">
     <tr>

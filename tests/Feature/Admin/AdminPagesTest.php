@@ -36,7 +36,7 @@ class AdminPagesTest extends TestCase
         $pages = [
             '/admin', '/admin/coupons', '/admin/coupons/create', "/admin/coupons/{$coupon->id}/edit",
             '/admin/orders/pending', '/admin/orders/delivered', '/admin/orders/cancelled', "/admin/orders/{$order->id}", "/admin/orders/{$order->id}/details",
-            "/admin/products/{$product->id}/email-preview", '/admin/special-offers',
+            "/admin/products/{$product->id}/email-preview", '/admin/special-offers', '/admin/settings',
             '/admin/subscribers', '/admin/subscribers/create', "/admin/subscribers/{$subscriber->id}/edit",
             '/manageBanner', '/manageBanner/create', '/manageCategories', '/manageCategories/create', "/manageCategories/{$product->category_id}/edit",
             '/manageFaq', '/manageFaq/create', "/manageFaq/{$faq->id}/edit", '/manageOptions', '/manageOptions/create', "/manageOptions/{$productOption->option_id}/edit",

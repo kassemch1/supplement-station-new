@@ -266,4 +266,21 @@ class StorePagesTest extends TestCase
             ->assertJsonFragment(['product_id' => $shown->id, 'city' => 'Beirut', 'product_url' => $shown->url()])
             ->assertJsonMissing(['product_id' => $archived->id]);
     }
+
+    // (one request per test: the app keeps the first request's https/http for the rest of a test)
+    private function pageSaidToBeHttps(string $from): string
+    {
+        return $this->withServerVariables(['REMOTE_ADDR' => $from])
+            ->withHeader('X-Forwarded-Proto', 'https')->get('/home')->assertOk()->getContent();
+    }
+
+    public function test_links_are_https_behind_a_tunnel_on_this_computer(): void
+    {
+        $this->assertStringContainsString('href="https://localhost/assets/build/store.css', $this->pageSaidToBeHttps('127.0.0.1'));
+    }
+
+    public function test_a_visitor_cannot_ask_for_https_links(): void
+    {
+        $this->assertStringContainsString('href="http://localhost/assets/build/store.css', $this->pageSaidToBeHttps('203.0.113.5'));
+    }
 }

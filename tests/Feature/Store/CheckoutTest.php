@@ -8,6 +8,7 @@ use App\Models\CartItem;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\Subscription;
 use App\Services\CurrentCart;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -77,6 +78,52 @@ class CheckoutTest extends TestCase
         Mail::assertSent(NewOrderMail::class, fn (NewOrderMail $mail) => $mail->hasTo(config('mail.admin_address'))
             && $mail->hasReplyTo('buyer@example.com', 'Rami')
             && $mail->order->id === $orderId);
+    }
+
+    public function test_the_order_email_goes_to_the_addresses_saved_in_settings(): void
+    {
+        Setting::write(NewOrderMail::RECIPIENTS_SETTING, 'owner@example.com, partner@example.com');
+        $this->addToCart(Product::factory()->create())->assertOk();
+        $this->placeOrder()->assertOk();
+
+        Mail::assertSent(NewOrderMail::class, fn (NewOrderMail $mail) => $mail->hasTo('owner@example.com')
+            && $mail->hasTo('partner@example.com')
+            && !$mail->hasTo(config('mail.admin_address')));
+    }
+
+    public function test_a_store_pickup_needs_no_address_and_the_emails_say_pickup(): void
+    {
+        $this->addToCart(Product::factory()->create())->assertOk();
+        // the hidden address fields may still hold an address remembered from an earlier order
+        $orderId = $this->placeOrder(['delivery_method' => 'pickup', 'billing_city' => 'Hamra', 'billing_address_1' => ''])
+            ->assertOk()->json('order_id');
+
+        $order = Order::with('shippingDetail')->find($orderId);
+        $this->assertTrue($order->isPickup());
+        $this->assertSame('', $order->shippingDetail->city);
+        $this->assertSame('', $order->shippingDetail->address);
+
+        Mail::assertSent(NewOrderMail::class, fn (NewOrderMail $mail) => str_ends_with($mail->envelope()->subject, 'Store pickup')
+            && str_contains($mail->render(), 'Pick up from the store'));
+        Mail::assertSent(CheckoutMail::class, fn (CheckoutMail $mail) => str_contains($mail->render(), config('store.address'))
+            && !str_contains($mail->render(), 'Shipping Address'));
+
+        $this->admin()->get("/admin/orders/{$orderId}/details")->assertOk()->assertSee('Store pickup');
+        $this->getJson('/admin/orders/pending-summary')->assertJsonPath('latest_pending.0.city', 'Store pickup');
+    }
+
+    public function test_a_delivery_still_needs_the_address(): void
+    {
+        $this->addToCart(Product::factory()->create())->assertOk();
+
+        $this->placeOrder(['billing_city' => '', 'billing_address_1' => ''])->assertStatus(422)
+            ->assertJsonValidationErrors(['billing_city' => 'Please write your city or area.', 'billing_address_1' => 'Please write your address.']);
+        $this->placeOrder(['delivery_method' => 'drone'])->assertStatus(422)->assertJsonValidationErrors('delivery_method');
+        $this->assertSame(0, Order::count());
+
+        // pages cached before pickup existed send no delivery_method: a delivery, as before
+        $orderId = $this->placeOrder()->assertOk()->json('order_id');
+        $this->assertSame(Order::DELIVERY, Order::find($orderId)->delivery_method);
     }
 
     public function test_an_order_without_email_still_tells_the_store(): void

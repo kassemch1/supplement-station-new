@@ -22,6 +22,11 @@
     {{-- the store's logo in the browser tab, like the shop --}}
     <link rel="icon" href="{{ asset('assets/img/logo/preloader2.png') }}" type="image/png">
     <link rel="apple-touch-icon" href="{{ asset('assets/img/logo/preloader2.png') }}">
+    {{-- "Add to Home Screen" makes the admin an app, which is what lets an iPhone show new-order notifications --}}
+    <link rel="manifest" href="{{ asset('admin-manifest.json') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="SS Admin">
+    <meta name="theme-color" content="#202334">
     {{-- before anything paints, so a light-mode admin never sees a dark flash --}}
     <script>try { if (localStorage.getItem('admin-theme') === 'light') document.documentElement.setAttribute('data-theme', 'light'); } catch (e) {}</script>
 
@@ -43,7 +48,8 @@
     </script>
 </head>
 
-<body data-pending-url="{{ route('admin.orders.pendingSummary') }}" data-pending-list="{{ route('admin.orders.pending') }}">
+<body data-pending-url="{{ route('admin.orders.pendingSummary') }}" data-pending-list="{{ route('admin.orders.pending') }}"
+      data-push-key="{{ route('admin.push.key') }}" data-push-subscribe="{{ route('admin.push.subscribe') }}" data-push-unsubscribe="{{ route('admin.push.unsubscribe') }}">
 
 <div class="main-wrapper">
     @include('partials.adminHeader')

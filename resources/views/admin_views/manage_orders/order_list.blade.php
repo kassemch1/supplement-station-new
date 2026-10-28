@@ -43,7 +43,7 @@
                                 <td class="ad-order-customer">
                                     @if($order->shippingDetail)
                                         <strong><bdi>{{ $order->shippingDetail->name }}</bdi></strong>
-                                        <small>{{ $order->shippingDetail->phone }}@if($order->shippingDetail->city) · <bdi>{{ $order->shippingDetail->city }}</bdi>@endif</small>
+                                        <small>{{ $order->shippingDetail->phone }}@if($order->isPickup()) · <span class="badge badge-info">Store pickup</span>@elseif($order->shippingDetail->city) · <bdi>{{ $order->shippingDetail->city }}</bdi>@endif</small>
                                     @else
                                         <span class="text-muted">—</span>
                                     @endif

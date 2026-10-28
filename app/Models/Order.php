@@ -12,6 +12,11 @@ class Order extends Model
     // Cancelled orders are kept (not deleted) but don't count as sales
     public const STATUSES = ['pending', 'delivered', 'cancelled'];
 
+    // How the customer gets the order: brought to their address, or collected at the store (no address)
+    public const DELIVERY = 'delivery';
+    public const PICKUP = 'pickup';
+    public const DELIVERY_METHODS = [self::DELIVERY, self::PICKUP];
+
     public function scopeCountsAsSale($query)
     {
         return $query->where('status', '!=', 'cancelled');
@@ -47,6 +52,7 @@ class Order extends Model
         'total_amount',
         'subtotal_amount',
         'status',
+        'delivery_method',
         'coupon_id',
         'coupon_code',
         'coupon_discount_amount',
@@ -96,6 +102,11 @@ class Order extends Model
     public function getFormattedDiscountAttribute(): string
     {
         return '$' . number_format($this->coupon_discount_amount, 2);
+    }
+
+    public function isPickup(): bool
+    {
+        return $this->delivery_method === self::PICKUP;
     }
 
     /**

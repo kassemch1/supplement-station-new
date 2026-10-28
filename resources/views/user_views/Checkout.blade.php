@@ -45,7 +45,7 @@
                                 <span class="ss-phone__prefix">🇱🇧 +961</span>
                                 <input type="tel" name="billing_phone" id="billing_phone" autocomplete="tel-national" inputmode="tel" required placeholder="03 123 456">
                             </div>
-                            <span class="ss-field__hint">We call you on this number to confirm the delivery.</span>
+                            <span class="ss-field__hint">We call you on this number to confirm your order.</span>
                             <span class="ss-field__error" id="billing_phone_error"></span>
                         </div>
                         <div class="ss-field">
@@ -62,8 +62,27 @@
                 </section>
 
                 <section class="ss-panel">
-                    <h2 class="ss-panel__title"><span class="ss-panel__num">2</span> Delivery address</h2>
-                    <div class="ss-fields">
+                    <h2 class="ss-panel__title"><span class="ss-panel__num">2</span> Delivery</h2>
+                    <div class="ss-choices" role="radiogroup" aria-label="Delivery">
+                        <label class="ss-paycard ss-paycard--choice is-selected" data-method>
+                            <input type="radio" name="delivery_method" value="delivery" checked>
+                            <span class="ss-paycard__radio"></span>
+                            <span><strong>Delivery</strong><small>To your address, anywhere in Lebanon.</small></span>
+                            {!! Icons::ui('truck', 'ss-ui ss-paycard__icon') !!}
+                        </label>
+                        <label class="ss-paycard ss-paycard--choice" data-method>
+                            <input type="radio" name="delivery_method" value="pickup">
+                            <span class="ss-paycard__radio"></span>
+                            <span><strong>Pick up from the store</strong><small>Free. Collect it in Beirut.</small></span>
+                            {!! Icons::ui('store', 'ss-ui ss-paycard__icon') !!}
+                        </label>
+                    </div>
+                    <div class="ss-pickup ss-for-pickup">
+                        {!! Icons::ui('pin') !!}
+                        <span><strong>Supplement Station</strong> {{ config('store.address') }}<br>
+                            {{ config('store.opening_hours') }}. We'll call you when your order is ready.</span>
+                    </div>
+                    <div class="ss-fields ss-for-delivery">
                         <div class="ss-field">
                             <label for="billing_city">City / area</label>
                             <input type="text" name="billing_city" id="billing_city" list="ss-cities" autocomplete="address-level2" required maxlength="255" placeholder="e.g. Achrafieh">
@@ -85,8 +104,10 @@
                     <label class="ss-paycard is-selected">
                         <input type="radio" checked disabled>
                         <span class="ss-paycard__radio"></span>
-                        <span><strong>Cash on delivery</strong><small>Pay in cash when your order arrives.</small></span>
-                        {!! Icons::ui('truck', 'ss-ui ss-paycard__icon') !!}
+                        <span class="ss-for-delivery"><strong>Cash on delivery</strong><small>Pay in cash when your order arrives.</small></span>
+                        <span class="ss-for-pickup"><strong>Pay at the store</strong><small>Pay in cash when you pick up your order.</small></span>
+                        {!! Icons::ui('truck', 'ss-ui ss-paycard__icon ss-for-delivery') !!}
+                        {!! Icons::ui('store', 'ss-ui ss-paycard__icon ss-for-pickup') !!}
                     </label>
                 </section>
             </div>
@@ -104,7 +125,8 @@
                         <div class="ss-sums">
                             <div class="ss-sumrow"><span>Subtotal</span><span data-sum-subtotal>$0.00</span></div>
                             <div class="ss-sumrow ss-sumrow--discount" data-sum-discount-row hidden><span data-sum-coupon>Coupon</span><span data-sum-discount>-$0.00</span></div>
-                            <div class="ss-sumrow"><span>Delivery</span><span class="ss-muted">Confirmed by phone</span></div>
+                            <div class="ss-sumrow ss-for-delivery"><span>Delivery</span><span class="ss-muted">Confirmed by phone</span></div>
+                            <div class="ss-sumrow ss-for-pickup"><span>Store pickup</span><span>Free</span></div>
                             <div class="ss-sumrow ss-sumrow--total"><span>Total</span><span data-sum-total>$0.00</span></div>
                         </div>
                     </div>
@@ -113,7 +135,8 @@
                         <button type="submit" id="place_order_btn" class="ss-btn ss-btn--red ss-btn--block ss-btn--lg" disabled>
                             {!! Icons::ui('lock') !!} <span data-place-label>Place order</span>
                         </button>
-                        <p class="ss-placeorder__note">You pay when the order arrives. We'll call you to confirm.</p>
+                        <p class="ss-placeorder__note ss-for-delivery">You pay when the order arrives. We'll call you to confirm.</p>
+                        <p class="ss-placeorder__note ss-for-pickup">You pay when you pick up your order. We'll call you when it's ready.</p>
                     </div>
                     @include('partials.store.trust')
                 </div>
@@ -125,7 +148,7 @@
             <div class="ss-done__icon">{!! Icons::ui('done') !!}</div>
             <h1>Thank you, <span data-done-name></span>!</h1>
             <p class="ss-done__lead">Your order has been placed.</p>
-            <p>We'll call you on <strong data-done-phone></strong> to confirm the delivery.<span data-done-email hidden> A receipt is on its way to <strong></strong>.</span></p>
+            <p><span class="ss-for-delivery">We'll call you on <strong data-done-phone></strong> to confirm the delivery.</span><span class="ss-for-pickup">We'll call you on <strong data-done-phone></strong> when your order is ready to pick up at {{ config('store.address') }}.</span><span data-done-email hidden> A receipt is on its way to <strong></strong>.</span></p>
             <div class="ss-panel ss-done__summary">
                 <ul class="ss-olist" data-done-lines></ul>
                 <div class="ss-sumrow ss-sumrow--total"><span>Total</span><span data-done-total></span></div>

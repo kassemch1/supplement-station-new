@@ -61,6 +61,21 @@
                 <th>Date</th>
                 <td>{{ now()->format('F d, Y') }}</td>
             </tr>
+            @if($order->isPickup())
+            <tr>
+                <th>Pick Up At</th>
+                <td>
+                    Supplement Station<br>
+                    {{ config('store.address') }}<br>
+                    {{ config('store.opening_hours') }}<br>
+                    We'll call you when your order is ready.
+                </td>
+            </tr>
+            <tr>
+                <th>Payment Method</th>
+                <td>Cash at the store</td>
+            </tr>
+            @else
             <tr>
                 <th>Shipping Address</th>
                 <td>
@@ -73,6 +88,7 @@
                 <th>Payment Method</th>
                 <td>Cash on Delivery</td>
             </tr>
+            @endif
         </table>
         <h2>Order Items</h2>
         <table class="order-details">

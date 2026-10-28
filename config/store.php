@@ -14,6 +14,10 @@ return [
     // For wa.me links (country code, no + or spaces)
     'whatsapp' => '96181088266',
 
+    // Where customers pick up their orders (checkout, order emails, footer) and when the store is open
+    'address' => 'Msharafieh, facing Garden State, Beirut',
+    'opening_hours' => 'Mon – Sat, 9:00 AM – 9:00 PM',
+
     // Store pages (home, shop, categories, products) are kept ready-made for this many minutes, or until
     // something they show changes (App\Services\PageCache). On by default on the live site only;
     // PAGE_CACHE=false in .env turns it off at once (then run php artisan config:cache)

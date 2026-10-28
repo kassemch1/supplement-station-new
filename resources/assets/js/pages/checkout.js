@@ -7,6 +7,8 @@ $(function () {
     var $button = $('#place_order_btn');
     var STORAGE_KEY = 'ss-checkout-details';
     var FIELDS = ['billing_first_name', 'billing_phone', 'billing_email', 'billing_city', 'billing_address_1'];
+    // not asked when the order is picked up at the store
+    var ADDRESS_FIELDS = ['billing_city', 'billing_address_1'];
 
     /* ---------- summary ---------- */
 
@@ -95,6 +97,23 @@ $(function () {
         });
     });
 
+    /* ---------- delivery or pickup: the page shows only what belongs to the choice ---------- */
+
+    function isPickup() {
+        return $('[name="delivery_method"]:checked').val() === 'pickup';
+    }
+
+    function syncMethod() {
+        $('[data-method]').each(function () {
+            $(this).toggleClass('is-selected', $(this).find('input').prop('checked'));
+        });
+        $('.ss-checkout').toggleClass('is-pickup', isPickup());
+        if (isPickup()) {
+            ADDRESS_FIELDS.forEach(function (name) { fieldError(name, ''); });
+        }
+    }
+    $('[name="delivery_method"]').on('change', syncMethod);
+
     // The details are remembered on this device for the next order
     try {
         var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
@@ -103,12 +122,17 @@ $(function () {
                 $('#' + name).val(saved[name]);
             }
         });
+        if (saved.delivery_method) {
+            $('[name="delivery_method"][value="' + (saved.delivery_method === 'pickup' ? 'pickup' : 'delivery') + '"]').prop('checked', true);
+        }
     } catch (e) { /* storage not available */ }
+    syncMethod();
 
     function remember() {
         try {
             var details = {};
             FIELDS.forEach(function (name) { details[name] = $.trim($('#' + name).val()); });
+            details.delivery_method = isPickup() ? 'pickup' : 'delivery';
             localStorage.setItem(STORAGE_KEY, JSON.stringify(details));
         } catch (e) { /* storage not available */ }
     }
@@ -120,7 +144,8 @@ $(function () {
         if ($button.data('submitting')) {
             return; // already placing this order
         }
-        var ok = FIELDS.map(check).every(Boolean);
+        var ok = FIELDS.filter(function (name) { return !(isPickup() && ADDRESS_FIELDS.indexOf(name) >= 0); })
+            .map(check).every(Boolean);
         if (!ok) {
             var $first = $('.ss-field.has-error').first();
             $('html, body').animate({scrollTop: $first.offset().top - 100}, 250);

@@ -78,6 +78,8 @@
                     </ul>
                 </li>
 
+                <li><a href="{{route('admin.settings')}}"><i class="zmdi zmdi-settings"></i> <span>Settings</span></a></li>
+
             </ul>
         </nav>
 

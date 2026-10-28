@@ -16,6 +16,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ShippingDetail;
 use App\Models\Subscription;
+use App\Services\AdminPush;
 use App\Services\Catalog;
 use App\Services\CurrentCart;
 use App\Services\ProductAvailability;
@@ -274,13 +275,14 @@ class CartController extends Controller
 
         Session::forget('applied_coupon');
         $this->subscribeCustomer($request);
-        $this->sendOrderEmails($order, $cart->items, $request->only('billing_first_name', 'billing_phone', 'billing_address_1', 'billing_city', 'billing_email'));
+        $this->sendOrderNotifications($order, $cart->items, $request->only('billing_first_name', 'billing_phone', 'billing_address_1', 'billing_city', 'billing_email'));
 
         return $this->orderPlaced($order, $request->billing_email);
     }
 
-    private function createOrder(Cart $cart, Request $request, string $checkoutToken): Order
+    private function createOrder(Cart $cart, PlaceOrderRequest $request, string $checkoutToken): Order
     {
+        $pickup = $request->isPickup();
         $subtotal = $cart->subtotal();
         $coupon = null;
         $couponDiscount = 0;
@@ -302,16 +304,18 @@ class CartController extends Controller
             'coupon_code' => $coupon?->code,
             'coupon_discount_amount' => $couponDiscount,
             'status' => 'pending',
+            'delivery_method' => $pickup ? Order::PICKUP : Order::DELIVERY,
             'checkout_token' => $checkoutToken,
         ]);
 
+        // A pickup has no address (the hidden fields may still hold one remembered from an earlier order)
         ShippingDetail::create([
             'order_id' => $order->id,
             'name' => $request->billing_first_name,
             'phone' => $request->billing_phone,
             'email' => $request->billing_email,
-            'address' => $request->billing_address_1,
-            'city' => $request->billing_city,
+            'address' => $pickup ? '' : $request->billing_address_1,
+            'city' => $pickup ? '' : $request->billing_city,
         ]);
 
         // Name, picture and price are copied, so the order stays as it was if the product changes
@@ -349,10 +353,16 @@ class CartController extends Controller
         }
     }
 
-    // Sent after the response: a slow or failing mail server can never make a placed order look failed
-    private function sendOrderEmails(Order $order, $items, array $customer): void
+    // Sent after the response: a slow or failing mail or push server can never make a placed order look failed
+    private function sendOrderNotifications(Order $order, $items, array $customer): void
     {
         defer(function () use ($order, $items, $customer) {
+            // the admin's phone first: it is the one the admin is waiting for
+            try {
+                app(AdminPush::class)->newOrder($order);
+            } catch (\Throwable $e) {
+                Log::error("Order #{$order->id}: admin phone notification failed", ['error' => $e->getMessage()]);
+            }
             if ($customer['billing_email'] ?? null) {
                 try {
                     Mail::to($customer['billing_email'])->send(new CheckoutMail($customer, $items, $order));
@@ -361,7 +371,7 @@ class CartController extends Controller
                 }
             }
             try {
-                Mail::to(config('mail.admin_address'))->send(new NewOrderMail($order->load('orderItems', 'shippingDetail')));
+                Mail::to(NewOrderMail::recipients())->send(new NewOrderMail($order->load('orderItems', 'shippingDetail')));
             } catch (\Throwable $e) {
                 Log::error("Order #{$order->id}: admin notification email failed", ['error' => $e->getMessage()]);
             }

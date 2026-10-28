@@ -28,6 +28,7 @@ require __DIR__ . '/review_admin.php';
 require __DIR__ . '/coupons.php';
 require __DIR__ . '/subscribe.php';
 require __DIR__ . '/special_offers.php';
+require __DIR__ . '/settings.php';
 require __DIR__ . '/seo.php';
 
 // ---------- store pages ----------

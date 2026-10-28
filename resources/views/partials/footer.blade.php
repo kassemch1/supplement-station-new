@@ -30,8 +30,8 @@
                 <h4>Contact us</h4>
                 <a href="tel:{{ config('store.phone_link') }}">{!! Icons::ui('phone') !!} {{ config('store.phone') }}</a>
                 <a href="mailto:admin@supplement-station.com">{!! Icons::ui('mail') !!} admin@supplement-station.com</a>
-                <span>{!! Icons::ui('pin') !!} Msharafieh, facing Garden State, Beirut</span>
-                <span>{!! Icons::ui('info') !!} Mon – Sat, 9:00 AM – 9:00 PM</span>
+                <span>{!! Icons::ui('pin') !!} {{ config('store.address') }}</span>
+                <span>{!! Icons::ui('info') !!} {{ config('store.opening_hours') }}</span>
                 <a href="https://wa.me/{{ config('store.whatsapp') }}?text={{ rawurlencode('Hello Supplement Station, ') }}" target="_blank" rel="noopener" class="ss-btn ss-btn--red ss-footer__wa">
                     {!! Icons::fa('whatsapp') !!} WhatsApp
                 </a>

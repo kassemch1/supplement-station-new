@@ -49,7 +49,7 @@ class OrderController extends Controller
             'id' => $order->id,
             'total' => '$' . number_format((float) $order->total_amount, 2),
             'name' => $order->shippingDetail?->name ?? 'Customer',
-            'city' => $order->shippingDetail?->city,
+            'city' => $order->isPickup() ? 'Store pickup' : $order->shippingDetail?->city,
             'status' => $order->status,
             'time' => $order->created_at?->timezone($zone)->format('M d, H:i'),
             'ago' => $order->created_at?->diffForHumans(),

@@ -37,6 +37,28 @@ class CatalogStructureTest extends TestCase
         }
     }
 
+    public function test_a_logo_loses_its_white_background_unless_the_admin_keeps_it(): void
+    {
+        // dark letters on white, as a JPEG
+        $onWhite = function (string $name) {
+            $image = imagecreatetruecolor(400, 200);
+            imagefill($image, 0, 0, imagecolorallocate($image, 255, 255, 255));
+            imagefilledrectangle($image, 60, 60, 340, 140, imagecolorallocate($image, 20, 20, 120));
+            ob_start();
+            imagejpeg($image, null, 85);
+
+            return UploadedFile::fake()->createWithContent($name, ob_get_clean());
+        };
+        $cornerAlpha = fn (string $logo) => (imagecolorat(imagecreatefromwebp(Storage::disk('public')->path(substr($logo, strlen('storage/')))), 0, 0) >> 24) & 0x7F;
+
+        $this->admin()->post('/manageBrands/store', ['name' => 'BPI', 'logo' => $onWhite('bpi.jpg')])->assertOk();
+        $brand = Brand::sole();
+        $this->assertSame(127, $cornerAlpha($brand->logo), 'transparent around the logo');
+
+        $this->post("/manageBrands/{$brand->id}", ['name' => 'BPI', 'keep_background' => '1', 'logo' => $onWhite('keep.jpg')])->assertOk();
+        $this->assertSame(0, $cornerAlpha($brand->fresh()->logo), 'the white background is kept');
+    }
+
     public function test_brand_with_logo_saved_as_webp_then_replaced_and_deleted(): void
     {
         $this->admin()->post('/manageBrands/store', ['name' => 'Optimum Nutrition', 'logo' => UploadedFile::fake()->image('on.png', 900, 300)])

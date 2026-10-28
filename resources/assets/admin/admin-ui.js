@@ -4,7 +4,9 @@
  *  2. the page you are on is marked in the menu
  *  3. dark / light switch (dark is the default; the choice is kept in this browser)
  *  4. lists, filters and actions without page reloads, searchable dropdowns (Select2)
- *  5. the new-order bell: pending count, latest pending orders, a sound, a desktop alert and a
+ *  5. notifications pushed to this device (they arrive with the admin closed), turned on from the
+ *     bell or Admin > Settings
+ *  6. the new-order bell: pending count, latest pending orders, a sound, a desktop alert and a
  *     pop-up when an order comes in, and the "orders waiting" bar at the top of each page
  */
 (function ($) {
@@ -320,8 +322,63 @@
 
     $(function () { initSelects(document); });
 
-    /* ---------- 5. new orders ---------- */
+    /* ---------- 5. notifications pushed to this device ---------- */
+    // New-order notifications that arrive with the admin closed (App\Services\AdminPush; admin-sw.js shows
+    // them). On an iPhone only in the home-screen app; elsewhere in browsers that take them (Chrome, Edge,
+    // Firefox, Safari on a Mac).
     var body = document.body;
+    var push = AdminUI.push = {
+        supported: function () {
+            return window.isSecureContext && 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
+        },
+        // this device's subscription, or null
+        current: function () {
+            if (!push.supported()) return Promise.resolve(null);
+            return navigator.serviceWorker.getRegistration('/admin')
+                .then(function (reg) { return reg ? reg.pushManager.getSubscription() : null; })
+                .catch(function () { return null; });
+        },
+        // Call it straight from a tap: an iPhone only shows the permission question then
+        turnOn: function () {
+            return Notification.requestPermission().then(function (permission) {
+                if (permission !== 'granted') throw new Error('Notifications were not allowed');
+                return Promise.all([
+                    navigator.serviceWorker.register('/admin-sw.js', {scope: '/admin'}).then(activeWorker),
+                    $.getJSON(body.getAttribute('data-push-key'))
+                ]);
+            }).then(function (ready) {
+                return ready[0].pushManager.subscribe({userVisibleOnly: true, applicationServerKey: keyBytes(ready[1].key)});
+            }).then(function (subscription) {
+                return $.ajax({url: body.getAttribute('data-push-subscribe'), method: 'POST', contentType: 'application/json',
+                               dataType: 'json', data: JSON.stringify(subscription.toJSON())})
+                    .then(function () { return subscription; });
+            });
+        },
+        turnOff: function () {
+            return push.current().then(function (subscription) {
+                if (!subscription) return null;
+                return $.ajax({url: body.getAttribute('data-push-unsubscribe'), method: 'POST', dataType: 'json', data: {endpoint: subscription.endpoint}})
+                    .then(function () { return subscription.unsubscribe(); });
+            });
+        },
+        // what went wrong, for the admin
+        reason: function (e) { return (e && e.responseJSON && e.responseJSON.message) || (e && e.message) || 'unknown error'; }
+    };
+    // a new worker can only take subscriptions once it is running
+    function activeWorker(reg) {
+        if (reg.active) return reg;
+        var worker = reg.installing || reg.waiting;
+        return new Promise(function (resolve) {
+            worker.addEventListener('statechange', function () { if (worker.state === 'activated') resolve(reg); });
+        });
+    }
+    // the server's key as the bytes pushManager.subscribe wants
+    function keyBytes(base64url) {
+        var raw = atob(base64url.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - base64url.length % 4) % 4));
+        return Uint8Array.from(raw, function (c) { return c.charCodeAt(0); });
+    }
+
+    /* ---------- 6. new orders ---------- */
     var summaryUrl = body.getAttribute('data-pending-url');
     if (!summaryUrl) return;
 
@@ -404,11 +461,25 @@
     }
     $('#adSoundTest').on('click', function () { unlockAudio(); var was = $sound.prop('checked'); $sound.prop('checked', true); chime(); $sound.prop('checked', was); });
 
-    // Desktop alerts (shown even when the admin is on another tab)
+    // "Turn on notifications": pushed notifications where this device takes them (they arrive with the admin
+    // closed), otherwise desktop alerts (shown while an admin page is open, even on another tab). Also shown
+    // when alerts were allowed but pushed notifications are not on yet.
     function desktopSupported() { return 'Notification' in window && window.isSecureContext; }
-    function showDesktopButton() { $desktop.prop('hidden', !(desktopSupported() && Notification.permission === 'default')); }
+    function showDesktopButton() {
+        if (!desktopSupported() || Notification.permission === 'denied') return $desktop.prop('hidden', true);
+        if (Notification.permission === 'default') return $desktop.prop('hidden', false);
+        push.current().then(function (subscription) { $desktop.prop('hidden', !push.supported() || !!subscription); });
+    }
     showDesktopButton();
-    $desktop.on('click', function () { Notification.requestPermission().then(showDesktopButton); });
+    $desktop.on('click', function () {
+        if (!push.supported()) return Notification.requestPermission().then(showDesktopButton);
+        $desktop.prop('disabled', true);
+        push.turnOn().then(function () {
+            toast('Notifications are on for this device.');
+        }, function (e) {
+            if (Notification.permission === 'granted') toast('Notifications could not be turned on (' + push.reason(e) + ').', 'error');
+        }).then(function () { $desktop.prop('disabled', false); showDesktopButton(); });
+    });
 
     // "a · b · c" with each piece isolated, so an Arabic city or name keeps its place
     function parts(list) {
@@ -472,10 +543,14 @@
         flashTitle(orders.length === 1 ? '🔔 New order!' : '🔔 ' + orders.length + ' new orders!');
         if (desktopSupported() && Notification.permission === 'granted') {
             var o = orders[0];
-            try {
-                var note = new Notification('New order #' + o.id + ' · ' + o.total, {body: o.name + (o.city ? ' · ' + o.city : ''), tag: 'order-' + o.id});
-                note.onclick = function () { window.focus(); location.href = o.url; };
-            } catch (e) {}
+            // a device with pushed notifications on was already told about this order: no second one
+            push.current().then(function (subscription) {
+                if (subscription) return;
+                try {
+                    var note = new Notification('New order #' + o.id + ' · ' + o.total, {body: o.name + (o.city ? ' · ' + o.city : ''), tag: 'order-' + o.id});
+                    note.onclick = function () { window.focus(); location.href = o.url; };
+                } catch (e) {}
+            });
         }
     }
 

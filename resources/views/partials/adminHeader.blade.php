@@ -48,7 +48,7 @@
                                         <span>Sound for new orders</span>
                                     </label>
                                     <button type="button" class="ad-link-btn" id="adSoundTest">Test sound</button>
-                                    <button type="button" class="ad-link-btn" id="adDesktopAlerts" hidden>Turn on desktop alerts</button>
+                                    <button type="button" class="ad-link-btn" id="adDesktopAlerts" hidden>Turn on notifications</button>
                                 </div>
                             </div>
                         </div>
