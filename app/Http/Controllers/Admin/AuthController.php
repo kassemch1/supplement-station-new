@@ -14,6 +14,11 @@ class AuthController extends Controller
 {
     public function loginView()
     {
+        // An admin kept signed in goes straight to the admin
+        if (Auth::check()) {
+            return redirect()->route('admin');
+        }
+
         return view('admin_views/login');
     }
 
@@ -34,7 +39,9 @@ class AuthController extends Controller
             ])->onlyInput('email');
         }
 
-        if (Auth::attempt($credentials)) {
+        // "Keep me signed in": a cookie signs this device back in after the session runs out
+        // (config/auth.php guards.web.remember says for how long)
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
             RateLimiter::clear($throttleKey);
             $request->session()->regenerate();
 
@@ -51,7 +58,8 @@ class AuthController extends Controller
 
     public function logout(Request $request): RedirectResponse
     {
-        Auth::logout();
+        // This device only: signing out on the computer leaves the phone's admin app signed in
+        Auth::logoutCurrentDevice();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

@@ -332,7 +332,7 @@
 
                     </div>
                     <div class="order-items-table">
-                        <table class="table mb-0">
+                        <table class="table mb-0 ad-items">
                             <thead>
                             <tr>
                                 <th>image</th>
@@ -350,7 +350,7 @@
                             <tr>
 
                                 {{-- ↓ ADD THIS TD --}}
-                                <td>
+                                <td class="ad-items__image">
                                     @if ($item->display_image)
                                         <img src="{{ asset($item->display_image) }}"
                                              alt="Product Image"
@@ -360,8 +360,8 @@
                                         <div class="thumb-placeholder"><i class="zmdi zmdi-image"></i></div>
                                     @endif
                                 </td>
-                                <td><strong>{{ $item->display_name }}</strong></td>
-                                <td>
+                                <td class="ad-items__name"><strong>{{ $item->display_name }}</strong></td>
+                                <td class="ad-items__options">
                                     @if($item->selected_options)
                                         @php
                                             $options = json_decode($item->selected_options, true);
@@ -375,9 +375,9 @@
                                         <small class="text-muted">No options</small>
                                     @endif
                                 </td>
-                                <td>${{ number_format($item->price, 2) }}</td>
-                                <td>{{ $item->quantity }}</td>
-                                <td class="text-right"><strong>${{ number_format($item->price * $item->quantity, 2) }}</strong></td>
+                                <td class="ad-items__price">${{ number_format($item->price, 2) }}</td>
+                                <td class="ad-items__qty">{{ $item->quantity }}</td>
+                                <td class="text-right ad-items__total"><strong>${{ number_format($item->price * $item->quantity, 2) }}</strong></td>
                             </tr>
                             @endforeach
                             @else

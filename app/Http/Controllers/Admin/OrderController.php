@@ -66,6 +66,8 @@ class OrderController extends Controller
             'latest_id' => (int) Order::max('id'),
             'latest_pending' => Order::with('shippingDetail')->where('status', 'pending')->latest('id')->limit(6)->get()->map($card),
             'new_orders' => $newOrders,
+            // a page left open past the session (kept signed in) takes the new session's form token from here
+            'csrf' => csrf_token(),
         ]);
     }
 

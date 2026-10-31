@@ -46,6 +46,19 @@ class OrdersAndStatsTest extends TestCase
         $this->get('/admin/orders/pending?sort=sideways')->assertOk();
     }
 
+    public function test_an_order_without_a_coupon_shows_no_discount(): void
+    {
+        $this->order('2026-07-01 10:00:00', 10, 'pending');                     // saved as 0.00
+        $withCoupon = $this->order('2026-07-02 10:00:00', 45, 'pending');
+        $withCoupon->update(['coupon_code' => 'SAVE5', 'coupon_discount_amount' => 5]);
+
+        $this->get('/admin/orders/pending')->assertOk()
+            ->assertDontSee('-$0.00')
+            ->assertSee('-$5.00')
+            // a phone hides the empty coupon cells of the card
+            ->assertSee('ad-orders__discount is-empty', false);
+    }
+
     public function test_status_changes_and_deleting(): void
     {
         $order = $this->order('2026-07-01 10:00:00', 10, 'pending');
@@ -214,7 +227,8 @@ class OrdersAndStatsTest extends TestCase
             ->assertJsonPath('latest_pending.0.id', $new->id)
             ->assertJsonPath('latest_pending.0.total', '$30.50')
             ->assertJsonPath('latest_pending.0.city', 'Tyre')
-            ->assertJsonPath('latest_pending.1.name', 'Customer');
+            ->assertJsonPath('latest_pending.1.name', 'Customer')
+            ->assertJsonPath('csrf', fn ($token) => is_string($token) && strlen($token) === 40);
 
         $this->getJson('/admin/orders/pending-summary?after=' . $old->id)
             ->assertJsonCount(2, 'new_orders')

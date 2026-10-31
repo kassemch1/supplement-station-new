@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive" data-ajax-list="orders">
-                    <table class="table table-vertical-middle">
+                    <table class="table table-vertical-middle ad-orders">
                         <thead>
                             <tr>
                                 <th>Order ID</th>
@@ -39,8 +39,8 @@
                         <tbody>
                             @foreach ($orders as $order)
                             <tr>
-                                <td>#{{ $order->id }}</td>
-                                <td class="ad-order-customer">
+                                <td class="ad-orders__id">#{{ $order->id }}</td>
+                                <td class="ad-order-customer ad-orders__customer">
                                     @if($order->shippingDetail)
                                         <strong><bdi>{{ $order->shippingDetail->name }}</bdi></strong>
                                         <small>{{ $order->shippingDetail->phone }}@if($order->isPickup()) · <span class="badge badge-info">Store pickup</span>@elseif($order->shippingDetail->city) · <bdi>{{ $order->shippingDetail->city }}</bdi>@endif</small>
@@ -48,24 +48,25 @@
                                         <span class="text-muted">—</span>
                                     @endif
                                 </td>
-                                <td>${{ number_format($order->total_amount, 2) }}</td>
-                                <td><span class="badge badge-{{ ['pending' => 'danger', 'delivered' => 'success'][$order->status] ?? 'secondary' }}">{{ ucfirst($order->status) }}</span></td>
-                                <td>
+                                <td class="ad-orders__total">${{ number_format($order->total_amount, 2) }}</td>
+                                <td class="ad-orders__status"><span class="badge badge-{{ ['pending' => 'danger', 'delivered' => 'success'][$order->status] ?? 'secondary' }}">{{ ucfirst($order->status) }}</span></td>
+                                <td class="ad-orders__coupon{{ $order->coupon_code ? '' : ' is-empty' }}">
                                     @if($order->coupon_code)
                                         <span class="badge badge-info">{{ $order->coupon_code }}</span>
                                     @else
                                         <span class="text-muted">—</span>
                                     @endif
                                 </td>
-                                <td>
-                                    @if($order->coupon_discount_amount)
+                                {{-- the amount comes as text ("0.00" with no coupon), so it is compared as a number --}}
+                                <td class="ad-orders__discount{{ (float) $order->coupon_discount_amount > 0 ? '' : ' is-empty' }}">
+                                    @if((float) $order->coupon_discount_amount > 0)
                                         <span class="badge badge-success">-${{ number_format($order->coupon_discount_amount, 2) }}</span>
                                     @else
                                         <span class="text-muted">—</span>
                                     @endif
                                 </td>
-                                <td>{{ $order->created_at->timezone(config('app.display_timezone'))->format('M d, Y - H:i') }}</td>
-                                <td class="action h4">
+                                <td class="ad-orders__date">{{ $order->created_at->timezone(config('app.display_timezone'))->format('M d, Y - H:i') }}</td>
+                                <td class="action h4 ad-orders__actions">
                                     <div class="table-action-buttons">
                                         <a class="view button button-box button-xs button-primary" href="{{ route('admin.orders.details', $order->id) }}"><i class="zmdi zmdi-more"></i></a>
                                         @if($status === 'pending')

@@ -39,6 +39,9 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+            // "Keep me signed in" on the admin login lasts 400 days from that sign-in (in minutes;
+            // browsers keep no cookie longer)
+            'remember' => 60 * 24 * 400,
         ],
     ],
 

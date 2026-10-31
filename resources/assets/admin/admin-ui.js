@@ -558,6 +558,7 @@
         var seen = parseInt(store.get('admin-last-order-id') || '0', 10);
         $.ajax({url: summaryUrl, data: seen ? {after: seen} : {}, dataType: 'json', headers: {Accept: 'application/json'}})
             .done(function (data) {
+                useToken(data.csrf);
                 render(data);
                 // another open admin tab may already have rung for these
                 var seenNow = parseInt(store.get('admin-last-order-id') || '0', 10);
@@ -570,10 +571,22 @@
             });
     }
 
+    // When the session ran out with this page open, "keep me signed in" started a new one with a new form
+    // token: the page's forms and background calls take it, so the next action is not refused
+    function useToken(token) {
+        var $meta = $('meta[name="csrf-token"]');
+        if (!token || token === $meta.attr('content')) return;
+        $meta.attr('content', token);
+        $('input[name="_token"]').val(token);
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': token}});
+    }
+
     AdminUI.refreshBell = refresh;
     function start() {
         refresh();
         timer = setInterval(refresh, POLL_MS);
+        // back to the page (the phone app reopened, the tab picked again): check at once
+        document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') refresh(); });
     }
     // a page loaded in the background (hovering a link) starts checking only once it is opened, so it
     // never takes a new order's alert away from the page the admin is looking at

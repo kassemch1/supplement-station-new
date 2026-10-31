@@ -20,6 +20,11 @@
     <link href={{asset("login_assets/css/style.css")}} rel="stylesheet">
     <!-- YOUR CUSTOM CSS -->
     <link href={{asset("login_assets/css/custom.css" )}}rel="stylesheet">
+    {{-- the tick box in the store's colour, like the button --}}
+    <style>
+        .container_check input:checked ~ .checkmark { background-color: #743031; }
+        .container_check:hover .checkmark { border-color: #743031; }
+    </style>
 </head>
 
 <body>
@@ -58,6 +63,12 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="container_check">Keep me signed in on this device
+                                    <input type="checkbox" name="remember" value="1" checked>
+                                    <span class="checkmark"></span>
+                                </label>
                             </div>
                             @if ($errors->any())
                                 <div class="alert alert-danger">

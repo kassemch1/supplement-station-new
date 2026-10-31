@@ -305,6 +305,9 @@ body {
     width: var(--ad-side-w) !important;
     top: var(--ad-header-h) !important;
     height: calc(100vh - var(--ad-header-h)) !important;
+    /* the screen you can see: on a phone 100vh reaches under the browser's bottom bar, which hid the
+       last menu items where no swipe could bring them up */
+    height: calc(100dvh - var(--ad-header-h)) !important;
     background: var(--ad-surface) !important;
     border-right: 1px solid var(--ad-border);
     box-shadow: none !important;
@@ -315,8 +318,25 @@ body {
 .ad-ready .side-header { transition: left .2s ease !important; }
 @media (max-width: 1199px) { body:not(.ad-ready) .side-header { left: calc(-1 * var(--ad-side-w)) !important; } }
 .side-header.hide { left: calc(-1 * var(--ad-side-w)) !important; }
-/* a long menu scrolls (the template used a scrollbar plugin for this) */
-.side-header .side-header-inner { padding: 0 12px !important; overflow-y: auto; scrollbar-width: thin; scrollbar-gutter: stable; }
+/* a long menu scrolls (the template used a scrollbar plugin for this); reaching its end does not
+   carry the swipe on to the page behind */
+.side-header .side-header-inner { padding: 0 12px !important; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-gutter: stable; }
+/* narrow screens: the dimmed page behind the open menu (admin-base.js); it holds still and a tap closes the menu */
+.ad-side-backdrop { display: none; }
+@media (max-width: 1199px) {
+    .ad-side-backdrop {
+        display: block;
+        position: fixed;
+        inset: var(--ad-header-h) 0 0 0;
+        z-index: 1098;
+        background: rgba(0, 0, 0, .45);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .2s, visibility .2s;
+    }
+    .ad-menu-open .ad-side-backdrop { opacity: 1; visibility: visible; }
+    html.ad-menu-open, html.ad-menu-open body { overflow: hidden; }
+}
 .side-header-menu { float: none; white-space: normal; }
 .side-header-menu > ul > li { float: none; margin-bottom: 2px; }
 .side-header-menu > ul > li > a {
@@ -390,7 +410,6 @@ body {
     .ad-brand__name { display: none; }
     .ad-header-tools { gap: 6px; }
     #logout-form .button { padding: 0 12px; }
-    .side-header { top: var(--ad-header-h) !important; height: calc(100vh - var(--ad-header-h)) !important; }
     .side-header.show .side-header-close { display: none; }
     .content-body { padding: 20px 16px !important; }
     .ad-toasts { right: 12px; left: 12px; bottom: 12px; }
@@ -560,7 +579,8 @@ body {
 .content-body .box .table-responsive,
 .content-body .order-items-table .table-responsive { border: 0; box-shadow: none; border-radius: 0; }
 .content-body .card .table-responsive { border: 1px solid var(--ad-border); border-radius: var(--ad-radius-sm); }
-.content-body .order-items-table { overflow: hidden; }
+/* a table wider than the box scrolls instead of being cut off (phones get cards, see "Orders on a phone") */
+.content-body .order-items-table { overflow-x: auto; }
 
 /* lines between rows only (the template drew a full grid) */
 .content-body .table-bordered { border: 0 !important; }
@@ -1099,6 +1119,51 @@ form[data-ajax-filter] > .select2-container--default.select2,
 .ad-order-customer small { color: var(--ad-muted); white-space: nowrap; }
 .content-body td.ad-empty { text-align: center; padding: 34px 16px; color: var(--ad-muted) !important; white-space: normal !important; }
 .content-body td.ad-empty a { font-weight: 600; }
+
+/* ---------- Orders on a phone ----------
+   The order lists and an order's items were tables wider than the screen, cut off at the side. Here each
+   order, and each item, is a small card with everything in view: no header row, the cells laid out in lines. */
+@media (max-width: 767px) {
+    .content-body .ad-orders thead, .content-body .ad-items thead { display: none; }
+    .content-body .ad-orders, .content-body .ad-orders tbody,
+    .content-body .ad-items, .content-body .ad-items tbody { display: block; width: 100%; }
+    .content-body .ad-orders tr, .content-body .ad-items tr { align-items: center; padding: 14px 16px; border-top: 1px solid var(--ad-border); }
+    .content-body .ad-orders tr:first-child, .content-body .ad-items tr:first-child { border-top: 0; }
+    .content-body .ad-orders td, .content-body .ad-items td { display: block; padding: 0 !important; border: 0 !important; white-space: normal; overflow-wrap: anywhere; }
+    .content-body .ad-orders td[colspan], .content-body .ad-items td[colspan] { flex-basis: 100%; grid-column: 1 / -1; padding: 28px 8px !important; }
+
+    /* an order, in lines: number, status and total / customer / coupon (when used) / date and the buttons */
+    .content-body .ad-orders tr { display: flex; flex-wrap: wrap; column-gap: 8px; }
+    .content-body .ad-orders tr::after { content: ""; order: 7; flex-basis: 100%; }   /* starts the date's line */
+    .content-body .ad-orders .ad-orders__id { order: 1; color: var(--ad-text) !important; font-weight: 700; }
+    .content-body .ad-orders .ad-orders__status { order: 2; }
+    .content-body .ad-orders .ad-orders__total { order: 3; margin-left: auto; color: var(--ad-text) !important; font-weight: 700; font-size: 15px; }
+    .content-body .ad-orders .ad-orders__customer { order: 4; flex-basis: 100%; margin-top: 8px; }
+    .content-body .ad-orders .ad-orders__customer small { white-space: normal; }
+    .content-body .ad-orders .ad-orders__coupon { order: 5; margin-top: 8px; }
+    .content-body .ad-orders .ad-orders__discount { order: 6; margin-top: 8px; }
+    .content-body .ad-orders .is-empty { display: none; }
+    .content-body .ad-orders .ad-orders__date { order: 8; flex: 1; margin: 12px 0 0; color: var(--ad-muted) !important; font-size: 12.5px; }
+    .content-body .ad-orders .ad-orders__actions { order: 9; margin: 12px 0 0; }
+    /* buttons a finger can hit */
+    .content-body .ad-orders .ad-orders__actions .button.button-box.button-xs { width: 38px; height: 38px; }
+    .content-body .ad-orders .ad-orders__actions .table-action-buttons { gap: 8px; }
+
+    /* an item of the order: picture / name / options / price × quantity and its total */
+    .content-body .ad-items tr {
+        display: grid;
+        grid-template-columns: 52px auto 1fr auto;
+        grid-template-areas: "image name name name" "image options options options" "image price qty total";
+        gap: 4px 12px;
+    }
+    .content-body .ad-items .ad-items__image { grid-area: image; align-self: start; }
+    .content-body .ad-items .ad-items__name { grid-area: name; }
+    .content-body .ad-items .ad-items__options { grid-area: options; }
+    .content-body .ad-items .ad-items__price { grid-area: price; margin-top: 4px; }
+    .content-body .ad-items .ad-items__qty { grid-area: qty; margin: 4px 0 0 -6px; }
+    .content-body .ad-items .ad-items__qty::before { content: "× "; }
+    .content-body .ad-items .ad-items__total { grid-area: total; margin-top: 4px; }
+}
 
 /* ---------- Dashboard: sold-out card ---------- */
 .db-soldout { margin-bottom: 18px; border-left: 3px solid var(--ad-red) !important; }

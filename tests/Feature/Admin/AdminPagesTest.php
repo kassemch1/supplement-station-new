@@ -14,6 +14,7 @@ use App\Models\SpecialOffer;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class AdminPagesTest extends TestCase
@@ -100,5 +101,41 @@ class AdminPagesTest extends TestCase
         $this->post('/auth', ['email' => 'boss@example.com', 'password' => 'right-password'])
             ->assertSessionHasErrors(['email' => 'Too many login attempts. Please try again in 15 minute(s).']);
         $this->assertGuest();
+    }
+
+    public function test_keep_me_signed_in_outlasts_the_session(): void
+    {
+        $user = User::factory()->create(['email' => 'boss@example.com', 'password' => 'right-password']);
+        $recaller = Auth::guard()->getRecallerName();
+        $this->get('/login')->assertOk()->assertSee('name="remember" value="1" checked', false);
+
+        // box not ticked: nothing to come back with
+        $this->post('/auth', ['email' => 'boss@example.com', 'password' => 'right-password'])->assertCookieMissing($recaller);
+        $this->post('/logout');
+
+        $cookie = $this->post('/auth', ['email' => 'boss@example.com', 'password' => 'right-password', 'remember' => '1'])
+            ->getCookie($recaller, false);
+        $this->assertNotNull($cookie);
+        $this->assertGreaterThan(now()->addDays(399)->getTimestamp(), $cookie->getExpiresTime());
+        $this->get('/login')->assertRedirect('/admin');
+
+        // the session runs out (the phone app reopened days later): the cookie signs the admin back in
+        $this->flushSession();
+        Auth::forgetGuards();
+        $this->withUnencryptedCookie($recaller, $cookie->getValue())->get('/admin')->assertOk();
+        $this->assertAuthenticatedAs($user);
+    }
+
+    public function test_signing_out_leaves_the_other_devices_signed_in(): void
+    {
+        $user = User::factory()->create(['email' => 'boss@example.com', 'password' => 'right-password']);
+        $this->post('/auth', ['email' => 'boss@example.com', 'password' => 'right-password', 'remember' => '1']);
+        $token = $user->fresh()->remember_token;
+        $this->assertNotEmpty($token);
+
+        $this->post('/logout')->assertRedirect('/login');
+        $this->assertGuest();
+        // the phone's cookie carries this token, so it still works there
+        $this->assertSame($token, $user->fresh()->remember_token);
     }
 }
